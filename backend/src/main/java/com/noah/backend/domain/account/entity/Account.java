@@ -3,6 +3,7 @@ package com.noah.backend.domain.account.entity;
 import com.noah.backend.domain.base.BaseEntity;
 import com.noah.backend.domain.exchange.entity.Exchange;
 import com.noah.backend.domain.trade.entity.Trade;
+import com.noah.backend.domain.travel.entity.Travel;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
