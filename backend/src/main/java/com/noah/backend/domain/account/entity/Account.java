@@ -1,10 +1,14 @@
-package com.noah.backend.domain.amount.entity;
+package com.noah.backend.domain.account.entity;
 
 import com.noah.backend.domain.base.BaseEntity;
+import com.noah.backend.domain.exchange.entity.Exchange;
+import com.noah.backend.domain.trade.entity.Trade;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -12,12 +16,12 @@ import org.hibernate.annotations.Where;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Where(clause = "is_deleted = false")
-@SQLDelete(sql = "UPDATE amount SET is_deleted = TRUE WHERE amount_id = ?")
-public class Amount extends BaseEntity {
+@SQLDelete(sql = "UPDATE account SET is_deleted = TRUE WHERE account_id = ?")
+public class Account extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "amount_id")
+    @Column(name = "account_id")
     private Long id;
 
     @Column(name = "bank")
@@ -44,7 +48,12 @@ public class Amount extends BaseEntity {
     @Column(name = "payment_date")
     private int paymentDate;
 
-    @Column(name = "travel_id")
-    private Long travelId;
+    @OneToOne(fetch = FetchType.LAZY)
+    private Travel travel;
 
+    @OneToMany(mappedBy = "account", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    private List<Trade> tradeList;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    private Exchange exchange;
 }
