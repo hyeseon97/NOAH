@@ -1,14 +1,10 @@
 package com.noah.backend.domain.notification.entity;
 
 import com.noah.backend.domain.member.entity.Member;
-import com.noah.backend.domain.memberTravel.entity.MemberTravel;
 import com.noah.backend.domain.travel.entity.Travel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @NoArgsConstructor //아무것도없는 기본생성자
