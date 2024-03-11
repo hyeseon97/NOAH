@@ -1,5 +1,7 @@
 package com.noah.backend.domain.ticket.entity;
 
+import com.noah.backend.domain.base.BaseEntity;
+import com.noah.backend.domain.travel.entity.Travel;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -13,7 +15,7 @@ import java.util.Date;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Where(clause = "is_deleted = false")
 @SQLDelete(sql = "UPDATE ticket SET is_deleted = TRUE WHERE ticket_id = ?")
-public class Ticket {
+public class Ticket extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
