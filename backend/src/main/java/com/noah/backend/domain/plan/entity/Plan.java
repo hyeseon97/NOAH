@@ -1,6 +1,8 @@
 package com.noah.backend.domain.plan.entity;
 
+import com.noah.backend.domain.base.BaseEntity;
 import com.noah.backend.domain.datailPlan.entity.DetailPlan;
+import com.noah.backend.domain.travel.entity.Travel;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -16,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Where(clause = "is_deleted = false")
 @SQLDelete(sql = "UPDATE plan SET is_deleted = TRUE WHERE plan_id = ?")
-public class Plan {
+public class Plan extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,7 +43,7 @@ public class Plan {
     private String country;
 
     //여행ID 외래키
-    @OneToOne(mappedBy = "plan")
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "travel_id")
     private Travel travel;
 

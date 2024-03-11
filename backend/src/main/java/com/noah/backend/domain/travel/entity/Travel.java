@@ -1,18 +1,26 @@
 package com.noah.backend.domain.travel.entity;
 
+import com.noah.backend.domain.account.entity.Account;
+import com.noah.backend.domain.base.BaseEntity;
 import com.noah.backend.domain.memberTravel.entity.MemberTravel;
 import com.noah.backend.domain.notification.entity.Notification;
+import com.noah.backend.domain.plan.entity.Plan;
+import com.noah.backend.domain.ticket.entity.Ticket;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Travel {
+@Where(clause = "is_deleted = false")
+@SQLDelete(sql = "UPDATE travel SET is_deleted = TRUE WHERE travel_id = ?")
+public class Travel extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //AUTO_INCREMENT
@@ -27,4 +35,14 @@ public class Travel {
 
 	@OneToMany(mappedBy = "travel", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
 	private List<Notification> notificationList = new ArrayList<>();
+
+	@OneToOne(mappedBy = "travel", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+	private Account account;
+
+	@OneToOne(mappedBy = "travel", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+	private Plan plan;
+
+	@OneToMany(mappedBy = "travel", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+	private List<Ticket> ticketList = new ArrayList<>();
+
 }

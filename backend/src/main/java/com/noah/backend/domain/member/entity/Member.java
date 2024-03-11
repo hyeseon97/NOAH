@@ -1,18 +1,25 @@
 package com.noah.backend.domain.member.entity;
 
+import com.noah.backend.domain.base.BaseEntity;
 import com.noah.backend.domain.memberTravel.entity.MemberTravel;
 import com.noah.backend.domain.notification.entity.Notification;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
 @NoArgsConstructor //아무것도없는 기본생성자
 @AllArgsConstructor //모든 필드가 들어있는 생성자
-public class Member {
+@Where(clause = "is_deleted = false")
+@SQLDelete(sql = "UPDATE member SET is_deleted = TRUE WHERE member_id = ?")
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //AUTO_INCREMENT

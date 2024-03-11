@@ -1,5 +1,6 @@
 package com.noah.backend.domain.datailPlan.entity;
 
+import com.noah.backend.domain.base.BaseEntity;
 import com.noah.backend.domain.plan.entity.Plan;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -15,7 +16,7 @@ import org.hibernate.annotations.Where;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Where(clause = "is_deleted = false")
 @SQLDelete(sql = "UPDATE detailPlan SET is_deleted = TRUE WHERE detailPlan_id = ?")
-public class DetailPlan {
+public class DetailPlan extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
