@@ -40,10 +40,10 @@ public class Ticket {
     @Column(name = "a_airport")
     private String aAirport;
 
-    //외래키
-    @Setter
-    @JoinColumn(name = "travel_id")
-    @ManyToOne
-    private Travel travel;
+//    //외래키
+//    @Setter
+//    @JoinColumn(name = "travel_id")
+//    @ManyToOne
+//    private Travel travel;
 
 }

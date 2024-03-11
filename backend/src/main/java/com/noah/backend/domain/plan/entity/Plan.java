@@ -40,10 +40,10 @@ public class Plan {
     @Column(name="country")
     private String country;
 
-    //여행ID 외래키
-    @OneToOne(mappedBy = "plan")
-    @JoinColumn(name = "travel_id")
-    private Travel travel;
+//    //여행ID 외래키
+//    @OneToOne(mappedBy = "plan")
+//    @JoinColumn(name = "travel_id")
+//    private Travel travel;
 
     //연관관계 설정
     @OneToMany(mappedBy = "plan", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
