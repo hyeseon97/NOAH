@@ -52,7 +52,7 @@ public class Account extends BaseEntity {
     private int paymentDate;
 
     @OneToOne(fetch = FetchType.LAZY)
-//    private Travel travel;
+    private Travel travel;
 
     @Builder.Default
     @OneToMany(mappedBy = "account", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
