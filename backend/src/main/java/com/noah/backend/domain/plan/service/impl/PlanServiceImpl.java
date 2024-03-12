@@ -1,4 +1,6 @@
 package com.noah.backend.domain.plan.service.impl;
 
-public class PlanServiceImpl {
+import com.noah.backend.domain.plan.service.PlanService;
+
+public class PlanServiceImpl implements PlanService {
 }

@@ -1,4 +1,6 @@
 package com.noah.backend.domain.review.service.impl;
 
-public class ReviewServiceImpl {
+import com.noah.backend.domain.review.service.ReviewService;
+
+public class ReviewServiceImpl implements ReviewService {
 }

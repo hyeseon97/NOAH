@@ -1,4 +1,6 @@
 package com.noah.backend.domain.ticket.service.impl;
 
-public class TicketServiceImpl {
+import com.noah.backend.domain.ticket.service.TicketService;
+
+public class TicketServiceImpl implements TicketService {
 }

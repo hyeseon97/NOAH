@@ -5,11 +5,11 @@ import com.noah.backend.domain.ticket.entity.Ticket;
 
 public interface TicketService {
 
-    List<Ticket> getTicketList(Long ticketId);
-
-    Long createTicket(String travelId, Ticket ticket);
-
-    Ticket getTicketDetail(Long ticketId);
+//    List<Ticket> getTicketList(Long ticketId);
+//
+//    Long createTicket(String travelId, Ticket ticket);
+//
+//    Ticket getTicketDetail(Long ticketId);
 
 
 
