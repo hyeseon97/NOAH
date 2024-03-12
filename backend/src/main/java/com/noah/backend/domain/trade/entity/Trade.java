@@ -6,8 +6,10 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @Entity
+@EntityScan
 @Getter
 @Builder
 @AllArgsConstructor
@@ -42,4 +44,5 @@ public class Trade extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
+
 }

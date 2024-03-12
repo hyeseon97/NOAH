@@ -9,7 +9,9 @@ import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import java.util.ArrayList;
 import java.util.List;
+
 
 @Entity
 @Getter
@@ -52,8 +54,9 @@ public class Account extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY)
     private Travel travel;
 
+    @Builder.Default
     @OneToMany(mappedBy = "account", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
-    private List<Trade> tradeList;
+    private List<Trade> tradeList = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private Exchange exchange;
