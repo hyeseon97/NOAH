@@ -4,8 +4,6 @@ import com.noah.backend.domain.account.entity.Account;
 import com.noah.backend.domain.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.DialectOverride;
-import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
