@@ -1,5 +1,7 @@
 package com.noah.backend.domain.plan.service.impl;
 
+import com.noah.backend.domain.plan.dto.responseDto.PlanGetDto;
+import com.noah.backend.domain.plan.dto.responseDto.PlanListGetFromTravelDto;
 import com.noah.backend.domain.plan.entity.Plan;
 import com.noah.backend.domain.plan.service.PlanService;
 
@@ -7,12 +9,12 @@ import java.util.List;
 
 public class PlanServiceImpl implements PlanService {
     @Override
-    public List<Plan> getPlanList(Long travelId) {
+    public List<PlanListGetFromTravelDto> getPlanList(Long travelId) {
         return null;
     }
 
     @Override
-    public Plan getPlanSelect(Long PlanId) {
+    public PlanGetDto getPlanSelect(Long PlanId) {
         return null;
     }
 
