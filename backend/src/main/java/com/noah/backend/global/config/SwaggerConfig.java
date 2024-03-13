@@ -14,6 +14,14 @@ import org.springframework.context.annotation.Configuration;
 public class SwaggerConfig {
 
     @Bean
+    public GroupedOpenApi all() {
+        return GroupedOpenApi.builder()
+                .group("전체")
+                .pathsToMatch("/api/v1/**")
+                .build();
+    }
+
+    @Bean
     public GroupedOpenApi bankGroup() {
         return GroupedOpenApi.builder()
                 .group("은행")
