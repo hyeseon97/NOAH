@@ -22,24 +22,13 @@ public class QPlan extends EntityPathBase<Plan> {
 
     public static final QPlan plan = new QPlan("plan");
 
-    public final com.noah.backend.domain.base.QBaseEntity _super = new com.noah.backend.domain.base.QBaseEntity(this);
-
     public final StringPath country = createString("country");
-
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
     public final ListPath<com.noah.backend.domain.datailPlan.entity.DetailPlan, com.noah.backend.domain.datailPlan.entity.QDetailPlan> detailPlan = this.<com.noah.backend.domain.datailPlan.entity.DetailPlan, com.noah.backend.domain.datailPlan.entity.QDetailPlan>createList("detailPlan", com.noah.backend.domain.datailPlan.entity.DetailPlan.class, com.noah.backend.domain.datailPlan.entity.QDetailPlan.class, PathInits.DIRECT2);
 
     public final DateTimePath<java.util.Date> endDate = createDateTime("endDate", java.util.Date.class);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
-
-    //inherited
-    public final BooleanPath isDeleted = _super.isDeleted;
-
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
     public final DateTimePath<java.util.Date> startDate = createDateTime("startDate", java.util.Date.class);
 
