@@ -8,6 +8,7 @@ import com.noah.backend.domain.review.entity.Review;
 import com.noah.backend.domain.review.repository.ReviewRepository;
 import com.noah.backend.domain.review.service.ReviewService;
 import com.noah.backend.domain.ticket.repository.TicketRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -37,17 +38,29 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    @Transactional
     public Long createReview(Review review) {
-        return null;
+        Review savedReview = reviewRepository.save(review);
+        return savedReview.getId();
     }
 
     @Override
     public Long updateReview(Long reviewId, Review review) {
-        return null;
+        Review currentReview = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
+        currentReview.setExpense(review.getExpense());
+        currentReview.setCountry(review.getCountry());
+        currentReview.setPeople(review.getPeople());
+        currentReview.setStartDate(review.getStartDate());
+        currentReview.setEndDate(review.getEndDate());
+
+        reviewRepository.save(currentReview);
+
+        return currentReview.getId();
     }
 
     @Override
     public void deleteReview(Long reviewId) {
-
+        reviewRepository.deleteById(reviewId);
     }
 }
