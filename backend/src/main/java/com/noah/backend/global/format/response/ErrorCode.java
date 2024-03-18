@@ -1,0 +1,18 @@
+package com.noah.backend.global.format.response;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+
+@Getter
+@RequiredArgsConstructor
+public enum ErrorCode {
+
+    /* 회원(Member) */
+    SIGNUP_FAILED(HttpStatus.BAD_REQUEST, "회원 가입에 실패했습니다.");
+
+
+    private final HttpStatus status;
+    private final String message;
+
+}
