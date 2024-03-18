@@ -37,7 +37,7 @@ public class QTicket extends EntityPathBase<Ticket> {
 
     public final NumberPath<Integer> dGate = createNumber("dGate", Integer.class);
 
-    public final NumberPath<Integer> id = createNumber("id", Integer.class);
+    public final NumberPath<Long> id = createNumber("id", Long.class);
 
     //inherited
     public final BooleanPath isDeleted = _super.isDeleted;
