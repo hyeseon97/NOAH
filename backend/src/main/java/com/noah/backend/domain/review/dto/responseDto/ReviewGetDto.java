@@ -1,7 +1,14 @@
 package com.noah.backend.domain.review.dto.responseDto;
 
-import java.util.Date;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import java.util.Date;
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReviewGetDto {
     private Long review_id;
     private int expense;

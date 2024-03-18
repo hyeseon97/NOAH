@@ -1,5 +1,13 @@
 package com.noah.backend.domain.datailPlan.dto.requestDto;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DetailPlanPostDto {
     private int day;
     private int sequence;
