@@ -26,12 +26,14 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public List<ReviewListGetDto> getReviewList() {
-        return null;
+        return reviewRepository.getReviewList()
+                .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
     }
 
     @Override
-    public ReviewGetDto getReviewSelect(Long ReviewId) {
-        return null;
+    public ReviewGetDto getReviewSelect(Long reviewId) {
+        return reviewRepository.getReviewSelect(reviewId)
+                .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
     }
 
     @Override

@@ -20,7 +20,7 @@ public class Ticket extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ticket_id")
-    private int id;
+    private Long id;
 
     // 항공기 출발 날짜
     @Column(name = "departure")
