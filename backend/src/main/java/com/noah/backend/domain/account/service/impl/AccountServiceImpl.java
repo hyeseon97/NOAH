@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import com.noah.backend.global.exception.account.AccountNotFoundException;
 
 import java.util.List;
 
@@ -22,6 +23,12 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<Account> getMyAccountList(Long memberId) {
         return null;
+    }
+
+    @Override
+    public Account getAccountInfo(Long accountId) {
+        Account account = accountRepository.findById(accountId).orElseThrow(AccountNotFoundException::new);
+        return account;
     }
 
     @Transactional

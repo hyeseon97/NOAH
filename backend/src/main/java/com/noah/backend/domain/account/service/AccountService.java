@@ -9,5 +9,10 @@ public interface AccountService {
 
     List<Account> getMyAccountList(Long memberId);
 
+    Account getAccountInfo(Long accountId);
+
     Long createAccount(Long memberId, AccountPostDto accountPostDto);
+
+
+
 }
