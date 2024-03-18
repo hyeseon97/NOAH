@@ -1,4 +1,4 @@
-package com.noah.backend.domain.bank.dto;
+package com.noah.backend.domain.account.dto.requestDto;
 
 import lombok.*;
 
@@ -20,4 +20,5 @@ public class RequestHeaderDto {
 	private String apiKey = "관리자apiKey 필요";
 	@Getter @Setter
 	private String userKey;
+
 }
