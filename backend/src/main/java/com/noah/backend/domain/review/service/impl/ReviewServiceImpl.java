@@ -42,13 +42,10 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional
     public Long createReview(ReviewPostDto reviewDto) {
-        int expense = (reviewDto.getExpense() != null) ? reviewDto.getExpense() : 0;
-        int people = (reviewDto.getPeople() != null) ? reviewDto.getPeople() : 0; // `null` 체크 추가
-        System.out.println("전" + reviewDto.getCountry());
         Review review = Review.builder()
-                .expense(expense)
+                .expense(reviewDto.getExpense())
                 .country(reviewDto.getCountry())
-                .people(people)
+                .people(reviewDto.getPeople())
                 .startDate(reviewDto.getStart_date())
                 .endDate(reviewDto.getEnd_date())
                 .build();

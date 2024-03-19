@@ -1,12 +1,15 @@
 package com.noah.backend.domain.review.entity;
 
 import com.noah.backend.domain.base.BaseEntity;
+import com.noah.backend.domain.image.entity.Image;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -46,6 +49,10 @@ public class Review extends BaseEntity {
     @Setter
     @Column(name = "end_date")
     private Date endDate;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "review", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    private List<Image> imageList = new ArrayList<>();
 
 //    // 정적 팩토리 메서드
 //    public static Review createReview(int expense, String country, int people, Date startDate, Date endDate) {
