@@ -18,7 +18,6 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Where(clause = "is_deleted = false")
 @SQLDelete(sql = "UPDATE account SET is_deleted = TRUE WHERE account_id = ?")
 public class Account extends BaseEntity {
 
@@ -26,6 +25,9 @@ public class Account extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id")
     private Long id;
+
+    @Column(name = "owner")
+    private Long ownerId;
 
     @Column(name = "bank")
     private String bank;

@@ -1,6 +1,7 @@
 package com.noah.backend.domain.account.service.impl;
 
 import com.noah.backend.domain.account.dto.requestDto.AccountPostDto;
+import com.noah.backend.domain.account.dto.responseDto.AccountInfoDto;
 import com.noah.backend.domain.account.entity.Account;
 import com.noah.backend.domain.account.repository.AccountRepository;
 import com.noah.backend.domain.account.service.AccountService;
@@ -25,10 +26,23 @@ public class AccountServiceImpl implements AccountService {
         return null;
     }
 
+    @Transactional
     @Override
-    public Account getAccountInfo(Long accountId) {
-        Account account = accountRepository.findById(accountId).orElseThrow(AccountNotFoundException::new);
-        return account;
+    public AccountInfoDto getAccountInfo(Long accountId) {
+        Account account = accountRepository.findById(accountId).get();
+//        String ownerName = memberRepository.findById(account.getOwnerId()).getName();
+        AccountInfoDto accountInfo = AccountInfoDto.builder()
+                .id(accountId)
+                .name(account.getName())
+                .bank(account.getBank())
+                .accountNumber(account.getAccountNumber())
+                .deposit(account.getDeposit())
+                .withdraw(account.getWithdraw())
+                .targetAmount(account.getTargetAmount())
+                .perAmount(account.getPerAmount())
+                .paymentDate(account.getPaymentDate())
+                .build();
+        return accountInfo;
     }
 
     @Transactional
