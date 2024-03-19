@@ -18,6 +18,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Where(clause = "is_deleted = false")
 @SQLDelete(sql = "UPDATE account SET is_deleted = TRUE WHERE account_id = ?")
 public class Account extends BaseEntity {
 

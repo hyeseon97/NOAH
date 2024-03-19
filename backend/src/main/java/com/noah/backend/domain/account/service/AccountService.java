@@ -14,6 +14,8 @@ public interface AccountService {
 
     Long createAccount(Long memberId, AccountPostDto accountPostDto);
 
+    void deleteAccount(Long accountId);
+
 
 
 }

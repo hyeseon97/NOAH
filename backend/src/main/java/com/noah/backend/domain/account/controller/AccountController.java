@@ -52,7 +52,7 @@ public class AccountController {
     @Operation(summary = "계좌 삭제", description = "계좌 삭제")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAccount(@Parameter(hidden = true) Authentication authentication, @PathVariable(name = "id") Long accountId){
-
+        accountService.deleteAccount(accountId);
         return response.success(ResponseCode.ACCOUNT_DELETED);
     }
 

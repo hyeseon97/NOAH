@@ -29,7 +29,7 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     @Override
     public AccountInfoDto getAccountInfo(Long accountId) {
-        Account account = accountRepository.findById(accountId).get();
+        Account account = accountRepository.findById(accountId).orElseThrow(AccountNotFoundException::new);
 //        String ownerName = memberRepository.findById(account.getOwnerId()).getName();
         AccountInfoDto accountInfo = AccountInfoDto.builder()
                 .id(accountId)
@@ -60,5 +60,11 @@ public class AccountServiceImpl implements AccountService {
 
         Account savedAccount = accountRepository.save(account);
         return account.getId();
+    }
+
+    @Override
+    public void deleteAccount(Long accountId) {
+        Account account = accountRepository.findById(accountId).orElseThrow(AccountNotFoundException::new);
+        accountRepository.deleteById(accountId);
     }
 }
