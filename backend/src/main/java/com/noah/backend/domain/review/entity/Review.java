@@ -1,18 +1,19 @@
 package com.noah.backend.domain.review.entity;
 
 import com.noah.backend.domain.base.BaseEntity;
+import com.noah.backend.domain.image.entity.Image;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Where(clause = "is_deleted = false")
@@ -25,23 +26,43 @@ public class Review extends BaseEntity {
     private Long id;
 
     // 비용이 전체 얼마인지
+    @Setter
     @Column(name = "expense")
     private int expense;
 
     // 어느 나라를 가는지
+    @Setter
     @Column(name = "country")
     private String country;
 
     // 몇명이 가는지
+    @Setter
     @Column(name = "people")
     private int people;
 
     // 여행 시작 날짜
+    @Setter
     @Column(name = "start_date")
     private Date startDate;
 
     // 여행 끝 날짜
+    @Setter
     @Column(name = "end_date")
     private Date endDate;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "review", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    private List<Image> imageList = new ArrayList<>();
+
+//    // 정적 팩토리 메서드
+//    public static Review createReview(int expense, String country, int people, Date startDate, Date endDate) {
+////        Review review = new Review();
+//        review.expense = expense;
+//        review.country = country;
+//        review.people = people;
+//        review.startDate = startDate;
+//        review.endDate = endDate;
+//        return review;
+//    }
 
 }

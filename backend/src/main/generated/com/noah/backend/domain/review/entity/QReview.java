@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -31,6 +32,8 @@ public class QReview extends EntityPathBase<Review> {
     public final NumberPath<Integer> expense = createNumber("expense", Integer.class);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
+
+    public final ListPath<com.noah.backend.domain.image.entity.Image, com.noah.backend.domain.image.entity.QImage> imageList = this.<com.noah.backend.domain.image.entity.Image, com.noah.backend.domain.image.entity.QImage>createList("imageList", com.noah.backend.domain.image.entity.Image.class, com.noah.backend.domain.image.entity.QImage.class, PathInits.DIRECT2);
 
     //inherited
     public final BooleanPath isDeleted = _super.isDeleted;
