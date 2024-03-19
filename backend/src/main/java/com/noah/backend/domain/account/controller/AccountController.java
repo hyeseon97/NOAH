@@ -1,5 +1,6 @@
 package com.noah.backend.domain.account.controller;
 
+import com.noah.backend.domain.account.dto.requestDto.AccountUpdateDto;
 import com.noah.backend.domain.account.dto.responseDto.AccountInfoDto;
 import com.noah.backend.domain.account.entity.Account;
 import com.noah.backend.domain.account.service.AccountService;
@@ -44,14 +45,14 @@ public class AccountController {
 
     @Operation(summary = "계좌 목표 수정", description = "납입금, 납입일, 목표금액 수정")
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateAccountInfo(@Parameter(hidden = true) Authentication authentication, @PathVariable(name = "id") Long accountId){
-//        Account account = accountService.getAccountInfo(accountId);
-        return null;
+    public ResponseEntity<?> updateAccountInfo(@Parameter(hidden = true) Authentication authentication, @RequestBody AccountUpdateDto accountUpdateDto) {
+        Long accountId = accountService.updateAccount(accountUpdateDto);
+        return response.success(ResponseCode.ACCOUNT_INFO_UPDATED, accountId);
     }
 
     @Operation(summary = "계좌 삭제", description = "계좌 삭제")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteAccount(@Parameter(hidden = true) Authentication authentication, @PathVariable(name = "id") Long accountId){
+    public ResponseEntity<?> deleteAccount(@Parameter(hidden = true) Authentication authentication, @PathVariable(name = "id") Long accountId) {
         accountService.deleteAccount(accountId);
         return response.success(ResponseCode.ACCOUNT_DELETED);
     }

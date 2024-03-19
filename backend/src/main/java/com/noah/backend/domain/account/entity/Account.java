@@ -40,9 +40,11 @@ public class Account extends BaseEntity {
     @Column(name = "account_number")
     private String accountNumber;
 
+    @Setter
     @Column(name = "deposit")
     private int deposit;
 
+    @Setter
     @Column(name = "withdraw")
     private int withdraw;
 

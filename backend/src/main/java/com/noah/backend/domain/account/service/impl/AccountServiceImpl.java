@@ -1,6 +1,7 @@
 package com.noah.backend.domain.account.service.impl;
 
 import com.noah.backend.domain.account.dto.requestDto.AccountPostDto;
+import com.noah.backend.domain.account.dto.requestDto.AccountUpdateDto;
 import com.noah.backend.domain.account.dto.responseDto.AccountInfoDto;
 import com.noah.backend.domain.account.entity.Account;
 import com.noah.backend.domain.account.repository.AccountRepository;
@@ -69,8 +70,36 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Long updateAccount(Long accountId) {
-        Account account = ac
-        return null;
+    public Long updateAccount(AccountUpdateDto accountUpdateDto) {
+        Account account = accountRepository.findById(accountUpdateDto.getId()).orElseThrow(AccountNotFoundException::new);
+        String updateName = accountUpdateDto.getName();
+        int updateDeposit = accountUpdateDto.getDeposit();
+        int updateWithdraw = accountUpdateDto.getWithdraw();
+        int targetAmount = accountUpdateDto.getTargetAmount();
+        int perAmount = accountUpdateDto.getPerAmount();
+        int paymentDate = accountUpdateDto.getPaymentDate();
+
+        if(updateName != null){
+        account.setName(updateName);
+        }
+        if (updateDeposit != 0) {
+            account.setDeposit(updateDeposit);
+        }
+        if (updateWithdraw != 0) {
+            account.setWithdraw(updateWithdraw);
+        }
+        if (targetAmount != 0) {
+            account.setTargetAmount(targetAmount);
+        }
+        if (perAmount != 0) {
+            account.setPerAmount(perAmount);
+        }
+        if (paymentDate != 0) {
+            account.setPaymentDate(paymentDate);
+        }
+
+        accountRepository.save(account);
+
+        return account.getId();
     }
 }

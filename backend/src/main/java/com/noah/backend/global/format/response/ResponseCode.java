@@ -16,6 +16,7 @@ public enum ResponseCode {
     /* 계좌(Account) */
     ACCOUNT_LIST_FETCHED(HttpStatus.OK, "나의 계좌정보가 성공적으로 조회되었습니다."),
     ACCOUNT_INFO_FETCHED(HttpStatus.OK, "계좌정보가 성공적으로 조회되었습니다."),
+    ACCOUNT_INFO_UPDATED(HttpStatus.OK, "계좌정보가 성공적으로 수정되었습니다."),
     ACCOUNT_DELETED(HttpStatus.OK, "계좌가 성공적으로 삭제되었습니다.");
 
     private final HttpStatus status;

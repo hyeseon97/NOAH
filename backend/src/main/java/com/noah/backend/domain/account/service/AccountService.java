@@ -1,6 +1,7 @@
 package com.noah.backend.domain.account.service;
 
 import com.noah.backend.domain.account.dto.requestDto.AccountPostDto;
+import com.noah.backend.domain.account.dto.requestDto.AccountUpdateDto;
 import com.noah.backend.domain.account.dto.responseDto.AccountInfoDto;
 import com.noah.backend.domain.account.entity.Account;
 
@@ -16,7 +17,7 @@ public interface AccountService {
 
     void deleteAccount(Long accountId);
 
-    Long updateAccount(Long accountId);
+    Long updateAccount(AccountUpdateDto accountUpdateDto);
 
 
 

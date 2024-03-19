@@ -23,6 +23,5 @@ public class AccountUpdateDto {
     private int targetAmount;
     private int perAmount;
     private int paymentDate;
-    private Travel travel;
 
 }
