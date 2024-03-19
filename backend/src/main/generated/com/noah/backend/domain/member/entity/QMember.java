@@ -22,6 +22,8 @@ public class QMember extends EntityPathBase<Member> {
 
     public final com.noah.backend.domain.base.QBaseEntity _super = new com.noah.backend.domain.base.QBaseEntity(this);
 
+    public final ListPath<com.noah.backend.domain.comment.entity.Comment, com.noah.backend.domain.comment.entity.QComment> commentList = this.<com.noah.backend.domain.comment.entity.Comment, com.noah.backend.domain.comment.entity.QComment>createList("commentList", com.noah.backend.domain.comment.entity.Comment.class, com.noah.backend.domain.comment.entity.QComment.class, PathInits.DIRECT2);
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 

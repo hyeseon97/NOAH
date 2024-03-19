@@ -1,5 +1,6 @@
 package com.noah.backend.domain.comment.entity;
 
+import com.noah.backend.domain.base.BaseEntity;
 import com.noah.backend.domain.member.entity.Member;
 import com.noah.backend.domain.review.entity.Review;
 import jakarta.persistence.*;
@@ -13,8 +14,8 @@ import org.hibernate.annotations.Where;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Where(clause = "is_deleted = false")
-@SQLDelete(sql = "UPDATE comment SET is_deleted = TRUE WHERE detailPlan_id = ?")
-public class Comment {
+@SQLDelete(sql = "UPDATE comment SET is_deleted = TRUE WHERE comment_id = ?")
+public class Comment extends BaseEntity {
 
 
     @Id
@@ -35,7 +36,7 @@ public class Comment {
 
 
     @Setter
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id")
     private Review review;
 
