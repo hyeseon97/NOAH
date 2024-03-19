@@ -67,4 +67,10 @@ public class AccountServiceImpl implements AccountService {
         Account account = accountRepository.findById(accountId).orElseThrow(AccountNotFoundException::new);
         accountRepository.deleteById(accountId);
     }
+
+    @Override
+    public Long updateAccount(Long accountId) {
+        Account account = ac
+        return null;
+    }
 }
