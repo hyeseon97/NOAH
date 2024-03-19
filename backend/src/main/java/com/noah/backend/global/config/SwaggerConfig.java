@@ -17,7 +17,7 @@ public class SwaggerConfig {
     public GroupedOpenApi all() {
         return GroupedOpenApi.builder()
                 .group("전체")
-                .pathsToMatch("/api/v1/**")
+                .pathsToMatch("/api/**")
                 .build();
     }
 
@@ -25,14 +25,21 @@ public class SwaggerConfig {
     public GroupedOpenApi bankGroup() {
         return GroupedOpenApi.builder()
                 .group("은행")
-                .pathsToMatch("/api/v1/bank/**")
+                .pathsToMatch("/api/bank/**")
+                .build();
+    }
+    @Bean
+    public GroupedOpenApi accountGroup() {
+        return GroupedOpenApi.builder()
+                .group("계좌")
+                .pathsToMatch("/api/account/**")
                 .build();
     }
     @Bean
     public GroupedOpenApi travelGroup() {
         return GroupedOpenApi.builder()
                 .group("여행")
-                .pathsToMatch("/api/v1/travel/**")
+                .pathsToMatch("/api/travel/**")
                 .build();
     }
 }
