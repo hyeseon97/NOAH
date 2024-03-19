@@ -2,6 +2,8 @@ package com.noah.backend.domain.review.service.impl;
 
 import com.noah.backend.domain.datailPlan.repository.DetailPlanRepository;
 import com.noah.backend.domain.plan.repository.PlanRepository;
+import com.noah.backend.domain.review.dto.requestDto.ReviewPostDto;
+import com.noah.backend.domain.review.dto.requestDto.ReviewUpdateDto;
 import com.noah.backend.domain.review.dto.responseDto.ReviewGetDto;
 import com.noah.backend.domain.review.dto.responseDto.ReviewListGetDto;
 import com.noah.backend.domain.review.entity.Review;
@@ -39,20 +41,31 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public Long createReview(Review review) {
+    public Long createReview(ReviewPostDto reviewDto) {
+        int expense = (reviewDto.getExpense() != null) ? reviewDto.getExpense() : 0;
+        int people = (reviewDto.getPeople() != null) ? reviewDto.getPeople() : 0; // `null` 체크 추가
+        System.out.println("전" + reviewDto.getCountry());
+        Review review = Review.builder()
+                .expense(expense)
+                .country(reviewDto.getCountry())
+                .people(people)
+                .startDate(reviewDto.getStart_date())
+                .endDate(reviewDto.getEnd_date())
+                .build();
         Review savedReview = reviewRepository.save(review);
-        return savedReview.getId();
+        System.out.println(savedReview.getCountry());
+        return review.getId();
     }
 
     @Override
-    public Long updateReview(Long reviewId, Review review) {
+    public Long updateReview(Long reviewId, ReviewUpdateDto review) {
         Review currentReview = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
         currentReview.setExpense(review.getExpense());
         currentReview.setCountry(review.getCountry());
         currentReview.setPeople(review.getPeople());
-        currentReview.setStartDate(review.getStartDate());
-        currentReview.setEndDate(review.getEndDate());
+        currentReview.setStartDate(review.getStart_date());
+        currentReview.setEndDate(review.getEnd_date());
 
         reviewRepository.save(currentReview);
 

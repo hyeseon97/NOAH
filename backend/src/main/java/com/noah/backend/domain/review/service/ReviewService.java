@@ -1,8 +1,9 @@
 package com.noah.backend.domain.review.service;
 
+import com.noah.backend.domain.review.dto.requestDto.ReviewPostDto;
+import com.noah.backend.domain.review.dto.requestDto.ReviewUpdateDto;
 import com.noah.backend.domain.review.dto.responseDto.ReviewGetDto;
 import com.noah.backend.domain.review.dto.responseDto.ReviewListGetDto;
-import com.noah.backend.domain.review.entity.Review;
 
 import java.util.List;
 
@@ -13,9 +14,9 @@ public interface ReviewService {
 
     ReviewGetDto getReviewSelect(Long ReviewId);
 
-    Long createReview(Review review);
+    Long createReview(ReviewPostDto review);
 
-    Long updateReview(Long reviewId, Review review);
+    Long updateReview(Long reviewId, ReviewUpdateDto review);
 
     void deleteReview(Long reviewId);
 }

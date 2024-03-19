@@ -10,6 +10,7 @@ import java.util.Date;
 
 @Entity
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Where(clause = "is_deleted = false")
@@ -45,5 +46,16 @@ public class Review extends BaseEntity {
     @Setter
     @Column(name = "end_date")
     private Date endDate;
+
+//    // 정적 팩토리 메서드
+//    public static Review createReview(int expense, String country, int people, Date startDate, Date endDate) {
+////        Review review = new Review();
+//        review.expense = expense;
+//        review.country = country;
+//        review.people = people;
+//        review.startDate = startDate;
+//        review.endDate = endDate;
+//        return review;
+//    }
 
 }
