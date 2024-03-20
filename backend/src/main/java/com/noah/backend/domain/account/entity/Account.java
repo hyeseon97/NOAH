@@ -41,12 +41,12 @@ public class Account extends BaseEntity {
     private String accountNumber;
 
     @Setter
-    @Column(name = "deposit")
-    private int deposit;
+    @Column(name = "amount")
+    private int amount;
 
     @Setter
-    @Column(name = "withdraw")
-    private int withdraw;
+    @Column(name = "used_amount")
+    private int usedAmount;
 
     @Setter
     @Column(name = "target_amount")

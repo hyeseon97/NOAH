@@ -26,12 +26,12 @@ public class QAccount extends EntityPathBase<Account> {
 
     public final StringPath accountNumber = createString("accountNumber");
 
+    public final NumberPath<Integer> amount = createNumber("amount", Integer.class);
+
     public final StringPath bank = createString("bank");
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
-
-    public final NumberPath<Integer> deposit = createNumber("deposit", Integer.class);
 
     public final com.noah.backend.domain.exchange.entity.QExchange exchange;
 
@@ -57,7 +57,7 @@ public class QAccount extends EntityPathBase<Account> {
 
     public final com.noah.backend.domain.travel.entity.QTravel travel;
 
-    public final NumberPath<Integer> withdraw = createNumber("withdraw", Integer.class);
+    public final NumberPath<Integer> usedAmount = createNumber("usedAmount", Integer.class);
 
     public QAccount(String variable) {
         this(Account.class, forVariable(variable), INITS);

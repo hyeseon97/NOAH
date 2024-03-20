@@ -37,8 +37,8 @@ public class AccountServiceImpl implements AccountService {
                 .name(account.getName())
                 .bank(account.getBank())
                 .accountNumber(account.getAccountNumber())
-                .deposit(account.getDeposit())
-                .withdraw(account.getWithdraw())
+                .amount(account.getAmount())
+                .usedAmount(account.getUsedAmount())
                 .targetAmount(account.getTargetAmount())
                 .perAmount(account.getPerAmount())
                 .paymentDate(account.getPaymentDate())
@@ -73,8 +73,8 @@ public class AccountServiceImpl implements AccountService {
     public Long updateAccount(AccountUpdateDto accountUpdateDto) {
         Account account = accountRepository.findById(accountUpdateDto.getId()).orElseThrow(AccountNotFoundException::new);
         String updateName = accountUpdateDto.getName();
-        int updateDeposit = accountUpdateDto.getDeposit();
-        int updateWithdraw = accountUpdateDto.getWithdraw();
+        int updateAmount = accountUpdateDto.getAmount();
+        int updateUsedAmount = accountUpdateDto.getUsedAmount();
         int targetAmount = accountUpdateDto.getTargetAmount();
         int perAmount = accountUpdateDto.getPerAmount();
         int paymentDate = accountUpdateDto.getPaymentDate();
@@ -82,11 +82,11 @@ public class AccountServiceImpl implements AccountService {
         if(updateName != null){
         account.setName(updateName);
         }
-        if (updateDeposit != 0) {
-            account.setDeposit(updateDeposit);
+        if (updateAmount != 0) {
+            account.setAmount(updateAmount);
         }
-        if (updateWithdraw != 0) {
-            account.setWithdraw(updateWithdraw);
+        if (updateUsedAmount != 0) {
+            account.setUsedAmount(updateUsedAmount);
         }
         if (targetAmount != 0) {
             account.setTargetAmount(targetAmount);

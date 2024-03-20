@@ -15,8 +15,8 @@ public class AccountInfoDto {
     private String ownerName;   // 소유주
     private String bank;        // 은행
     private String accountNumber;   // 계좌번호
-    private int deposit;        // 현재 금액
-    private int withdraw;       // 사용 금액
+    private int amount;        // 현재 금액
+    private int usedAmount;       // 사용 금액
     private int targetAmount;    // 목표금액
     private int perAmount;       // 월 납입금
     private int paymentDate;     // 납부일

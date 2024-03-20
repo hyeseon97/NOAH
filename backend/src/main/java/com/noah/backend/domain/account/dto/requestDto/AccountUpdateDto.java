@@ -18,8 +18,8 @@ public class AccountUpdateDto {
 
     private Long id;
     private String name;
-    private int deposit;
-    private int withdraw;
+    private int Amount;
+    private int usedAmount;
     private int targetAmount;
     private int perAmount;
     private int paymentDate;

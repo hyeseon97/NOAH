@@ -9,15 +9,16 @@ import java.util.List;
 
 public interface AccountService {
 
+    Long createAccount(Long memberId, AccountPostDto accountPostDto);
+
     List<Account> getMyAccountList(Long memberId);
 
     AccountInfoDto getAccountInfo(Long accountId);
 
-    Long createAccount(Long memberId, AccountPostDto accountPostDto);
+    Long updateAccount(AccountUpdateDto accountUpdateDto);      // 납입금, 목표금액 등 수정
 
     void deleteAccount(Long accountId);
 
-    Long updateAccount(AccountUpdateDto accountUpdateDto);
 
 
 

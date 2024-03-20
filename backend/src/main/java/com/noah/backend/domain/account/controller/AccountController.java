@@ -25,26 +25,26 @@ import org.springframework.web.bind.annotation.*;
 public class AccountController {
 
 	//상품 조회
-	@GetMapping("/productlist")
-	@Operation(summary = "은행 별 계좌생성 가능목록", description = "계좌 상품 조회")
-	public ResponseEntity<?> productInquiry(){
-
-		RequestHeaderDto requestHeaderDto = new RequestHeaderDto();
-		requestHeaderDto.setApiName("inquireBankAccountTypes");
-		return new ResponseEntity<>(requestHeaderDto, HttpStatus.OK);
-	}
+//	@GetMapping("/productlist")
+//	@Operation(summary = "은행 별 계좌생성 가능목록", description = "계좌 상품 조회")
+//	public ResponseEntity<?> productInquiry(){
+//
+//		RequestHeaderDto requestHeaderDto = new RequestHeaderDto();
+//		requestHeaderDto.setApiName("inquireBankAccountTypes");
+//		return new ResponseEntity<>(requestHeaderDto, HttpStatus.OK);
+//	}
 
 	//계좌 생성
-	@GetMapping("/create")
-	@Operation(summary = "계좌 생성", description = "유저 계좌 생성")
-	public ResponseEntity<?> createAccount(String email){
-
-		RequestHeaderDto requestHeaderDto = new RequestHeaderDto();
-		//email로 userKey를 얻었다고 가정
-		requestHeaderDto.setApiName("openAccount");
-		requestHeaderDto.setUserKey("유저userKey필요");
-		return new ResponseEntity<>(requestHeaderDto, HttpStatus.OK);
-	}
+//	@GetMapping("/create")
+//	@Operation(summary = "계좌 생성", description = "유저 계좌 생성")
+//	public ResponseEntity<?> createAccount(String email){
+//
+//		RequestHeaderDto requestHeaderDto = new RequestHeaderDto();
+//		//email로 userKey를 얻었다고 가정
+//		requestHeaderDto.setApiName("openAccount");
+//		requestHeaderDto.setUserKey("유저userKey필요");
+//		return new ResponseEntity<>(requestHeaderDto, HttpStatus.OK);
+//	}
 
     private final ApiResponse response;
     private final AccountService accountService;
