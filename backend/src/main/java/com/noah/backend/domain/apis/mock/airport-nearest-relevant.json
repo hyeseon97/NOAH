@@ -1,0 +1,332 @@
+{
+  "meta": {
+    "count": 13,
+    "links": {
+      "self": "https://test.api.amadeus.com/v1/reference-data/locations/airports?latitude=22.311492&longitude=114.172291&radius=500&sort=relevance&page%5Boffset%5D=0&page%5Blimit%5D=10",
+      "next": "https://test.api.amadeus.com/v1/reference-data/locations/airports?latitude=22.311492&longitude=114.172291&radius=500&sort=relevance&page%5Boffset%5D=10&page%5Blimit%5D=10",
+      "last": "https://test.api.amadeus.com/v1/reference-data/locations/airports?latitude=22.311492&longitude=114.172291&radius=500&sort=relevance&page%5Boffset%5D=3&page%5Blimit%5D=10"
+    }
+  },
+  "data": [
+    {
+      "type": "location",
+      "subType": "AIRPORT",
+      "name": "BAO AN INTL",
+      "detailedName": "SHENZHEN/CN:BAO AN INTL",
+      "timeZoneOffset": "+08:00",
+      "iataCode": "SZX",
+      "geoCode": {
+        "latitude": 22.63917,
+        "longitude": 113.8106
+      },
+      "address": {
+        "cityName": "SHENZHEN",
+        "cityCode": "SZX",
+        "countryName": "CHINA",
+        "countryCode": "CN",
+        "regionCode": "ASIA"
+      },
+      "distance": {
+        "value": 52,
+        "unit": "KM"
+      },
+      "analytics": {
+        "flights": {
+          "score": 20
+        },
+        "travelers": {
+          "score": 17
+        }
+      },
+      "relevance": 39.19126
+    },
+    {
+      "type": "location",
+      "subType": "AIRPORT",
+      "name": "BAIYUN INTL",
+      "detailedName": "GUANGZHOU/CN:BAIYUN INTL",
+      "timeZoneOffset": "+08:00",
+      "iataCode": "CAN",
+      "geoCode": {
+        "latitude": 23.3925,
+        "longitude": 113.2989
+      },
+      "address": {
+        "cityName": "GUANGZHOU",
+        "cityCode": "CAN",
+        "countryName": "CHINA",
+        "countryCode": "CN",
+        "regionCode": "ASIA"
+      },
+      "distance": {
+        "value": 150,
+        "unit": "KM"
+      },
+      "analytics": {
+        "flights": {
+          "score": 31
+        },
+        "travelers": {
+          "score": 27
+        }
+      },
+      "relevance": 20.66432
+    },
+    {
+      "type": "location",
+      "subType": "AIRPORT",
+      "name": "SANZAO INTL",
+      "detailedName": "ZHUHAI/CN:SANZAO INTL",
+      "timeZoneOffset": "+08:00",
+      "iataCode": "ZUH",
+      "geoCode": {
+        "latitude": 22.00639,
+        "longitude": 113.3761
+      },
+      "address": {
+        "cityName": "ZHUHAI",
+        "cityCode": "ZUH",
+        "countryName": "CHINA",
+        "countryCode": "CN",
+        "regionCode": "ASIA"
+      },
+      "distance": {
+        "value": 88,
+        "unit": "KM"
+      },
+      "analytics": {
+        "flights": {
+          "score": 5
+        },
+        "travelers": {
+          "score": 4
+        }
+      },
+      "relevance": 5.1258
+    },
+    {
+      "type": "location",
+      "subType": "AIRPORT",
+      "name": "GAOQI INTL",
+      "detailedName": "XIAMEN/CN:GAOQI INTL",
+      "timeZoneOffset": "+08:00",
+      "iataCode": "XMN",
+      "geoCode": {
+        "latitude": 24.54417,
+        "longitude": 118.1278
+      },
+      "address": {
+        "cityName": "XIAMEN",
+        "cityCode": "XMN",
+        "countryName": "CHINA",
+        "countryCode": "CN",
+        "regionCode": "ASIA"
+      },
+      "distance": {
+        "value": 474,
+        "unit": "KM"
+      },
+      "analytics": {
+        "flights": {
+          "score": 12
+        },
+        "travelers": {
+          "score": 10
+        }
+      },
+      "relevance": 2.57023
+    },
+    {
+      "type": "location",
+      "subType": "AIRPORT",
+      "name": "MEILAN INTL",
+      "detailedName": "HAIKOU/CN:MEILAN INTL",
+      "timeZoneOffset": "+08:00",
+      "iataCode": "HAK",
+      "geoCode": {
+        "latitude": 19.93473,
+        "longitude": 110.4589
+      },
+      "address": {
+        "cityName": "HAIKOU",
+        "cityCode": "HAK",
+        "countryName": "CHINA",
+        "countryCode": "CN",
+        "regionCode": "ASIA"
+      },
+      "distance": {
+        "value": 467,
+        "unit": "KM"
+      },
+      "analytics": {
+        "flights": {
+          "score": 11
+        },
+        "travelers": {
+          "score": 9
+        }
+      },
+      "relevance": 2.402
+    },
+    {
+      "type": "location",
+      "subType": "AIRPORT",
+      "name": "JIEYANG CHAOSHAN",
+      "detailedName": "SHANTOU/CN:JIEYANG CHAOSHAN",
+      "timeZoneOffset": "+08:00",
+      "iataCode": "SWA",
+      "geoCode": {
+        "latitude": 23.55306,
+        "longitude": 116.5058
+      },
+      "address": {
+        "cityName": "SHANTOU",
+        "cityCode": "SWA",
+        "countryName": "CHINA",
+        "countryCode": "CN",
+        "regionCode": "ASIA"
+      },
+      "distance": {
+        "value": 276,
+        "unit": "KM"
+      },
+      "analytics": {
+        "flights": {
+          "score": 3
+        },
+        "travelers": {
+          "score": 2
+        }
+      },
+      "relevance": 0.99171
+    },
+    {
+      "type": "location",
+      "subType": "AIRPORT",
+      "name": "HUIZHOU",
+      "detailedName": "HUIZHOU/CN",
+      "timeZoneOffset": "+08:00",
+      "iataCode": "HUZ",
+      "geoCode": {
+        "latitude": 23.04973,
+        "longitude": 114.5986
+      },
+      "address": {
+        "cityName": "HUIZHOU",
+        "cityCode": "HUZ",
+        "countryName": "CHINA",
+        "countryCode": "CN",
+        "regionCode": "ASIA"
+      },
+      "distance": {
+        "value": 93,
+        "unit": "KM"
+      },
+      "analytics": {
+        "flights": {
+          "score": 1
+        },
+        "travelers": {
+          "score": 1
+        }
+      },
+      "relevance": 0.93958
+    },
+    {
+      "type": "location",
+      "subType": "AIRPORT",
+      "name": "SHADI",
+      "detailedName": "FOSHAN/CN:SHADI",
+      "timeZoneOffset": "+08:00",
+      "iataCode": "FUO",
+      "geoCode": {
+        "latitude": 23.08334,
+        "longitude": 113.0692
+      },
+      "address": {
+        "cityName": "FOSHAN",
+        "cityCode": "FUO",
+        "countryName": "CHINA",
+        "countryCode": "CN",
+        "regionCode": "ASIA"
+      },
+      "distance": {
+        "value": 142,
+        "unit": "KM"
+      },
+      "analytics": {
+        "flights": {
+          "score": 1
+        },
+        "travelers": {
+          "score": 1
+        }
+      },
+      "relevance": 0.51057
+    },
+    {
+      "type": "location",
+      "subType": "AIRPORT",
+      "name": "WUCHUAN",
+      "detailedName": "ZHANJIANG/CN:WUCHUAN",
+      "timeZoneOffset": "+08:00",
+      "iataCode": "ZHA",
+      "geoCode": {
+        "latitude": 21.21445,
+        "longitude": 110.3583
+      },
+      "address": {
+        "cityName": "ZHANJIANG",
+        "cityCode": "ZHA",
+        "countryName": "CHINA",
+        "countryCode": "CN",
+        "regionCode": "ASIA"
+      },
+      "distance": {
+        "value": 412,
+        "unit": "KM"
+      },
+      "analytics": {
+        "flights": {
+          "score": 2
+        },
+        "travelers": {
+          "score": 1
+        }
+      },
+      "relevance": 0.38228
+    },
+    {
+      "type": "location",
+      "subType": "AIRPORT",
+      "name": "MEIXIAN",
+      "detailedName": "MEIXIAN/CN",
+      "timeZoneOffset": "+08:00",
+      "iataCode": "MXZ",
+      "geoCode": {
+        "latitude": 24.26528,
+        "longitude": 116.1
+      },
+      "address": {
+        "cityName": "MEIXIAN",
+        "cityCode": "MXZ",
+        "countryName": "CHINA",
+        "countryCode": "CN",
+        "regionCode": "ASIA"
+      },
+      "distance": {
+        "value": 293,
+        "unit": "KM"
+      },
+      "analytics": {
+        "flights": {
+          "score": 1
+        },
+        "travelers": {
+          "score": 0
+        }
+      },
+      "relevance": 0.25586
+    }
+  ]
+}

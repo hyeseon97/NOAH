@@ -1,0 +1,1810 @@
+{
+  "data": [
+    {
+      "chainCode": "SC",
+      "iataCode": "HKG",
+      "dupeId": 700048566,
+      "name": "BRIDAL TEA HOUSE HOTEL YAU MA",
+      "hotelId": "SCHKG227",
+      "geoCode": {
+        "latitude": 22.31113,
+        "longitude": 114.17059
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 0.17,
+        "unit": "KM"
+      },
+      "rating": 3,
+      "lastUpdate": "2023-06-15T10:20:40"
+    },
+    {
+      "chainCode": "YX",
+      "iataCode": "HKG",
+      "dupeId": 700028387,
+      "name": "SILKA SEAVIEW HOTEL-HONG KONG",
+      "hotelId": "YXHKG700",
+      "geoCode": {
+        "latitude": 22.31034,
+        "longitude": 114.17005
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 0.26,
+        "unit": "KM"
+      },
+      "rating": 3,
+      "lastUpdate": "2023-06-15T10:25:56"
+    },
+    {
+      "chainCode": "WV",
+      "iataCode": "HKG",
+      "dupeId": 700034300,
+      "name": "THE NATHAN HOTEL",
+      "hotelId": "WVHKG864",
+      "geoCode": {
+        "latitude": 22.30771,
+        "longitude": 114.17162
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 0.42,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T09:49:31"
+    },
+    {
+      "chainCode": "YX",
+      "iataCode": "HKG",
+      "dupeId": 700192764,
+      "name": "LODGEWOOD",
+      "hotelId": "YXHKGLOD",
+      "geoCode": {
+        "latitude": 22.31849,
+        "longitude": 114.17154
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 0.78,
+        "unit": "KM"
+      },
+      "rating": 3,
+      "lastUpdate": "2023-06-15T10:30:07"
+    },
+    {
+      "chainCode": "YX",
+      "iataCode": "HKG",
+      "dupeId": 700041571,
+      "name": "SILKA WEST KOWLOON HOTEL",
+      "hotelId": "YXHKG707",
+      "geoCode": {
+        "latitude": 22.3177,
+        "longitude": 114.16778
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 0.83,
+        "unit": "KM"
+      },
+      "rating": 3,
+      "lastUpdate": "2023-06-15T10:25:24"
+    },
+    {
+      "chainCode": "LO",
+      "iataCode": "HKG",
+      "dupeId": 700027391,
+      "name": "LANGHAM PLACE, HONG KONG",
+      "hotelId": "LOHKGLAN",
+      "geoCode": {
+        "latitude": 22.31816,
+        "longitude": 114.1682
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 0.85,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T09:50:33"
+    },
+    {
+      "chainCode": "BW",
+      "iataCode": "HKG",
+      "dupeId": 700165054,
+      "name": "BEST WESTERN GRAND HOTEL HONG",
+      "hotelId": "BWHKG683",
+      "geoCode": {
+        "latitude": 22.30313,
+        "longitude": 114.17455
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 0.95,
+        "unit": "KM"
+      },
+      "rating": 3,
+      "lastUpdate": "2023-06-15T10:28:31"
+    },
+    {
+      "chainCode": "WV",
+      "iataCode": "HKG",
+      "dupeId": 501426469,
+      "name": "STANFORD HILLVIEW HOTEL",
+      "hotelId": "WVHKGHIL",
+      "geoCode": {
+        "latitude": 22.30116,
+        "longitude": 114.17522
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 1.18,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T10:23:02"
+    },
+    {
+      "chainCode": "LE",
+      "iataCode": "HKG",
+      "dupeId": 700007111,
+      "name": "EMPIRE HOTEL KOWLOON -TSIM SHA TSUI",
+      "hotelId": "LEHKG001",
+      "geoCode": {
+        "latitude": 22.30088,
+        "longitude": 114.1751
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 1.21,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T10:40:51"
+    },
+    {
+      "chainCode": "DS",
+      "iataCode": "HKG",
+      "dupeId": 700017891,
+      "name": "THE MIRA HONG KONG",
+      "hotelId": "DSHKGTMH",
+      "geoCode": {
+        "latitude": 22.30014,
+        "longitude": 114.17249
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 1.26,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T10:19:36"
+    },
+    {
+      "chainCode": "SC",
+      "iataCode": "HKG",
+      "dupeId": 700079827,
+      "name": "BRIDAL TEA HOUSE HUNG HOM",
+      "hotelId": "SCHKG228",
+      "geoCode": {
+        "latitude": 22.3066,
+        "longitude": 114.18351
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 1.27,
+        "unit": "KM"
+      },
+      "rating": 3,
+      "lastUpdate": "2023-06-15T11:05:34"
+    },
+    {
+      "chainCode": "YH",
+      "iataCode": "HKG",
+      "dupeId": 700013505,
+      "name": "ROYAL PACIFIC HOTEL AND TOWERS",
+      "hotelId": "YHHKGRYL",
+      "geoCode": {
+        "latitude": 22.30022,
+        "longitude": 114.16727
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 1.35,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T10:31:26"
+    },
+    {
+      "chainCode": "LO",
+      "iataCode": "XXX",
+      "dupeId": 501101888,
+      "name": "LANGHAM HOTEL HONG KONG",
+      "hotelId": "LOXXXLHH",
+      "geoCode": {
+        "latitude": 22.29915,
+        "longitude": 114.17396
+      },
+      "address": {
+        "countryCode": "CN"
+      },
+      "distance": {
+        "value": 1.38,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T09:52:08"
+    },
+    {
+      "chainCode": "YX",
+      "iataCode": "HKG",
+      "dupeId": 700148614,
+      "name": "HOTEL ICON",
+      "hotelId": "YXHKGHIC",
+      "geoCode": {
+        "latitude": 22.30078,
+        "longitude": 114.1796
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 1.4,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T10:12:34"
+    },
+    {
+      "chainCode": "WH",
+      "iataCode": "HKG",
+      "dupeId": 700079336,
+      "name": "W HOTEL HONG KONG",
+      "hotelId": "WHHKG965",
+      "geoCode": {
+        "latitude": 22.3047,
+        "longitude": 114.1605
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 1.43,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2024-03-18T06:19:06"
+    },
+    {
+      "chainCode": "MH",
+      "iataCode": "HKG",
+      "dupeId": 700013390,
+      "name": "PRINCE HOTEL",
+      "hotelId": "MHHKGPHK",
+      "geoCode": {
+        "latitude": 22.29909,
+        "longitude": 114.16824
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 1.44,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T09:50:49"
+    },
+    {
+      "chainCode": "YH",
+      "iataCode": "HKG",
+      "dupeId": 501366604,
+      "name": "SHAMA TSIM SHA TSUI HONG KONG",
+      "hotelId": "YHHKGSHA",
+      "geoCode": {
+        "latitude": 22.29835,
+        "longitude": 114.17241
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 1.46,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T11:05:45"
+    },
+    {
+      "chainCode": "YX",
+      "iataCode": "HKG",
+      "dupeId": 700146883,
+      "name": "DORSETT MONGKOK HONG KONG",
+      "hotelId": "YXHKG993",
+      "geoCode": {
+        "latitude": 22.32131,
+        "longitude": 114.1621
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 1.51,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T10:36:56"
+    },
+    {
+      "chainCode": "WW",
+      "iataCode": "HKG",
+      "dupeId": 501444527,
+      "name": "HOTEL SAV",
+      "hotelId": "WWHKGSAV",
+      "geoCode": {
+        "latitude": 22.30702,
+        "longitude": 114.18619
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 1.51,
+        "unit": "KM"
+      },
+      "rating": 3,
+      "lastUpdate": "2023-06-15T11:08:26"
+    },
+    {
+      "chainCode": "YX",
+      "iataCode": "HKG",
+      "dupeId": 501448272,
+      "name": "NEW WORLD MILLENNIUM HONG KONG",
+      "hotelId": "YXHKG001",
+      "geoCode": {
+        "latitude": 22.29965,
+        "longitude": 114.17963
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 1.51,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T11:08:36"
+    },
+    {
+      "chainCode": "RZ",
+      "iataCode": "HKG",
+      "dupeId": 700141529,
+      "name": "THE RITZ-CARLTON HONG KONG",
+      "hotelId": "RZHKGKWZ",
+      "geoCode": {
+        "latitude": 22.3028,
+        "longitude": 114.16078
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 1.52,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2024-01-23T05:58:40"
+    },
+    {
+      "chainCode": "WW",
+      "iataCode": "HKG",
+      "dupeId": 700020388,
+      "name": "THE ROYAL GARDEN",
+      "hotelId": "WWHKG811",
+      "geoCode": {
+        "latitude": 22.29856,
+        "longitude": 114.17757
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 1.53,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T10:09:09"
+    },
+    {
+      "chainCode": "YX",
+      "iataCode": "HKG",
+      "dupeId": 700179493,
+      "name": "ROSEDALE HOTEL KOWLOON",
+      "hotelId": "YXHKGRHK",
+      "geoCode": {
+        "latitude": 22.32151,
+        "longitude": 114.16193
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 1.54,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T10:23:18"
+    },
+    {
+      "chainCode": "HY",
+      "iataCode": "HKG",
+      "dupeId": 700008476,
+      "name": "HYATT REGENCY HONG KONG TSIM SHA TSUI",
+      "hotelId": "HYHKGTSI",
+      "geoCode": {
+        "latitude": 22.29766,
+        "longitude": 114.17404
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 1.54,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T10:12:48"
+    },
+    {
+      "chainCode": "IC",
+      "iataCode": "HKG",
+      "dupeId": 700007873,
+      "name": "INTERCONTINENTAL GRANDSTANFORD",
+      "hotelId": "ICHKGGPB",
+      "geoCode": {
+        "latitude": 22.29909,
+        "longitude": 114.17922
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 1.55,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T09:50:49"
+    },
+    {
+      "chainCode": "WV",
+      "iataCode": "HKG",
+      "dupeId": 700093917,
+      "name": "HOTEL PANORAMA BY RHOMBUS",
+      "hotelId": "WVHKGPHR",
+      "geoCode": {
+        "latitude": 22.29769,
+        "longitude": 114.17465
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 1.55,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T10:10:12"
+    },
+    {
+      "chainCode": "HS",
+      "iataCode": "HKG",
+      "dupeId": 700082377,
+      "name": "BRIDAL TEA HOUSE TAI KOK TSUI LI TAK STR",
+      "hotelId": "HSHKGAER",
+      "geoCode": {
+        "latitude": 22.321,
+        "longitude": 114.16101
+      },
+      "address": {
+        "countryCode": "CN"
+      },
+      "distance": {
+        "value": 1.57,
+        "unit": "KM"
+      },
+      "rating": 3,
+      "lastUpdate": "2023-06-15T10:34:17"
+    },
+    {
+      "chainCode": "MH",
+      "iataCode": "HKG",
+      "dupeId": 700013389,
+      "name": "GATEWAY HOTEL",
+      "hotelId": "MHHKGMPH",
+      "geoCode": {
+        "latitude": 22.29778,
+        "longitude": 114.16852
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 1.57,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T09:50:49"
+    },
+    {
+      "chainCode": "WW",
+      "iataCode": "HKG",
+      "dupeId": 700021601,
+      "name": "HARBOUR PLAZA METROPOLIS",
+      "hotelId": "WWHKGHPM",
+      "geoCode": {
+        "latitude": 22.30152,
+        "longitude": 114.18334
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 1.58,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T09:49:31"
+    },
+    {
+      "chainCode": "AZ",
+      "iataCode": "HKG",
+      "dupeId": 700049364,
+      "name": "CITADINES ASHLEY HONG KONG",
+      "hotelId": "AZHKG243",
+      "geoCode": {
+        "latitude": 22.29714,
+        "longitude": 114.17069
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 1.6,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T10:20:38"
+    },
+    {
+      "chainCode": "SG",
+      "iataCode": "HKG",
+      "dupeId": 700009050,
+      "name": "KOWLOON SHANGRI LA",
+      "hotelId": "SGHKGKSL",
+      "geoCode": {
+        "latitude": 22.29719,
+        "longitude": 114.1752
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 1.61,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T09:50:50"
+    },
+    {
+      "chainCode": "YH",
+      "iataCode": "HKG",
+      "dupeId": 700120607,
+      "name": "XI HOTEL",
+      "hotelId": "YHHKGMIN",
+      "geoCode": {
+        "latitude": 22.29701,
+        "longitude": 114.17417
+      },
+      "address": {
+        "countryCode": "CN"
+      },
+      "distance": {
+        "value": 1.62,
+        "unit": "KM"
+      },
+      "rating": 3,
+      "lastUpdate": "2023-06-15T09:42:11"
+    },
+    {
+      "chainCode": "PN",
+      "iataCode": "HKG",
+      "dupeId": 700013449,
+      "name": "THE PENINSULA HONG KONG",
+      "hotelId": "PNHKG826",
+      "geoCode": {
+        "latitude": 22.29654,
+        "longitude": 114.17697
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 1.73,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T09:49:15"
+    },
+    {
+      "chainCode": "WW",
+      "iataCode": "HKG",
+      "dupeId": 700009049,
+      "name": "THE KOWLOON HOTEL",
+      "hotelId": "WWHKGKOW",
+      "geoCode": {
+        "latitude": 22.29579,
+        "longitude": 114.17204
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 1.74,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T09:49:31"
+    },
+    {
+      "chainCode": "LW",
+      "iataCode": "HKG",
+      "dupeId": 700158153,
+      "name": "HULLETT HOUSE",
+      "hotelId": "LWHKG828",
+      "geoCode": {
+        "latitude": 22.29523,
+        "longitude": 114.17004
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 1.82,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T10:18:34"
+    },
+    {
+      "chainCode": "MH",
+      "iataCode": "HKG",
+      "dupeId": 700009787,
+      "name": "MARCO POLO HONGKONG HOTEL",
+      "hotelId": "MHHKGHKG",
+      "geoCode": {
+        "latitude": 22.29523,
+        "longitude": 114.1689
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 1.84,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T09:50:33"
+    },
+    {
+      "chainCode": "IC",
+      "iataCode": "HKG",
+      "dupeId": 700015856,
+      "name": "INTERCONTINENTAL HONG KONG",
+      "hotelId": "ICHKGICC",
+      "geoCode": {
+        "latitude": 22.29329,
+        "longitude": 114.17382
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 2.03,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T09:50:49"
+    },
+    {
+      "chainCode": "GZ",
+      "iataCode": "HKG",
+      "dupeId": 700179492,
+      "name": "OVOLO 256 TUNG CHAU STREET",
+      "hotelId": "GZHKGTCS",
+      "geoCode": {
+        "latitude": 22.32761,
+        "longitude": 114.15891
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 2.26,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T10:26:41"
+    },
+    {
+      "chainCode": "WV",
+      "iataCode": "HKG",
+      "dupeId": 700120593,
+      "name": "HARBOUR PLAZA 8 DEGREES-KOWLOON",
+      "hotelId": "WVHKGHPL",
+      "geoCode": {
+        "latitude": 22.32274,
+        "longitude": 114.19086
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 2.28,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T10:01:50"
+    },
+    {
+      "chainCode": "YX",
+      "iataCode": "XXX",
+      "dupeId": 501102976,
+      "name": "SG TEST HOTEL DO NOT BOOK",
+      "hotelId": "YXXXXSLT",
+      "geoCode": {
+        "latitude": 22.32819,
+        "longitude": 114.19155
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 2.71,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T10:10:13"
+    },
+    {
+      "chainCode": "YX",
+      "iataCode": "HKG",
+      "dupeId": 700182284,
+      "name": "DISNEYS HOLLYWOOD HOTEL HONG",
+      "hotelId": "YXHKGDHH",
+      "geoCode": {
+        "latitude": 22.33308,
+        "longitude": 114.19122
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.09,
+        "unit": "KM"
+      },
+      "rating": 3,
+      "lastUpdate": "2023-06-15T09:49:31"
+    },
+    {
+      "chainCode": "WV",
+      "iataCode": "HKG",
+      "dupeId": 700029452,
+      "name": "PRUDENTIAL HOTEL",
+      "hotelId": "WVHKGPRU",
+      "geoCode": {
+        "latitude": 22.33616,
+        "longitude": 114.18697
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.13,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T10:11:15"
+    },
+    {
+      "chainCode": "WV",
+      "iataCode": "HKG",
+      "dupeId": 700059168,
+      "name": "GUANGDONG HOTEL HONG KONG",
+      "hotelId": "WVHKG002",
+      "geoCode": {
+        "latitude": 22.33616,
+        "longitude": 114.18697
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.13,
+        "unit": "KM"
+      },
+      "rating": 3,
+      "lastUpdate": "2023-06-15T10:07:20"
+    },
+    {
+      "chainCode": "FS",
+      "iataCode": "HKG",
+      "dupeId": 700035207,
+      "name": "FOUR SEASONS HONG KONG",
+      "hotelId": "FSHKG581",
+      "geoCode": {
+        "latitude": 22.28667,
+        "longitude": 114.15662
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.19,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T09:50:17"
+    },
+    {
+      "chainCode": "YH",
+      "iataCode": "HKG",
+      "dupeId": 700006026,
+      "name": "CITY GARDEN HOTEL",
+      "hotelId": "YHHKGCTY",
+      "geoCode": {
+        "latitude": 22.29033,
+        "longitude": 114.19401
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.24,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T10:30:07"
+    },
+    {
+      "chainCode": "XL",
+      "iataCode": "HKG",
+      "dupeId": 700079894,
+      "name": "HARBOUR GRAND HONG KONG SUMMIT",
+      "hotelId": "XLHKGHGH",
+      "geoCode": {
+        "latitude": 22.28861,
+        "longitude": 114.19189
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.24,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T10:14:39"
+    },
+    {
+      "chainCode": "HS",
+      "iataCode": "HKG",
+      "dupeId": 700056476,
+      "name": "NEWTON HONG KONG",
+      "hotelId": "HSHKGAFO",
+      "geoCode": {
+        "latitude": 22.28854,
+        "longitude": 114.193
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.32,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T10:35:20"
+    },
+    {
+      "chainCode": "YH",
+      "iataCode": "HKG",
+      "dupeId": 501367175,
+      "name": "SHAMA FORTRESS HILL HONG KONG",
+      "hotelId": "YHHKGSFH",
+      "geoCode": {
+        "latitude": 22.2883,
+        "longitude": 114.19328
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.36,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T11:06:50"
+    },
+    {
+      "chainCode": "HY",
+      "iataCode": "HKG",
+      "dupeId": 700007853,
+      "name": "GRAND HYATT HONG KONG",
+      "hotelId": "HYHKGIGH",
+      "geoCode": {
+        "latitude": 22.28087,
+        "longitude": 114.17134
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.4,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T09:50:49"
+    },
+    {
+      "chainCode": "LM",
+      "iataCode": "HKG",
+      "dupeId": 700022212,
+      "name": "THE HARBOURVIEW",
+      "hotelId": "LMHKG816",
+      "geoCode": {
+        "latitude": 22.28027,
+        "longitude": 114.1712
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.47,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T09:49:14"
+    },
+    {
+      "chainCode": "MO",
+      "iataCode": "HKG",
+      "dupeId": 700013326,
+      "name": "THE EXCELSIOR HKG",
+      "hotelId": "MOHKG333",
+      "geoCode": {
+        "latitude": 22.28205,
+        "longitude": 114.18394
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.48,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T09:50:33"
+    },
+    {
+      "chainCode": "LE",
+      "iataCode": "HKG",
+      "dupeId": 700117102,
+      "name": "EMPIRE HOTEL HONG KONG CAUSEWAY BAY",
+      "hotelId": "LEHKG616",
+      "geoCode": {
+        "latitude": 22.28254,
+        "longitude": 114.1857
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.5,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T11:06:38"
+    },
+    {
+      "chainCode": "MO",
+      "iataCode": "HKG",
+      "dupeId": 700009734,
+      "name": "MANDARIN ORIENTAL HONG KONG",
+      "hotelId": "MOHKG444",
+      "geoCode": {
+        "latitude": 22.28193,
+        "longitude": 114.15942
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.54,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T09:50:18"
+    },
+    {
+      "chainCode": "YH",
+      "iataCode": "HKG",
+      "dupeId": 501418709,
+      "name": "THE POTTINGER HONG KONG",
+      "hotelId": "YHHKGPHK",
+      "geoCode": {
+        "latitude": 22.2834,
+        "longitude": 114.1555
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.57,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T11:08:36"
+    },
+    {
+      "chainCode": "RT",
+      "iataCode": "HKG",
+      "dupeId": 700032106,
+      "name": "IBIS HONG KONG NORTH POINT",
+      "hotelId": "RTHKGNTH",
+      "geoCode": {
+        "latitude": 22.29232,
+        "longitude": 114.20043
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.59,
+        "unit": "KM"
+      },
+      "rating": 3,
+      "lastUpdate": "2023-06-15T09:50:34"
+    },
+    {
+      "chainCode": "DS",
+      "iataCode": "HKG",
+      "dupeId": 700188450,
+      "name": "MIRA MOON HONG KONG",
+      "hotelId": "DSHKGMMO",
+      "geoCode": {
+        "latitude": 22.27971,
+        "longitude": 114.17902
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.6,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T10:13:03"
+    },
+    {
+      "chainCode": "WW",
+      "iataCode": "HKG",
+      "dupeId": 700045122,
+      "name": "LAN KWAI FONG HOTEL",
+      "hotelId": "WWHKGLKF",
+      "geoCode": {
+        "latitude": 22.28439,
+        "longitude": 114.15308
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.6,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T09:49:31"
+    },
+    {
+      "chainCode": "HI",
+      "iataCode": "HKG",
+      "dupeId": 700181474,
+      "name": "HOLIDAY INN EXP HONG KONG SOHO",
+      "hotelId": "HIHKG246",
+      "geoCode": {
+        "latitude": 22.28537,
+        "longitude": 114.15091
+      },
+      "address": {
+        "countryCode": "CN"
+      },
+      "distance": {
+        "value": 3.64,
+        "unit": "KM"
+      },
+      "rating": 3,
+      "lastUpdate": "2023-06-15T10:23:32"
+    },
+    {
+      "chainCode": "BC",
+      "iataCode": "HKG",
+      "dupeId": 501418067,
+      "name": "ICLUB SHEUNG WAN HOTEL",
+      "hotelId": "BCHKGSWH",
+      "geoCode": {
+        "latitude": 22.28642,
+        "longitude": 114.14919
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.66,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T11:10:32"
+    },
+    {
+      "chainCode": "HS",
+      "iataCode": "HKG",
+      "dupeId": 700082341,
+      "name": "WALDEN",
+      "hotelId": "HSHKGACF",
+      "geoCode": {
+        "latitude": 22.27886,
+        "longitude": 114.179
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.69,
+        "unit": "KM"
+      },
+      "rating": 3,
+      "lastUpdate": "2023-06-15T10:34:34"
+    },
+    {
+      "chainCode": "YH",
+      "iataCode": "HKG",
+      "dupeId": 501366645,
+      "name": "SHAMA CENTRAL HONG KONG",
+      "hotelId": "YHHKGSHC",
+      "geoCode": {
+        "latitude": 22.28313,
+        "longitude": 114.15321
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.71,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T11:05:23"
+    },
+    {
+      "chainCode": "LE",
+      "iataCode": "HKG",
+      "dupeId": 700060727,
+      "name": "EMPIRE HOTEL HONG KONG WAN CHAI",
+      "hotelId": "LEHKGEMP",
+      "geoCode": {
+        "latitude": 22.27797,
+        "longitude": 114.17008
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.73,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T10:39:01"
+    },
+    {
+      "chainCode": "WV",
+      "iataCode": "HKG",
+      "dupeId": 700093916,
+      "name": "METROPARK HOTEL WANCHAI",
+      "hotelId": "WVHKG956",
+      "geoCode": {
+        "latitude": 22.27766,
+        "longitude": 114.17104
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.76,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T10:10:28"
+    },
+    {
+      "chainCode": "YH",
+      "iataCode": "HKG",
+      "dupeId": 700140655,
+      "name": "OZO WESLEY HONG KONG",
+      "hotelId": "YHHKGWES",
+      "geoCode": {
+        "latitude": 22.27768,
+        "longitude": 114.16876
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.78,
+        "unit": "KM"
+      },
+      "rating": 3,
+      "lastUpdate": "2023-06-15T10:28:32"
+    },
+    {
+      "chainCode": "GZ",
+      "iataCode": "HKG",
+      "dupeId": 700160474,
+      "name": "OVOLO 2 ARBUTHNOT ROAD",
+      "hotelId": "GZHKGOAR",
+      "geoCode": {
+        "latitude": 22.28148,
+        "longitude": 114.15485
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.79,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T10:27:13"
+    },
+    {
+      "chainCode": "PH",
+      "iataCode": "HKG",
+      "dupeId": 700128228,
+      "name": "THE UPPER HOUSE",
+      "hotelId": "PHHKGUHH",
+      "geoCode": {
+        "latitude": 22.27788,
+        "longitude": 114.16512
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.81,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T10:15:57"
+    },
+    {
+      "chainCode": "MC",
+      "iataCode": "HKG",
+      "dupeId": 700008854,
+      "name": "JW MARRIOTT HONG KONG",
+      "hotelId": "MCHKGDTM",
+      "geoCode": {
+        "latitude": 22.2775,
+        "longitude": 114.16514
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.85,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2024-01-24T14:14:50"
+    },
+    {
+      "chainCode": "HI",
+      "iataCode": "HKG",
+      "dupeId": 700179491,
+      "name": "HOLIDAY INN EXPRESS KOWLOON E",
+      "hotelId": "HIHKGD5D",
+      "geoCode": {
+        "latitude": 22.27781,
+        "longitude": 114.18191
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.87,
+        "unit": "KM"
+      },
+      "rating": 3,
+      "lastUpdate": "2023-06-15T10:24:04"
+    },
+    {
+      "chainCode": "WV",
+      "iataCode": "HKG",
+      "dupeId": 700093914,
+      "name": "HOTEL LKF BY RHOMBUS",
+      "hotelId": "WVHKGRHO",
+      "geoCode": {
+        "latitude": 22.28029,
+        "longitude": 114.1553
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.88,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T10:19:53"
+    },
+    {
+      "chainCode": "XL",
+      "iataCode": "HKG",
+      "dupeId": 700011651,
+      "name": "REGAL HONGKONG HOTEL SUMMIT HO",
+      "hotelId": "XLHKGHON",
+      "geoCode": {
+        "latitude": 22.27926,
+        "longitude": 114.18687
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.88,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T09:49:31"
+    },
+    {
+      "chainCode": "SG",
+      "iataCode": "HKG",
+      "dupeId": 700008751,
+      "name": "ISLAND SHANGRI LA",
+      "hotelId": "SGHKGISL",
+      "geoCode": {
+        "latitude": 22.27724,
+        "longitude": 114.16454
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.89,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T09:50:03"
+    },
+    {
+      "chainCode": "BW",
+      "iataCode": "HKG",
+      "dupeId": 700148613,
+      "name": "BW HOTEL CAUSEWAY BAY",
+      "hotelId": "BWHKG658",
+      "geoCode": {
+        "latitude": 22.27722,
+        "longitude": 114.18066
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.91,
+        "unit": "KM"
+      },
+      "rating": 3,
+      "lastUpdate": "2023-06-15T10:10:10"
+    },
+    {
+      "chainCode": "LM",
+      "iataCode": "HKG",
+      "dupeId": 700059632,
+      "name": "J PLUS HOTEL BY YOO",
+      "hotelId": "LMHKG491",
+      "geoCode": {
+        "latitude": 22.2788,
+        "longitude": 114.18624
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.91,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T09:50:02"
+    },
+    {
+      "chainCode": "WW",
+      "iataCode": "HKG",
+      "dupeId": 700020470,
+      "name": "METROPARK HOTEL CAUSEWAYBAY HK",
+      "hotelId": "WWHKGMET",
+      "geoCode": {
+        "latitude": 22.28127,
+        "longitude": 114.19212
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.93,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T09:49:31"
+    },
+    {
+      "chainCode": "YX",
+      "iataCode": "HKG",
+      "dupeId": 700018198,
+      "name": "ROSEDALE ON THE PARK  CWB HK",
+      "hotelId": "YXHKG296",
+      "geoCode": {
+        "latitude": 22.27927,
+        "longitude": 114.18839
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.95,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T10:04:11"
+    },
+    {
+      "chainCode": "WV",
+      "iataCode": "HKG",
+      "dupeId": 700012886,
+      "name": "SOUTH PACIFIC HOTEL HONG KONG",
+      "hotelId": "WVHKGSOU",
+      "geoCode": {
+        "latitude": 22.27672,
+        "longitude": 114.18034
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.95,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T09:49:15"
+    },
+    {
+      "chainCode": "SG",
+      "iataCode": "HKG",
+      "dupeId": 700024034,
+      "name": "HOTEL JEN HONG KONG",
+      "hotelId": "SGHKGHAR",
+      "geoCode": {
+        "latitude": 22.27593,
+        "longitude": 114.16743
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.98,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T09:53:43"
+    },
+    {
+      "chainCode": "CP",
+      "iataCode": "HKG",
+      "dupeId": 700127565,
+      "name": "CROWNE PLAZA CAUSEWAY",
+      "hotelId": "CPHKGBCA",
+      "geoCode": {
+        "latitude": 22.27695,
+        "longitude": 114.18267
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 3.99,
+        "unit": "KM"
+      },
+      "rating": 3,
+      "lastUpdate": "2023-06-15T10:14:37"
+    },
+    {
+      "chainCode": "BW",
+      "iataCode": "HKG",
+      "dupeId": 700165190,
+      "name": "BW HTL HARBOUR VIEW HONG KONG",
+      "hotelId": "BWHKG674",
+      "geoCode": {
+        "latitude": 22.28697,
+        "longitude": 114.14364
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 4.01,
+        "unit": "KM"
+      },
+      "rating": 3,
+      "lastUpdate": "2023-06-15T10:26:25"
+    },
+    {
+      "chainCode": "UZ",
+      "iataCode": "HKG",
+      "dupeId": 700180407,
+      "name": "OAKWOOD APARTMENTS HONG KONG",
+      "hotelId": "UZHKGOAK",
+      "geoCode": {
+        "latitude": 22.27484,
+        "longitude": 114.16894
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 4.09,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T10:24:21"
+    },
+    {
+      "chainCode": "IN",
+      "iataCode": "HKG",
+      "dupeId": 700181630,
+      "name": "HOTEL INDIGO HONG KONG ISLAND",
+      "hotelId": "INHKGD34",
+      "geoCode": {
+        "latitude": 22.27452,
+        "longitude": 114.17325
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 4.11,
+        "unit": "KM"
+      },
+      "rating": 3,
+      "lastUpdate": "2023-06-15T10:28:17"
+    },
+    {
+      "chainCode": "DH",
+      "iataCode": "HKG",
+      "dupeId": 700128228,
+      "name": "UPPER HOUSE",
+      "hotelId": "DHHKGAHD",
+      "geoCode": {
+        "latitude": 22.27437,
+        "longitude": 114.16995
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 4.13,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T10:25:23"
+    },
+    {
+      "chainCode": "UI",
+      "iataCode": "HKG",
+      "dupeId": 700032108,
+      "name": "BISHOP LEI INTERNATIONAL HOUSE",
+      "hotelId": "UIHKGBIS",
+      "geoCode": {
+        "latitude": 22.2785,
+        "longitude": 114.15312
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 4.16,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T09:50:04"
+    },
+    {
+      "chainCode": "YX",
+      "iataCode": "HKG",
+      "dupeId": 700189406,
+      "name": "V WANCHAI2 HOTEL",
+      "hotelId": "YXHKGVWA",
+      "geoCode": {
+        "latitude": 22.27459,
+        "longitude": 114.18003
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 4.18,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T10:08:54"
+    },
+    {
+      "chainCode": "HS",
+      "iataCode": "HKG",
+      "dupeId": 700042000,
+      "name": "THE GARDEN VIEW YWCA",
+      "hotelId": "HSHKGACI",
+      "geoCode": {
+        "latitude": 22.27632,
+        "longitude": 114.15589
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 4.26,
+        "unit": "KM"
+      },
+      "rating": 3,
+      "lastUpdate": "2023-06-15T10:38:28"
+    },
+    {
+      "chainCode": "WW",
+      "iataCode": "HKG",
+      "dupeId": 700013354,
+      "name": "HARBOUR GRAND KOWLOON",
+      "hotelId": "WWHKGHRB",
+      "geoCode": {
+        "latitude": 22.28601,
+        "longitude": 114.13486
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 4.78,
+        "unit": "KM"
+      },
+      "rating": 5,
+      "lastUpdate": "2023-06-15T10:14:55"
+    },
+    {
+      "chainCode": "YX",
+      "iataCode": "HKG",
+      "dupeId": 700163119,
+      "name": "L HOTEL ELAN",
+      "hotelId": "YXHKGLHO",
+      "geoCode": {
+        "latitude": 22.31121,
+        "longitude": 114.22394
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 5.31,
+        "unit": "KM"
+      },
+      "rating": 3,
+      "lastUpdate": "2023-06-15T10:24:53"
+    },
+    {
+      "chainCode": "XL",
+      "iataCode": "HKG",
+      "dupeId": 700140785,
+      "name": "EAST HONG KONG SUMMIT HOTELS A",
+      "hotelId": "XLHKGEHH",
+      "geoCode": {
+        "latitude": 22.2859,
+        "longitude": 114.21618
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 5.34,
+        "unit": "KM"
+      },
+      "rating": 3,
+      "lastUpdate": "2023-06-15T10:18:19"
+    },
+    {
+      "chainCode": "YX",
+      "iataCode": "HKG",
+      "dupeId": 700162723,
+      "name": "DORSETT KWUN TONG HONG KONG",
+      "hotelId": "YXHKGDOR",
+      "geoCode": {
+        "latitude": 22.30797,
+        "longitude": 114.22419
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 5.35,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T10:25:24"
+    },
+    {
+      "chainCode": "YX",
+      "iataCode": "HKG",
+      "dupeId": 700149965,
+      "name": "DORSETT REGENCY HOTEL HK",
+      "hotelId": "YXHKGDRH",
+      "geoCode": {
+        "latitude": 22.27942,
+        "longitude": 114.13193
+      },
+      "address": {
+        "countryCode": "HK"
+      },
+      "distance": {
+        "value": 5.47,
+        "unit": "KM"
+      },
+      "rating": 4,
+      "lastUpdate": "2023-06-15T09:47:26"
+    }
+  ],
+  "meta": {
+    "count": 90,
+    "links": {
+      "self": "https://test.api.amadeus.com/v1/reference-data/locations/hotels/by-geocode?hotelSource=ALL&latitude=22.311492&longitude=114.172291&radius=5&radiusUnit=KM&ratings=3,4,5"
+    }
+  }
+}
