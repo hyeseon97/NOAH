@@ -14,6 +14,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -28,7 +29,12 @@ public class TravelServiceImpl implements TravelService {
 
     @Override
     public List<TravelGetListDto> getTravelList() {
-        return null;
+
+        List<Travel> travelList = travelRepository.findAll();
+
+        return travelList.stream()
+                .map(travel -> new TravelGetListDto(travel.getId(), travel.getTitle()))
+                .collect(Collectors.toList());
     }
 
     @Override
