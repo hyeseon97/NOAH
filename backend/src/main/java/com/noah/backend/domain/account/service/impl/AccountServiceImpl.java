@@ -2,6 +2,7 @@ package com.noah.backend.domain.account.service.impl;
 
 import com.noah.backend.domain.account.dto.requestDto.AccountPostDto;
 import com.noah.backend.domain.account.dto.requestDto.AccountUpdateDto;
+import com.noah.backend.domain.account.dto.requestDto.AmountUpdateDto;
 import com.noah.backend.domain.account.dto.responseDto.AccountInfoDto;
 import com.noah.backend.domain.account.entity.Account;
 import com.noah.backend.domain.account.repository.AccountRepository;
@@ -68,10 +69,14 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void deleteAccount(Long accountId) {
-        Account account = accountRepository.findById(accountId).orElseThrow(AccountNotFoundException::new);
-        accountRepository.deleteById(accountId);
+    public Long updateAmount(AmountUpdateDto amountUpdateDto) {
+        Account account = accountRepository.findById(amountUpdateDto.getAccountId()).orElseThrow(AccountNotFoundException::new);
+        int amount = amountUpdateDto.getAmount();
+        account.setAmount(amount);
+        accountRepository.save(account);
+        return account.getId();
     }
+
 
     @Override
     public Long updateAccount(AccountUpdateDto accountUpdateDto) {
@@ -83,8 +88,8 @@ public class AccountServiceImpl implements AccountService {
         int perAmount = accountUpdateDto.getPerAmount();
         int paymentDate = accountUpdateDto.getPaymentDate();
 
-        if(updateName != null){
-        account.setName(updateName);
+        if (updateName != null) {
+            account.setName(updateName);
         }
         if (updateAmount != 0) {
             account.setAmount(updateAmount);
@@ -105,5 +110,11 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.save(account);
 
         return account.getId();
+    }
+
+    @Override
+    public void deleteAccount(Long accountId) {
+        Account account = accountRepository.findById(accountId).orElseThrow(AccountNotFoundException::new);
+        accountRepository.deleteById(accountId);
     }
 }

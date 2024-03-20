@@ -2,6 +2,7 @@ package com.noah.backend.domain.account.controller;
 
 import com.noah.backend.domain.account.dto.requestDto.AccountPostDto;
 import com.noah.backend.domain.account.dto.requestDto.AccountUpdateDto;
+import com.noah.backend.domain.account.dto.requestDto.AmountUpdateDto;
 import com.noah.backend.domain.account.dto.requestDto.RequestHeaderDto;
 import com.noah.backend.domain.account.dto.responseDto.AccountInfoDto;
 import com.noah.backend.domain.account.entity.Account;
@@ -75,6 +76,12 @@ return response.success(ResponseCode.ACCOUNT_CREATED, result);
         return response.success(ResponseCode.ACCOUNT_INFO_FETCHED, account);
     }
 
+    @Operation(summary = "계좌 금액 최신화", description = "은행 api와 통신하여 계좌 정보 최신화 실제로 사용X")
+    @PutMapping("/bank/{id}")
+    public ResponseEntity<?> updateAmount(@Parameter(hidden = true) Authentication authentication, @RequestBody AmountUpdateDto amountUpdateDto) {
+        Long accountId = accountService.updateAmount(amountUpdateDto);
+        return response.success(ResponseCode.ACCOUNT_INFO_UPDATED, accountId);
+    }
     @Operation(summary = "계좌 목표 수정", description = "납입금, 납입일, 목표금액 수정")
     @PutMapping("/{id}")
     public ResponseEntity<?> updateAccountInfo(@Parameter(hidden = true) Authentication authentication, @RequestBody AccountUpdateDto accountUpdateDto) {
