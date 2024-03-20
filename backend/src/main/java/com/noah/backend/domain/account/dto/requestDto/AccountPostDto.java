@@ -9,6 +9,7 @@ import lombok.*;
 @Builder
 public class AccountPostDto {
 
+    private Long travelId;          // 여행 정보
     private Long ownerId;           // 소유주 정보
     private String bank;            // 은행명
     private String accountNumber;   // 계좌번호

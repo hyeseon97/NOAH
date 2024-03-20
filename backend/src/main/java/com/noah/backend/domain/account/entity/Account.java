@@ -60,6 +60,7 @@ public class Account extends BaseEntity {
     @Column(name = "payment_date")
     private int paymentDate;
 
+    @Setter
     @OneToOne(fetch = FetchType.LAZY)
     private Travel travel;
 

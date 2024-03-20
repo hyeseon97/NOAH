@@ -1,7 +1,6 @@
 package com.noah.backend.domain.account.service;
 
 import com.noah.backend.domain.account.dto.requestDto.AccountPostDto;
-import com.noah.backend.domain.account.dto.requestDto.AccountRegistDto;
 import com.noah.backend.domain.account.dto.requestDto.AccountUpdateDto;
 import com.noah.backend.domain.account.dto.requestDto.AmountUpdateDto;
 import com.noah.backend.domain.account.dto.responseDto.AccountInfoDto;
@@ -19,7 +18,6 @@ public interface AccountService {
 
     Long updateAmount(AmountUpdateDto amountUpdateDto);
 
-    Long registAccount(AccountRegistDto accountRegistDto);
 
     Long updateAccount(AccountUpdateDto accountUpdateDto);      // 납입금, 목표금액 등 수정
 

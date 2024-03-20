@@ -1,7 +1,6 @@
 package com.noah.backend.domain.account.service.impl;
 
 import com.noah.backend.domain.account.dto.requestDto.AccountPostDto;
-import com.noah.backend.domain.account.dto.requestDto.AccountRegistDto;
 import com.noah.backend.domain.account.dto.requestDto.AccountUpdateDto;
 import com.noah.backend.domain.account.dto.requestDto.AmountUpdateDto;
 import com.noah.backend.domain.account.dto.responseDto.AccountInfoDto;
@@ -57,10 +56,10 @@ public class AccountServiceImpl implements AccountService {
     public Long createAccount(AccountPostDto accountPostDto) {
 
 //        Member member = memberRepository.searchById(memberId)
+        Travel travel = travelRepository.findById(accountPostDto.getTravelId()).orElseThrow(TravelNotFoundException::new);
         Long owner = accountPostDto.getOwnerId();
         String bank = accountPostDto.getBank();
         String accountNumber = accountPostDto.getAccountNumber();
-
 
         Account account = Account.builder()
                 .ownerId(owner)
@@ -80,16 +79,6 @@ public class AccountServiceImpl implements AccountService {
         account.setAmount(amount);
         accountRepository.save(account);
         return account.getId();
-    }
-
-    @Override
-    public Long registAccount(AccountRegistDto accountRegistDto) {
-        Long accountId = accountRegistDto.getAccountId();
-        Long travelId = accountRegistDto.getTravelId();
-        Account account = accountRepository.findById(accountId).orElseThrow(AccountNotFoundException::new);
-        Travel travel = travelRepository.findById(travelId).orElseThrow(TravelNotFoundException::new);
-
-        return null;
     }
 
 
@@ -121,9 +110,7 @@ public class AccountServiceImpl implements AccountService {
         if (paymentDate != 0) {
             account.setPaymentDate(paymentDate);
         }
-
         accountRepository.save(account);
-
         return account.getId();
     }
 
