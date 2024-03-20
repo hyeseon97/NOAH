@@ -1,6 +1,7 @@
 package com.noah.backend.domain.review.entity;
 
 import com.noah.backend.domain.base.BaseEntity;
+import com.noah.backend.domain.comment.entity.Comment;
 import com.noah.backend.domain.image.entity.Image;
 import jakarta.persistence.*;
 import lombok.*;
@@ -54,15 +55,8 @@ public class Review extends BaseEntity {
     @OneToMany(mappedBy = "review", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<Image> imageList = new ArrayList<>();
 
-//    // 정적 팩토리 메서드
-//    public static Review createReview(int expense, String country, int people, Date startDate, Date endDate) {
-////        Review review = new Review();
-//        review.expense = expense;
-//        review.country = country;
-//        review.people = people;
-//        review.startDate = startDate;
-//        review.endDate = endDate;
-//        return review;
-//    }
+    @OneToMany(mappedBy = "review", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    private List<Comment> commentList = new ArrayList<>();
+
 
 }

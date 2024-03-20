@@ -1,0 +1,17 @@
+{
+  "meta": {
+    "count": 1,
+    "links": {
+      "self": "https://test.api.amadeus.com/v1/reference-data/airlines?airlineCodes=7C"
+    }
+  },
+  "data": [
+    {
+      "type": "airline",
+      "iataCode": "7C",
+      "icaoCode": "JJA",
+      "businessName": "JEJU AIR",
+      "commonName": "JEJU AIR"
+    }
+  ]
+}
