@@ -49,6 +49,13 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
     // Devtools
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    // WebClient
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+    // 외부 API 호출 HttpClientBuilder
+    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.3.4'
+    // map을 json형식으로 변환
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
 }
 
 def generated = 'src/main/generated'
