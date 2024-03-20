@@ -1,6 +1,6 @@
 package com.noah.backend.domain.admin.controller;
 
-import com.noah.backend.domain.admin.dto.responseDto.AdminApiKey;
+import com.noah.backend.domain.admin.dto.responseDto.AdminKeyResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ public class AdminController {
 	@PostMapping("/ssafy/api/v1/edu/app/issuedApiKey")
 	@Operation(summary = "관리자 Key 발급", description = "관리자 Key 발급")
 	public ResponseEntity<?> productInquiry(@RequestBody String managerId){
-		AdminApiKey adminApiKey = new AdminApiKey();
-		return new ResponseEntity<>(adminApiKey, HttpStatus.OK);
+		AdminKeyResponseDto adminKeyResponseDto = new AdminKeyResponseDto();
+		return new ResponseEntity<>(adminKeyResponseDto, HttpStatus.OK);
 	}
 }

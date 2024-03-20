@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdminApiKey {
+public class AdminKeyResponseDto {
 	String managerId;
 	String apiKey;
 }
