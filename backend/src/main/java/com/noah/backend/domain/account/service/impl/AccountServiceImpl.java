@@ -48,19 +48,23 @@ public class AccountServiceImpl implements AccountService {
 
     @Transactional
     @Override
-    public Long createAccount(Long memberId, AccountPostDto accountPostDto) {
+    public Long createAccount(AccountPostDto accountPostDto) {
 
 //        Member member = memberRepository.searchById(memberId)
+        Long owner = accountPostDto.getOwnerId();
+        String bank = accountPostDto.getBank();
+        String accountNumber = accountPostDto.getAccountNumber();
+
 
         Account account = Account.builder()
-                .name(accountPostDto.getName())
-                .targetAmount(accountPostDto.getTargetAmount())
-                .perAmount(accountPostDto.getPerAmount())
-                .paymentDate(accountPostDto.getPaymentDate())
+                .ownerId(owner)
+                .bank(bank)
+                .accountNumber(accountNumber)
                 .build();
 
         Account savedAccount = accountRepository.save(account);
-        return account.getId();
+
+        return savedAccount.getId();
     }
 
     @Override

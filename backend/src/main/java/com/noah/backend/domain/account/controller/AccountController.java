@@ -1,5 +1,6 @@
 package com.noah.backend.domain.account.controller;
 
+import com.noah.backend.domain.account.dto.requestDto.AccountPostDto;
 import com.noah.backend.domain.account.dto.requestDto.AccountUpdateDto;
 import com.noah.backend.domain.account.dto.requestDto.RequestHeaderDto;
 import com.noah.backend.domain.account.dto.responseDto.AccountInfoDto;
@@ -49,6 +50,13 @@ public class AccountController {
     private final ApiResponse response;
     private final AccountService accountService;
 //    private MemberService memberService;
+
+    @Operation(summary = "계좌 생성", description = "계좌 생성 확인용 실제로는 사용X")
+    @PostMapping
+    public ResponseEntity<?> createAccount(@RequestBody AccountPostDto accountPostDto){
+Long result = accountService.createAccount(accountPostDto);
+return response.success(ResponseCode.ACCOUNT_CREATED, result);
+    }
 
 //    @Operation(summary = "내가 속해있는 계좌 조회", description = "내가 속해있는 계좌 조회")
 //    @GetMapping

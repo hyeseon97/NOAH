@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface AccountService {
 
-    Long createAccount(Long memberId, AccountPostDto accountPostDto);
+    Long createAccount(AccountPostDto accountPostDto);
 
     List<Account> getMyAccountList(Long memberId);
 
