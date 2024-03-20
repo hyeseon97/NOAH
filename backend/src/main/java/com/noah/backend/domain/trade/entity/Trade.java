@@ -29,15 +29,25 @@ public class Trade extends BaseEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "money")
-    private int money;
+    @Column(name = "date")
+    private String date;
 
-    @Column(name = "balance")
-    private int balance;
+    @Column(name = "time")
+    private String time;
+
+    @Column(name = "cost")
+    private int cost;
+
+    @Column(name = "amount")
+    private int amount;
+
+    @Column(name = "consume_type")
+    private String consumeType;
 
     @Column(name = "is_contained")
     private boolean isContained;
 
+    @ManyToOne
     @Column(name = "member_id")
     private Long memberId;
 

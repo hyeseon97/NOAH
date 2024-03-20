@@ -26,10 +26,16 @@ public class QTrade extends EntityPathBase<Trade> {
 
     public final com.noah.backend.domain.account.entity.QAccount account;
 
-    public final NumberPath<Integer> balance = createNumber("balance", Integer.class);
+    public final NumberPath<Integer> amount = createNumber("amount", Integer.class);
+
+    public final StringPath consumeType = createString("consumeType");
+
+    public final NumberPath<Integer> cost = createNumber("cost", Integer.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
+
+    public final StringPath date = createString("date");
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
@@ -43,9 +49,9 @@ public class QTrade extends EntityPathBase<Trade> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
-    public final NumberPath<Integer> money = createNumber("money", Integer.class);
-
     public final StringPath name = createString("name");
+
+    public final StringPath time = createString("time");
 
     public final NumberPath<Integer> type = createNumber("type", Integer.class);
 
