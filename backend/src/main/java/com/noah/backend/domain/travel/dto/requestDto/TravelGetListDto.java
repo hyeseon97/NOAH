@@ -18,9 +18,12 @@ import java.util.List;
 public class TravelGetListDto {
     private Long id;
     private String title;
-    private List<MemberTravel> memberTrabelList;
+    private List<MemberTravel> memberTravelList;
     private List<Notification> notificationList;
     private Account account;
     private Plan plan;
     private List<Ticket> ticketList;
+
+    public TravelGetListDto(Long id, String title) {
+    }
 }

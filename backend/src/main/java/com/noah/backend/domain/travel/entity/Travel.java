@@ -8,6 +8,7 @@ import com.noah.backend.domain.plan.entity.Plan;
 import com.noah.backend.domain.ticket.entity.Ticket;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Where(clause = "is_deleted = false")

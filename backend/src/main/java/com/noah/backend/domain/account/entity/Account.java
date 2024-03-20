@@ -27,9 +27,13 @@ public class Account extends BaseEntity {
     @Column(name = "account_id")
     private Long id;
 
+    @Column(name = "owner")
+    private Long ownerId;
+
     @Column(name = "bank")
     private String bank;
 
+    @Setter
     @Column(name = "name")
     private String name;
 
@@ -42,12 +46,15 @@ public class Account extends BaseEntity {
     @Column(name = "withdraw")
     private int withdraw;
 
+    @Setter
     @Column(name = "target_amount")
     private int targetAmount;
 
+    @Setter
     @Column(name = "per_amount")
     private int perAmount;
 
+    @Setter
     @Column(name = "payment_date")
     private int paymentDate;
 

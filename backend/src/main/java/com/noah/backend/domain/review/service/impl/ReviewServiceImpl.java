@@ -2,12 +2,15 @@ package com.noah.backend.domain.review.service.impl;
 
 import com.noah.backend.domain.datailPlan.repository.DetailPlanRepository;
 import com.noah.backend.domain.plan.repository.PlanRepository;
+import com.noah.backend.domain.review.dto.requestDto.ReviewPostDto;
+import com.noah.backend.domain.review.dto.requestDto.ReviewUpdateDto;
 import com.noah.backend.domain.review.dto.responseDto.ReviewGetDto;
 import com.noah.backend.domain.review.dto.responseDto.ReviewListGetDto;
 import com.noah.backend.domain.review.entity.Review;
 import com.noah.backend.domain.review.repository.ReviewRepository;
 import com.noah.backend.domain.review.service.ReviewService;
 import com.noah.backend.domain.ticket.repository.TicketRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -37,17 +40,37 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Long createReview(Review review) {
-        return null;
+    @Transactional
+    public Long createReview(ReviewPostDto reviewDto) {
+        Review review = Review.builder()
+                .expense(reviewDto.getExpense())
+                .country(reviewDto.getCountry())
+                .people(reviewDto.getPeople())
+                .startDate(reviewDto.getStart_date())
+                .endDate(reviewDto.getEnd_date())
+                .build();
+        Review savedReview = reviewRepository.save(review);
+        System.out.println(savedReview.getCountry());
+        return review.getId();
     }
 
     @Override
-    public Long updateReview(Long reviewId, Review review) {
-        return null;
+    public Long updateReview(Long reviewId, ReviewUpdateDto review) {
+        Review currentReview = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
+        currentReview.setExpense(review.getExpense());
+        currentReview.setCountry(review.getCountry());
+        currentReview.setPeople(review.getPeople());
+        currentReview.setStartDate(review.getStart_date());
+        currentReview.setEndDate(review.getEnd_date());
+
+        reviewRepository.save(currentReview);
+
+        return currentReview.getId();
     }
 
     @Override
     public void deleteReview(Long reviewId) {
-
+        reviewRepository.deleteById(reviewId);
     }
 }

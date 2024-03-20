@@ -45,6 +45,8 @@ public class QAccount extends EntityPathBase<Account> {
 
     public final StringPath name = createString("name");
 
+    public final NumberPath<Long> ownerId = createNumber("ownerId", Long.class);
+
     public final NumberPath<Integer> paymentDate = createNumber("paymentDate", Integer.class);
 
     public final NumberPath<Integer> perAmount = createNumber("perAmount", Integer.class);
