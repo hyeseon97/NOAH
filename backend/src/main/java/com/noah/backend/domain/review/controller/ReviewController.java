@@ -22,7 +22,7 @@ import java.util.List;
 @Tag(name = "Review 컨트롤러", description = "Review Controller API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/Review")
+@RequestMapping("/api/v1/review")
 public class ReviewController {
 
     private final ReviewService reviewService;
@@ -36,7 +36,7 @@ public class ReviewController {
         return ResponseEntity.ok(reviewList);
     }
 
-    @Operation(summary = "리뷰 목록 조회", description = "리뷰 목록 조회")
+    @Operation(summary = "리뷰 선택 조회", description = "리뷰 선택 조회")
     @GetMapping("/{reviewId}")
     public ResponseEntity<ReviewGetDto> getReviewSelect(@PathVariable Long reviewId) {
         ReviewGetDto review = reviewService.getReviewSelect(reviewId);
@@ -44,6 +44,7 @@ public class ReviewController {
     }
 
     // 리뷰 생성
+    @Operation(summary = "리뷰 생성", description = "리뷰 생성")
     @PostMapping
     public ResponseEntity<Long> createReview(@RequestBody ReviewPostDto reviewCreateDto) {
         log.info("Received reviewPostDto: {}", reviewCreateDto.getCountry());
@@ -52,6 +53,7 @@ public class ReviewController {
     }
 
     // 리뷰 수정
+    @Operation(summary = "리뷰 수정", description = "리뷰 수정")
     @PutMapping("/{reviewId}")
     public ResponseEntity<Long> updateReview(@PathVariable Long reviewId, @RequestBody ReviewUpdateDto reviewUpdateDto) {
         Long updatedReviewId = reviewService.updateReview(reviewId, reviewUpdateDto);
@@ -59,6 +61,7 @@ public class ReviewController {
     }
 
     // 리뷰 삭제
+    @Operation(summary = "리뷰 삭제", description = "리뷰 삭제")
     @DeleteMapping("/{reviewId}")
     public ResponseEntity<Void> deleteReview(@PathVariable Long reviewId) {
         reviewService.deleteReview(reviewId);

@@ -1,6 +1,8 @@
 package com.noah.backend.domain.plan.service.impl;
 
 import com.noah.backend.domain.datailPlan.repository.DetailPlanRepository;
+import com.noah.backend.domain.plan.dto.requestDto.PlanPostDto;
+import com.noah.backend.domain.plan.dto.requestDto.PlanUpdateDto;
 import com.noah.backend.domain.plan.dto.responseDto.PlanGetDto;
 import com.noah.backend.domain.plan.dto.responseDto.PlanListGetFromTravelDto;
 import com.noah.backend.domain.plan.entity.Plan;
@@ -26,26 +28,50 @@ public class PlanServiceImpl implements PlanService {
 
     @Override
     public List<PlanListGetFromTravelDto> getPlanList(Long travelId) {
-        return null;
+        return planRepository.getPlanList(travelId).orElseThrow(() -> new RuntimeException("계획을 찾을 수 없습니다"));
     }
 
     @Override
-    public PlanGetDto getPlanSelect(Long PlanId) {
-        return null;
+    public PlanGetDto getPlanSelect(Long planId) {
+        return planRepository.getPlanSelect(planId).orElseThrow(() -> new RuntimeException("계획을 찾을 수 없습니다."));
     }
 
     @Override
-    public Long createPlan(Long travelId, Plan plan) {
-        return null;
+    public Long createPlan(Long travelId, PlanPostDto planDto) {
+        Plan plan = Plan.builder()
+                .startDate(planDto.getStart_date())
+                .endDate(planDto.getEnd_date())
+                .travelStart(planDto.isTravel_start())
+                .country(planDto.getCountry())
+                .build();
+        Plan savePlan = planRepository.save(plan);
+        return plan.getId();
     }
 
     @Override
-    public Long updatePlan(Long PlanId, Plan plan) {
-        return null;
+    public Long updatePlan(Long planId, PlanUpdateDto planDto) {
+        Plan currentPlan = planRepository.findById(planId).orElseThrow(() -> new RuntimeException("계획을 찾을 수 없습니다."));
+        currentPlan.setStartDate(planDto.getStart_date());
+        currentPlan.setEndDate(planDto.getEnd_date());
+        currentPlan.setCountry(planDto.getCountry());
+
+        planRepository.save(currentPlan);
+
+        return currentPlan.getId();
+    }
+
+    public boolean changeStart(Long planId, PlanUpdateDto planDto){
+        Plan currentPlan = planRepository.findById(planId).orElseThrow(() -> new RuntimeException("계획을 찾을 수 없습니다."));
+        boolean changePlanStart = !currentPlan.isTravelStart();
+        currentPlan.setTravelStart(changePlanStart);
+
+        planRepository.save(currentPlan);
+
+        return currentPlan.isTravelStart();
     }
 
     @Override
-    public void deletePlan(Long PlanId) {
-
+    public void deletePlan(Long planId) {
+        planRepository.deleteById(planId);
     }
 }

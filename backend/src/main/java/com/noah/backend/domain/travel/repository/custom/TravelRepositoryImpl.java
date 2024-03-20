@@ -27,11 +27,12 @@ public class TravelRepositoryImpl implements TravelRepositoryCustom{
                 .select(constructor(TravelGetListDto.class,
                         travel.id,
                         travel.title,
+                        travel.isEnded,
                         travel.memberTravelList,
                         travel.notificationList,
+                        travel.ticketList,
                         travel.account,
-                        travel.plan,
-                        travel.ticketList
+                        travel.plan
                         ))
                 .leftJoin(notification)
                 .on(travel.id.eq(notification.travel.id))
@@ -47,6 +48,8 @@ public class TravelRepositoryImpl implements TravelRepositoryCustom{
                 .select(Projections.constructor(TravelGetDto.class,
                         travel.id,
                         travel.title,
+                        travel.isEnded,
+
                         travel.memberTravelList,
                         travel.notificationList,
                         travel.account,

@@ -18,6 +18,7 @@ import java.util.List;
 public class TravelUpdateDto {
     private Long id;
     private String title;
+    private boolean isEnded;
     private List<MemberTravel> memberTrabelList;
     private List<Notification> notificationList;
     private Account account;

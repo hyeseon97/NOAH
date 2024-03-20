@@ -32,6 +32,9 @@ public class Travel extends BaseEntity {
 	@Column(name = "title", nullable = false)
 	private String title;
 
+	@Column(name = "is_ended", nullable = false)
+	private boolean isEnded;
+
 	@OneToMany(mappedBy = "travel", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
 	private List<MemberTravel> memberTravelList = new ArrayList<>();
 

@@ -23,10 +23,8 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom{
         List<CommentListGetDto> commentDtos = query
                 .select(constructor(CommentListGetDto.class,
                         comment.id,
-                        comment.content,
-                        comment.review,
-                        comment.member
-                        ))
+                        comment.content
+                ))
                 .from(comment)
                 .where(comment.review.id.eq(reviewId))
                 .fetch();
