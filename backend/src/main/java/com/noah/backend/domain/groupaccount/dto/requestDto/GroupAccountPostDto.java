@@ -1,4 +1,4 @@
-package com.noah.backend.domain.account.dto.requestDto;
+package com.noah.backend.domain.groupaccount.dto.requestDto;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AccountPostDto {
+public class GroupAccountPostDto {
 
     private Long travelId;          // 여행 정보
     private Long ownerId;           // 소유주 정보

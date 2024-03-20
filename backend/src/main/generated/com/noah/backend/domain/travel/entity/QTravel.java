@@ -24,10 +24,10 @@ public class QTravel extends EntityPathBase<Travel> {
 
     public final com.noah.backend.domain.base.QBaseEntity _super = new com.noah.backend.domain.base.QBaseEntity(this);
 
-    public final com.noah.backend.domain.account.entity.QAccount account;
-
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
+
+    public final com.noah.backend.domain.groupaccount.entity.QGroupAccount groupAccount;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
@@ -65,7 +65,7 @@ public class QTravel extends EntityPathBase<Travel> {
 
     public QTravel(Class<? extends Travel> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.account = inits.isInitialized("account") ? new com.noah.backend.domain.account.entity.QAccount(forProperty("account"), inits.get("account")) : null;
+        this.groupAccount = inits.isInitialized("groupAccount") ? new com.noah.backend.domain.groupaccount.entity.QGroupAccount(forProperty("groupAccount"), inits.get("groupAccount")) : null;
         this.plan = inits.isInitialized("plan") ? new com.noah.backend.domain.plan.entity.QPlan(forProperty("plan"), inits.get("plan")) : null;
     }
 

@@ -1,6 +1,6 @@
 package com.noah.backend.domain.bank.service.impl;
 
-import com.noah.backend.domain.account.dto.requestDto.RequestHeaderDto;
+import com.noah.backend.domain.groupaccount.dto.requestDto.RequestHeaderDto;
 import com.noah.backend.domain.bank.dto.responseDto.Product;
 import com.noah.backend.domain.bank.service.BankService;
 

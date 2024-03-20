@@ -3,7 +3,7 @@ package com.noah.backend;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.noah.backend.domain.account.dto.requestDto.RequestHeaderDto;
+import com.noah.backend.domain.groupaccount.dto.requestDto.RequestHeaderDto;
 import com.noah.backend.domain.admin.dto.requestDto.AdminKeyRequestDto;
 import com.noah.backend.domain.member.dto.requestDto.SignUpDto;
 import com.noah.backend.domain.member.dto.requestDto.UserKeyRequestDto;

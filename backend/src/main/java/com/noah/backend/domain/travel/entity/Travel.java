@@ -1,6 +1,6 @@
 package com.noah.backend.domain.travel.entity;
 
-import com.noah.backend.domain.account.entity.Account;
+import com.noah.backend.domain.groupaccount.entity.GroupAccount;
 import com.noah.backend.domain.base.BaseEntity;
 import com.noah.backend.domain.memberTravel.entity.MemberTravel;
 import com.noah.backend.domain.notification.entity.Notification;
@@ -39,7 +39,7 @@ public class Travel extends BaseEntity {
 	private List<Notification> notificationList = new ArrayList<>();
 
 	@OneToOne(mappedBy = "travel", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
-	private Account account;
+	private GroupAccount groupAccount;
 
 	@OneToOne(mappedBy = "travel", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
 	private Plan plan;

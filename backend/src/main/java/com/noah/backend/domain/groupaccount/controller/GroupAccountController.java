@@ -1,9 +1,8 @@
-package com.noah.backend.domain.account.controller;
+package com.noah.backend.domain.groupaccount.controller;
 
-import com.noah.backend.domain.account.dto.requestDto.*;
-import com.noah.backend.domain.account.dto.responseDto.AccountInfoDto;
-import com.noah.backend.domain.account.entity.Account;
-import com.noah.backend.domain.account.service.AccountService;
+import com.noah.backend.domain.groupaccount.dto.requestDto.*;
+import com.noah.backend.domain.groupaccount.dto.responseDto.GroupAccountInfoDto;
+import com.noah.backend.domain.groupaccount.service.GroupAccountService;
 import com.noah.backend.global.format.code.ApiResponse;
 import com.noah.backend.global.format.response.ResponseCode;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,7 +12,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/account")
-public class AccountController {
+public class GroupAccountController {
 
 	//상품 조회
 //	@GetMapping("/productlist")
@@ -46,13 +44,13 @@ public class AccountController {
 //	}
 
     private final ApiResponse response;
-    private final AccountService accountService;
+    private final GroupAccountService groupAccountService;
 //    private MemberService memberService;
 
     @Operation(summary = "계좌 생성", description = "계좌 생성 확인용 실제로는 사용X")
     @PostMapping
-    public ResponseEntity<?> createAccount(@RequestBody AccountPostDto accountPostDto){
-Long result = accountService.createAccount(accountPostDto);
+    public ResponseEntity<?> createAccount(@RequestBody GroupAccountPostDto groupAccountPostDto){
+Long result = groupAccountService.createAccount(groupAccountPostDto);
 return response.success(ResponseCode.ACCOUNT_CREATED, result);
     }
 
@@ -69,27 +67,27 @@ return response.success(ResponseCode.ACCOUNT_CREATED, result);
     @GetMapping("/{id}")
 //    public ResponseEntity<?> getAccountInfo(@Parameter(hidden = true) Authentication authentication, @PathVariable(name = "id") Long accountId) {
     public ResponseEntity<?> getAccountInfo(@PathVariable(name = "id") Long accountId) {
-        AccountInfoDto account = accountService.getAccountInfo(accountId);
+        GroupAccountInfoDto account = groupAccountService.getAccountInfo(accountId);
         return response.success(ResponseCode.ACCOUNT_INFO_FETCHED, account);
     }
 
     @Operation(summary = "계좌 금액 최신화", description = "은행 api와 통신하여 계좌 정보 최신화 실제로 사용X")
     @PutMapping("/bank/{id}")
     public ResponseEntity<?> updateAmount(@Parameter(hidden = true) Authentication authentication, @RequestBody AmountUpdateDto amountUpdateDto) {
-        Long accountId = accountService.updateAmount(amountUpdateDto);
+        Long accountId = groupAccountService.updateAmount(amountUpdateDto);
         return response.success(ResponseCode.ACCOUNT_INFO_UPDATED, accountId);
     }
     @Operation(summary = "계좌 목표 수정", description = "납입금, 납입일, 목표금액 수정")
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateAccountInfo(@Parameter(hidden = true) Authentication authentication, @RequestBody AccountUpdateDto accountUpdateDto) {
-        Long accountId = accountService.updateAccount(accountUpdateDto);
+    public ResponseEntity<?> updateAccountInfo(@Parameter(hidden = true) Authentication authentication, @RequestBody GroupAccountUpdateDto groupAccountUpdateDto) {
+        Long accountId = groupAccountService.updateAccount(groupAccountUpdateDto);
         return response.success(ResponseCode.ACCOUNT_INFO_UPDATED, accountId);
     }
 
     @Operation(summary = "계좌 삭제", description = "계좌 삭제")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAccount(@Parameter(hidden = true) Authentication authentication, @PathVariable(name = "id") Long accountId) {
-        accountService.deleteAccount(accountId);
+        groupAccountService.deleteAccount(accountId);
         return response.success(ResponseCode.ACCOUNT_DELETED);
     }
 

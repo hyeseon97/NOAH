@@ -24,8 +24,6 @@ public class QTrade extends EntityPathBase<Trade> {
 
     public final com.noah.backend.domain.base.QBaseEntity _super = new com.noah.backend.domain.base.QBaseEntity(this);
 
-    public final com.noah.backend.domain.account.entity.QAccount account;
-
     public final NumberPath<Integer> amount = createNumber("amount", Integer.class);
 
     public final StringPath consumeType = createString("consumeType");
@@ -36,6 +34,8 @@ public class QTrade extends EntityPathBase<Trade> {
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
     public final StringPath date = createString("date");
+
+    public final com.noah.backend.domain.groupaccount.entity.QGroupAccount groupAccount;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
@@ -73,7 +73,7 @@ public class QTrade extends EntityPathBase<Trade> {
 
     public QTrade(Class<? extends Trade> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.account = inits.isInitialized("account") ? new com.noah.backend.domain.account.entity.QAccount(forProperty("account"), inits.get("account")) : null;
+        this.groupAccount = inits.isInitialized("groupAccount") ? new com.noah.backend.domain.groupaccount.entity.QGroupAccount(forProperty("groupAccount"), inits.get("groupAccount")) : null;
     }
 
 }

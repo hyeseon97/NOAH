@@ -1,7 +1,7 @@
 package com.noah.backend.domain.bank.controller;
 
 
-import com.noah.backend.domain.account.dto.requestDto.RequestHeaderDto;
+import com.noah.backend.domain.groupaccount.dto.requestDto.RequestHeaderDto;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

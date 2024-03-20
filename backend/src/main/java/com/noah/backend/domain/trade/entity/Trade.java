@@ -1,6 +1,6 @@
 package com.noah.backend.domain.trade.entity;
 
-import com.noah.backend.domain.account.entity.Account;
+import com.noah.backend.domain.groupaccount.entity.GroupAccount;
 import com.noah.backend.domain.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -53,6 +53,6 @@ public class Trade extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "account_id")
-    private Account account;
+    private GroupAccount groupAccount;
 
 }

@@ -1,4 +1,4 @@
-package com.noah.backend.domain.account.dto.responseDto;
+package com.noah.backend.domain.groupaccount.dto.responseDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AccountInfoDto {
+public class GroupAccountInfoDto {
     private Long id;            // 아이디
     private String name;        // 통장 이름
     private String ownerName;   // 소유주

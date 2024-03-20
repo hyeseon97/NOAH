@@ -1,6 +1,5 @@
 package com.noah.backend.global.format.response;
 
-import com.noah.backend.domain.account.entity.Account;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
