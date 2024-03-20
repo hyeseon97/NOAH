@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:mysql://43.203.217.53:3306/noah?allowPublicKeyRetrieval=true&useSSL=true&serverTimezone=Asia/Seoul
+    username: dev
+    password: crunch
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true

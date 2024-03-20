@@ -1,0 +1,46 @@
+{
+  "warnings": [],
+  "data": [
+    {
+      "type": "itinerary-price-metric",
+      "origin": {
+        "iataCode": "ICN"
+      },
+      "destination": {
+        "iataCode": "FUK"
+      },
+      "departureDate": "2024-09-14",
+      "transportType": "FLIGHT",
+      "currencyCode": "KRW",
+      "oneWay": false,
+      "priceMetrics": [
+        {
+          "amount": "45971.60",
+          "quartileRanking": "MINIMUM"
+        },
+        {
+          "amount": "222565.40",
+          "quartileRanking": "FIRST"
+        },
+        {
+          "amount": "280081.53",
+          "quartileRanking": "MEDIUM"
+        },
+        {
+          "amount": "292482.10",
+          "quartileRanking": "THIRD"
+        },
+        {
+          "amount": "349364.94",
+          "quartileRanking": "MAXIMUM"
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "count": 1,
+    "links": {
+      "self": "https://test.api.amadeus.com/v1/analytics/flight-price-metrics?originIataCode=ICN&destinationIataCode=FUK&departureDate=2024-09-14&currencyCode=KRW&oneWay=False"
+    }
+  }
+}

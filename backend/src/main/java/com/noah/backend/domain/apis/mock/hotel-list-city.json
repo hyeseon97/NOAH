@@ -1,0 +1,105 @@
+{
+  "data": [
+    {
+      "chainCode": "HY",
+      "iataCode": "FUK",
+      "dupeId": 700059533,
+      "name": "HYATT REGENCY FUKUOKA",
+      "hotelId": "HYFUKINF",
+      "geoCode": {
+        "latitude": 33.58914,
+        "longitude": 130.42693
+      },
+      "address": {
+        "countryCode": "JP"
+      },
+      "distance": {
+        "value": 2.22,
+        "unit": "KM"
+      },
+      "lastUpdate": "2023-06-15T09:48:43"
+    },
+    {
+      "chainCode": "CI",
+      "iataCode": "FUK",
+      "dupeId": 700058118,
+      "name": "COMFORT HOTEL HAKATA",
+      "hotelId": "CIFUK038",
+      "geoCode": {
+        "latitude": 33.59093,
+        "longitude": 130.41818
+      },
+      "address": {
+        "countryCode": "JP"
+      },
+      "distance": {
+        "value": 3.05,
+        "unit": "KM"
+      },
+      "lastUpdate": "2023-06-15T09:48:42"
+    },
+    {
+      "chainCode": "CP",
+      "iataCode": "FUK",
+      "dupeId": 700056662,
+      "name": "CROWNE PLAZA ANA FUKUOKA",
+      "hotelId": "CPFUKANA",
+      "geoCode": {
+        "latitude": 33.58731,
+        "longitude": 130.41754
+      },
+      "address": {
+        "countryCode": "JP"
+      },
+      "distance": {
+        "value": 3.06,
+        "unit": "KM"
+      },
+      "lastUpdate": "2023-06-15T10:07:18"
+    },
+    {
+      "chainCode": "HY",
+      "iataCode": "FUK",
+      "dupeId": 700059107,
+      "name": "GRAND HYATT FUKUOKA",
+      "hotelId": "HYFUKIGF",
+      "geoCode": {
+        "latitude": 33.58987,
+        "longitude": 130.4104
+      },
+      "address": {
+        "countryCode": "JP"
+      },
+      "distance": {
+        "value": 3.75,
+        "unit": "KM"
+      },
+      "lastUpdate": "2023-06-15T09:48:27"
+    },
+    {
+      "chainCode": "FG",
+      "iataCode": "FUK",
+      "dupeId": 700145663,
+      "name": "HOTEL MONTEREY LA SOEUR FUKUOKA",
+      "hotelId": "FGFUK001",
+      "geoCode": {
+        "latitude": 33.59099,
+        "longitude": 130.3954
+      },
+      "address": {
+        "countryCode": "JP"
+      },
+      "distance": {
+        "value": 5.15,
+        "unit": "KM"
+      },
+      "lastUpdate": "2023-06-15T09:50:17"
+    }
+  ],
+  "meta": {
+    "count": 5,
+    "links": {
+      "self": "https://test.api.amadeus.com/v1/reference-data/locations/hotels/by-city?cityCode=FUK&hotelSource=ALL&radius=5&radiusUnit=KM"
+    }
+  }
+}

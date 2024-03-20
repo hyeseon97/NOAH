@@ -1,0 +1,25 @@
+{
+  "data": [
+    {
+      "chainCode": "HY",
+      "iataCode": "FUK",
+      "dupeId": 700059533,
+      "name": "HYATT REGENCY FUKUOKA",
+      "hotelId": "HYFUKINF",
+      "geoCode": {
+        "latitude": 33.58914,
+        "longitude": 130.42693
+      },
+      "address": {
+        "countryCode": "JP"
+      },
+      "lastUpdate": "2023-06-15T09:48:43"
+    }
+  ],
+  "meta": {
+    "count": 1,
+    "links": {
+      "self": "https://test.api.amadeus.com/v1/reference-data/locations/hotels/by-hotels?hotelIds=HYFUKINF"
+    }
+  }
+}
