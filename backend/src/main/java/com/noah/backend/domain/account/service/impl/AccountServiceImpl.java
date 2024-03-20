@@ -1,12 +1,16 @@
 package com.noah.backend.domain.account.service.impl;
 
 import com.noah.backend.domain.account.dto.requestDto.AccountPostDto;
+import com.noah.backend.domain.account.dto.requestDto.AccountRegistDto;
 import com.noah.backend.domain.account.dto.requestDto.AccountUpdateDto;
 import com.noah.backend.domain.account.dto.requestDto.AmountUpdateDto;
 import com.noah.backend.domain.account.dto.responseDto.AccountInfoDto;
 import com.noah.backend.domain.account.entity.Account;
 import com.noah.backend.domain.account.repository.AccountRepository;
 import com.noah.backend.domain.account.service.AccountService;
+import com.noah.backend.domain.travel.entity.Travel;
+import com.noah.backend.domain.travel.repository.TravelRepository;
+import com.noah.backend.global.exception.travel.TravelNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -21,6 +25,7 @@ import java.util.List;
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
+    private final TravelRepository travelRepository;
 //    private final MemberRepository memberRepository;
 
     @Override
@@ -75,6 +80,16 @@ public class AccountServiceImpl implements AccountService {
         account.setAmount(amount);
         accountRepository.save(account);
         return account.getId();
+    }
+
+    @Override
+    public Long registAccount(AccountRegistDto accountRegistDto) {
+        Long accountId = accountRegistDto.getAccountId();
+        Long travelId = accountRegistDto.getTravelId();
+        Account account = accountRepository.findById(accountId).orElseThrow(AccountNotFoundException::new);
+        Travel travel = travelRepository.findById(travelId).orElseThrow(TravelNotFoundException::new);
+
+        return null;
     }
 
 
