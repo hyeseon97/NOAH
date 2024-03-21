@@ -40,7 +40,7 @@ public class DetailPlanRepositoryImpl implements DetailPlanRepositoryCustom {
     public Optional<DetailPlanGetDto> getDetailPlanSelect(Long DetailPlanId) {
         DetailPlanGetDto DetailPlanDto = query
                 .select(Projections.constructor(DetailPlanGetDto.class,
-                        detailPlan.id,
+//                        detailPlan.id,
                         detailPlan.day,
                         detailPlan.sequence,
                         detailPlan.place,

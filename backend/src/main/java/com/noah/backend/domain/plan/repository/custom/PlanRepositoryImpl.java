@@ -25,15 +25,13 @@ public class PlanRepositoryImpl implements PlanRepositoryCustom {
     public Optional<List<PlanListGetFromTravelDto>> getPlanList(Long travelId) {
         List<PlanListGetFromTravelDto> planDtos = query
                 .select(constructor(PlanListGetFromTravelDto.class,
-                        plan.id,
                         plan.startDate,
                         plan.endDate,
                         plan.travelStart,
                         plan.country,
-                        plan.travel,
-                        plan.detailPlanList
+                        plan.travel.id
                 )).from(plan)
-                .leftJoin(travel)
+//                .leftJoin(travel)
                 .where(plan.travel.id.eq(travelId)).fetch();
         return Optional.ofNullable(planDtos.isEmpty() ? null : planDtos);
     }
@@ -47,7 +45,7 @@ public class PlanRepositoryImpl implements PlanRepositoryCustom {
                         plan.endDate,
                         plan.travelStart,
                         plan.country,
-                        plan.travel
+                        plan.travel.id
                         ))
                 .from(plan)
                 .where(plan.id.eq(PlanId))
@@ -56,14 +54,14 @@ public class PlanRepositoryImpl implements PlanRepositoryCustom {
         if(planDto != null){
             List<DetailPlanListGetFromPlanDto> detailDtos = query
                     .select(Projections.constructor(DetailPlanListGetFromPlanDto.class,
-                            detailPlan.id,
                             detailPlan.day,
                             detailPlan.sequence,
                             detailPlan.place,
                             detailPlan.pinX,
                             detailPlan.pinY,
                             detailPlan.memo,
-                            detailPlan.time
+                            detailPlan.time,
+                            detailPlan.plan.id
                             ))
                     .from(detailPlan)
                     .where(detailPlan.plan.id.eq(PlanId))

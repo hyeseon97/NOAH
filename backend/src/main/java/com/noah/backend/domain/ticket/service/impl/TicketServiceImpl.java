@@ -3,6 +3,8 @@ package com.noah.backend.domain.ticket.service.impl;
 import com.noah.backend.domain.datailPlan.repository.DetailPlanRepository;
 import com.noah.backend.domain.plan.repository.PlanRepository;
 import com.noah.backend.domain.review.repository.ReviewRepository;
+import com.noah.backend.domain.ticket.dto.requestDto.TicketPostDto;
+import com.noah.backend.domain.ticket.dto.requestDto.TicketUpdateDto;
 import com.noah.backend.domain.ticket.dto.responseDto.TicketGetDto;
 import com.noah.backend.domain.ticket.dto.responseDto.TicketListGetFromTravelDto;
 import com.noah.backend.domain.ticket.entity.Ticket;
@@ -29,27 +31,43 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public List<TicketListGetFromTravelDto> getTicketList(Long travelId) {
-
-        return null;
+        return ticketRepository.getTicketList(travelId).orElseThrow(() -> new RuntimeException("여행 ID에 등록된 티켓이 없습니다."));
     }
 
     @Override
     public TicketGetDto getTicketSelect(Long ticketId) {
-        return null;
+        return ticketRepository.getTicketSelect(ticketId).orElseThrow(() -> new RuntimeException("해당 티켓 ID에 대한 정보가 없습니다."));
     }
 
     @Override
-    public Long createTicket(Long travelId, Ticket ticket) {
-        return null;
+    public Long createTicket(Long travelId, TicketPostDto ticketDto) {
+        Travel foundTravel = travelRepository.findById(ticketDto.getTravel_id()).orElseThrow(() -> new RuntimeException("travelID가 입력되지않았어요"));
+
+        Ticket ticket = Ticket.builder()
+                .departure(ticketDto.getDeparture())
+                .arrival(ticketDto.getArrival())
+                .dAirport(ticketDto.getD_airport())
+                .aAirport(ticketDto.getA_airport())
+                .dGate(ticketDto.getD_gate())
+                .travel(foundTravel)
+                .build();
+        return ticketRepository.save(ticket).getId();
     }
 
     @Override
-    public Long updateTicket(Long ticketId, Ticket ticket) {
-        return null;
+    public Long updateTicket(Long ticketId, TicketUpdateDto ticketDto) {
+        Ticket currentTicket = ticketRepository.findById(ticketId).orElseThrow(() -> new RuntimeException("업데이트할 티켓 정보가 없어요"));
+        currentTicket.setDeparture(ticketDto.getDeparture());
+        currentTicket.setArrival(ticketDto.getArrival());
+        currentTicket.setDAirport(ticketDto.getD_airport());
+        currentTicket.setAAirport(ticketDto.getA_airport());
+        currentTicket.setDGate(ticketDto.getD_gate());
+
+        return ticketRepository.save(currentTicket).getId();
     }
 
     @Override
     public void deleteTicket(Long ticketId) {
-
+        ticketRepository.deleteById(ticketId);
     }
 }

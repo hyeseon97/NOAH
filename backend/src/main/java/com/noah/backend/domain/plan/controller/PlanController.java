@@ -30,8 +30,11 @@ public class PlanController {
 
     @Operation(summary = "계획 상세 조회", description = "계획 정보 상세 조회 / planId 필요")
     @GetMapping("/{planId}")
-    public ResponseEntity<PlanGetDto> getPlanSelect(@PathVariable Long planId){
+    public ResponseEntity<?> getPlanSelect(@PathVariable Long planId){
         PlanGetDto selectPlan = planService.getPlanSelect(planId);
+        if (selectPlan == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(selectPlan);
     }
 

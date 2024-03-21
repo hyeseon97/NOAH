@@ -38,7 +38,7 @@ public class DetailPlanServiceImpl implements DetailPlanService {
     }
 
     @Override
-    public Long createDetailPlan(Long travelId, DetailPlanPostDto detailPlan) {
+    public Long createDetailPlan(Long PlanId, DetailPlanPostDto detailPlan) {
         DetailPlan NewDetailPlan = DetailPlan.builder()
                 .day(detailPlan.getDay())
                 .sequence(detailPlan.getSequence())

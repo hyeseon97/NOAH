@@ -4,11 +4,9 @@ import com.noah.backend.domain.account.entity.Account;
 import com.noah.backend.domain.memberTravel.entity.MemberTravel;
 import com.noah.backend.domain.notification.entity.Notification;
 import com.noah.backend.domain.plan.entity.Plan;
+import com.noah.backend.domain.ticket.dto.responseDto.TicketListGetFromTravelDto;
 import com.noah.backend.domain.ticket.entity.Ticket;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -17,11 +15,18 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TravelGetDto {
     private Long id;
+    @Setter
     private String title;
+    @Setter
     private boolean isEnded;
+    @Setter
     private Account account;
+    @Setter
     private Plan plan;
+//    @Setter
 //    private List<memberTravelDto> memberTrabelList;
+//    @Setter
 //    private List<NotificationGetDto> notificationList;
-    private List<Ticket> ticketList;
+    @Setter
+    private List<TicketListGetFromTravelDto> ticketList;
 }

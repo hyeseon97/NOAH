@@ -24,4 +24,14 @@ public class PlanGetDto {
     private Long travel_id;
     @Setter
     private List<DetailPlanListGetFromPlanDto> detailPlanList;
+
+    public PlanGetDto(Long plan_id, Date start_date, Date end_date, boolean travel_start, String country, Long travel_id) {
+        this.plan_id = plan_id;
+        this.start_date = start_date;
+        this.end_date = end_date;
+        this.travel_start = travel_start;
+        this.country = country;
+        this.travel_id = travel_id;
+        // detailPlanList는 setter를 통해 설정
+    }
 }
