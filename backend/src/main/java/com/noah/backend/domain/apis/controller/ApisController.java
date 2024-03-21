@@ -9,13 +9,14 @@ import static com.noah.backend.global.format.response.ResponseCode.FLIGHT_OFFERS
 import static com.noah.backend.global.format.response.ResponseCode.FLIGHT_PRICE_ANALYSIS_SUCCESS;
 
 import com.noah.backend.domain.apis.dto.AirlineCodeDto;
-import com.noah.backend.domain.apis.dto.AirlineDto;
 import com.noah.backend.domain.apis.dto.AirlineRouteDto;
 import com.noah.backend.domain.apis.dto.AirportNearestDto;
 import com.noah.backend.domain.apis.dto.AirportRouteDto;
+import com.noah.backend.domain.apis.dto.CurrencyDto;
 import com.noah.backend.domain.apis.dto.FlightOffersDto;
 import com.noah.backend.domain.apis.dto.FlightPriceDto;
 import com.noah.backend.domain.apis.service.FlightService;
+import com.noah.backend.domain.apis.service.ForeignCurrencyService;
 import com.noah.backend.global.exception.flight.RequiredFilledException;
 import com.noah.backend.global.format.code.ApiResponse;
 import java.io.IOException;
@@ -41,6 +42,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApisController {
     private final ApiResponse apiResponse;
     private final FlightService flightService;
+    private final ForeignCurrencyService foreignCurrencyService;
     private String accesstoken = "GlwKzrVNzci18GaWU8SClQ71bc8K";
 
 //    @Scheduled(fixedDelay = 1500000)
@@ -216,6 +218,11 @@ public class ApisController {
             return apiResponse.fail(REQUIRED_FIELD_FAILED);
         }
         return apiResponse.success(AIRLINE_ROUTES_SUCCESS, jsonObject.toString());
+    }
+
+    @GetMapping("currency/exchage-rate")
+    public CurrencyDto getExchangeRate() {
+        return foreignCurrencyService.getExchangeRate();
     }
 
 // 22.311492, 114.172291
