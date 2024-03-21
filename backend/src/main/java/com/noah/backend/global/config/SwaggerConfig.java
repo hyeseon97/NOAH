@@ -36,6 +36,13 @@ public class SwaggerConfig {
                 .build();
     }
     @Bean
+    public GroupedOpenApi groupAccountGroup() {
+        return GroupedOpenApi.builder()
+                .group("모임통장")
+                .pathsToMatch("/api/v1/groupaccount/**")
+                .build();
+    }
+    @Bean
     public GroupedOpenApi travelGroup() {
         return GroupedOpenApi.builder()
                 .group("여행")

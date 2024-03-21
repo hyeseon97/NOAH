@@ -1,4 +1,7 @@
 package com.noah.backend.domain.groupaccount.service;
 
-public class GroupAccountService {
+import com.noah.backend.domain.groupaccount.dto.requestDto.GroupAccountPostDto;
+
+public interface GroupAccountService {
+    Long createGroupAccount(GroupAccountPostDto groupAccountPostDto);
 }

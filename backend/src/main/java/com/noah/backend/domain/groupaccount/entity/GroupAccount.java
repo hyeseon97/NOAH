@@ -29,6 +29,9 @@ public class GroupAccount extends BaseEntity {
     @Column(name = "target_amount")
     private int targetAmount;
 
+    @Column(name = "target_date")
+    private int targetDate;
+
     @Column(name = "per_amount")
     private int perAmount;
 
