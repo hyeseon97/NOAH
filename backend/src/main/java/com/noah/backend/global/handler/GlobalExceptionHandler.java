@@ -1,6 +1,5 @@
 package com.noah.backend.global.handler;
 
-import com.noah.backend.global.exception.account.AccountNotFoundException;
 import com.noah.backend.global.exception.travel.TravelNotFoundException;
 import com.noah.backend.global.format.code.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -16,12 +15,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     private final ApiResponse response;
-
-    @ExceptionHandler(AccountNotFoundException.class)
-    protected ResponseEntity<?> handle(AccountNotFoundException e){
-        log.error("AccountNotFoundException = {}", e.getErrorCode().getMessage());
-        return response.error(e.getErrorCode());
-    }
 
     @ExceptionHandler(TravelNotFoundException.class)
     protected ResponseEntity<?> handle(TravelNotFoundException e){

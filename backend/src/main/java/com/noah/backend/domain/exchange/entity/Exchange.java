@@ -28,6 +28,6 @@ public class Exchange extends BaseEntity {
     private int exchangeAmount;
 
     @OneToOne(mappedBy = "exchange", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
-    @JoinColumn(name = "account_id")
+    @JoinColumn(name = "group_account_id")
     private GroupAccount groupAccount;
 }
