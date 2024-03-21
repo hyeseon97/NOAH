@@ -32,7 +32,9 @@ public class AccountController {
     @Operation(summary = "멤버별 계좌 조회", description = "멤버별 계좌 조회")
     @GetMapping("/my/{memberId}")
     public ResponseEntity<?> getMyAccountList(@PathVariable Long memberId){
-
+        if(accountService.getMyAccountList(memberId).size() == 0){
+            return response.success(ResponseCode.ACCOUNT_LIST_NOT_FOUND, null);
+        };
         return response.success(ResponseCode.ACCOUNT_LIST_FETCHED, accountService.getMyAccountList(memberId));
     }
 

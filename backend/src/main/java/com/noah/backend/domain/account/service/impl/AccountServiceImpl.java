@@ -33,7 +33,7 @@ public class AccountServiceImpl implements AccountService {
     public Long createAccount(AccountPostDto accountPostDto) {
         Travel travel = travelRepository.findById(accountPostDto.getTravelId()).orElseThrow(TravelNotFoundException::new);
         Member member = memberRepository.findById(accountPostDto.getMemberId()).orElseThrow(MemberNotFoundException::new);
-        Account account =Account.builder()
+        Account account = Account.builder()
 //                .accountNumber()
 //                .bankName()
                 .type("공동계좌")
@@ -47,9 +47,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<AccountInfoDto> getMyAccountList(Long memberId) {
         List<AccountInfoDto> accountInfoDtoList = accountRepository.getMyAccountByMemberId(memberId).orElseThrow(AccountNotFoundException::new);
-        if(accountInfoDtoList.size() == 0){
-            System.out.println("비워짐");
-        }
+
         return accountInfoDtoList;
     }
 }
