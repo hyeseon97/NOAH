@@ -18,9 +18,12 @@ import java.util.List;
 public class TravelPostDto {
     private Long id;
     private String title;
-    private List<MemberTravel> memberTrabelList;
-    private List<Notification> notificationList;
-    private GroupAccount groupAccount;
-    private Plan plan;
-    private List<Ticket> ticketList;
+//    private boolean isEnded;
+//    private List<MemberTravel> memberTrabelList;
+//    private List<Notification> notificationList;
+//    private Account account;
+//    private Plan plan;
+    private Long account_id;
+    private Long plan_id;
+//    private List<Ticket> ticketList;
 }

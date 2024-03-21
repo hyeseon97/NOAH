@@ -34,6 +34,8 @@ public class QTravel extends EntityPathBase<Travel> {
     //inherited
     public final BooleanPath isDeleted = _super.isDeleted;
 
+    public final BooleanPath isEnded = createBoolean("isEnded");
+
     public final ListPath<com.noah.backend.domain.memberTravel.entity.MemberTravel, com.noah.backend.domain.memberTravel.entity.QMemberTravel> memberTravelList = this.<com.noah.backend.domain.memberTravel.entity.MemberTravel, com.noah.backend.domain.memberTravel.entity.QMemberTravel>createList("memberTravelList", com.noah.backend.domain.memberTravel.entity.MemberTravel.class, com.noah.backend.domain.memberTravel.entity.QMemberTravel.class, PathInits.DIRECT2);
 
     //inherited

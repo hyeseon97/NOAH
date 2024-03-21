@@ -1,5 +1,6 @@
 package com.noah.backend.domain.ticket.dto.responseDto;
 
+import com.noah.backend.domain.travel.dto.requestDto.TravelGetDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,6 +18,6 @@ public class TicketListGetFromTravelDto {
     private String d_airport;
     private String a_airport;
     private int d_gate;
-
+    private TravelGetDto travel;
     private Long travel_id;
 }

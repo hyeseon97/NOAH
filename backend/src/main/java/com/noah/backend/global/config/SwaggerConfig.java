@@ -25,21 +25,36 @@ public class SwaggerConfig {
     public GroupedOpenApi bankGroup() {
         return GroupedOpenApi.builder()
                 .group("은행")
-                .pathsToMatch("/api/bank/**")
+                .pathsToMatch("/api/v1/bank/**")
                 .build();
     }
     @Bean
     public GroupedOpenApi accountGroup() {
         return GroupedOpenApi.builder()
                 .group("계좌")
-                .pathsToMatch("/api/account/**")
+                .pathsToMatch("/api/v1/account/**")
                 .build();
     }
     @Bean
     public GroupedOpenApi travelGroup() {
         return GroupedOpenApi.builder()
                 .group("여행")
-                .pathsToMatch("/api/travel/**")
+                .pathsToMatch("/api/v1/travel/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi reviewGroup() {
+        return GroupedOpenApi.builder()
+                .group("리뷰")
+                .pathsToMatch("/api/v1/review/**")
+                .build();
+    }
+    @Bean
+    public GroupedOpenApi commentGroup() {
+        return GroupedOpenApi.builder()
+                .group("댓글")
+                .pathsToMatch("/api/v1/comment/**")
                 .build();
     }
 }

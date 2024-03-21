@@ -18,12 +18,14 @@ import java.util.List;
 public class TravelGetListDto {
     private Long id;
     private String title;
-    private List<MemberTravel> memberTravelList;
-    private List<Notification> notificationList;
-    private GroupAccount groupAccount;
-    private Plan plan;
-    private List<Ticket> ticketList;
+    private boolean isEnded;
+//    private List<MemberTravel> memberTravelList;
+//    private List<Notification> notificationList;
+//    private List<Ticket> ticketList;
+//    private Account account;
+//    private Plan plan;
 
-    public TravelGetListDto(Long id, String title) {
-    }
+    private Long account_id;
+    private Long plan_id;
+
 }
