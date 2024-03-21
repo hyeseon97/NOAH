@@ -5,6 +5,7 @@ import com.noah.backend.domain.account.dto.responseDto.AccountInfoDto;
 import com.noah.backend.domain.account.entity.Account;
 import com.noah.backend.domain.account.repository.AccountRepository;
 import com.noah.backend.domain.account.service.AccountService;
+import com.noah.backend.domain.account.dto.requestDto.AccountUpdateDto;
 import com.noah.backend.domain.member.entity.Member;
 import com.noah.backend.domain.member.repository.MemberRepository;
 import com.noah.backend.domain.travel.entity.Travel;
@@ -49,5 +50,13 @@ public class AccountServiceImpl implements AccountService {
         List<AccountInfoDto> accountInfoDtoList = accountRepository.getMyAccountByMemberId(memberId).orElseThrow(AccountNotFoundException::new);
 
         return accountInfoDtoList;
+    }
+
+    @Override
+    public Long updateAmount(AccountUpdateDto accountUpdateDto) {
+        Account account = accountRepository.findById(accountUpdateDto.getAccountId()).orElseThrow(AccountNotFoundException::new);
+        account.setAmount(accountUpdateDto.getAmount());
+        accountRepository.save(account);
+        return account.getId();
     }
 }

@@ -3,10 +3,7 @@ package com.noah.backend.domain.account.entity;
 import com.noah.backend.domain.base.BaseEntity;
 import com.noah.backend.domain.member.entity.Member;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -39,6 +36,7 @@ public class Account extends BaseEntity {
     private Member member;          // 계좌 주인
 
     @Builder.Default
+    @Setter
     @Column(name = "amount")
     private int amount = 0;         // 잔액
 }

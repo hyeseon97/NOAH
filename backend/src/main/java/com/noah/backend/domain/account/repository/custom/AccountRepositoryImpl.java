@@ -19,7 +19,7 @@ public class AccountRepositoryImpl implements AccountRepositoryCustom {
     @Override
     public Optional<List<AccountInfoDto>> getMyAccountByMemberId(Long memberId) {
         return Optional.ofNullable(query.select(Projections.constructor(AccountInfoDto.class,
-                        account.bankName, account.accountNumber, account.type, account.amount))
+                        account.id, account.bankName, account.accountNumber, account.type, account.amount))
                 .from(account)
                 .where(account.member.id.eq(memberId))
                 .fetch());

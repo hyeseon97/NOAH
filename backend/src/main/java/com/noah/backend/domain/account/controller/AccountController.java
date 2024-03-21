@@ -1,6 +1,7 @@
 package com.noah.backend.domain.account.controller;
 
 import com.noah.backend.domain.account.dto.requestDto.AccountPostDto;
+import com.noah.backend.domain.account.dto.requestDto.AccountUpdateDto;
 import com.noah.backend.domain.account.repository.AccountRepository;
 import com.noah.backend.domain.account.service.AccountService;
 import com.noah.backend.global.format.code.ApiResponse;
@@ -36,6 +37,13 @@ public class AccountController {
             return response.success(ResponseCode.ACCOUNT_LIST_NOT_FOUND, null);
         };
         return response.success(ResponseCode.ACCOUNT_LIST_FETCHED, accountService.getMyAccountList(memberId));
+    }
+
+    @Operation(summary = "계좌 잔액 업데이트", description = "계좌 잔액 업데이트")
+    @PutMapping
+    public ResponseEntity<?> updateAmount(@RequestBody AccountUpdateDto accountUpdateDto){
+        Long accountId = accountService.updateAmount(accountUpdateDto);
+        return response.success(ResponseCode.ACCOUNT_INFO_UPDATED, accountId);
     }
 
 
