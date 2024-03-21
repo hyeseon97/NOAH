@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class SignUpDto {
 	int memberId;
-	String email = "dldnwlstest7@ssafy.co.kr";
+	String email = "dldnwlstest12@ssafy.co.kr";
 	String password;
 	String name;
 	String nickname;

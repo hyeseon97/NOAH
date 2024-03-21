@@ -9,8 +9,8 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.Optional;
 
-import static com.noah.backend.domain.plan.entity.QPlan.plan;
-import static com.noah.backend.domain.travel.entity.QTravel.travel;
+//import static com.noah.backend.domain.plan.entity.QPlan.plan;
+//import static com.noah.backend.domain.travel.entity.QTravel.travel;
 import static com.querydsl.core.types.Projections.constructor;
 
 @RequiredArgsConstructor

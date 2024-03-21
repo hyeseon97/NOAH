@@ -1,4 +1,4 @@
-package com.noah.backend.domain.account.dto.requestDto;
+package com.noah.backend.domain.bank.dto.requestDto;
 
 import lombok.*;
 
