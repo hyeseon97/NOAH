@@ -21,7 +21,8 @@ public enum ResponseCode {
     ACCOUNT_DELETED(HttpStatus.OK, "계좌가 성공적으로 삭제되었습니다."),
 
     /* 모임통장 (GroupAccount) */
-    GROUP_ACCOUNT_CREATED(HttpStatus.OK, "모임통장이 성공적으로 생성되었습니다.")
+    GROUP_ACCOUNT_CREATED(HttpStatus.OK, "모임통장이 성공적으로 생성되었습니다."),
+    GROUP_ACCOUNT_INFO_FETCHED(HttpStatus.OK, "모임통장이 성공적으로 조회되었습니다.")
 
     ;
 

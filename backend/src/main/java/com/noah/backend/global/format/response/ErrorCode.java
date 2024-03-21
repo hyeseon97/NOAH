@@ -15,6 +15,9 @@ public enum ErrorCode {
     /* 계좌(Account) */
     ACCOUNT_NOT_FOUND(HttpStatus.NOT_FOUND, "계좌를 찾을 수 없습니다."),
 
+    /* 모임통장(GroupAccount) */
+    GROUP_ACCOUNT_NOT_FOUND(HttpStatus.NOT_FOUND, "모임 통장을 찾을 수 없습니다."),
+
     /* 여행(Travel) */
     TRAVEL_NOT_FOUND(HttpStatus.NOT_FOUND, "여행을 찾을 수 없습니다.");
 

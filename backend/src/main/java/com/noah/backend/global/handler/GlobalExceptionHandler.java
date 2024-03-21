@@ -1,6 +1,7 @@
 package com.noah.backend.global.handler;
 
 import com.noah.backend.global.exception.account.AccountNotFoundException;
+import com.noah.backend.global.exception.groupaccount.GroupAccountNotFoundException;
 import com.noah.backend.global.exception.member.MemberNotFoundException;
 import com.noah.backend.global.exception.travel.TravelNotFoundException;
 import com.noah.backend.global.format.code.ApiResponse;
@@ -29,10 +30,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("AccountNotFoundException = {}", e.getErrorCode().getMessage());
         return response.error(e.getErrorCode());
     }
+    
+    @ExceptionHandler(GroupAccountNotFoundException.class)
+    protected ResponseEntity<?> handle(GroupAccountNotFoundException e){
+        log.error("GroupNotFoundException = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
 
     @ExceptionHandler(MemberNotFoundException.class)
     protected ResponseEntity<?> handle(MemberNotFoundException e){
-        log.error("AccountNotFoundException = {}", e.getErrorCode().getMessage());
+        log.error("MemberNotFoundException = {}", e.getErrorCode().getMessage());
         return response.error(e.getErrorCode());
     }
 }
