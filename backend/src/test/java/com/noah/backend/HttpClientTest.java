@@ -588,7 +588,7 @@ public class HttpClientTest {
 				ArrayList<TransactionHistoryDto> RECextractionList = RECextractionTransactionHistory(REC);
 				RECextractionTransactionHistoryListView(RECextractionList);
 				System.out.println("계좌 이체 제대로되는지 확인");
-				System.out.println("처리 결과 : " + (String)REC.get("responseMessage"));
+//				System.out.println("처리 결과 : " + (String)REC.get("responseMessage"));
 			} else {
 				System.out.println("response is error : " + response.getStatusLine().getStatusCode());
 			}
