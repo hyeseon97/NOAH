@@ -5,15 +5,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.noah.backend.domain.account.dto.requestDto.RequestHeaderDto;
-import com.noah.backend.domain.account.dto.responseDto.AccountHolderCheckDto;
-import com.noah.backend.domain.account.dto.responseDto.AccountListDto;
-import com.noah.backend.domain.account.entity.Account;
+import com.noah.backend.domain.bank.dto.requestDto.RequestHeaderDto;
+import com.noah.backend.domain.bank.dto.responseDto.AccountHolderCheckDto;
+import com.noah.backend.domain.bank.dto.responseDto.AccountListDto;
 import com.noah.backend.domain.admin.dto.requestDto.AdminKeyRequestDto;
 import com.noah.backend.domain.bank.dto.responseDto.AccountCreateDto;
+import com.noah.backend.domain.bank.dto.responseDto.TransactionHistoryDto;
 import com.noah.backend.domain.member.dto.requestDto.SignUpDto;
 import com.noah.backend.domain.member.dto.requestDto.UserKeyRequestDto;
-import net.bytebuddy.description.type.TypeList;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
@@ -22,6 +21,8 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,8 +39,14 @@ public class HttpClientTest {
 //		accountCreateRun(); //계좌 생성 메소드
 //		accountHolderCheckRun(); //예금주 조회 메소드
 //		accountListRun(); //계좌 목록 조회
-//		accountBalanceCheckRun(); //계좌 잔액 조회
+//		accountBalanceCheckRun("dldnwlstest11"); //계좌 잔액 조회 //산업은행 0027546213312878
+//		accountBalanceCheckRun("dldnwlstest12"); //계좌 잔액 조회 //기업은행 0047501884450113
+//		accountDepositRun();//계좌 입금
+//		accountWithdrawRun();//계좌 출금
+//		accountTransferRun();//계좌 이체
+//  	accountTransactionHistoryRun(); //계좌 거래 내역 조회
 	}
+//※현재 계좌 잔액 조회, 계좌 입금, 계좌출금은 같은 계좌를 쓰고있습니다.
 
 	//관리자 키 발급 메소드
 	public static void adKeyRequestRun() throws JsonProcessingException {//adKeyRequest 실행
@@ -151,7 +158,7 @@ public class HttpClientTest {
 	//계좌 생성 메소드
 	public static void accountCreateRun() throws JsonProcessingException {
 		String testUserKey = "06c7432c-09cc-4190-a119-ff5128072c6f"; //dldnwlstest11@ssafy.co.kr
-		String testBankType = "004";
+		String testBankType = "002";
 		accountCreate(testUserKey,testBankType);
 	}
 
@@ -307,10 +314,19 @@ public class HttpClientTest {
 	}
 
 	//계좌 잔액 메소드
-	public static void accountBalanceCheckRun() throws JsonProcessingException {
-		String userKey = "06c7432c-09cc-4190-a119-ff5128072c6f";
-		String bankCode = "002";
-		String accountNo = "0027546213312878";
+	public static void accountBalanceCheckRun(String user) throws JsonProcessingException {
+		String userKey = "";
+		String bankCode = "";
+		String accountNo = "";
+		if(user.equals("dldnwlstest11")) {
+			userKey = "06c7432c-09cc-4190-a119-ff5128072c6f";
+			bankCode = "002";
+			accountNo = "0027546213312878";
+		}else if(user.equals("dldnwlstest12")){
+			userKey = "0c00c0f6-b093-4d4b-bce3-c7730567584e";
+			bankCode = "003";
+			accountNo = "0032371191906870";
+		}
 		accountBalanceCheck(userKey,bankCode,accountNo);
 	}
 
@@ -357,6 +373,231 @@ public class HttpClientTest {
 			return -100;
 		}
 	}
+
+	//계좌 입금 메소드
+	public static void accountDepositRun() throws JsonProcessingException {
+		String userKey = "06c7432c-09cc-4190-a119-ff5128072c6f";
+		String bankCode = "002";
+		String accountNo = "0027546213312878";
+		String transactionBalance = "10000";
+		String transactionSummary = "이우진 입금합니다";
+		accountDeposit(userKey,bankCode,accountNo,transactionBalance,transactionSummary);
+	}
+
+	//계좌 입금
+	public static void accountDeposit(String userKey, String bankCode, String accountNo, String transactionBalance, String transactionSummary) throws JsonProcessingException {
+		String requestURL = "https://finapi.p.ssafy.io/ssafy/api/v1/edu/account/receivedTransferAccountNumber";
+		RequestHeaderDto requestHeaderDto = new RequestHeaderDto();
+		requestHeaderDto.setApiKey(adminKey);
+		requestHeaderDto.setApiName("receivedTransferAccountNumber");
+		requestHeaderDto.setApiServiceCode(requestHeaderDto.getApiName());
+		requestHeaderDto.setUserKey(userKey); //확인하려는 계좌의 주인의 유저키가 필요
+		HashMap<String,String> result = objectMapper.convertValue(requestHeaderDto, HashMap.class);
+		String headerMessage = makeHeader(result);
+		HashMap<String,String> bodyHm = new HashMap<>();
+		bodyHm.put("bankCode",bankCode); //은행 코드
+		bodyHm.put("accountNo",accountNo); //계좌 번호
+		bodyHm.put("transactionBalance",transactionBalance); //입금 금액
+		bodyHm.put("transactionSummary",transactionSummary); //입금 계좌 요약
+		String bodyMessage = makeBody(bodyHm);
+		String mergeMessage = makeMerge(headerMessage,bodyMessage);
+		try {
+			HttpClient client = HttpClientBuilder.create().build(); // HttpClient 생성
+			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
+
+			postRequest.setHeader("Content-Type", "application/json");
+			postRequest.setEntity(new StringEntity(mergeMessage)); //json 메시지 입력
+			HttpResponse response = client.execute(postRequest);
+
+			//Response 출력
+			if (response.getStatusLine().getStatusCode() == 200) {
+				ResponseHandler<String> handler = new BasicResponseHandler();
+				String body = handler.handleResponse(response);
+				System.out.println(body);
+				TypeReference<Map<String, Object>> typeReference = new TypeReference<Map<String,Object>>() {};
+				Map<String, Object> responseJson = objectMapper.readValue(body, typeReference);
+				Map<String, Object> REC = (Map<String, Object>) responseJson.get("Header");
+				System.out.println("계좌 입금 제대로되는지 확인");
+				System.out.println("처리 결과 : " + (String)REC.get("responseMessage"));
+			} else {
+				System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+			}
+		} catch (Exception e){
+			System.err.println(e.toString());
+		}
+	}
+
+	//계좌 출금 메소드
+	public static void accountWithdrawRun() throws JsonProcessingException {
+		String userKey = "06c7432c-09cc-4190-a119-ff5128072c6f";
+		String bankCode = "002";
+		String accountNo = "0027546213312878";
+		String transactionBalance = "5000";
+		String transactionSummary = "이우진 출금합니다";
+		accountWithdraw(userKey,bankCode,accountNo,transactionBalance,transactionSummary);
+	}
+
+	//계좌 출금
+	public static void accountWithdraw(String userKey, String bankCode, String accountNo, String transactionBalance, String transactionSummary) throws JsonProcessingException {
+		String requestURL = "https://finapi.p.ssafy.io/ssafy/api/v1/edu/account/drawingTransfer";
+		RequestHeaderDto requestHeaderDto = new RequestHeaderDto();
+		requestHeaderDto.setApiKey(adminKey);
+		requestHeaderDto.setApiName("drawingTransfer");
+		requestHeaderDto.setApiServiceCode(requestHeaderDto.getApiName());
+		requestHeaderDto.setUserKey(userKey); //확인하려는 계좌의 주인의 유저키가 필요
+		HashMap<String,String> result = objectMapper.convertValue(requestHeaderDto, HashMap.class);
+		String headerMessage = makeHeader(result);
+		HashMap<String,String> bodyHm = new HashMap<>();
+		bodyHm.put("bankCode",bankCode); //은행 코드
+		bodyHm.put("accountNo",accountNo); //계좌 번호
+		bodyHm.put("transactionBalance",transactionBalance); //출금 금액
+		bodyHm.put("transactionSummary",transactionSummary); //출금 계좌 요약
+		String bodyMessage = makeBody(bodyHm);
+		String mergeMessage = makeMerge(headerMessage,bodyMessage);
+		try {
+			HttpClient client = HttpClientBuilder.create().build(); // HttpClient 생성
+			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
+
+			postRequest.setHeader("Content-Type", "application/json");
+			postRequest.setEntity(new StringEntity(mergeMessage)); //json 메시지 입력
+			HttpResponse response = client.execute(postRequest);
+
+			//Response 출력
+			if (response.getStatusLine().getStatusCode() == 200) {
+				ResponseHandler<String> handler = new BasicResponseHandler();
+				String body = handler.handleResponse(response);
+				System.out.println(body);
+				TypeReference<Map<String, Object>> typeReference = new TypeReference<Map<String,Object>>() {};
+				Map<String, Object> responseJson = objectMapper.readValue(body, typeReference);
+				Map<String, Object> REC = (Map<String, Object>) responseJson.get("Header");
+				System.out.println("계좌 출금 제대로되는지 확인");
+				System.out.println("처리 결과 : " + (String)REC.get("responseMessage"));
+			} else {
+				System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+			}
+		} catch (Exception e){
+			System.err.println(e.toString());
+		}
+	}
+	//계좌 이체 메소드
+	public static void accountTransferRun() throws JsonProcessingException {
+		String userKey = "06c7432c-09cc-4190-a119-ff5128072c6f";
+		String depositBankCode = "003";
+		String depositAccountNo = "0032371191906870";
+		String transactionBalance = "10000";
+		String withdrawalBankCode = "002";
+		String withdrawalAccountNo = "0027546213312878";
+		String depositTransactionSummary = "유저이름";
+		String withdrawalTransactionSummary = "NOAH여행 자동이체";
+		accountTransfer(userKey,depositBankCode,depositAccountNo,transactionBalance,withdrawalBankCode,withdrawalAccountNo,depositTransactionSummary,withdrawalTransactionSummary);
+	}
+
+	//계좌 이체
+	public static void accountTransfer(String userKey, String depositBankCode, String depositAccountNo, String transactionBalance, String withdrawalBankCode, String withdrawalAccountNo, String depositTransactionSummary, String withdrawalTransactionSummary) throws JsonProcessingException {
+		String requestURL = "https://finapi.p.ssafy.io/ssafy/api/v1/edu/account/accountTransfer";
+		RequestHeaderDto requestHeaderDto = new RequestHeaderDto();
+		requestHeaderDto.setApiKey(adminKey);
+		requestHeaderDto.setApiName("accountTransfer");
+		requestHeaderDto.setApiServiceCode(requestHeaderDto.getApiName());
+		requestHeaderDto.setUserKey(userKey); //확인하려는 계좌의 주인의 유저키가 필요
+		HashMap<String,String> result = objectMapper.convertValue(requestHeaderDto, HashMap.class);
+		String headerMessage = makeHeader(result);
+		HashMap<String,String> bodyHm = new HashMap<>();
+		bodyHm.put("depositBankCode",depositBankCode); //입금계좌은행코드
+		bodyHm.put("depositAccountNo",depositAccountNo); //입금계좌번호
+		bodyHm.put("transactionBalance",transactionBalance); //거래금액
+		bodyHm.put("withdrawalBankCode",withdrawalBankCode); //출금계좌은행코드
+		bodyHm.put("withdrawalAccountNo",withdrawalAccountNo); //출금계좌번호
+		bodyHm.put("depositTransactionSummary",depositTransactionSummary); //거래 요약내용(입금계좌)
+		bodyHm.put("withdrawalTransactionSummary",withdrawalTransactionSummary); //거래 요약내용(출금계좌)
+		String bodyMessage = makeBody(bodyHm);
+		String mergeMessage = makeMerge(headerMessage,bodyMessage);
+		try {
+			HttpClient client = HttpClientBuilder.create().build(); // HttpClient 생성
+			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
+
+			postRequest.setHeader("Content-Type", "application/json");
+			postRequest.setEntity(new StringEntity(mergeMessage)); //json 메시지 입력
+			HttpResponse response = client.execute(postRequest);
+
+			//Response 출력
+			if (response.getStatusLine().getStatusCode() == 200) {
+				ResponseHandler<String> handler = new BasicResponseHandler();
+				String body = handler.handleResponse(response);
+				System.out.println(body);
+				TypeReference<Map<String, Object>> typeReference = new TypeReference<Map<String,Object>>() {};
+				Map<String, Object> responseJson = objectMapper.readValue(body, typeReference);
+				Map<String, Object> REC = (Map<String, Object>) responseJson.get("Header");
+				System.out.println("계좌 이체 제대로되는지 확인");
+				System.out.println("처리 결과 : " + (String)REC.get("responseMessage"));
+			} else {
+				System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+			}
+		} catch (Exception e){
+			System.err.println(e.toString());
+		}
+	}
+	//계좌 거래 내역 조회 메소드
+	public static void accountTransactionHistoryRun() throws JsonProcessingException {
+		String userKey = "06c7432c-09cc-4190-a119-ff5128072c6f"; //dldnwlstest11
+		String bankCode = "002";
+		String accountNo = "0027546213312878";
+		String startDate = "20240320";
+		String endDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+		String transactionType = "A";
+		String orderByType = "ASC";
+		accountTransactionHistory(userKey,bankCode,accountNo,startDate,endDate,transactionType,orderByType);
+	}
+
+	//계좌 거래 내역 조회
+	public static void accountTransactionHistory(String userKey, String bankCode, String accountNo, String startDate, String endDate, String transactionType, String orderByType) throws JsonProcessingException {
+		String requestURL = "https://finapi.p.ssafy.io/ssafy/api/v1/edu/account/accountTransfer";
+		RequestHeaderDto requestHeaderDto = new RequestHeaderDto();
+		requestHeaderDto.setApiKey(adminKey);
+		requestHeaderDto.setApiName("inquireAccountTransactionHistory");
+		requestHeaderDto.setApiServiceCode(requestHeaderDto.getApiName());
+		requestHeaderDto.setUserKey(userKey); //확인하려는 계좌의 주인의 유저키가 필요
+		HashMap<String,String> result = objectMapper.convertValue(requestHeaderDto, HashMap.class);
+		String headerMessage = makeHeader(result);
+		HashMap<String,String> bodyHm = new HashMap<>();
+		bodyHm.put("bankCode",bankCode); //은행코드
+		bodyHm.put("accountNo",accountNo); //계좌번호
+		bodyHm.put("startDate",startDate); //조회시작일자
+		bodyHm.put("endDate",endDate); //조회종료일자
+		bodyHm.put("transactionType",transactionType); //거래구분
+		bodyHm.put("orderByType",orderByType); //정렬순서
+		String bodyMessage = makeBody(bodyHm);
+		String mergeMessage = makeMerge(headerMessage,bodyMessage);
+		try {
+			HttpClient client = HttpClientBuilder.create().build(); // HttpClient 생성
+			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
+
+			postRequest.setHeader("Content-Type", "application/json");
+			postRequest.setEntity(new StringEntity(mergeMessage)); //json 메시지 입력
+			HttpResponse response = client.execute(postRequest);
+
+			//Response 출력
+			if (response.getStatusLine().getStatusCode() == 200) {
+				ResponseHandler<String> handler = new BasicResponseHandler();
+				String body = handler.handleResponse(response);
+				System.out.println(body);
+				TypeReference<Map<String, Object>> typeReference = new TypeReference<Map<String,Object>>() {};
+				Map<String, Object> responseJson = objectMapper.readValue(body, typeReference);
+				ArrayList<HashMap<String,String>> REC = (ArrayList<HashMap<String,String>>) responseJson.get("REC");
+				RECView(REC);
+				ArrayList<TransactionHistoryDto> RECextractionList = RECextractionTransactionHistory(REC);
+				RECextractionTransactionHistoryListView(RECextractionList);
+				System.out.println("계좌 이체 제대로되는지 확인");
+				System.out.println("처리 결과 : " + (String)REC.get("responseMessage"));
+			} else {
+				System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+			}
+		} catch (Exception e){
+			System.err.println(e.toString());
+		}
+	}
+
+
 
 
 
@@ -465,6 +706,34 @@ public class HttpClientTest {
 			System.out.print(" / 사용자 이름 : " + list.get(i).getUsername());
 			System.out.print(" / 계좌 번호 : " + list.get(i).getAccountNo());
 			System.out.print(" / 남은 잔액 : " + list.get(i).getAccountBalance());
+			System.out.println();
+		}
+	}
+
+	//계좌 거래 내역 조회에서 REC 추출
+	public static ArrayList<TransactionHistoryDto> RECextractionTransactionHistory(ArrayList<HashMap<String,String>> REC){
+		ArrayList<TransactionHistoryDto> list = new ArrayList<>();
+		for(int i=0; i<REC.size(); i++){
+			TransactionHistoryDto transactionHistoryDto = new TransactionHistoryDto();
+			transactionHistoryDto.setType(Integer.parseInt((String)REC.get(i).get("transactionType"))); //타입
+			transactionHistoryDto.setName(REC.get(i).get("transactionSummary")); //거래 내용 요약
+			transactionHistoryDto.setDate(REC.get(i).get("transactionDate")); //거래 날짜
+			transactionHistoryDto.setTime(REC.get(i).get("transactionTime")); //거래 일시
+			transactionHistoryDto.setCost(Integer.parseInt((String)REC.get(i).get("transactionBalance"))); //거래 금액
+			transactionHistoryDto.setAmount(Integer.parseInt((String)REC.get(i).get("transactionAfterBalance"))); //거래 후 잔액
+			list.add(transactionHistoryDto);
+		}
+		return list;
+	}
+
+	public static void RECextractionTransactionHistoryListView(ArrayList<TransactionHistoryDto> list){
+		for(int i=0; i<list.size(); i++){
+			System.out.print("타입 : " + list.get(i).getType());
+			System.out.print(" / 거래 내용 요약 : " + list.get(i).getName());
+			System.out.print(" / 거래 날짜 : " + list.get(i).getDate());
+			System.out.print(" / 거래 일시 : " + list.get(i).getTime());
+			System.out.print(" / 거래 금액 : " + list.get(i).getCost());
+			System.out.print(" / 거래 후 잔액 : " + list.get(i).getAmount());
 			System.out.println();
 		}
 	}

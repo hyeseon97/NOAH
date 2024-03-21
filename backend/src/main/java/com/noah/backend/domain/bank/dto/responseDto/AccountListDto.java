@@ -1,4 +1,4 @@
-package com.noah.backend.domain.account.dto.responseDto;
+package com.noah.backend.domain.bank.dto.responseDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

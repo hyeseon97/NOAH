@@ -3,7 +3,7 @@ package com.noah.backend.domain.datailPlan.service.impl;
 import com.noah.backend.domain.datailPlan.entity.DetailPlan;
 import com.noah.backend.domain.datailPlan.repository.DetailPlanRepository;
 import com.noah.backend.domain.datailPlan.service.DetailPlanService;
-import com.noah.backend.domain.plan.repository.PlanRepository;
+//import com.noah.backend.domain.plan.repository.PlanRepository;
 import com.noah.backend.domain.review.repository.ReviewRepository;
 import com.noah.backend.domain.ticket.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.List;
 public class DetailPlanServiceImpl implements DetailPlanService {
 
     private final TicketRepository ticketRepository;
-    private final PlanRepository planRepository;
+//    private final PlanRepository planRepository;
     private final DetailPlanRepository detailPlanRepository;
     private final ReviewRepository reviewRepository;
 

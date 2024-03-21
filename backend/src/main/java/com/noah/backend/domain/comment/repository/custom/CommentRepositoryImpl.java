@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.Optional;
 
-import static com.noah.backend.domain.comment.entity.QComment.comment;
+//import static com.noah.backend.domain.comment.entity.QComment.comment;
 import static com.querydsl.core.types.Projections.constructor;
 
 @RequiredArgsConstructor

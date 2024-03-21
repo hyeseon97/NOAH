@@ -1,7 +1,7 @@
 package com.noah.backend.global.format.code;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.noah.backend.domain.account.dto.requestDto.RequestHeaderDto;
+import com.noah.backend.domain.bank.dto.requestDto.RequestHeaderDto;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;

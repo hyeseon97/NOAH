@@ -8,8 +8,8 @@ import com.noah.backend.domain.comment.entity.Comment;
 import com.noah.backend.domain.comment.repository.CommentRepository;
 import com.noah.backend.domain.comment.service.CommentService;
 import com.noah.backend.domain.datailPlan.repository.DetailPlanRepository;
-import com.noah.backend.domain.plan.repository.PlanRepository;
-import com.noah.backend.domain.review.entity.Review;
+//import com.noah.backend.domain.plan.repository.PlanRepository;
+//import com.noah.backend.domain.review.entity.Review;
 import com.noah.backend.domain.review.repository.ReviewRepository;
 import com.noah.backend.domain.ticket.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ import java.util.List;
 public class CommentServiceImpl implements CommentService {
 
     private final TicketRepository ticketRepository;
-    private final PlanRepository planRepository;
+//    private final PlanRepository planRepository;
     private final DetailPlanRepository detailPlanRepository;
     private final ReviewRepository reviewRepository;
     private final CommentRepository commentRepository;
