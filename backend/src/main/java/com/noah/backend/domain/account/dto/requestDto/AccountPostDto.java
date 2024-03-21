@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AccountPostDto {
     private Long travelId;
-    private Long accountId;
+    private Long memberId;
 }
