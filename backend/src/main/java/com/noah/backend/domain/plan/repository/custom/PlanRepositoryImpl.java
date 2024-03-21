@@ -28,8 +28,8 @@ public class PlanRepositoryImpl implements PlanRepositoryCustom {
                         plan.startDate,
                         plan.endDate,
                         plan.travelStart,
-                        plan.country,
-                        plan.travel.id
+                        plan.country
+//                        plan.travel.id
                 )).from(plan)
 //                .leftJoin(travel)
                 .where(plan.travel.id.eq(travelId)).fetch();
@@ -40,12 +40,12 @@ public class PlanRepositoryImpl implements PlanRepositoryCustom {
     public Optional<PlanGetDto> getPlanSelect(Long PlanId) {
         PlanGetDto planDto = query
                 .select(Projections.constructor(PlanGetDto.class,
-                        plan.id,
+//                        plan.id,
                         plan.startDate,
                         plan.endDate,
                         plan.travelStart,
-                        plan.country,
-                        plan.travel.id
+                        plan.country
+//                        plan.travel.id
                         ))
                 .from(plan)
                 .where(plan.id.eq(PlanId))
@@ -60,8 +60,8 @@ public class PlanRepositoryImpl implements PlanRepositoryCustom {
                             detailPlan.pinX,
                             detailPlan.pinY,
                             detailPlan.memo,
-                            detailPlan.time,
-                            detailPlan.plan.id
+                            detailPlan.time
+//                            detailPlan.plan.id
                             ))
                     .from(detailPlan)
                     .where(detailPlan.plan.id.eq(PlanId))

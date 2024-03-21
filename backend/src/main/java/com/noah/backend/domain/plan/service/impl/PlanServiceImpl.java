@@ -40,8 +40,8 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
-    public Long createPlan(Long travelId, PlanPostDto planDto) {
-        Travel travel = travelRepository.findById(travelId).orElseThrow(() -> new RuntimeException("여행 정보를 찾을 수 없어요"));
+    public Long createPlan(PlanPostDto planDto) {
+        Travel travel = travelRepository.findById(planDto.getTravel_id()).orElseThrow(() -> new RuntimeException("여행 정보를 찾을 수 없어요"));
         Plan plan = Plan.builder()
                 .startDate(planDto.getStart_date())
                 .endDate(planDto.getEnd_date())

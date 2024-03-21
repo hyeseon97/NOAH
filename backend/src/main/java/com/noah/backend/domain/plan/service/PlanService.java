@@ -14,7 +14,7 @@ public interface PlanService {
 
     PlanGetDto getPlanSelect(Long PlanId);
 
-    Long createPlan(Long travelId, PlanPostDto planDto);
+    Long createPlan(PlanPostDto planDto);
 
     Long updatePlan(Long PlanId, PlanUpdateDto planDto);
 

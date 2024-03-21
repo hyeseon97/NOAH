@@ -11,22 +11,27 @@ import lombok.*;
 import java.util.List;
 
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TravelGetDto {
-    private Long id;
+//    private Long id;
     @Setter
     private String title;
     @Setter
     private boolean isEnded;
-    @Setter
-    private GroupAccount account;
-    @Setter
-    private Plan plan;
+//    @Setter
+//    private GroupAccount account;
+//    @Setter
+//    private Plan plan;
+
+//    private Long account_id;
+//    private Long plan_id;
 //    @Setter
 //    private List<memberTravelDto> memberTrabelList;
 //    @Setter
 //    private List<NotificationGetDto> notificationList;
     @Setter
     private List<TicketListGetFromTravelDto> ticketList;
+
 }

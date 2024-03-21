@@ -59,7 +59,7 @@ public class TravelController {
         return ResponseEntity.ok(updateTravelId);
     }
 
-    @DeleteMapping
+    @DeleteMapping("{travelId}")
     public ResponseEntity<?> deleteTravel(@PathVariable Long travelId){
         travelService.deleteTravel(travelId);
 

@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TravelGetListDto {
-    private Long id;
+//    private Long id;
     private String title;
     private boolean isEnded;
 //    private List<MemberTravel> memberTravelList;
@@ -25,7 +25,7 @@ public class TravelGetListDto {
 //    private Account account;
 //    private Plan plan;
 
-    private Long account_id;
+    private Long groupAccount_id;
     private Long plan_id;
 
 }
