@@ -17,10 +17,13 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -33,6 +36,7 @@ public class HttpClientTest {
 	static ObjectMapper objectMapper = new ObjectMapper();
 
 	public static void main(String[] args) throws JsonProcessingException {
+
 //		adKeyRequestRun(); //관리자 키 발급 메소드
 //		memberCreateRun(); //사용자 계정 생성 메소드
 //		productSelectRun(); //상품 조회 메소드
@@ -62,7 +66,7 @@ public class HttpClientTest {
 			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
 				System.out.println(result);
 			postRequest.setHeader("Content-Type", "application/json");
-			postRequest.setEntity(new StringEntity(jsonMessage)); //json 메시지 입력
+			postRequest.setEntity(new StringEntity(jsonMessage,ContentType.APPLICATION_JSON.withCharset(StandardCharsets.UTF_8))); //json 메시지 입력
 			HttpResponse response = client.execute(postRequest);
 
 			//Response 출력
@@ -96,7 +100,7 @@ public class HttpClientTest {
 			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
 			System.out.println(result);
 			postRequest.setHeader("Content-Type", "application/json");
-			postRequest.setEntity(new StringEntity(jsonMessage)); //json 메시지 입력
+			postRequest.setEntity(new StringEntity(jsonMessage,ContentType.APPLICATION_JSON.withCharset(StandardCharsets.UTF_8))); //json 메시지 입력
 			HttpResponse response = client.execute(postRequest);
 
 			//Response 출력
@@ -139,7 +143,7 @@ public class HttpClientTest {
 			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
 
 			postRequest.setHeader("Content-Type", "application/json");
-			postRequest.setEntity(new StringEntity(headerMessage)); //json 메시지 입력
+			postRequest.setEntity(new StringEntity(headerMessage,ContentType.APPLICATION_JSON.withCharset(StandardCharsets.UTF_8))); //json 메시지 입력
 			HttpResponse response = client.execute(postRequest);
 
 			//Response 출력
@@ -180,7 +184,7 @@ public class HttpClientTest {
 			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
 
 			postRequest.setHeader("Content-Type", "application/json");
-			postRequest.setEntity(new StringEntity(mergeMessage)); //json 메시지 입력
+			postRequest.setEntity(new StringEntity(mergeMessage,ContentType.APPLICATION_JSON.withCharset(StandardCharsets.UTF_8))); //json 메시지 입력
 			HttpResponse response = client.execute(postRequest);
 
 			//Response 출력
@@ -228,7 +232,7 @@ public class HttpClientTest {
 			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
 
 			postRequest.setHeader("Content-Type", "application/json");
-			postRequest.setEntity(new StringEntity(headerMessage)); //json 메시지 입력
+			postRequest.setEntity(new StringEntity(headerMessage,ContentType.APPLICATION_JSON.withCharset(StandardCharsets.UTF_8))); //json 메시지 입력
 			HttpResponse response = client.execute(postRequest);
 
 			//Response 출력
@@ -281,7 +285,7 @@ public class HttpClientTest {
 			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
 
 			postRequest.setHeader("Content-Type", "application/json");
-			postRequest.setEntity(new StringEntity(mergeMessage)); //json 메시지 입력
+			postRequest.setEntity(new StringEntity(mergeMessage,ContentType.APPLICATION_JSON.withCharset(StandardCharsets.UTF_8))); //json 메시지 입력
 			HttpResponse response = client.execute(postRequest);
 
 			//Response 출력
@@ -350,7 +354,7 @@ public class HttpClientTest {
 			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
 
 			postRequest.setHeader("Content-Type", "application/json");
-			postRequest.setEntity(new StringEntity(mergeMessage)); //json 메시지 입력
+			postRequest.setEntity(new StringEntity(mergeMessage,ContentType.APPLICATION_JSON.withCharset(StandardCharsets.UTF_8))); //json 메시지 입력
 			HttpResponse response = client.execute(postRequest);
 
 			//Response 출력
@@ -404,9 +408,8 @@ public class HttpClientTest {
 		try {
 			HttpClient client = HttpClientBuilder.create().build(); // HttpClient 생성
 			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
-
 			postRequest.setHeader("Content-Type", "application/json");
-			postRequest.setEntity(new StringEntity(mergeMessage)); //json 메시지 입력
+			postRequest.setEntity(new StringEntity(mergeMessage, ContentType.APPLICATION_JSON.withCharset(StandardCharsets.UTF_8))); //json 메시지 입력
 			HttpResponse response = client.execute(postRequest);
 
 			//Response 출력
@@ -459,7 +462,7 @@ public class HttpClientTest {
 			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
 
 			postRequest.setHeader("Content-Type", "application/json");
-			postRequest.setEntity(new StringEntity(mergeMessage)); //json 메시지 입력
+			postRequest.setEntity(new StringEntity(mergeMessage, ContentType.APPLICATION_JSON.withCharset(StandardCharsets.UTF_8))); //json 메시지 입력
 			HttpResponse response = client.execute(postRequest);
 
 			//Response 출력
@@ -517,7 +520,7 @@ public class HttpClientTest {
 			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
 
 			postRequest.setHeader("Content-Type", "application/json");
-			postRequest.setEntity(new StringEntity(mergeMessage)); //json 메시지 입력
+			postRequest.setEntity(new StringEntity(mergeMessage,ContentType.APPLICATION_JSON.withCharset(StandardCharsets.UTF_8))); //json 메시지 입력
 			HttpResponse response = client.execute(postRequest);
 
 			//Response 출력
@@ -542,7 +545,7 @@ public class HttpClientTest {
 		String userKey = "06c7432c-09cc-4190-a119-ff5128072c6f"; //dldnwlstest11
 		String bankCode = "002";
 		String accountNo = "0027546213312878";
-		String startDate = "20240320";
+		String startDate = "20240321";
 		String endDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 		String transactionType = "A";
 		String orderByType = "ASC";
@@ -551,7 +554,7 @@ public class HttpClientTest {
 
 	//계좌 거래 내역 조회
 	public static void accountTransactionHistory(String userKey, String bankCode, String accountNo, String startDate, String endDate, String transactionType, String orderByType) throws JsonProcessingException {
-		String requestURL = "https://finapi.p.ssafy.io/ssafy/api/v1/edu/account/accountTransfer";
+		String requestURL = "https://finapi.p.ssafy.io/ssafy/api/v1/edu/account/inquireAccountTransactionHistory";
 		RequestHeaderDto requestHeaderDto = new RequestHeaderDto();
 		requestHeaderDto.setApiKey(adminKey);
 		requestHeaderDto.setApiName("inquireAccountTransactionHistory");
@@ -573,21 +576,22 @@ public class HttpClientTest {
 			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
 
 			postRequest.setHeader("Content-Type", "application/json");
-			postRequest.setEntity(new StringEntity(mergeMessage)); //json 메시지 입력
+			postRequest.setEntity(new StringEntity(mergeMessage,ContentType.APPLICATION_JSON.withCharset(StandardCharsets.UTF_8))); //json 메시지 입력
 			HttpResponse response = client.execute(postRequest);
 
 			//Response 출력
 			if (response.getStatusLine().getStatusCode() == 200) {
 				ResponseHandler<String> handler = new BasicResponseHandler();
 				String body = handler.handleResponse(response);
-				System.out.println(body);
+//				System.out.println(body);
 				TypeReference<Map<String, Object>> typeReference = new TypeReference<Map<String,Object>>() {};
 				Map<String, Object> responseJson = objectMapper.readValue(body, typeReference);
-				ArrayList<HashMap<String,String>> REC = (ArrayList<HashMap<String,String>>) responseJson.get("REC");
-				RECView(REC);
-				ArrayList<TransactionHistoryDto> RECextractionList = RECextractionTransactionHistory(REC);
+				HashMap<String,ArrayList<HashMap<String,String>>> REC = (HashMap<String, ArrayList<HashMap<String, String>>>) responseJson.get("REC");
+				ArrayList<HashMap<String,String>> REClist = REC.get("list");
+				RECView(REClist);
+				ArrayList<TransactionHistoryDto> RECextractionList = RECextractionTransactionHistory(REClist);
 				RECextractionTransactionHistoryListView(RECextractionList);
-				System.out.println("계좌 이체 제대로되는지 확인");
+//				System.out.println("계좌거래내역조회 제대로되는지 확인");
 //				System.out.println("처리 결과 : " + (String)REC.get("responseMessage"));
 			} else {
 				System.out.println("response is error : " + response.getStatusLine().getStatusCode());
@@ -713,10 +717,11 @@ public class HttpClientTest {
 	//계좌 거래 내역 조회에서 REC 추출
 	public static ArrayList<TransactionHistoryDto> RECextractionTransactionHistory(ArrayList<HashMap<String,String>> REC){
 		ArrayList<TransactionHistoryDto> list = new ArrayList<>();
+		System.out.println("우진");
 		for(int i=0; i<REC.size(); i++){
 			TransactionHistoryDto transactionHistoryDto = new TransactionHistoryDto();
 			transactionHistoryDto.setType(Integer.parseInt((String)REC.get(i).get("transactionType"))); //타입
-			transactionHistoryDto.setName(REC.get(i).get("transactionSummary")); //거래 내용 요약
+			transactionHistoryDto.setName((String)REC.get(i).get("transactionSummary")); //거래 내용 요약
 			transactionHistoryDto.setDate(REC.get(i).get("transactionDate")); //거래 날짜
 			transactionHistoryDto.setTime(REC.get(i).get("transactionTime")); //거래 일시
 			transactionHistoryDto.setCost(Integer.parseInt((String)REC.get(i).get("transactionBalance"))); //거래 금액
@@ -726,6 +731,7 @@ public class HttpClientTest {
 		return list;
 	}
 
+	//계좌 거래 내역 조회에서 추출한 REC 조회
 	public static void RECextractionTransactionHistoryListView(ArrayList<TransactionHistoryDto> list){
 		for(int i=0; i<list.size(); i++){
 			System.out.print("타입 : " + list.get(i).getType());
@@ -737,6 +743,7 @@ public class HttpClientTest {
 			System.out.println();
 		}
 	}
+
 
 
 	public static void post(String requestURL, RequestHeaderDto requestHeaderDto) {
@@ -753,7 +760,7 @@ public class HttpClientTest {
 				postRequest.addHeader((String) key, (String) result.get(key));
 			}
 			if(!jsonMessage.isEmpty()) {
-				postRequest.setEntity(new StringEntity(jsonMessage)); //json 메시지 입력
+				postRequest.setEntity(new StringEntity(jsonMessage,ContentType.APPLICATION_JSON.withCharset(StandardCharsets.UTF_8))); //json 메시지 입력
 			}
 			HttpResponse response = client.execute(postRequest);
 
