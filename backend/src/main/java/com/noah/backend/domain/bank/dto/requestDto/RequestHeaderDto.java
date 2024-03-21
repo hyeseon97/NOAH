@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestHeaderDto {
+public class RequestHeaderDto { //싸피 금융망 공통 헤더 요청Dto
 	@Setter
 	private String apiName;
 	private String transmissionDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));

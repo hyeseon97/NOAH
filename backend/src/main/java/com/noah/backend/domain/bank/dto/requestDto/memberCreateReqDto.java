@@ -1,4 +1,4 @@
-package com.noah.backend.domain.bank.dto.responseDto;
+package com.noah.backend.domain.bank.dto.requestDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccountCreateDto {
-	String bankName;
-	String accountNumber;
+public class memberCreateReqDto {
+	String email;
 }
