@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
+public class ProductDto {
 	String accountTypeUniqueNo; //상품 고유번호
 	String bankCode; //은행코드
 	String bankName; //은행명

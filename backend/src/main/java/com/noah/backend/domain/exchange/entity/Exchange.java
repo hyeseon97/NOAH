@@ -1,6 +1,6 @@
 package com.noah.backend.domain.exchange.entity;
 
-import com.noah.backend.domain.account.entity.Account;
+import com.noah.backend.domain.groupaccount.entity.GroupAccount;
 import com.noah.backend.domain.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,6 +28,6 @@ public class Exchange extends BaseEntity {
     private int exchangeAmount;
 
     @OneToOne(mappedBy = "exchange", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
-    @JoinColumn(name = "account_id")
-    private Account account;
+    @JoinColumn(name = "group_account_id")
+    private GroupAccount groupAccount;
 }

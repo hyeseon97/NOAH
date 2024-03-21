@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.Optional;
 
+//import static com.noah.backend.domain.datailPlan.entity.QDetailPlan.detailPlan;
+//import static com.noah.backend.domain.plan.entity.QPlan.plan;
 import static com.noah.backend.domain.datailPlan.entity.QDetailPlan.detailPlan;
 import static com.noah.backend.domain.plan.entity.QPlan.plan;
 import static com.querydsl.core.types.Projections.constructor;
@@ -40,7 +42,7 @@ public class DetailPlanRepositoryImpl implements DetailPlanRepositoryCustom {
     public Optional<DetailPlanGetDto> getDetailPlanSelect(Long DetailPlanId) {
         DetailPlanGetDto DetailPlanDto = query
                 .select(Projections.constructor(DetailPlanGetDto.class,
-                        detailPlan.id,
+//                        detailPlan.id,
                         detailPlan.day,
                         detailPlan.sequence,
                         detailPlan.place,

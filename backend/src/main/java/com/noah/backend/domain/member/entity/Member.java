@@ -1,5 +1,6 @@
 package com.noah.backend.domain.member.entity;
 
+import com.noah.backend.domain.account.entity.Account;
 import com.noah.backend.domain.base.BaseEntity;
 import com.noah.backend.domain.comment.entity.Comment;
 import com.noah.backend.domain.memberTravel.entity.MemberTravel;
@@ -38,6 +39,9 @@ public class Member extends BaseEntity {
 
     @Column(name = "nickname", nullable = false)
     private String nickname;
+
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    private List<Account> accountList = new ArrayList<>();
 
     @OneToMany(mappedBy = "receiver", cascade = {CascadeType.REMOVE, CascadeType.PERSIST}) //cascade는 연쇄 삭제
     private List<Notification> notificationList = new ArrayList<>();

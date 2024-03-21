@@ -5,12 +5,14 @@ import com.noah.backend.domain.member.entity.Member;
 import com.noah.backend.domain.travel.entity.Travel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
 @AllArgsConstructor
+@Builder
 @NoArgsConstructor
 @Where(clause = "is_deleted = false")
 @SQLDelete(sql = "UPDATE member_travel SET is_deleted = TRUE WHERE member_travel_id = ?")

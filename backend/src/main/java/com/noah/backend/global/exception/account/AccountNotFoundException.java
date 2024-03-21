@@ -8,8 +8,7 @@ public class AccountNotFoundException extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public AccountNotFoundException() {
-        
+    public AccountNotFoundException(){
         this.errorCode = ErrorCode.ACCOUNT_NOT_FOUND;
     }
 }

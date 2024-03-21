@@ -5,72 +5,48 @@ import com.noah.backend.domain.account.dto.responseDto.AccountInfoDto;
 import com.noah.backend.domain.account.entity.Account;
 import com.noah.backend.domain.account.repository.AccountRepository;
 import com.noah.backend.domain.account.service.AccountService;
+import com.noah.backend.domain.member.entity.Member;
+import com.noah.backend.domain.travel.entity.Travel;
+import com.noah.backend.domain.travel.repository.TravelRepository;
+import com.noah.backend.global.exception.account.AccountNotFoundException;
+import com.noah.backend.global.exception.travel.TravelNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import com.noah.backend.global.exception.account.AccountNotFoundException;
 
 import java.util.List;
 
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
+    private final TravelRepository travelRepository;
 //    private final MemberRepository memberRepository;
 
-    @Override
-    public List<Account> getMyAccountList(Long memberId) {
-        return null;
-    }
-
     @Transactional
     @Override
-    public AccountInfoDto getAccountInfo(Long accountId) {
-        Account account = accountRepository.findById(accountId).orElseThrow(AccountNotFoundException::new);
-//        String ownerName = memberRepository.findById(account.getOwnerId()).getName();
-        AccountInfoDto accountInfo = AccountInfoDto.builder()
-                .id(accountId)
-                .name(account.getName())
-                .bank(account.getBank())
-                .accountNumber(account.getAccountNumber())
-                .deposit(account.getDeposit())
-                .withdraw(account.getWithdraw())
-                .targetAmount(account.getTargetAmount())
-                .perAmount(account.getPerAmount())
-                .paymentDate(account.getPaymentDate())
-                .build();
-        return accountInfo;
-    }
-
-    @Transactional
-    @Override
-    public Long createAccount(Long memberId, AccountPostDto accountPostDto) {
-
-//        Member member = memberRepository.searchById(memberId)
-
-        Account account = Account.builder()
-                .name(accountPostDto.getName())
-                .targetAmount(accountPostDto.getTargetAmount())
-                .perAmount(accountPostDto.getPerAmount())
-                .paymentDate(accountPostDto.getPaymentDate())
+    public Long createAccount(AccountPostDto accountPostDto) {
+        Travel travel = travelRepository.findById(accountPostDto.getTravelId()).orElseThrow(TravelNotFoundException::new);
+        Account account =Account.builder()
+//                .accountNumber()
+//                .bankName()
+                .type("공동계좌")
+//                .member(memberRepository.findById(accountPostDto.getAccountId()))
                 .build();
 
-        Account savedAccount = accountRepository.save(account);
+        accountRepository.save(account);
         return account.getId();
     }
 
     @Override
-    public void deleteAccount(Long accountId) {
-        Account account = accountRepository.findById(accountId).orElseThrow(AccountNotFoundException::new);
-        accountRepository.deleteById(accountId);
-    }
-
-    @Override
-    public Long updateAccount(Long accountId) {
-//         Account account = ac
-        return null;
+    public List<AccountInfoDto> getMyAccountList(Long memberId) {
+        List<AccountInfoDto> accountInfoDtoList = accountRepository.getMyAccountByMemberId(memberId).orElseThrow(AccountNotFoundException::new);
+        if(accountInfoDtoList.size() == 0){
+            System.out.println("비워짐");
+        }
+        return accountInfoDtoList;
     }
 }

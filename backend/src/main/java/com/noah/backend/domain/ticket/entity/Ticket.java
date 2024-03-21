@@ -11,6 +11,7 @@ import java.util.Date;
 
 @Entity
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Where(clause = "is_deleted = false")
@@ -23,22 +24,27 @@ public class Ticket extends BaseEntity {
     private Long id;
 
     // 항공기 출발 날짜
+    @Setter
     @Column(name = "departure")
     private Date departure;
 
     // 출발 공항
+    @Setter
     @Column(name = "d_airport")
     private String dAirport;
 
     // 출발 게이트
+    @Setter
     @Column(name = "d_gate")
     private int dGate;
 
     // 도착 게이트
+    @Setter
     @Column(name = "arrival")
     private Date arrival;
 
     // 도착 공항
+    @Setter
     @Column(name = "a_airport")
     private String aAirport;
 

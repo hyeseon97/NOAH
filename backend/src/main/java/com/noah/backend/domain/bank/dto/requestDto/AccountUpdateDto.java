@@ -1,4 +1,4 @@
-package com.noah.backend.domain.account.dto.requestDto;
+package com.noah.backend.domain.bank.dto.requestDto;
 
 import com.noah.backend.domain.exchange.entity.Exchange;
 import com.noah.backend.domain.trade.entity.Trade;
