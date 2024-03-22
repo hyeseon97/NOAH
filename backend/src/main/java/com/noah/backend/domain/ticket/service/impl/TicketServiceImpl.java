@@ -40,7 +40,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Long createTicket(Long travelId, TicketPostDto ticketDto) {
+    public Long createTicket(TicketPostDto ticketDto) {
         Travel foundTravel = travelRepository.findById(ticketDto.getTravel_id()).orElseThrow(() -> new RuntimeException("travelID가 입력되지않았어요"));
 
         Ticket ticket = Ticket.builder()

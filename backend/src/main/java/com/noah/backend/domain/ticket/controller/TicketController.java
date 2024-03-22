@@ -17,15 +17,15 @@ import java.util.List;
 @Tag(name = "Ticket 컨트롤러", description = "Ticket Controller API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/Ticket")
+@RequestMapping("/api/v1/ticket")
 public class TicketController {
 
     private final TicketService ticketService;
 
     @Operation(summary = "티켓 생성",description = "티켓 생성 / TravelId가 필요")
     @PostMapping
-    public ResponseEntity<Long> createTicket(@RequestParam Long travelId, @RequestBody TicketPostDto ticketDto){
-        Long createTicketId = ticketService.createTicket(travelId,ticketDto);
+    public ResponseEntity<Long> createTicket(@RequestBody TicketPostDto ticketDto){
+        Long createTicketId = ticketService.createTicket(ticketDto);
 
         return ResponseEntity.ok(createTicketId);
     }

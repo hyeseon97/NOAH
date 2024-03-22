@@ -18,7 +18,7 @@ import java.util.List;
 @Tag(name = "DetailPlan 컨트롤러", description = "DetailPlan Controller API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/DetailPlan")
+@RequestMapping("/api/v1/detailPlan")
 public class DetailPlanController {
 
     private final DetailPlanService detailPlanService;

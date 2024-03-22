@@ -20,8 +20,8 @@ public class PlanListGetFromTravelDto {
     @Setter
     private String country;
     // 테스트 용이니까 후에 travelDto로 수정하자
-    @Setter
-    private Long travel_id;
+//    @Setter
+//    private Long travel_id;
 //    @Setter
 //    private List<DetailPlanListGetFromPlanDto> detailList;
 }
