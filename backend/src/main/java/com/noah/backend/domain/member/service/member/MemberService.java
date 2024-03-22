@@ -1,5 +1,6 @@
 package com.noah.backend.domain.member.service.member;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.noah.backend.domain.member.dto.login.LoginRequestDto;
 import com.noah.backend.domain.member.dto.login.LoginResponseDto;
 import com.noah.backend.domain.member.dto.requestDto.SignupRequestDto;
@@ -7,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public interface MemberService {
 
-    Long create(SignupRequestDto requestDto);
+    Long create(SignupRequestDto requestDto) throws JsonProcessingException;
 
     boolean checkNicknameDuplication(String nickname);
 

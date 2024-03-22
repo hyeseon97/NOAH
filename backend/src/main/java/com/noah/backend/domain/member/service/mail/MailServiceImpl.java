@@ -54,6 +54,7 @@ public class MailServiceImpl implements MailService {
         }
 
         int authCode = generateAuthCode();
+        System.out.println("메일로 보내는 인증코드 : " + authCode);
         String content = createMailContent(authCode);
         dispatchVerificationCode(receiver, content);
         redisUtil.setDataExpire(Integer.toString(authCode), receiver, emailAuthCodeDuration);
@@ -69,6 +70,7 @@ public class MailServiceImpl implements MailService {
      */
     @Override
     public boolean confirmAuthCode(String email, String authNum, HttpServletResponse response) {
+        System.out.println("받은 인증 코드 : " + authNum);
         Optional.ofNullable(redisUtil.getData(authNum))
                 .filter(authData -> authData.equals(email))
                 .orElseThrow(InvalidAuthCodeException::new);

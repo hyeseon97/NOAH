@@ -81,14 +81,14 @@ public class HttpClientTest {
 
 	//사용자 계정 생성 메소드
 	public static void memberCreateRun() throws JsonProcessingException {
-		memberCreateReqDto memberCreateReqDto = new memberCreateReqDto();
-		memberCreateReqDto.setEmail("dldnwlstest14@ssafy.co.kr");
-		memberCreateResDto memberCreateResDto = memberCreate(memberCreateReqDto);
+		MemberCreateReqDto memberCreateReqDto = new MemberCreateReqDto();
+		memberCreateReqDto.setEmail("dldnwlstest13@ssafy.co.kr");
+		MemberCreateResDto memberCreateResDto = memberCreate(memberCreateReqDto);
 		System.out.println("발급된 유저키 : " + memberCreateResDto.getUserKey());
 	}
 
 	//사용자 계정 생성
-	public static memberCreateResDto memberCreate(memberCreateReqDto memberCreateReqDto) throws JsonProcessingException {
+	public static MemberCreateResDto memberCreate(MemberCreateReqDto memberCreateReqDto) throws JsonProcessingException {
 		String requestURL = "https://finapi.p.ssafy.io/ssafy/api/v1/member/";
 		UserKeyRequestDto userKeyRequestDto = new UserKeyRequestDto();
 		userKeyRequestDto.setApiKey(adminKey);
@@ -111,55 +111,9 @@ public class HttpClientTest {
 				Map<String, Object> responseJson = objectMapper.readValue(body, typeReference);
 				Map<String, Object> payload = (Map<String, Object>) responseJson.get("payload");
 //				System.out.println("유저 키 발급완료 SUCCESS : " + payload.get("userKey"));
-				memberCreateResDto memberCreateResDto = new memberCreateResDto();
+				MemberCreateResDto memberCreateResDto = new MemberCreateResDto();
 				memberCreateResDto.setUserKey((String) payload.get("userKey"));
 				return memberCreateResDto;
-			} else {
-				//오류가 발생하면 이미 존재하는 사용자입니다.(회원가입 불가) null값 대신 나중에 예외처리로 변경
-				System.out.println("response is error : " + response.getStatusLine().getStatusCode());
-				return null;
-			}
-		} catch (Exception e){
-			System.err.println(e.toString());
-			return null;
-		}
-	}
-	//사용자 계정 조회 메소드
-	public static void memberCheckRun() throws JsonProcessingException {
-		MemberCheckReqDto memberCheckReqDto = new MemberCheckReqDto();
-		memberCheckReqDto.setEmail("dldnwlstest14@ssafy.co.kr");
-		MemberCheckResDto memberCheckResDto = memberCheck(memberCheckReqDto);
-		assert memberCheckResDto != null;
-		System.out.println("userKey 재확인 : " + memberCheckResDto.getUserKey());
-	}
-
-	//사용자 계정 조회
-	public static MemberCheckResDto memberCheck(MemberCheckReqDto memberCheckReqDto) throws JsonProcessingException {
-		String requestURL = "https://finapi.p.ssafy.io/ssafy/api/v1/member/search";
-		UserKeyRequestDto userKeyRequestDto = new UserKeyRequestDto();
-		userKeyRequestDto.setApiKey(adminKey);
-		userKeyRequestDto.setUserId(memberCheckReqDto.getEmail());
-		Map result = objectMapper.convertValue(userKeyRequestDto, Map.class);
-		String jsonMessage = objectMapper.writeValueAsString(result);
-		try {
-			HttpClient client = HttpClientBuilder.create().build(); // HttpClient 생성
-			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
-//			System.out.println(result);
-			postRequest.setHeader("Content-Type", "application/json");
-			postRequest.setEntity(new StringEntity(jsonMessage,ContentType.APPLICATION_JSON.withCharset(StandardCharsets.UTF_8))); //json 메시지 입력
-			HttpResponse response = client.execute(postRequest);
-
-			//Response 출력
-			if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().getStatusCode() == 201) {
-				ResponseHandler<String> handler = new BasicResponseHandler();
-				String body = handler.handleResponse(response);
-				TypeReference<Map<String, Object>> typeReference = new TypeReference<Map<String,Object>>() {};
-				Map<String, Object> responseJson = objectMapper.readValue(body, typeReference);
-				Map<String, Object> payload = (Map<String, Object>) responseJson.get("payload");
-//				System.out.println("유저 키 발급완료 SUCCESS : " + payload.get("userKey"));
-				MemberCheckResDto memberCheckResDto = new MemberCheckResDto();
-				memberCheckResDto.setUserKey((String) payload.get("userKey"));
-				return memberCheckResDto;
 			} else {
 				//오류가 발생하면 이미 존재하는 사용자입니다.(회원가입 불가) null값 대신 나중에 예외처리로 변경
 				System.out.println("response is error : " + response.getStatusLine().getStatusCode());
