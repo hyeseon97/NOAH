@@ -9,10 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccountListDto {
-	String bankCode;
-	String bankName;
-	String username;
-	String accountNo;
-	int accountBalance;
+public class BankAccountBalanceCheckResDto {//계좌 잔액 조회 응답Dto
+	int accountBalance; //확인한 계좌의 잔액
 }
