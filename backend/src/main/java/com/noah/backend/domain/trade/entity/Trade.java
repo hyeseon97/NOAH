@@ -1,7 +1,9 @@
 package com.noah.backend.domain.trade.entity;
 
+import com.noah.backend.domain.account.entity.Account;
 import com.noah.backend.domain.groupaccount.entity.GroupAccount;
 import com.noah.backend.domain.base.BaseEntity;
+import com.noah.backend.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -45,8 +47,12 @@ public class Trade extends BaseEntity {
     @Column(name = "is_contained")
     private boolean isContained;
 
-//    @ManyToOne
-//    @Column(name = "member_id")
-//    private Long memberId;
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
 
 }

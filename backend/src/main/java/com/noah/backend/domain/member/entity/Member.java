@@ -5,6 +5,7 @@ import com.noah.backend.domain.base.BaseEntity;
 import com.noah.backend.domain.comment.entity.Comment;
 import com.noah.backend.domain.memberTravel.entity.MemberTravel;
 import com.noah.backend.domain.notification.entity.Notification;
+import com.noah.backend.domain.trade.entity.Trade;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -57,4 +58,7 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<Comment> commentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    private List<Trade> tradeList = new ArrayList<>();
 }
