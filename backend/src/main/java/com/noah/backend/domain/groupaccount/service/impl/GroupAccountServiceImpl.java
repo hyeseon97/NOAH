@@ -11,6 +11,7 @@ import com.noah.backend.domain.groupaccount.service.GroupAccountService;
 import com.noah.backend.domain.travel.entity.Travel;
 import com.noah.backend.domain.travel.repository.TravelRepository;
 import com.noah.backend.global.exception.account.AccountNotFoundException;
+import com.noah.backend.global.exception.groupaccount.GroupAccountAccessDeniedException;
 import com.noah.backend.global.exception.groupaccount.GroupAccountNotFoundException;
 import com.noah.backend.global.exception.travel.TravelNotFoundException;
 import jakarta.transaction.Transactional;
@@ -35,10 +36,6 @@ public class GroupAccountServiceImpl implements GroupAccountService {
         GroupAccount groupAccount = GroupAccount.builder()
                 .account(account)
                 .travel(travel)
-                .targetAmount(groupAccountPostDto.getTargetAmount())
-                .targetDate(groupAccountPostDto.getTargetDate())
-                .paymentDate(groupAccountPostDto.getPaymentDate())
-                .perAmount(groupAccountPostDto.getPerAmount())
                 .build();
         groupAccountRepository.save(groupAccount);
         return groupAccount.getId();
@@ -52,8 +49,11 @@ public class GroupAccountServiceImpl implements GroupAccountService {
     }
 
     @Override
-    public Long updateGroupAccount(GroupAccountUpdateDto groupAccountUpdateDto) {
+    public Long updateGroupAccount(Long memberId, GroupAccountUpdateDto groupAccountUpdateDto) {
         GroupAccount groupAccount = groupAccountRepository.findById(groupAccountUpdateDto.getGroupAccountId()).orElseThrow(GroupAccountNotFoundException::new);
+        if(!groupAccount.getAccount().getMember().getId().equals(memberId)){
+            throw new GroupAccountAccessDeniedException();
+        }
         if (groupAccountUpdateDto.getTargetAmount() != 0) {
             groupAccount.setTargetAmount(groupAccountUpdateDto.getTargetAmount());
         }

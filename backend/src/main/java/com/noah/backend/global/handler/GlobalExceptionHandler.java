@@ -1,6 +1,7 @@
 package com.noah.backend.global.handler;
 
 import com.noah.backend.global.exception.account.AccountNotFoundException;
+import com.noah.backend.global.exception.groupaccount.GroupAccountAccessDeniedException;
 import com.noah.backend.global.exception.member.AccessTokenNotFoundException;
 import com.noah.backend.global.exception.member.DuplicateEmailException;
 import com.noah.backend.global.exception.member.EmailNotFoundException;
@@ -69,21 +70,30 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return response.error(e.getErrorCode());
     }
 
+    /* 여행 */
     @ExceptionHandler(TravelNotFoundException.class)
     protected ResponseEntity<?> handle(TravelNotFoundException e){
         log.error("TravelNotFoundException = {}", e.getErrorCode().getMessage());
         return response.error(e.getErrorCode());
     }
 
+    /* 계좌 */
     @ExceptionHandler(AccountNotFoundException.class)
     protected ResponseEntity<?> handle(AccountNotFoundException e){
         log.error("AccountNotFoundException = {}", e.getErrorCode().getMessage());
         return response.error(e.getErrorCode());
     }
 
+    /* 모임 통장 */
     @ExceptionHandler(GroupAccountNotFoundException.class)
     protected ResponseEntity<?> handle(GroupAccountNotFoundException e){
         log.error("GroupNotFoundException = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+
+    @ExceptionHandler(GroupAccountAccessDeniedException.class)
+    protected ResponseEntity<?> handle(GroupAccountAccessDeniedException e){
+        log.error("GroupAccessDeniedException = {}", e.getErrorCode().getMessage());
         return response.error(e.getErrorCode());
     }
 

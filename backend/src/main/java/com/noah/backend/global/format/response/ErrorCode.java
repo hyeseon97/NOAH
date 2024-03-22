@@ -25,11 +25,15 @@ public enum ErrorCode {
     MEMBER_NOT_FOUNT(HttpStatus.BAD_REQUEST, "회원이 존재하지 않습니다."),
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "멤버를 찾을 수 없습니다."),
 
+    /* 은행(bank) */
+    BANK_ACCOUNT_CREATE_FAILED(HttpStatus.NOT_ACCEPTABLE, "은행 계좌 개설에 실패했습니다."),
+
     /* 계좌(Account) */
     ACCOUNT_NOT_FOUND(HttpStatus.NOT_FOUND, "계좌를 찾을 수 없습니다."),
 
     /* 모임통장(GroupAccount) */
     GROUP_ACCOUNT_NOT_FOUND(HttpStatus.NOT_FOUND, "모임 통장을 찾을 수 없습니다."),
+    GROUP_ACCOUNT_ACCESS_DENIED(HttpStatus.FORBIDDEN, "계좌 주인만 모임통장을 수정할 수 있습니다."),
 
     // 항공(flight)
     REQUIRED_FIELD_FAILED(HttpStatus.BAD_REQUEST, "필수 입력을 모두 입력하지 않았습니다."),

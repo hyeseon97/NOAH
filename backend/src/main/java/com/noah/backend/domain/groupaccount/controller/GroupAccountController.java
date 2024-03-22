@@ -1,15 +1,26 @@
 package com.noah.backend.domain.groupaccount.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.noah.backend.domain.account.dto.requestDto.AccountPostDto;
+import com.noah.backend.domain.account.service.AccountService;
+import com.noah.backend.domain.bank.dto.requestDto.BankAccountCreateReqDto;
+import com.noah.backend.domain.bank.dto.responseDto.BankAccountCreateResDto;
+import com.noah.backend.domain.bank.service.BankService;
 import com.noah.backend.domain.groupaccount.dto.requestDto.GroupAccountPostDto;
 import com.noah.backend.domain.groupaccount.dto.requestDto.GroupAccountUpdateDto;
 import com.noah.backend.domain.groupaccount.dto.responseDto.GroupAccountInfoDto;
 import com.noah.backend.domain.groupaccount.service.GroupAccountService;
+import com.noah.backend.domain.member.repository.MemberRepository;
+import com.noah.backend.domain.member.service.member.MemberService;
+import com.noah.backend.global.exception.bank.BankAccountCreateFailed;
 import com.noah.backend.global.format.code.ApiResponse;
 import com.noah.backend.global.format.response.ResponseCode;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "모임통장 컨트롤러", description = "Group Account Controller API")
@@ -20,25 +31,47 @@ public class GroupAccountController {
 
     private final ApiResponse response;
     private final GroupAccountService groupAccountService;
+    private final AccountService accountService;
+    private final BankService bankService;
+    private final MemberService memberService;
 
-    @Operation(summary = "모임 통장 생성", description = "모임 통장 생성")
+    @Operation(summary = "모임 통장 생성", description = "은행 계좌 생성 -> 우리 계좌 생성 -> 모임 통장 생성")
     @PostMapping
-    public ResponseEntity<?> createGroupAccount(@RequestBody GroupAccountPostDto groupAccountPostDto){
+    public ResponseEntity<?> createGroupAccount(@Parameter(hidden = true) Authentication authentication,
+                                                @RequestBody BankAccountCreateReqDto bankAccountCreateReqDto) throws JsonProcessingException {
+
+        /* 은행에서 계좌 생성 */
+        BankAccountCreateResDto bankAccountCreateResDto = bankService.bankAccountCreate(bankAccountCreateReqDto);
+
+        /* NOAH 서비스용 계좌 생성 */
+        Long memberId = memberService.searchMemberId(authentication);
+        Long travelId = bankAccountCreateReqDto.getTravelId();
+        AccountPostDto accountPostDto = AccountPostDto.builder()
+                .memberId(memberId).travelId(travelId).build();
+        Long accountId = accountService.createAccount(accountPostDto);
+
+        /* 모임 통장 생성(설정) -> 계좌, 모임통장이 따로있어서 계좌를 만들고 모임통장으로 엮는 느낌임 */
+        GroupAccountPostDto groupAccountPostDto = GroupAccountPostDto.builder()
+                .accountId(accountId)
+                .travelId(travelId).build();
         Long groupAccountId = groupAccountService.createGroupAccount(groupAccountPostDto);
+
+
         return response.success(ResponseCode.GROUP_ACCOUNT_CREATED, groupAccountId);
     }
 
     @Operation(summary = "모임 단건 통장 조회", description = "모임 통장 단건 조회")
     @GetMapping("/{id}")
-    public ResponseEntity<?> getGroupAccount(@PathVariable(name = "id") Long groupAccountId){
+    public ResponseEntity<?> getGroupAccount(@PathVariable(name = "id") Long groupAccountId) {
         GroupAccountInfoDto groupAccountInfoDto = groupAccountService.groupAccountInfo(groupAccountId);
         return response.success(ResponseCode.GROUP_ACCOUNT_INFO_FETCHED, groupAccountInfoDto);
     }
 
     @Operation(summary = "모임 통장 내용 수정", description = "목표금액, 납입금, 납부일, 수정")
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateGroupAccount(@RequestBody GroupAccountUpdateDto groupAccountUpdateDto){
-
-        return response.success(ResponseCode.GROUP_ACCOUNT_INFO_UPDATED, groupAccountService.updateGroupAccount(groupAccountUpdateDto));
+    public ResponseEntity<?> updateGroupAccount(@Parameter(hidden = true) Authentication authentication,
+                                                @RequestBody GroupAccountUpdateDto groupAccountUpdateDto) {
+        Long memberId = memberService.searchMemberId(authentication);
+        return response.success(ResponseCode.GROUP_ACCOUNT_INFO_UPDATED, groupAccountService.updateGroupAccount(memberId, groupAccountUpdateDto));
     }
 }
