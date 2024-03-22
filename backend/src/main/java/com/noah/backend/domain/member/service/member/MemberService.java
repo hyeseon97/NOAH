@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.noah.backend.domain.member.dto.login.LoginRequestDto;
 import com.noah.backend.domain.member.dto.login.LoginResponseDto;
 import com.noah.backend.domain.member.dto.requestDto.SignupRequestDto;
+import com.noah.backend.domain.member.dto.responseDto.MemberInfoDto;
 import jakarta.servlet.http.HttpServletResponse;
 
 public interface MemberService {
@@ -18,4 +19,5 @@ public interface MemberService {
 
     String test(String email);
 
+    MemberInfoDto searchMember(String email);
 }

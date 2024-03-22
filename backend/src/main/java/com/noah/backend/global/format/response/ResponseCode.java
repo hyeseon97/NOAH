@@ -17,6 +17,7 @@ public enum ResponseCode {
     LOGOUT_SUCCESS(HttpStatus.OK, "로그아웃이 성공적으로 이루어졌습니다."),
     NICKNAME_AVAILABLE(HttpStatus.OK, "사용 가능한 닉네임입니다"),
     DUPLICATE_NICKNAME(HttpStatus.OK, "중복된 닉네임입니다"),
+    MEMBER_FETCHED(HttpStatus.OK, "회원이 성공적으로 조회되었습니다."),
 
     /* 계좌 (Account) */
     ACCOUNT_CREATED(HttpStatus.OK, "계좌가 성공적으로 생성되었습니다."),
