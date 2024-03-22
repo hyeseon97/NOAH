@@ -6,12 +6,10 @@ import com.noah.backend.domain.member.dto.email.EmailVerificationRequestDto;
 import com.noah.backend.domain.member.dto.login.LoginRequestDto;
 import com.noah.backend.domain.member.dto.requestDto.NicknameRequestDto;
 import com.noah.backend.domain.member.dto.requestDto.SignupRequestDto;
-import com.noah.backend.domain.member.entity.Member;
-import com.noah.backend.domain.member.repository.MemberRepository;
+import com.noah.backend.domain.member.dto.responseDto.MemberInfoDto;
 import com.noah.backend.domain.member.service.mail.MailService;
 import com.noah.backend.domain.member.service.member.MemberService;
 import com.noah.backend.global.annotation.AccessToken;
-import com.noah.backend.global.annotation.Nickname;
 import com.noah.backend.global.format.code.ApiResponse;
 import com.noah.backend.global.format.response.ResponseCode;
 import com.noah.backend.global.jwt.service.TokenService;
@@ -121,6 +119,12 @@ public class MemberController {
     public ResponseEntity<?> logout(@Parameter(hidden = true) Authentication authentication,
                                     HttpServletResponse servletResponse) {
         return response.success(ResponseCode.LOGOUT_SUCCESS, memberService.logout(authentication.getName(), servletResponse));
+    }
+
+    @GetMapping("{email}")
+    public ResponseEntity<?> searchMember(@PathVariable(name = "email") String email){
+        MemberInfoDto member = memberService.searchMember(email);
+        return response.success(ResponseCode.MEMBER_FETCHED, member);
     }
 
     @GetMapping("/test")
