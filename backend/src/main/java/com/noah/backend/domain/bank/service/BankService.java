@@ -3,8 +3,10 @@ package com.noah.backend.domain.bank.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.noah.backend.domain.bank.dto.requestDto.*;
 import com.noah.backend.domain.bank.dto.responseDto.*;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+
 
 public interface BankService {
 
