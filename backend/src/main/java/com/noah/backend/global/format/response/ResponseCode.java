@@ -17,8 +17,17 @@ public enum ResponseCode {
     ACCOUNT_LIST_FETCHED(HttpStatus.OK, "나의 계좌정보가 성공적으로 조회되었습니다."),
     ACCOUNT_LIST_NOT_FOUND(HttpStatus.OK, "조회되는 계좌 정보가 없습니다."),
     ACCOUNT_INFO_FETCHED(HttpStatus.OK, "계좌정보가 성공적으로 조회되었습니다."),
-    ACCOUNT_INFO_UPDATED(HttpStatus.OK, "계좌정보가 성공적으로 수정되었습니다."),
     ACCOUNT_DELETED(HttpStatus.OK, "계좌가 성공적으로 삭제되었습니다."),
+    ACCOUNT_INFO_UPDATED(HttpStatus.OK, "계좌정보가 성공적으로 수정되었습니다."),
+
+    // 항공(flight)
+//    SERVER_ACCESS_SUCCESS(HttpStatus.OK, "서버 통신 성공"),
+    FLIGHT_OFFERS_SUCCESS(HttpStatus.OK, "항공권을 성공적으로 조회했습니다."),
+    FLIGHT_PRICE_ANALYSIS_SUCCESS(HttpStatus.OK, "항공권 가격 분석을 성공적으로 조회했습니다."),
+    AIRPORT_RELEVANT_SUCCESS(HttpStatus.OK, "가까운 공항 정보를 성공적으로 조회했습니다."),
+    AIRPORT_ROUTES_SUCCESS(HttpStatus.OK, "공항 직항 항로를 성공적으로 조회했습니다."),
+    AIRLINE_CODES_SUCCESS(HttpStatus.OK, "항공사 코드를 성공적으로 조회했습니다."),
+    AIRLINE_ROUTES_SUCCESS(HttpStatus.OK, "항공사가 제공하는 항로를 성공적으로 조회했습니다."),
 
     /* 모임통장 (GroupAccount) */
     GROUP_ACCOUNT_CREATED(HttpStatus.OK, "모임통장이 성공적으로 생성되었습니다."),

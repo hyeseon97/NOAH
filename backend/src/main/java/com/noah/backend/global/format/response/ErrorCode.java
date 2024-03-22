@@ -18,6 +18,10 @@ public enum ErrorCode {
     /* 모임통장(GroupAccount) */
     GROUP_ACCOUNT_NOT_FOUND(HttpStatus.NOT_FOUND, "모임 통장을 찾을 수 없습니다."),
 
+    // 항공(flight)
+    REQUIRED_FIELD_FAILED(HttpStatus.BAD_REQUEST, "필수 입력을 모두 입력하지 않았습니다."),
+    EXTERNAL_TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "외부 API 토큰이 만료되었습니다."),
+    
     /* 여행(Travel) */
     TRAVEL_NOT_FOUND(HttpStatus.NOT_FOUND, "여행을 찾을 수 없습니다.");
 
