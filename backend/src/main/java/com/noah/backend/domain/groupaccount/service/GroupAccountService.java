@@ -9,5 +9,5 @@ public interface GroupAccountService {
 
     GroupAccountInfoDto groupAccountInfo(Long groupAccountId);
 
-    Long updateGroupAccount(GroupAccountUpdateDto groupAccountUpdateDto);
+    Long updateGroupAccount(Long memberId, GroupAccountUpdateDto groupAccountUpdateDto);
 }

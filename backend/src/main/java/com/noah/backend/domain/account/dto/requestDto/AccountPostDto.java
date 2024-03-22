@@ -1,13 +1,13 @@
 package com.noah.backend.domain.account.dto.requestDto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
+@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountPostDto {
-    private Long travelId;
     private Long memberId;
+    private Long travelId;
 }

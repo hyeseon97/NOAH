@@ -30,7 +30,9 @@ public class AccountController {
 
     @Operation(summary = "계좌 생성", description = "계좌 생성")
     @PostMapping
-    public ResponseEntity<?> createAccount(@RequestBody AccountPostDto accountPostDto) {
+    public ResponseEntity<?> createAccount(@Parameter(hidden = true) Authentication authentication,
+                                           @RequestBody AccountPostDto accountPostDto) {
+        Long memberId = memberService.searchMemberId(authentication);
         Long accountId = accountService.createAccount(accountPostDto);
         return response.success(ResponseCode.ACCOUNT_CREATED, accountId);
     }
