@@ -29,7 +29,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom{
     public Optional<List<ReviewListGetDto>> getReviewList() {
         List<ReviewListGetDto> reviewDtos = query
                 .select(constructor(ReviewListGetDto.class,
-                        review.id,
+//                        review.id,
                         review.expense,
                         review.country,
                         review.people,
@@ -46,7 +46,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom{
     public Optional<ReviewGetDto> getReviewSelect(Long reviewId) {
         ReviewGetDto reviewDto = query
                 .select(Projections.constructor(ReviewGetDto.class,
-                        review.id,
+//                        review.id,
                         review.expense,
                         review.country,
                         review.people,
@@ -60,7 +60,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom{
 
             List<CommentListGetDto> commentDtos = query
                     .select(Projections.constructor(CommentListGetDto.class,
-                            comment.id,
+//                            comment.id,
                             comment.content))
                     .from(comment)
                     .where(comment.review.id.eq(reviewId))
@@ -68,7 +68,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom{
 
             List<ImageGetDto> imageDtos = query
                     .select(Projections.constructor(ImageGetDto.class,
-                            image.id,
+//                            image.id,
                             image.url))
                     .from(image)
                     .where(image.review.id.eq(reviewId))

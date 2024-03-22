@@ -24,7 +24,6 @@ public class TravelGetDto {
 //    private GroupAccount account;
 //    @Setter
 //    private Plan plan;
-
 //    private Long account_id;
 //    private Long plan_id;
 //    @Setter
@@ -33,5 +32,11 @@ public class TravelGetDto {
 //    private List<NotificationGetDto> notificationList;
     @Setter
     private List<TicketListGetFromTravelDto> ticketList;
+
+
+    public TravelGetDto(String title, Boolean isEnded) { // Boolean으로 변경
+        this.title = title;
+        this.isEnded = isEnded;
+    }
 
 }

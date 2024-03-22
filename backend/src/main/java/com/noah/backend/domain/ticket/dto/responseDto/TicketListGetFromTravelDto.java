@@ -19,5 +19,5 @@ public class TicketListGetFromTravelDto {
     private String a_airport;
     private int d_gate;
 //    private TravelGetDto travel;
-    private Long travel_id;
+//    private Long travel_id;
 }
