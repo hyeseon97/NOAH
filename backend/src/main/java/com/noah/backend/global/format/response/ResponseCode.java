@@ -22,7 +22,8 @@ public enum ResponseCode {
 
     /* 모임통장 (GroupAccount) */
     GROUP_ACCOUNT_CREATED(HttpStatus.OK, "모임통장이 성공적으로 생성되었습니다."),
-    GROUP_ACCOUNT_INFO_FETCHED(HttpStatus.OK, "모임통장이 성공적으로 조회되었습니다.")
+    GROUP_ACCOUNT_INFO_FETCHED(HttpStatus.OK, "모임통장이 성공적으로 조회되었습니다."),
+    GROUP_ACCOUNT_INFO_UPDATED(HttpStatus.OK, "모임통장 내용이 성공적으로 수정되었습니다.")
 
     ;
 

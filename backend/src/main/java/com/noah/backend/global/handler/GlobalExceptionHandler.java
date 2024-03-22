@@ -30,7 +30,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("AccountNotFoundException = {}", e.getErrorCode().getMessage());
         return response.error(e.getErrorCode());
     }
-    
+
     @ExceptionHandler(GroupAccountNotFoundException.class)
     protected ResponseEntity<?> handle(GroupAccountNotFoundException e){
         log.error("GroupNotFoundException = {}", e.getErrorCode().getMessage());

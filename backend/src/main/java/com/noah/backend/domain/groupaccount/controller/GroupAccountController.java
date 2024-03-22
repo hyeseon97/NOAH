@@ -1,6 +1,7 @@
 package com.noah.backend.domain.groupaccount.controller;
 
 import com.noah.backend.domain.groupaccount.dto.requestDto.GroupAccountPostDto;
+import com.noah.backend.domain.groupaccount.dto.requestDto.GroupAccountUpdateDto;
 import com.noah.backend.domain.groupaccount.dto.responseDto.GroupAccountInfoDto;
 import com.noah.backend.domain.groupaccount.service.GroupAccountService;
 import com.noah.backend.global.format.code.ApiResponse;
@@ -32,5 +33,12 @@ public class GroupAccountController {
     public ResponseEntity<?> getGroupAccount(@PathVariable(name = "id") Long groupAccountId){
         GroupAccountInfoDto groupAccountInfoDto = groupAccountService.groupAccountInfo(groupAccountId);
         return response.success(ResponseCode.GROUP_ACCOUNT_INFO_FETCHED, groupAccountInfoDto);
+    }
+
+    @Operation(summary = "모임 통장 내용 수정", description = "목표금액, 납입금, 납부일, 수정")
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateGroupAccount(@RequestBody GroupAccountUpdateDto groupAccountUpdateDto){
+
+        return response.success(ResponseCode.GROUP_ACCOUNT_INFO_UPDATED, groupAccountService.updateGroupAccount(groupAccountUpdateDto));
     }
 }

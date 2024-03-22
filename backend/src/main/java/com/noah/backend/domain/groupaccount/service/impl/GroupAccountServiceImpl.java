@@ -3,6 +3,7 @@ package com.noah.backend.domain.groupaccount.service.impl;
 import com.noah.backend.domain.account.entity.Account;
 import com.noah.backend.domain.account.repository.AccountRepository;
 import com.noah.backend.domain.groupaccount.dto.requestDto.GroupAccountPostDto;
+import com.noah.backend.domain.groupaccount.dto.requestDto.GroupAccountUpdateDto;
 import com.noah.backend.domain.groupaccount.dto.responseDto.GroupAccountInfoDto;
 import com.noah.backend.domain.groupaccount.entity.GroupAccount;
 import com.noah.backend.domain.groupaccount.repository.GroupAccountRepository;
@@ -48,5 +49,25 @@ public class GroupAccountServiceImpl implements GroupAccountService {
 
         GroupAccountInfoDto groupAccountInfoDto = groupAccountRepository.getGroupAccountInfo(groupAccountId).orElseThrow(GroupAccountNotFoundException::new);
         return groupAccountInfoDto;
+    }
+
+    @Override
+    public Long updateGroupAccount(GroupAccountUpdateDto groupAccountUpdateDto) {
+        GroupAccount groupAccount = groupAccountRepository.findById(groupAccountUpdateDto.getGroupAccountId()).orElseThrow(GroupAccountNotFoundException::new);
+        if (groupAccountUpdateDto.getTargetAmount() != 0) {
+            groupAccount.setTargetAmount(groupAccountUpdateDto.getTargetAmount());
+        }
+        if (groupAccountUpdateDto.getTargetDate() != 0) {
+            groupAccount.setTargetDate(groupAccountUpdateDto.getTargetDate());
+        }
+        if (groupAccountUpdateDto.getPerAmount() != 0) {
+            groupAccount.setPerAmount(groupAccount.getPerAmount());
+        }
+        if (groupAccount.getPaymentDate() != 0) {
+            groupAccount.setPaymentDate(groupAccount.getPaymentDate());
+        }
+
+        groupAccountRepository.save(groupAccount);
+        return groupAccount.getId();
     }
 }
