@@ -2,6 +2,11 @@ package com.noah.backend.global.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +17,19 @@ import org.springframework.context.annotation.Configuration;
                 version = "v1"))
 @Configuration
 public class SwaggerConfig {
+
+    @Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+            .addServersItem(new Server().url("/"))
+            .addSecurityItem(new SecurityRequirement().addList("BearerAuth"))
+            .components(new Components()
+                            .addSecuritySchemes("BearerAuth", new SecurityScheme()
+                                .name("Authorization")
+                                .type(SecurityScheme.Type.HTTP)
+                                .scheme("Bearer")
+                                .bearerFormat("JWT")));
+    }
 
     @Bean
     public GroupedOpenApi all() {
@@ -63,6 +81,14 @@ public class SwaggerConfig {
                 .group("댓글")
                 .pathsToMatch("/api/v1/comment/**")
                 .build();
+    }
+
+    @Bean
+    public GroupedOpenApi memberGroup() {
+        return GroupedOpenApi.builder()
+                             .group("회원")
+                             .pathsToMatch("/api/v1/member/**")
+                             .build();
     }
 
     @Bean

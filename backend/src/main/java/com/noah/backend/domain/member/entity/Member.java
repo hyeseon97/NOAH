@@ -8,6 +8,7 @@ import com.noah.backend.domain.notification.entity.Notification;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +18,8 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
+@Builder
+@Getter
 @NoArgsConstructor //아무것도없는 기본생성자
 @AllArgsConstructor //모든 필드가 들어있는 생성자
 @Where(clause = "is_deleted = false")
