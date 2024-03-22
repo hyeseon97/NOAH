@@ -14,6 +14,8 @@ public interface BankService {
 	void adKeyRequest() throws JsonProcessingException;
 	//사용자 계정생성
 	memberCreateResDto memberCreate(memberCreateReqDto memberCreateReqDto) throws JsonProcessingException;
+	//사용자 계정조회
+	MemberCheckResDto memberCheck(MemberCheckReqDto memberCheckReqDto) throws JsonProcessingException;
 	//상품 조회(X)
 	void productSelect() throws JsonProcessingException;
 	//계좌 생성
