@@ -2,7 +2,9 @@ package com.noah.backend.domain.member.repository.custom;
 
 import static com.noah.backend.domain.member.entity.QMember.member;
 
+import com.noah.backend.domain.member.dto.responseDto.MemberInfoDto;
 import com.noah.backend.domain.member.entity.Member;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,14 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
             .selectFrom(member)
             .where(member.nickname.eq(nickname))
             .fetchCount() > 0;
+    }
+
+    @Override
+    public Optional<MemberInfoDto> searchMember(String email) {
+        return Optional.ofNullable(query.select(Projections.constructor(MemberInfoDto.class, member.id, member.email, member.name, member.nickname))
+                                       .from(member)
+                                       .where(member.email.eq(email))
+                                       .fetchOne());
     }
 
 }
