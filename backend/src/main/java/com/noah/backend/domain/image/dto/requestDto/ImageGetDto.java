@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ImageGetDto {
 
-    private Long Id;
+//    private Long Id;
     private String url;
-    private Review review;
+//    private Long review_id;
 
 }

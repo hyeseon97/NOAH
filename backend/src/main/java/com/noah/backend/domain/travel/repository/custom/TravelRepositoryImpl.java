@@ -28,11 +28,11 @@ public class TravelRepositoryImpl implements TravelRepositoryCustom{
                 .select(constructor(TravelGetListDto.class,
 //                        travel.id,
                         travel.title,
-                        travel.isEnded,
+                        travel.isEnded
 //                        travel.memberTravelList,
 //                        travel.notificationList,
-                        travel.groupAccount.id,
-                        travel.plan.id
+//                        travel.groupAccount.id,
+//                        travel.plan.id
 //                        travel.ticketList
                         ))
 //                .leftJoin(notification)
@@ -46,7 +46,7 @@ public class TravelRepositoryImpl implements TravelRepositoryCustom{
     }
 
     @Override
-    public Optional<TravelGetDto> getTravelSelect(Long TravelId) {
+    public Optional<TravelGetDto> getTravelSelect(Long travelId) {
         TravelGetDto travelDto = query
                 .select(constructor(TravelGetDto.class,
 //                        travel.id,
@@ -54,14 +54,16 @@ public class TravelRepositoryImpl implements TravelRepositoryCustom{
                         travel.isEnded
 //                        travel.memberTravelList,
 //                        travel.notificationList,
-//                        travel.ticketList,
+//                        travel.ticketList
 //                        travel.groupAccount.id,
 //                        travel.plan.id
                         ))
 //                .leftJoin(notification)
 //                .on(travel.id.eq(notification.travel.id))
 //                .leftJoin(memberTravel).on(travel.id.eq(memberTravel.travel.id))
-                .leftJoin(ticket).on(travel.id.eq(ticket.travel.id))
+//                .leftJoin(ticket).on(travel.id.eq(ticket.travel.id))
+                .from(travel)
+                .where(travel.id.eq(travelId))
                 .fetchOne();
 
         if(travelDto != null){
@@ -92,7 +94,7 @@ public class TravelRepositoryImpl implements TravelRepositoryCustom{
                             ticket.dGate
                     ))
                     .from(ticket)
-                    .where(ticket.travel.id.eq(TravelId))
+                    .where(ticket.travel.id.eq(travelId))
                     .fetch();
             travelDto.setTicketList(ticketListGetFromTravelDtoList);
         }

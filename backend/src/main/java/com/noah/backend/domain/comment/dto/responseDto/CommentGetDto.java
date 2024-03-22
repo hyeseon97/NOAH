@@ -8,12 +8,12 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CommentGetDto {
 
-    private Long id;
+//    private Long id;
     @Setter
     private String content;
     @Setter
-    private Long member;
+    private Long member_id;
     @Setter
-    private Long review;
+    private Long review_id;
 
 }

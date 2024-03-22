@@ -25,7 +25,7 @@ public class TravelGetListDto {
 //    private Account account;
 //    private Plan plan;
 
-    private Long groupAccount_id;
-    private Long plan_id;
+//    private Long groupAccount_id;
+//    private Long plan_id;
 
 }
