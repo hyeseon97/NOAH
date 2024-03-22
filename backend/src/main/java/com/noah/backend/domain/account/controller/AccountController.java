@@ -5,6 +5,7 @@ import com.noah.backend.domain.account.dto.requestDto.AccountUpdateDto;
 import com.noah.backend.domain.account.dto.responseDto.AccountInfoDto;
 import com.noah.backend.domain.account.repository.AccountRepository;
 import com.noah.backend.domain.account.service.AccountService;
+import com.noah.backend.domain.member.service.member.MemberService;
 import com.noah.backend.global.format.code.ApiResponse;
 import com.noah.backend.global.format.response.ResponseCode;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +13,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +26,7 @@ public class AccountController {
 
     private final ApiResponse response;
     private final AccountService accountService;
-//    private final MemberService memberService;
+    private final MemberService memberService;
 
     @Operation(summary = "계좌 생성", description = "계좌 생성")
     @PostMapping
@@ -34,8 +36,9 @@ public class AccountController {
     }
 
     @Operation(summary = "멤버별 계좌 조회", description = "멤버별 계좌 조회")
-    @GetMapping("/my/{memberId}")
-    public ResponseEntity<?> getMyAccountList(@PathVariable Long memberId){
+    @GetMapping("/my")
+    public ResponseEntity<?> getMyAccountList(@Parameter(hidden = true) Authentication authentication){
+        Long memberId = memberService.searchMemberId(authentication);
         List<AccountInfoDto> accountInfoList = accountService.getMyAccountList(memberId);
         if(accountInfoList.isEmpty()){
             return response.success(ResponseCode.ACCOUNT_LIST_NOT_FOUND, null);

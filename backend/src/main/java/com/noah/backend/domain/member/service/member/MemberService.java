@@ -4,6 +4,7 @@ import com.noah.backend.domain.member.dto.login.LoginRequestDto;
 import com.noah.backend.domain.member.dto.login.LoginResponseDto;
 import com.noah.backend.domain.member.dto.requestDto.SignupRequestDto;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.core.Authentication;
 
 public interface MemberService {
 
@@ -16,5 +17,7 @@ public interface MemberService {
     String logout(String email, HttpServletResponse servletResponse);
 
     String test(String email);
+
+    Long searchMemberId(Authentication authentication);
 
 }

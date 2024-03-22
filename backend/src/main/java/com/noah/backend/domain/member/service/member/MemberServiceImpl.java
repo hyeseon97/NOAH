@@ -18,6 +18,7 @@ import com.noah.backend.global.util.CookieUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -141,6 +142,12 @@ public class MemberServiceImpl implements MemberService {
     public String test(String email) {
         Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
         return member.getNickname();
+    }
+
+    @Override
+    public Long searchMemberId(Authentication authentication) {
+        Member member = memberRepository.findByEmail(authentication.getName()).orElseThrow(MemberNotFoundException::new);
+        return member.getId();
     }
 
 }
