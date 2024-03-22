@@ -1,5 +1,14 @@
 package com.noah.backend.domain.member.service.member;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.noah.backend.domain.account.entity.Account;
+import com.noah.backend.domain.account.repository.AccountRepository;
+import com.noah.backend.domain.bank.dto.requestDto.BankAccountCreateReqDto;
+import com.noah.backend.domain.bank.dto.requestDto.MemberCheckReqDto;
+import com.noah.backend.domain.bank.dto.requestDto.MemberCreateReqDto;
+import com.noah.backend.domain.bank.dto.responseDto.BankAccountCreateResDto;
+import com.noah.backend.domain.bank.dto.responseDto.MemberCreateResDto;
+import com.noah.backend.domain.bank.service.BankService;
 import com.noah.backend.domain.member.dto.login.LoginRequestDto;
 import com.noah.backend.domain.member.dto.login.LoginResponseDto;
 import com.noah.backend.domain.member.dto.requestDto.SignupRequestDto;
@@ -16,6 +25,7 @@ import com.noah.backend.global.jwt.repository.RefreshTokenRepository;
 import com.noah.backend.global.jwt.service.TokenService;
 import com.noah.backend.global.util.CookieUtil;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.concurrent.ThreadLocalRandom;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.Authentication;
@@ -36,27 +46,78 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final RefreshTokenRepository refreshTokenRepository;
 
+    private final BankService bankService;
+    private final AccountRepository accountRepository;
+
     @Transactional
     @Override
-    public Long create(SignupRequestDto requestDto) {
+    public Long create(SignupRequestDto requestDto) throws JsonProcessingException {
         // 회원가입
 
         /* 싸피 금융망으로 UserKey 발급 */
+        MemberCreateReqDto memberCreateReqDto = MemberCreateReqDto.builder()
+                                                                  .email(requestDto.getEmail())
+                                                                  .build();
+        MemberCreateResDto memberCreateResDto = bankService.memberCreate(memberCreateReqDto);
 
+        String userKey = null;
+
+        // 유저키가 널이면 이미 가입되어 있는 회원 -> 유저키 재발급 받기
+        if (memberCreateResDto == null) {
+            MemberCheckReqDto memberCheckReqDto = MemberCheckReqDto.builder()
+                                                                   .email(requestDto.getEmail()).build();
+            userKey = bankService.memberCheck(memberCheckReqDto).getUserKey();
+        } else{
+            userKey = memberCreateResDto.getUserKey();
+        }
 
         /* 회원 생성 */
         Member member = Member.builder()
                               .email(requestDto.getEmail())
                               .name(requestDto.getName())
                               .nickname(requestDto.getNickname())
-                              .password(passwordEncoder.encode(requestDto.getPassword())).build();
-        memberRepository.save(member);
+                              .password(passwordEncoder.encode(requestDto.getPassword()))
+                              .userKey(userKey).build();
+        Member savedMember = memberRepository.save(member);
+        System.out.println("회원가입된 아이디 : " + savedMember.getId());
 
         /* UserKey로 개인계좌 개설 */
+        // 기본으로 가지고 있는 개인 계좌 개수 (랜덤으로 1-4개)
+        int num = ThreadLocalRandom.current().nextInt(1, 5);
+        System.out.println("기본계좌개수 : " + num);
+        for (int i = 0; i < num; i++) {
+            // 해당 계좌에 기본으로 가지고 있는 잔액 (랜덤으로 10000-1500000원)
+            int money = ThreadLocalRandom.current().nextInt(1000, 150000) * 10;
+            int type = ThreadLocalRandom.current().nextInt(1, 5);
 
+            System.out.println((i+1) + "번 계좌 잔액 : " + money + " " + type + "번 은행");
 
+            String typeSsafy = null;
+            switch (type){
+                case 1: typeSsafy = "001"; break;
+                case 2: typeSsafy = "002"; break;
+                case 3: typeSsafy = "003"; break;
+                case 4: typeSsafy = "004"; break;
+                default: break;
+            }
 
-        /* 은행 생성 */
+            // 싸피 금융망에 저장
+            BankAccountCreateReqDto bankAccountCreateReqDto = BankAccountCreateReqDto.builder()
+                                                                                     .bankType(typeSsafy)
+                                                                                     .userKey(userKey).build();
+            BankAccountCreateResDto bankAccountCreateResDto = bankService.bankAccountCreate(bankAccountCreateReqDto);
+
+            // DB에 저장
+            Account account = Account.builder()
+                .bankName(bankAccountCreateResDto.getBankName())
+                .accountNumber(bankAccountCreateResDto.getAccountNumber())
+                .type("개인계좌")
+                .member(savedMember)
+                .amount(money)
+                .build();
+            Account savedAccount = accountRepository.save(account);
+
+        }
 
         return member.getId();
     }

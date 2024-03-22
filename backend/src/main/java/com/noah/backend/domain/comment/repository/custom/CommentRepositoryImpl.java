@@ -23,7 +23,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom{
     public Optional<List<CommentListGetDto>> getCommentList(Long reviewId) {
         List<CommentListGetDto> commentDtos = query
                 .select(constructor(CommentListGetDto.class,
-                        comment.id,
+//                        comment.id,
                         comment.content
                 ))
                 .from(comment)
@@ -37,7 +37,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom{
     public Optional<CommentGetDto> getCommentSelect(Long commentId) {
         CommentGetDto commentDto = query
                 .select(Projections.constructor(CommentGetDto.class,
-                        comment.id,
+//                        comment.id,
                         comment.content))
                 .from(comment)
                 .where(comment.id.eq(commentId))

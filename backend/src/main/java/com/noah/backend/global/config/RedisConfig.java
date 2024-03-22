@@ -18,7 +18,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
 @EnableCaching
-@EnableRedisRepositories(basePackages = "com.sample.security.jwt.repository")
+@EnableRedisRepositories(basePackages = "com.noah.backend.global.jwt.repository")
 public class RedisConfig {
 
     @Value("${spring.data.redis.host}")

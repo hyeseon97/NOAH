@@ -35,6 +35,7 @@ public class HttpClientTest {
 
 //		adKeyRequestRun(); //관리자 키 발급 메소드
 //		memberCreateRun(); //사용자 계정 생성 메소드
+//		memberCheckRun(); //사용자 계정 조회 메소드
 //		productSelectRun(); //상품 조회 메소드
 //		bankAccountCreateRun(); //계좌 생성 메소드
 //		bankHolderCheckRun(); //예금주 조회 메소드
@@ -80,14 +81,14 @@ public class HttpClientTest {
 
 	//사용자 계정 생성 메소드
 	public static void memberCreateRun() throws JsonProcessingException {
-		memberCreateReqDto memberCreateReqDto = new memberCreateReqDto();
+		MemberCreateReqDto memberCreateReqDto = new MemberCreateReqDto();
 		memberCreateReqDto.setEmail("dldnwlstest13@ssafy.co.kr");
-		memberCreateResDto memberCreateResDto = memberCreate(memberCreateReqDto);
+		MemberCreateResDto memberCreateResDto = memberCreate(memberCreateReqDto);
 		System.out.println("발급된 유저키 : " + memberCreateResDto.getUserKey());
 	}
 
 	//사용자 계정 생성
-	public static memberCreateResDto memberCreate(memberCreateReqDto memberCreateReqDto) throws JsonProcessingException {
+	public static MemberCreateResDto memberCreate(MemberCreateReqDto memberCreateReqDto) throws JsonProcessingException {
 		String requestURL = "https://finapi.p.ssafy.io/ssafy/api/v1/member/";
 		UserKeyRequestDto userKeyRequestDto = new UserKeyRequestDto();
 		userKeyRequestDto.setApiKey(adminKey);
@@ -110,7 +111,7 @@ public class HttpClientTest {
 				Map<String, Object> responseJson = objectMapper.readValue(body, typeReference);
 				Map<String, Object> payload = (Map<String, Object>) responseJson.get("payload");
 //				System.out.println("유저 키 발급완료 SUCCESS : " + payload.get("userKey"));
-				memberCreateResDto memberCreateResDto = new memberCreateResDto();
+				MemberCreateResDto memberCreateResDto = new MemberCreateResDto();
 				memberCreateResDto.setUserKey((String) payload.get("userKey"));
 				return memberCreateResDto;
 			} else {

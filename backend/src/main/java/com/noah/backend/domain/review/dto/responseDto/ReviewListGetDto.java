@@ -11,7 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReviewListGetDto {
-    private Long review_id;
+//    private Long review_id;
     private int expense;
     private String country;
     private int people;

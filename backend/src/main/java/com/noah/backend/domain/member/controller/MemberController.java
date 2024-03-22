@@ -1,5 +1,6 @@
 package com.noah.backend.domain.member.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.noah.backend.domain.member.dto.email.EmailRequestDto;
 import com.noah.backend.domain.member.dto.email.EmailVerificationRequestDto;
 import com.noah.backend.domain.member.dto.login.LoginRequestDto;
@@ -52,7 +53,7 @@ public class MemberController {
     @Operation(summary = "일반 회원가입", description = "일반 회원가입")
     @PostMapping
     public ResponseEntity<?> signup(@Valid @RequestBody SignupRequestDto requestDto,
-                                    BindingResult bindingResult) {
+                                    BindingResult bindingResult) throws JsonProcessingException {
 
         if (bindingResult.hasErrors()) {
             return response.fail(bindingResult);
