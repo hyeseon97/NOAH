@@ -18,7 +18,7 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
-
+import org.springframework.stereotype.Service;
 
 
 import java.nio.charset.StandardCharsets;
@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+@Service
 public class BankServiceImpl implements BankService {
 	static String adminEmail = "dldnwls009@ssafy.co.kr";
 	static String adminKey = "2971f57e01a54fd0a91161ec5c59c3cd";
