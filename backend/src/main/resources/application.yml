@@ -9,6 +9,6 @@ spring:
   jpa:
     open-in-view: false
 
-
   devtools:
-    enabled: false
+    restart:
+      enabled: true

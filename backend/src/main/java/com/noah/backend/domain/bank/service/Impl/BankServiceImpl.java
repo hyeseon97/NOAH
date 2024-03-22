@@ -61,7 +61,7 @@ public class BankServiceImpl implements BankService {
 
 	//사용자 계정생성
 	@Override
-	public memberCreateResDto memberCreate(memberCreateReqDto memberCreateReqDto) throws JsonProcessingException {
+	public MemberCreateResDto memberCreate(MemberCreateReqDto memberCreateReqDto) throws JsonProcessingException {
 		String requestURL = "https://finapi.p.ssafy.io/ssafy/api/v1/member/";
 		UserKeyRequestDto userKeyRequestDto = new UserKeyRequestDto();
 		userKeyRequestDto.setApiKey(adminKey);
@@ -84,7 +84,7 @@ public class BankServiceImpl implements BankService {
 				Map<String, Object> responseJson = objectMapper.readValue(body, typeReference);
 				Map<String, Object> payload = (Map<String, Object>) responseJson.get("payload");
 				System.out.println("유저 키 발급완료 SUCCESS : " + payload.get("userKey"));
-				memberCreateResDto memberCreateResDto = new memberCreateResDto();
+				MemberCreateResDto memberCreateResDto = new MemberCreateResDto();
 				memberCreateResDto.setUserKey((String) payload.get("userKey"));
 				return memberCreateResDto;
 			} else {

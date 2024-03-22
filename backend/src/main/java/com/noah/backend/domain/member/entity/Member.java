@@ -43,6 +43,9 @@ public class Member extends BaseEntity {
     @Column(name = "nickname", nullable = false)
     private String nickname;
 
+    @Column(name = "userkey", nullable = false)
+    private String userKey;
+
     @OneToMany(mappedBy = "member", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<Account> accountList = new ArrayList<>();
 

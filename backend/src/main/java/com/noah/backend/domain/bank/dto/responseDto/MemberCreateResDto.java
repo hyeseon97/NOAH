@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class memberCreateResDto {//사용자 계정생성 응답Dto
+public class MemberCreateResDto {//사용자 계정생성 응답Dto
 	String userKey; //SSAFY금융망에서 발급된 userKey
 }
