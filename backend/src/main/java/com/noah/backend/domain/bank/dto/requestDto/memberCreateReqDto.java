@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class memberCreateReqDto {
-	String email;
+public class memberCreateReqDto {//사용자 계정생성 요청Dto
+	String email; //member 이메일
 }

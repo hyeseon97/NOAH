@@ -5,7 +5,6 @@ import com.noah.backend.domain.account.dto.requestDto.AccountUpdateDto;
 import com.noah.backend.domain.account.dto.responseDto.AccountInfoDto;
 import com.noah.backend.domain.account.repository.AccountRepository;
 import com.noah.backend.domain.account.service.AccountService;
-import com.noah.backend.domain.bank.dto.responseDto.AccountListDto;
 import com.noah.backend.global.format.code.ApiResponse;
 import com.noah.backend.global.format.response.ResponseCode;
 import io.swagger.v3.oas.annotations.Operation;

@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TransactionHistoryDto { //계좌 거래 내역 조회 응답Dto
+public class TransactionHistoryResDto { //계좌 거래 내역 조회 응답Dto
 	int type; //타입(1.입금 2.출금)
 	String name; //거래내용 요약
 	String date; //거래 날짜

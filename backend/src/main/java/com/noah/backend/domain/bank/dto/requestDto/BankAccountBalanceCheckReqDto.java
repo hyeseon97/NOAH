@@ -9,7 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BankAccountCreateReqDto {//계좌 생성 요청Dto
+public class BankAccountBalanceCheckReqDto {//계좌 잔액 조회 요청Dto
 	String userKey; //SSAFY금융망에서 발급된 userKey
-	String bankType; //선택한 은행코드:  001. 한국은행 002. 산업은행 003. 기업은행 004. 국민은행
+	String bankCode; //잔액을 확인할 계좌의 은행코드
+	String accountNo; //잔액을 확인할 계좌의 계좌 번호
 }
