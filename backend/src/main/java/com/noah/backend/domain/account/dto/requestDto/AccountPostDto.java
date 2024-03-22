@@ -10,4 +10,6 @@ import lombok.*;
 public class AccountPostDto {
     private Long memberId;
     private Long travelId;
+    private String bankName;
+    private String accountNumber;
 }

@@ -7,6 +7,7 @@ import com.noah.backend.domain.bank.dto.requestDto.BankAccountCreateReqDto;
 import com.noah.backend.domain.bank.dto.responseDto.BankAccountCreateResDto;
 import com.noah.backend.domain.bank.service.BankService;
 import com.noah.backend.domain.groupaccount.dto.requestDto.GroupAccountPostDto;
+import com.noah.backend.domain.groupaccount.dto.requestDto.GroupAccountRequestDto;
 import com.noah.backend.domain.groupaccount.dto.requestDto.GroupAccountUpdateDto;
 import com.noah.backend.domain.groupaccount.dto.responseDto.GroupAccountInfoDto;
 import com.noah.backend.domain.groupaccount.service.GroupAccountService;
@@ -38,16 +39,26 @@ public class GroupAccountController {
     @Operation(summary = "모임 통장 생성", description = "은행 계좌 생성 -> 우리 계좌 생성 -> 모임 통장 생성")
     @PostMapping
     public ResponseEntity<?> createGroupAccount(@Parameter(hidden = true) Authentication authentication,
-                                                @RequestBody BankAccountCreateReqDto bankAccountCreateReqDto) throws JsonProcessingException {
+                                                @RequestBody GroupAccountRequestDto groupAccountRequestDto) throws JsonProcessingException {
+
+        BankAccountCreateReqDto bankAccountCreateReqDto = BankAccountCreateReqDto.builder()
+                .userKey(memberService.searchMember(authentication).getUserKey())
+                .bankType(groupAccountRequestDto.getType())
+                .travelId(groupAccountRequestDto.getTravelId())
+                .build();
 
         /* 은행에서 계좌 생성 */
         BankAccountCreateResDto bankAccountCreateResDto = bankService.bankAccountCreate(bankAccountCreateReqDto);
 
         /* NOAH 서비스용 계좌 생성 */
-        Long memberId = memberService.searchMemberId(authentication);
+        Long memberId = memberService.searchMember(authentication).getMemberId();
         Long travelId = bankAccountCreateReqDto.getTravelId();
+
         AccountPostDto accountPostDto = AccountPostDto.builder()
+                .accountNumber(bankAccountCreateResDto.getAccountNumber())
+                .bankName(bankAccountCreateResDto.getBankName())
                 .memberId(memberId).travelId(travelId).build();
+
         Long accountId = accountService.createAccount(accountPostDto);
 
         /* 모임 통장 생성(설정) -> 계좌, 모임통장이 따로있어서 계좌를 만들고 모임통장으로 엮는 느낌임 */
@@ -71,7 +82,7 @@ public class GroupAccountController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateGroupAccount(@Parameter(hidden = true) Authentication authentication,
                                                 @RequestBody GroupAccountUpdateDto groupAccountUpdateDto) {
-        Long memberId = memberService.searchMemberId(authentication);
+        Long memberId = memberService.searchMember(authentication).getMemberId();
         return response.success(ResponseCode.GROUP_ACCOUNT_INFO_UPDATED, groupAccountService.updateGroupAccount(memberId, groupAccountUpdateDto));
     }
 }

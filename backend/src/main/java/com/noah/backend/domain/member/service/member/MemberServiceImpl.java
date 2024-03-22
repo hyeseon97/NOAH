@@ -13,6 +13,7 @@ import com.noah.backend.domain.member.dto.login.LoginRequestDto;
 import com.noah.backend.domain.member.dto.login.LoginResponseDto;
 import com.noah.backend.domain.member.dto.requestDto.SignupRequestDto;
 import com.noah.backend.domain.member.dto.responseDto.MemberInfoDto;
+import com.noah.backend.domain.member.dto.responseDto.MemberSearchDto;
 import com.noah.backend.domain.member.entity.Member;
 import com.noah.backend.domain.member.repository.MemberRepository;
 import com.noah.backend.global.exception.member.EmailNotFoundException;
@@ -206,9 +207,13 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Long searchMemberId(Authentication authentication) {
+    public MemberSearchDto searchMember(Authentication authentication) {
         Member member = memberRepository.findByEmail(authentication.getName()).orElseThrow(MemberNotFoundException::new);
-        return member.getId();
+        MemberSearchDto searchMember = MemberSearchDto.builder()
+                .memberId(member.getId())
+                .userKey(member.getUserKey())
+                .build();
+        return searchMember;
     }
 
 }

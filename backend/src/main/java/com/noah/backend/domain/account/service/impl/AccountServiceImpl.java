@@ -35,8 +35,8 @@ public class AccountServiceImpl implements AccountService {
         Travel travel = travelRepository.findById(accountPostDto.getTravelId()).orElseThrow(TravelNotFoundException::new);
         Member member = memberRepository.findById(accountPostDto.getMemberId()).orElseThrow(MemberNotFoundException::new);
         Account account = Account.builder()
-//                .accountNumber()
-//                .bankName()
+                .accountNumber(accountPostDto.getAccountNumber())
+                .bankName(accountPostDto.getBankName())
                 .type("공동계좌")
                 .member(member)
                 .build();

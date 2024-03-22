@@ -32,7 +32,7 @@ public class AccountController {
     @PostMapping
     public ResponseEntity<?> createAccount(@Parameter(hidden = true) Authentication authentication,
                                            @RequestBody AccountPostDto accountPostDto) {
-        Long memberId = memberService.searchMemberId(authentication);
+        Long memberId = memberService.searchMember(authentication).getMemberId();
         Long accountId = accountService.createAccount(accountPostDto);
         return response.success(ResponseCode.ACCOUNT_CREATED, accountId);
     }
@@ -40,7 +40,7 @@ public class AccountController {
     @Operation(summary = "멤버별 계좌 조회", description = "멤버별 계좌 조회")
     @GetMapping("/my")
     public ResponseEntity<?> getMyAccountList(@Parameter(hidden = true) Authentication authentication){
-        Long memberId = memberService.searchMemberId(authentication);
+        Long memberId = memberService.searchMember(authentication).getMemberId();
         List<AccountInfoDto> accountInfoList = accountService.getMyAccountList(memberId);
         if(accountInfoList.isEmpty()){
             return response.success(ResponseCode.ACCOUNT_LIST_NOT_FOUND, null);

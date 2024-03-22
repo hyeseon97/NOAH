@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.noah.backend.domain.member.dto.login.LoginRequestDto;
 import com.noah.backend.domain.member.dto.login.LoginResponseDto;
 import com.noah.backend.domain.member.dto.requestDto.SignupRequestDto;
+import com.noah.backend.domain.member.dto.responseDto.MemberSearchDto;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 
@@ -19,6 +20,6 @@ public interface MemberService {
 
     String test(String email);
 
-    Long searchMemberId(Authentication authentication);
+    MemberSearchDto searchMember(Authentication authentication);
 
 }

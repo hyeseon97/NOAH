@@ -2,6 +2,8 @@ package com.noah.backend.domain.groupaccount.service.impl;
 
 import com.noah.backend.domain.account.entity.Account;
 import com.noah.backend.domain.account.repository.AccountRepository;
+import com.noah.backend.domain.account.service.AccountService;
+import com.noah.backend.domain.bank.service.BankService;
 import com.noah.backend.domain.groupaccount.dto.requestDto.GroupAccountPostDto;
 import com.noah.backend.domain.groupaccount.dto.requestDto.GroupAccountUpdateDto;
 import com.noah.backend.domain.groupaccount.dto.responseDto.GroupAccountInfoDto;
@@ -27,6 +29,8 @@ public class GroupAccountServiceImpl implements GroupAccountService {
     private final GroupAccountRepository groupAccountRepository;
     private final AccountRepository accountRepository;
     private final TravelRepository travelRepository;
+    private final BankService bankService;
+    private final AccountService accountService;
 
     @Transactional
     @Override
