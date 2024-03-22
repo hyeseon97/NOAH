@@ -57,4 +57,37 @@ public class SwaggerConfig {
                 .pathsToMatch("/api/v1/comment/**")
                 .build();
     }
+
+    @Bean
+    public GroupedOpenApi planGroup() {
+        return GroupedOpenApi.builder()
+                .group("계획")
+                .pathsToMatch("/api/v1/plan/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi detailPlanGroup() {
+        return GroupedOpenApi.builder()
+                .group("세부계획")
+                .pathsToMatch("/api/v1/detailPlan/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi ticketGroup() {
+        return GroupedOpenApi.builder()
+                .group("티켓")
+                .pathsToMatch("/api/v1/ticket/**")
+                .build();
+
+    }
+
+//    @Bean
+//    public GroupedOpenApi flightGroup() {
+//        return GroupedOpenApi.builder()
+//                .group("항공")
+//                .pathsToMatch("/api/v2/flight/**")
+//                .build();
+//    }
 }
