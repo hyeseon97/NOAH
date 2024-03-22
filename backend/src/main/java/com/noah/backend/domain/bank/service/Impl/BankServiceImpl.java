@@ -97,6 +97,45 @@ public class BankServiceImpl implements BankService {
 		}
 	}
 
+	//사용자 계정조회
+	@Override
+	public MemberCheckResDto memberCheck(MemberCheckReqDto memberCheckReqDto) throws JsonProcessingException{
+		String requestURL = "https://finapi.p.ssafy.io/ssafy/api/v1/member/search";
+		UserKeyRequestDto userKeyRequestDto = new UserKeyRequestDto();
+		userKeyRequestDto.setApiKey(adminKey);
+		userKeyRequestDto.setUserId(memberCheckReqDto.getEmail());
+		Map result = objectMapper.convertValue(userKeyRequestDto, Map.class);
+		String jsonMessage = objectMapper.writeValueAsString(result);
+		try {
+			HttpClient client = HttpClientBuilder.create().build(); // HttpClient 생성
+			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
+//			System.out.println(result);
+			postRequest.setHeader("Content-Type", "application/json");
+			postRequest.setEntity(new StringEntity(jsonMessage,ContentType.APPLICATION_JSON.withCharset(StandardCharsets.UTF_8))); //json 메시지 입력
+			HttpResponse response = client.execute(postRequest);
+
+			//Response 출력
+			if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().getStatusCode() == 201) {
+				ResponseHandler<String> handler = new BasicResponseHandler();
+				String body = handler.handleResponse(response);
+				TypeReference<Map<String, Object>> typeReference = new TypeReference<Map<String,Object>>() {};
+				Map<String, Object> responseJson = objectMapper.readValue(body, typeReference);
+				Map<String, Object> payload = (Map<String, Object>) responseJson.get("payload");
+//				System.out.println("유저 키 발급완료 SUCCESS : " + payload.get("userKey"));
+				MemberCheckResDto memberCheckResDto = new MemberCheckResDto();
+				memberCheckResDto.setUserKey((String) payload.get("userKey"));
+				return memberCheckResDto;
+			} else {
+				//오류가 발생하면 이미 존재하는 사용자입니다.(회원가입 불가) null값 대신 나중에 예외처리로 변경
+				System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+				return null;
+			}
+		} catch (Exception e){
+			System.err.println(e.toString());
+			return null;
+		}
+	}
+
 	//상품 조회
 	@Override
 	public void productSelect() throws JsonProcessingException {
