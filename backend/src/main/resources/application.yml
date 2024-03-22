@@ -1,6 +1,14 @@
 spring:
   profiles:
     active: dev
+    include:
+      - filter
+      - jwt
+      - mail
 
   jpa:
     open-in-view: false
+
+
+  devtools:
+    enabled: false

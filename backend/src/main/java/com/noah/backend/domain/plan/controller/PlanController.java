@@ -40,8 +40,8 @@ public class PlanController {
 
     @Operation(summary = "계획 작성", description = "계획 작성 / TravelId 필요")
     @PostMapping
-    public ResponseEntity<Long> createPlan(@RequestParam Long travelId, @RequestBody PlanPostDto planDto){
-        Long createPlanId = planService.createPlan(travelId, planDto);
+    public ResponseEntity<Long> createPlan( @RequestBody PlanPostDto planDto){
+        Long createPlanId = planService.createPlan(planDto);
         return ResponseEntity.ok(createPlanId);
     }
 

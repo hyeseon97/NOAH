@@ -23,27 +23,27 @@ public class TicketRepositoryImpl implements TicketRepositoryCustom {
     public Optional<List<TicketListGetFromTravelDto>> getTicketList(Long travelId) {
         List<TicketListGetFromTravelDto> ticketDtos = query
                 .select(constructor(TicketListGetFromTravelDto.class,
-                        ticket.id,
+//                        ticket.id,
                         ticket.departure,
-                        ticket.dAirport,
-                        ticket.dGate,
                         ticket.arrival,
                         ticket.aAirport,
-                        ticket.travel
-                )).from(ticket).leftJoin(travel).where(ticket.travel.id.eq(travelId)).fetch();
+                        ticket.dAirport,
+                        ticket.dGate,
+                        ticket.travel.id
+                )).from(ticket).leftJoin(ticket.travel).where(ticket.travel.id.eq(travelId)).fetch();
         return Optional.ofNullable(ticketDtos.isEmpty() ? null : ticketDtos);
     }
 
     @Override
     public Optional<TicketGetDto> getTicketSelect(Long ticketId) {
         TicketGetDto ticketDto = query.select(Projections.constructor(TicketGetDto.class,
-                ticket.id,
                 ticket.departure,
-                ticket.dAirport,
-                ticket.dGate,
                 ticket.arrival,
+                ticket.dAirport,
                 ticket.aAirport,
-                ticket.travel)).from(ticket).where(ticket.id.eq(ticketId)).fetchOne();
+                ticket.dGate
+//                ticket.travel
+        )).from(ticket).where(ticket.id.eq(ticketId)).fetchOne();
 
         return Optional.ofNullable(ticketDto);
     }

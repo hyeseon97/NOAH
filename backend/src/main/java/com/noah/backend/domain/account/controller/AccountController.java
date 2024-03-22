@@ -1,8 +1,11 @@
 package com.noah.backend.domain.account.controller;
 
 import com.noah.backend.domain.account.dto.requestDto.AccountPostDto;
+import com.noah.backend.domain.account.dto.requestDto.AccountUpdateDto;
+import com.noah.backend.domain.account.dto.responseDto.AccountInfoDto;
 import com.noah.backend.domain.account.repository.AccountRepository;
 import com.noah.backend.domain.account.service.AccountService;
+import com.noah.backend.domain.bank.dto.responseDto.AccountListDto;
 import com.noah.backend.global.format.code.ApiResponse;
 import com.noah.backend.global.format.response.ResponseCode;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,6 +14,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "Account 컨트롤러", description = "Account Controller API")
 @RestController
@@ -32,9 +37,17 @@ public class AccountController {
     @Operation(summary = "멤버별 계좌 조회", description = "멤버별 계좌 조회")
     @GetMapping("/my/{memberId}")
     public ResponseEntity<?> getMyAccountList(@PathVariable Long memberId){
-
+        List<AccountInfoDto> accountInfoList = accountService.getMyAccountList(memberId);
+        if(accountInfoList.isEmpty()){
+            return response.success(ResponseCode.ACCOUNT_LIST_NOT_FOUND, null);
+        };
         return response.success(ResponseCode.ACCOUNT_LIST_FETCHED, accountService.getMyAccountList(memberId));
     }
 
-
+    @Operation(summary = "계좌 잔액 업데이트", description = "계좌 잔액 업데이트")
+    @PutMapping
+    public ResponseEntity<?> updateAmount(@RequestBody AccountUpdateDto accountUpdateDto){
+        Long accountId = accountService.updateAmount(accountUpdateDto);
+        return response.success(ResponseCode.ACCOUNT_INFO_UPDATED, accountId);
+    }
 }

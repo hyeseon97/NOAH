@@ -26,13 +26,14 @@ public class TravelRepositoryImpl implements TravelRepositoryCustom{
     public Optional<List<TravelGetListDto>> getTravelList() {
         List<TravelGetListDto> travelDtos = query
                 .select(constructor(TravelGetListDto.class,
-                        travel.id,
+//                        travel.id,
                         travel.title,
-                        travel.memberTravelList,
-                        travel.notificationList,
-                        travel.groupAccount,
-                        travel.plan,
-                        travel.ticketList
+                        travel.isEnded,
+//                        travel.memberTravelList,
+//                        travel.notificationList,
+                        travel.groupAccount.id,
+                        travel.plan.id
+//                        travel.ticketList
                         ))
 //                .leftJoin(notification)
 //                .on(travel.id.eq(notification.travel.id))
@@ -48,16 +49,18 @@ public class TravelRepositoryImpl implements TravelRepositoryCustom{
     public Optional<TravelGetDto> getTravelSelect(Long TravelId) {
         TravelGetDto travelDto = query
                 .select(constructor(TravelGetDto.class,
-                        travel.id,
+//                        travel.id,
                         travel.title,
-                        travel.memberTravelList,
-                        travel.notificationList,
-                        travel.groupAccount,
-                        travel.plan,
-                        travel.ticketList))
-                .leftJoin(notification)
-                .on(travel.id.eq(notification.travel.id))
-                .leftJoin(memberTravel).on(travel.id.eq(memberTravel.travel.id))
+                        travel.isEnded
+//                        travel.memberTravelList,
+//                        travel.notificationList,
+//                        travel.ticketList,
+//                        travel.groupAccount.id,
+//                        travel.plan.id
+                        ))
+//                .leftJoin(notification)
+//                .on(travel.id.eq(notification.travel.id))
+//                .leftJoin(memberTravel).on(travel.id.eq(memberTravel.travel.id))
                 .leftJoin(ticket).on(travel.id.eq(ticket.travel.id))
                 .fetchOne();
 
