@@ -12,8 +12,8 @@ public class CommentUpdateDto {
     @Setter
     private String content;
     @Setter
-    private Long member;
+    private Long member_id;
     @Setter
-    private Long review;
+    private Long review_id;
 
 }

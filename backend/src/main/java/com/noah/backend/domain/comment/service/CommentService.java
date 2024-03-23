@@ -13,7 +13,9 @@ public interface CommentService {
 
     CommentGetDto getCommentSelect(Long commentId);
 
-    Long createComment(CommentPostDto comment);
+//    Long createComment(CommentPostDto comment);
+
+    Long updateCommentTest(Long commentId, CommentUpdateDto commentDto);
 
     Long updateComment(Long commentId, CommentUpdateDto comment);
 

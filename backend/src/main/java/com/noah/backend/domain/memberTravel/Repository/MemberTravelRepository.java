@@ -1,2 +1,8 @@
-package com.noah.backend.domain.memberTravel.Repository;public class MemberTravelRepository {
+package com.noah.backend.domain.memberTravel.Repository;
+
+import com.noah.backend.domain.memberTravel.Repository.custom.MemberTravelRepositoryCustom;
+import com.noah.backend.domain.memberTravel.entity.MemberTravel;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface MemberTravelRepository extends JpaRepository<MemberTravel, Long> , MemberTravelRepositoryCustom {
 }
