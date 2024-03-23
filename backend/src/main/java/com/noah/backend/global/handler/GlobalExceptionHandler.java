@@ -12,6 +12,7 @@ import com.noah.backend.global.exception.member.RefreshTokenNotFoundException;
 import com.noah.backend.global.exception.member.UnauthorizedAccessException;
 import com.noah.backend.global.exception.groupaccount.GroupAccountNotFoundException;
 import com.noah.backend.global.exception.member.MemberNotFoundException;
+import com.noah.backend.global.exception.trade.TradeNotFoundException;
 import com.noah.backend.global.exception.travel.TravelNotFoundException;
 import com.noah.backend.global.format.code.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -94,6 +95,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(GroupAccountAccessDeniedException.class)
     protected ResponseEntity<?> handle(GroupAccountAccessDeniedException e){
         log.error("GroupAccessDeniedException = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+    /* 거래내역 */
+    @ExceptionHandler(TradeNotFoundException.class)
+    protected ResponseEntity<?> handle(TradeNotFoundException e){
+        log.error("TradeNotFoundException = {}", e.getErrorCode().getMessage());
         return response.error(e.getErrorCode());
     }
 

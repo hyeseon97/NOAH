@@ -61,6 +61,13 @@ public class SwaggerConfig {
                 .build();
     }
     @Bean
+    public GroupedOpenApi tradeGroup() {
+        return GroupedOpenApi.builder()
+                .group("거래내역")
+                .pathsToMatch("/api/v1/trade/**")
+                .build();
+    }
+    @Bean
     public GroupedOpenApi travelGroup() {
         return GroupedOpenApi.builder()
                 .group("여행")

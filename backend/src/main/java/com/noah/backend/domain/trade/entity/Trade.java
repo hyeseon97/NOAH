@@ -24,7 +24,7 @@ public class Trade extends BaseEntity {
     private Long id;
 
     @Column(name = "type")
-    private int type;
+    private int type;        // 거래 유형(M : 입금, D: 출금, A : 전체)
 
     @Column(name = "name")
     private String name;
@@ -44,8 +44,9 @@ public class Trade extends BaseEntity {
     @Column(name = "consume_type")
     private String consumeType;
 
+    @Builder.Default
     @Column(name = "is_contained")
-    private boolean isContained;
+    private boolean isContained = true;
 
     @ManyToOne
     @JoinColumn(name = "member_id")

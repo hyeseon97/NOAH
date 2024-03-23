@@ -1,12 +1,10 @@
 package com.noah.backend.domain.bank.dto.requestDto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransactionHistoryReqDto {//계좌 거래 내역 조회 조회Dto

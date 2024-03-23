@@ -35,6 +35,9 @@ public enum ErrorCode {
     GROUP_ACCOUNT_NOT_FOUND(HttpStatus.NOT_FOUND, "모임 통장을 찾을 수 없습니다."),
     GROUP_ACCOUNT_ACCESS_DENIED(HttpStatus.FORBIDDEN, "계좌 주인만 모임통장을 수정할 수 있습니다."),
 
+    /* 거래내역(Trade) */
+    TRADE_NOT_FOUND(HttpStatus.NOT_FOUND, "거래내역을 찾을 수 없습니다."),
+
     // 항공(flight)
     REQUIRED_FIELD_FAILED(HttpStatus.BAD_REQUEST, "필수 입력을 모두 입력하지 않았습니다."),
     EXTERNAL_TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "외부 API 토큰이 만료되었습니다."),

@@ -49,6 +49,8 @@ public class QMember extends EntityPathBase<Member> {
 
     public final StringPath password = createString("password");
 
+    public final ListPath<com.noah.backend.domain.trade.entity.Trade, com.noah.backend.domain.trade.entity.QTrade> tradeList = this.<com.noah.backend.domain.trade.entity.Trade, com.noah.backend.domain.trade.entity.QTrade>createList("tradeList", com.noah.backend.domain.trade.entity.Trade.class, com.noah.backend.domain.trade.entity.QTrade.class, PathInits.DIRECT2);
+
     public final StringPath userKey = createString("userKey");
 
     public QMember(String variable) {
