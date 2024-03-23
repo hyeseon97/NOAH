@@ -2,6 +2,7 @@ package com.noah.backend.domain.trade.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.noah.backend.domain.trade.dto.requestDto.TradeGetReqDto;
+import com.noah.backend.domain.trade.dto.requestDto.TradePostReqDto;
 import com.noah.backend.domain.trade.dto.responseDto.TradeGetResDto;
 import com.noah.backend.domain.trade.service.TradeService;
 import com.noah.backend.global.format.code.ApiResponse;
@@ -23,6 +24,13 @@ public class TradeController {
 
     private final ApiResponse response;
     private final TradeService tradeService;
+
+    @Operation(summary = "거래내역 생성", description = "거래내역 생성 실제로는 사용안할듯")
+    @PostMapping
+    public ResponseEntity<?> createTrade(@RequestBody TradePostReqDto tradePostReqDto) {
+        tradeService.createTrade(tradePostReqDto);
+        return response.success(ResponseCode.TRADE_CREATED);
+    }
 
     @Operation(summary = "거래내역 조회", description = "시점에 맞는 거래 내역 조회")
     @GetMapping

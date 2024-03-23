@@ -10,7 +10,7 @@ import com.noah.backend.domain.trade.entity.Trade;
 import java.util.List;
 
 public interface TradeService {
-    void createTrade(TradePostReqDto tradePostReqDto) throws JsonProcessingException;
+    void createTrade(TradePostReqDto tradePostReqDto);
 
     List<TradeGetResDto> getTradeList(TradeGetReqDto tradeGetReqDto) throws JsonProcessingException;
 }
