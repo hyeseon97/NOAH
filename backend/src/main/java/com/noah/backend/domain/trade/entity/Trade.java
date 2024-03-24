@@ -45,6 +45,7 @@ public class Trade extends BaseEntity {
     private String consumeType;
 
     @Builder.Default
+    @Setter
     @Column(name = "is_contained")
     private boolean isContained = true;
 

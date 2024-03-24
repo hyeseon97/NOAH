@@ -10,6 +10,7 @@ import com.noah.backend.domain.bank.service.BankService;
 import com.noah.backend.domain.member.service.member.MemberService;
 import com.noah.backend.domain.trade.dto.requestDto.TradeGetReqDto;
 import com.noah.backend.domain.trade.dto.requestDto.TradePostReqDto;
+import com.noah.backend.domain.trade.dto.requestDto.TradeUpdateClassifyReqDto;
 import com.noah.backend.domain.trade.dto.responseDto.TradeDateAndTime;
 import com.noah.backend.domain.trade.dto.responseDto.TradeGetResDto;
 import com.noah.backend.domain.trade.entity.Trade;
@@ -91,6 +92,23 @@ public class TradeServiceImpl implements TradeService {
             fetchAndSaveTradeHistory(account, startDate, endDate, tradeGetReqDto);
             return tradeRepository.getTradeList(account.getId(), tradeGetReqDto).orElseThrow(TradeNotFoundException::new);
         }
+    }
+
+    @Override
+    public Long updateTradeClassify(Long tradeId, TradeUpdateClassifyReqDto tradeUpdateClassifyReqDto) {
+        return null;
+    }
+
+    @Override
+    public Long updateTradeContain(Long tradeId) {
+        Trade trade = tradeRepository.findById(tradeId).orElseThrow(TradeNotFoundException::new);
+        if (trade.isContained()) {
+            trade.setContained(false);
+        } else {
+            trade.setContained(true);
+        }
+        tradeRepository.save(trade);
+        return trade.getId();
     }
 
     /* 은행에서 가져오고 저장하는 메서드 */
