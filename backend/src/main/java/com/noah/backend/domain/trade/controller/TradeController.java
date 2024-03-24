@@ -60,7 +60,7 @@ public class TradeController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateTradeClassify(@PathVariable(name = "id") Long tradeId,
                                                  @RequestBody TradeUpdateClassifyReqDto tradeClassifyUpdateReqDto) {
-        return null;
+        return response.success(ResponseCode.TRADE_UPDATED, tradeService.updateTradeClassify(tradeId, tradeClassifyUpdateReqDto));
     }
 
     @Operation(summary = "거래내역 수정 삭제용", description = "거래내역 포함 여부, true이면 false, false 이면 true로")

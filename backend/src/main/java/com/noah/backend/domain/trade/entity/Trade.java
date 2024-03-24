@@ -41,6 +41,7 @@ public class Trade extends BaseEntity {
     @Column(name = "amount")
     private int amount;
 
+    @Setter
     @Column(name = "consume_type")
     private String consumeType;
 
@@ -49,6 +50,7 @@ public class Trade extends BaseEntity {
     @Column(name = "is_contained")
     private boolean isContained = true;
 
+    @Setter
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;

@@ -7,6 +7,8 @@ import com.noah.backend.domain.account.service.AccountService;
 import com.noah.backend.domain.bank.dto.requestDto.TransactionHistoryReqDto;
 import com.noah.backend.domain.bank.dto.responseDto.TransactionHistoryResDto;
 import com.noah.backend.domain.bank.service.BankService;
+import com.noah.backend.domain.member.entity.Member;
+import com.noah.backend.domain.member.repository.MemberRepository;
 import com.noah.backend.domain.member.service.member.MemberService;
 import com.noah.backend.domain.trade.dto.requestDto.TradeGetReqDto;
 import com.noah.backend.domain.trade.dto.requestDto.TradePostReqDto;
@@ -19,6 +21,7 @@ import com.noah.backend.domain.trade.service.TradeService;
 import com.noah.backend.domain.travel.entity.Travel;
 import com.noah.backend.domain.travel.repository.TravelRepository;
 import com.noah.backend.global.exception.account.AccountNotFoundException;
+import com.noah.backend.global.exception.member.MemberNotFoundException;
 import com.noah.backend.global.exception.trade.TradeNotFoundException;
 import com.noah.backend.global.exception.travel.TravelNotFoundException;
 import jakarta.transaction.Transactional;
@@ -36,11 +39,12 @@ import java.util.Optional;
 @Service
 public class TradeServiceImpl implements TradeService {
 
-    private final BankService bankService;
-    private final AccountService accountService;
-    private final AccountRepository accountRepository;
-    private final TravelRepository travelRepository;
+    private final MemberRepository memberRepository;
     private final MemberService memberService;
+    private final BankService bankService;
+    private final AccountRepository accountRepository;
+    private final AccountService accountService;
+    private final TravelRepository travelRepository;
     private final TradeRepository tradeRepository;
 
     @Override
@@ -96,7 +100,18 @@ public class TradeServiceImpl implements TradeService {
 
     @Override
     public Long updateTradeClassify(Long tradeId, TradeUpdateClassifyReqDto tradeUpdateClassifyReqDto) {
-        return null;
+        Trade trade = tradeRepository.findById(tradeId).orElseThrow(TradeNotFoundException::new);
+        Long memberId = tradeUpdateClassifyReqDto.getMemberId();
+        String consumeType = tradeUpdateClassifyReqDto.getConsumeType();
+        if (memberId != null) {
+            Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
+            trade.setMember(member);
+        }
+        if (consumeType != null) {
+            trade.setConsumeType(consumeType);
+        }
+        tradeRepository.save(trade);
+        return trade.getId();
     }
 
     @Override
