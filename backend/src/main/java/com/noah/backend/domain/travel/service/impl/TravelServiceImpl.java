@@ -19,6 +19,7 @@ import com.noah.backend.domain.travel.service.TravelService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.webjars.NotFoundException;
 
 import java.util.List;
@@ -65,15 +66,15 @@ public class TravelServiceImpl implements TravelService {
     }
 
     @Override
-    public Long createTravelTest(TravelPostDto travelDto, Long memberId) {
+    public Long createTravelTest(TravelPostDto travelDto, @RequestParam Long memberId) {
         Travel travel = Travel.builder()
                 .title(travelDto.getTitle())
                 .build();
 
-//        Travel saveTravel = travelRepository.save(travel);
+        Travel saveTravel = travelRepository.save(travel);
 
         Member member = memberRepository.findById(memberId).orElseThrow(() ->
-                new RuntimeException("멤버 id를 찾을 수 없슈"));
+                new RuntimeException("member " + memberId + "를 찾을 수 없습니다."));
 
 
         MemberTravel memberTravel = MemberTravel.builder()
@@ -82,7 +83,7 @@ public class TravelServiceImpl implements TravelService {
                 .build();
         memberTravelRepository.save(memberTravel);
 
-        return  travelRepository.save(travel).getId();
+        return  saveTravel.getId();
     }
 
     @Override

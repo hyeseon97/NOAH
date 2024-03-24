@@ -71,7 +71,7 @@ public class CommentServiceImpl implements CommentService {
         currentComment.setContent(commentDto.getContent());
         currentComment.setMember(writer);
 
-        commentRepository.save(currentComment);
+//        commentRepository.save(currentComment);
 
 
         return currentComment.getId();

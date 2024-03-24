@@ -20,6 +20,9 @@ public interface ReviewService {
     @Transactional
     Long createReviewTest(ReviewPostDto reviewDto, Long memberId);
 
+    @Transactional
+    Long createReviewTest2(ReviewPostDto reviewDto, Long travelId);
+
     Long updateReview(Long reviewId, ReviewUpdateDto review);
 
     void deleteReview(Long reviewId);

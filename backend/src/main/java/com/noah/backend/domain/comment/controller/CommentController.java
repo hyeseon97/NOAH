@@ -34,12 +34,12 @@ public class CommentController {
         return ResponseEntity.ok(selectedComment);
     }
 
-    @Operation(summary = "코멘트 생성", description = "코멘트 생성, 리뷰 기준으로 생성되기 때문에 reveiwId 필요.")
-    @PostMapping
-    public ResponseEntity<Long> createComment(@RequestBody CommentPostDto commentCreateDto){
-        Long createCommentId = commentService.createComment(commentCreateDto);
-        return ResponseEntity.ok(createCommentId);
-    }
+//    @Operation(summary = "코멘트 생성", description = "코멘트 생성, 리뷰 기준으로 생성되기 때문에 reveiwId 필요.")
+//    @PostMapping
+//    public ResponseEntity<Long> createComment(@RequestBody CommentPostDto commentCreateDto){
+//        Long createCommentId = commentService.createComment(commentCreateDto);
+//        return ResponseEntity.ok(createCommentId);
+//    }
 
     @Operation(summary = "코멘트 수정", description = "코멘트 수정, commentId 필요")
     @PutMapping("/{commentId}")
