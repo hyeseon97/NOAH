@@ -68,6 +68,16 @@ public class TradeController {
         return response.success(ResponseCode.TRADE_INFO_FETCHED, result);
     }
 
+    @Operation(summary = "숨김된 거래내역 조회", description = "숨김 된 거래내역 조회")
+    @GetMapping("/hide/{id}")
+    public ResponseEntity<?> getHideTradeList(@PathVariable(name = "id") Long travelId) {
+        List<TradeGetResDto> result = tradeService.getHideTradeList(travelId);
+        if (result.isEmpty()) {
+            return response.success(ResponseCode.TRADE_LIST_NOT_FOUND, null);
+        }
+        return response.success(ResponseCode.TRADE_INFO_FETCHED, result);
+    }
+
     @Operation(summary = "거래내역 수정 분류용", description = "거래내역 수정, 사용자 설정, 소비 분류 설정")
     @PutMapping("/{id}")
     public ResponseEntity<?> updateTradeClassify(@PathVariable(name = "id") Long tradeId,

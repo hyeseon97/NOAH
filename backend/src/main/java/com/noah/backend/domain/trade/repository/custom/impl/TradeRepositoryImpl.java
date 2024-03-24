@@ -37,7 +37,10 @@ public class TradeRepositoryImpl implements TradeRepositoryCustom {
                                 trade.amount,
                                 trade.member.nickname,
                                 trade.consumeType))
-                .from(trade).where(trade.account.id.eq(accountId), trade.date.between(startDate, endDate))
+                .from(trade).where(trade.account.id.eq(accountId),
+                        trade.date.between(startDate, endDate),
+                        trade.isContained.isTrue()
+                )
                 .fetch());
     }
 
@@ -64,9 +67,11 @@ public class TradeRepositoryImpl implements TradeRepositoryCustom {
                 .from(trade)
                 .where(trade.account.id.eq(accountId),
                         memberIdsCondition(memberIds),
-                        consumeTypesCondition(consumeTypes))
+                        consumeTypesCondition(consumeTypes),
+                        trade.isContained.isTrue())
                 .fetch());
     }
+
 
     private BooleanExpression memberIdsCondition(List<Long> memberIds) {
         return memberIds == null || memberIds.isEmpty() ? null : trade.member.id.in(memberIds);
@@ -74,5 +79,23 @@ public class TradeRepositoryImpl implements TradeRepositoryCustom {
 
     private BooleanExpression consumeTypesCondition(List<String> consumeTypes) {
         return consumeTypes == null || consumeTypes.isEmpty() ? null : trade.consumeType.in(consumeTypes);
+    }
+
+    @Override
+    public Optional<List<TradeGetResDto>> getHideTradeList(Long accountId) {
+        return Optional.ofNullable(query.select(Projections.constructor(TradeGetResDto.class,
+                        trade.id,
+                        trade.type,
+                        trade.name,
+                        trade.date,
+                        trade.time,
+                        trade.cost,
+                        trade.amount,
+                        trade.member.nickname,
+                        trade.consumeType))
+                .from(trade)
+                .where(trade.account.id.eq(accountId),
+                        trade.isContained.isFalse())
+                .fetch());
     }
 }

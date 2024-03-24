@@ -14,4 +14,6 @@ public interface TradeRepositoryCustom {
     Optional<TradeDateAndTime> getTradeDateAndTime(String date, String time);
 
     Optional<List<TradeGetResDto>> getTradeListByMemberAndConsumeType(Long accountId, List<Long> memberIds, List<String> consumeTypes);
+
+    Optional<List<TradeGetResDto>> getHideTradeList(Long accountId);
 }

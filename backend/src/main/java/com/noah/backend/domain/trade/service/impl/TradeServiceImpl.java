@@ -134,6 +134,14 @@ public class TradeServiceImpl implements TradeService {
         return trade.getId();
     }
 
+    @Override
+    public List<TradeGetResDto> getHideTradeList(Long travelId) {
+        Travel travel = travelRepository.findById(travelId).orElseThrow(TravelNotFoundException::new);
+        Account account = accountRepository.findById(travel.getGroupAccount().getAccount().getId()).orElseThrow(AccountNotFoundException::new);
+        List<TradeGetResDto> result = tradeRepository.getHideTradeList(account.getId()).orElseThrow(TradeNotFoundException::new);
+        return result;
+    }
+
     /* 은행에서 가져오고 저장하는 메서드 */
     private void fetchAndSaveTradeHistory(Account account, String startDate, String endDate, TradeGetReqDto tradeGetReqDto) throws JsonProcessingException {
         /* 은행 코드 */

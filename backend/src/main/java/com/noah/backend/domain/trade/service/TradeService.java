@@ -18,4 +18,6 @@ public interface TradeService {
     Long updateTradeClassify(Long tradeId, TradeUpdateClassifyReqDto tradeUpdateClassifyReqDto);
 
     Long updateTradeContain(Long tradeId);
+
+    List<TradeGetResDto> getHideTradeList(Long travelId);
 }
