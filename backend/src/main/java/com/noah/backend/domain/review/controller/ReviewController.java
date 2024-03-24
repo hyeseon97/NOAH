@@ -46,9 +46,8 @@ public class ReviewController {
     // 리뷰 생성
     @Operation(summary = "리뷰 생성", description = "리뷰 생성")
     @PostMapping
-    public ResponseEntity<Long> createReview(@RequestBody ReviewPostDto reviewCreateDto) {
-        log.info("Received reviewPostDto: {}", reviewCreateDto.getCountry());
-        Long createdReviewId = reviewService.createReview(reviewCreateDto);
+    public ResponseEntity<Long> createReview(@RequestBody ReviewPostDto reviewCreateDto, @RequestParam Long travelId) {
+        Long createdReviewId = reviewService.createReviewTest2(reviewCreateDto, travelId);
         return ResponseEntity.ok(createdReviewId);
     }
 

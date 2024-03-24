@@ -1,6 +1,10 @@
 package com.noah.backend.domain.travel.service.impl;
 
+import com.noah.backend.domain.comment.repository.CommentRepository;
 import com.noah.backend.domain.datailPlan.repository.DetailPlanRepository;
+import com.noah.backend.domain.member.entity.Member;
+import com.noah.backend.domain.member.repository.MemberRepository;
+import com.noah.backend.domain.memberTravel.Repository.MemberTravelRepository;
 import com.noah.backend.domain.memberTravel.entity.MemberTravel;
 import com.noah.backend.domain.plan.repository.PlanRepository;
 import com.noah.backend.domain.review.repository.ReviewRepository;
@@ -15,9 +19,10 @@ import com.noah.backend.domain.travel.service.TravelService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.webjars.NotFoundException;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -29,6 +34,8 @@ public class TravelServiceImpl implements TravelService {
     private final DetailPlanRepository detailPlanRepository;
     private final ReviewRepository reviewRepository;
     private final TravelRepository travelRepository;
+    private final MemberRepository memberRepository;
+    private final MemberTravelRepository memberTravelRepository;
 
     @Override
     public List<TravelGetListDto> getTravelList() {
@@ -59,8 +66,29 @@ public class TravelServiceImpl implements TravelService {
     }
 
     @Override
+    public Long createTravelTest(TravelPostDto travelDto, @RequestParam Long memberId) {
+        Travel travel = Travel.builder()
+                .title(travelDto.getTitle())
+                .build();
+
+        Travel saveTravel = travelRepository.save(travel);
+
+        Member member = memberRepository.findById(memberId).orElseThrow(() ->
+                new RuntimeException("member " + memberId + "를 찾을 수 없습니다."));
+
+
+        MemberTravel memberTravel = MemberTravel.builder()
+                .member(member)
+                .travel(travel)
+                .build();
+        memberTravelRepository.save(memberTravel);
+
+        return  saveTravel.getId();
+    }
+
+    @Override
     public Long updateTravel(Long travelId, TravelUpdateDto travelDto) {
-        Travel travel = travelRepository.findById(travelId).orElseThrow(() -> new RuntimeException("수정할 여행 정보가 없습니다."));
+        Travel travel = travelRepository.findById(travelId).orElseThrow(() -> new NotFoundException("수정할 여행 정보가 없습니다."));
         travel.setTitle(travelDto.getTitle());
         travel.setEnded(travelDto.isEnded());
 

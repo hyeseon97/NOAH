@@ -1,11 +1,13 @@
 package com.noah.backend.domain.travel.controller;
 
+import com.noah.backend.domain.member.service.member.MemberService;
 import com.noah.backend.domain.travel.dto.requestDto.TravelGetDto;
 import com.noah.backend.domain.travel.dto.requestDto.TravelGetListDto;
 import com.noah.backend.domain.travel.dto.responseDto.TravelPostDto;
 import com.noah.backend.domain.travel.dto.responseDto.TravelUpdateDto;
 import com.noah.backend.domain.travel.service.TravelService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
@@ -22,6 +24,8 @@ import java.util.List;
 public class TravelController {
 
     private final TravelService travelService;
+    private final MemberService memberService;
+    private final Authentication authentication;
 
 //    @PostMapping()
 //    public ResponseEntity<?> create(Authentication authentication, TravelPostDto travelPostDto){
@@ -49,11 +53,22 @@ public class TravelController {
 
     @Operation(summary = "여행 생성", description = "여행 생성 기능")
     @PostMapping
-    public ResponseEntity<?> createTravel(@RequestBody TravelPostDto travelPostDto){
+    public ResponseEntity<?> createTravel(@RequestBody TravelPostDto travelPostDto, Long memberId){
 
-        Long createTravelId = travelService.createTravel(travelPostDto);
+        Long createTravelId = travelService.createTravelTest(travelPostDto, memberId);
         return ResponseEntity.ok(createTravelId);
     }
+    
+//    @Operation(summary = "여행 생성", description = "여행 생성 기능")
+//    @PostMapping
+//    public ResponseEntity<?> createTravel(@RequestBody TravelPostDto travelPostDto, @Parameter Authentication authentication){
+//
+//        Long memberId = memberService.searchMember(authentication).getMemberId();
+//
+//        Long createTravelId = travelService.createTravelTest(travelPostDto, memberId);
+//        return ResponseEntity.ok(createTravelId);
+//    }
+
 
     @Operation(summary = "여행 정보 수정", description = "여행 정보 수정 기능 / travelId 필요")
     @PutMapping("{travelId}")

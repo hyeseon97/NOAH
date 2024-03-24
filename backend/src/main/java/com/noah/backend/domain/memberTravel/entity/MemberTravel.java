@@ -4,15 +4,14 @@ import com.noah.backend.domain.base.BaseEntity;
 import com.noah.backend.domain.member.entity.Member;
 import com.noah.backend.domain.travel.entity.Travel;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
 @AllArgsConstructor
 @Builder
+@Getter
 @NoArgsConstructor
 @Where(clause = "is_deleted = false")
 @SQLDelete(sql = "UPDATE member_travel SET is_deleted = TRUE WHERE member_travel_id = ?")
@@ -23,9 +22,11 @@ public class MemberTravel extends BaseEntity {
 	@Column(name = "member_travel_id", nullable = false)
 	private Long id;
 
+	@Setter
 	@Column(name = "payment_amount", nullable = false)
 	private int payment_amount;
 
+	@Setter
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
 	private Member member;

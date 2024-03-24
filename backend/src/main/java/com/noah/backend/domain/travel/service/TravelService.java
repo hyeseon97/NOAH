@@ -16,6 +16,8 @@ public interface TravelService {
 
     Long createTravel(TravelPostDto travelDto);
 
+    Long createTravelTest(TravelPostDto travelDto, Long memberId);
+
     Long updateTravel(Long travelId, TravelUpdateDto travelDto);
 
     void deleteTravel(Long travelId);

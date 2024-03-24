@@ -10,17 +10,13 @@ import com.noah.backend.domain.comment.service.CommentService;
 import com.noah.backend.domain.datailPlan.repository.DetailPlanRepository;
 import com.noah.backend.domain.member.entity.Member;
 import com.noah.backend.domain.member.repository.MemberRepository;
-import com.noah.backend.domain.plan.repository.PlanRepository;
-import com.noah.backend.domain.review.entity.Review;
 import com.noah.backend.domain.review.repository.ReviewRepository;
 import com.noah.backend.domain.ticket.repository.TicketRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -47,21 +43,38 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(() -> new RuntimeException("코멘트가 없어요"));
     }
 
+//    @Override
+//    public Long createComment(CommentPostDto commentDto) {
+//
+//        Member foundMember = memberRepository.findById(commentDto.getMemberId())
+//                .orElseThrow(() -> new EntityNotFoundException("Member not found with id: " + commentDto.getMemberId()));
+//        Review foundReview = reviewRepository.findById(commentDto.getReviewId())
+//                .orElseThrow(() -> new EntityNotFoundException("Review not found with id: " + commentDto.getReviewId()));
+//
+//        Comment comment = Comment.builder()
+//                .content(commentDto.getContent())
+//                .member(foundMember)
+//                .review(foundReview)
+//                .build();
+//
+//        return commentRepository.save(comment).getId();
+//    }
+
     @Override
-    public Long createComment(CommentPostDto commentDto) {
+    public Long updateCommentTest(Long commentId, CommentUpdateDto commentDto) {
+        Comment currentComment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new RuntimeException("코멘트 없어용"));
+        //이건 따로 값을 받아야할지도 모른다.
+        Member writer = memberRepository.findById(commentDto.getMember_id())
+                .orElseThrow(() -> new RuntimeException("멤버 id를 확인하세요"));
 
-        Member foundMember = memberRepository.findById(commentDto.getMemberId())
-                .orElseThrow(() -> new EntityNotFoundException("Member not found with id: " + commentDto.getMemberId()));
-        Review foundReview = reviewRepository.findById(commentDto.getReviewId())
-                .orElseThrow(() -> new EntityNotFoundException("Review not found with id: " + commentDto.getReviewId()));
+        currentComment.setContent(commentDto.getContent());
+        currentComment.setMember(writer);
 
-        Comment comment = Comment.builder()
-                .content(commentDto.getContent())
-                .member(foundMember)
-                .review(foundReview)
-                .build();
+//        commentRepository.save(currentComment);
 
-        return commentRepository.save(comment).getId();
+
+        return currentComment.getId();
     }
 
     @Override

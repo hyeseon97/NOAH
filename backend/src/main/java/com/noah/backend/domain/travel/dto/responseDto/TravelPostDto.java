@@ -16,14 +16,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TravelPostDto {
-    private Long id;
+//    private Long id;
     private String title;
 //    private boolean isEnded;
 //    private List<MemberTravel> memberTrabelList;
 //    private List<Notification> notificationList;
 //    private Account account;
 //    private Plan plan;
-    private Long account_id;
-    private Long plan_id;
+//    private Long account_id;
+//    private Long plan_id;
 //    private List<Ticket> ticketList;
 }
