@@ -13,6 +13,8 @@ public interface TradeService {
 
     List<TradeGetResDto> getTradeList(TradeGetReqDto tradeGetReqDto) throws JsonProcessingException;
 
+    List<TradeGetResDto> getTradeListByMemberAndConsumeType(Long travelId, List<Long> memberIds, List<String> consumeTypes);
+
     Long updateTradeClassify(Long tradeId, TradeUpdateClassifyReqDto tradeUpdateClassifyReqDto);
 
     Long updateTradeContain(Long tradeId);

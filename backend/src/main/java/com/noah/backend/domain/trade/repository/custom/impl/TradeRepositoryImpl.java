@@ -7,6 +7,7 @@ import com.noah.backend.domain.trade.entity.Trade;
 import com.noah.backend.domain.trade.repository.TradeRepository;
 import com.noah.backend.domain.trade.repository.custom.TradeRepositoryCustom;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -27,7 +28,15 @@ public class TradeRepositoryImpl implements TradeRepositoryCustom {
         String endDate = tradeGetReqDto.getEndDate();
         return Optional.ofNullable(query.select(
                         Projections.constructor(TradeGetResDto.class,
-                                trade.id, trade.type, trade.name, trade.date, trade.time, trade.cost, trade.amount))
+                                trade.id,
+                                trade.type,
+                                trade.name,
+                                trade.date,
+                                trade.time,
+                                trade.cost,
+                                trade.amount,
+                                trade.member.nickname,
+                                trade.consumeType))
                 .from(trade).where(trade.account.id.eq(accountId), trade.date.between(startDate, endDate))
                 .fetch());
     }
@@ -38,5 +47,32 @@ public class TradeRepositoryImpl implements TradeRepositoryCustom {
                 .from(trade)
                 .where(trade.date.eq(date).and(trade.time.eq(time)))
                 .fetchOne());
+    }
+
+    @Override
+    public Optional<List<TradeGetResDto>> getTradeListByMemberAndConsumeType(Long accountId, List<Long> memberIds, List<String> consumeTypes) {
+        return Optional.ofNullable(query.select(Projections.constructor(TradeGetResDto.class,
+                        trade.id,
+                        trade.type,
+                        trade.name,
+                        trade.date,
+                        trade.time,
+                        trade.cost,
+                        trade.amount,
+                        trade.member.nickname,
+                        trade.consumeType))
+                .from(trade)
+                .where(trade.account.id.eq(accountId),
+                        memberIdsCondition(memberIds),
+                        consumeTypesCondition(consumeTypes))
+                .fetch());
+    }
+
+    private BooleanExpression memberIdsCondition(List<Long> memberIds) {
+        return memberIds == null || memberIds.isEmpty() ? null : trade.member.id.in(memberIds);
+    }
+
+    private BooleanExpression consumeTypesCondition(List<String> consumeTypes) {
+        return consumeTypes == null || consumeTypes.isEmpty() ? null : trade.consumeType.in(consumeTypes);
     }
 }

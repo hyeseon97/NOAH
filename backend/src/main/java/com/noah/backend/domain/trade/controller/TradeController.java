@@ -34,9 +34,9 @@ public class TradeController {
     }
 
     @Operation(summary = "거래내역 조회", description = "시점에 맞는 거래 내역 조회")
-    @GetMapping
+    @GetMapping("/{id}")
     public ResponseEntity<?> getTradeList(
-            @RequestParam(name = "여행ID") Long travelId,
+            @PathVariable(name = "id") Long travelId,
             @RequestParam(name = "조회시작") String startDate,
             @RequestParam(name = "조회끝") String endDate,
             @RequestParam(name = "거래 유형") String transactionType,
@@ -50,6 +50,18 @@ public class TradeController {
                 .orderByType(orderByType)
                 .build();
         List<TradeGetResDto> result = tradeService.getTradeList(tradeGetReqDto);
+        if (result.isEmpty()) {
+            return response.success(ResponseCode.TRADE_LIST_NOT_FOUND, null);
+        }
+        return response.success(ResponseCode.TRADE_INFO_FETCHED, result);
+    }
+
+    @Operation(summary = "거래내역 분류 조회", description = "거래내역 분류 조회, member, consumeType으로 조회, 여러개 해야되서 List로")
+    @GetMapping("/classify/{id}")
+    public ResponseEntity<?> getTradeListByMemberAndConsumeType(@PathVariable(name = "id") Long travelId,
+                                                                @RequestParam(required = false) List<Long> memberIds,
+                                                                @RequestParam(required = false) List<String> consumeTypes) {
+        List<TradeGetResDto> result = tradeService.getTradeListByMemberAndConsumeType(travelId, memberIds, consumeTypes);
         if (result.isEmpty()) {
             return response.success(ResponseCode.TRADE_LIST_NOT_FOUND, null);
         }

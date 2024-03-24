@@ -99,6 +99,14 @@ public class TradeServiceImpl implements TradeService {
     }
 
     @Override
+    public List<TradeGetResDto> getTradeListByMemberAndConsumeType(Long travelId, List<Long> memberIds, List<String> consumeTypes) {
+        Travel travel = travelRepository.findById(travelId).orElseThrow(TravelNotFoundException::new);
+        Account account = accountRepository.findById(travel.getGroupAccount().getAccount().getId()).orElseThrow(AccountNotFoundException::new);
+        List<TradeGetResDto> tradeGetResDtos = tradeRepository.getTradeListByMemberAndConsumeType(account.getId(), memberIds, consumeTypes).orElseThrow(TradeNotFoundException::new);
+        return tradeGetResDtos;
+    }
+
+    @Override
     public Long updateTradeClassify(Long tradeId, TradeUpdateClassifyReqDto tradeUpdateClassifyReqDto) {
         Trade trade = tradeRepository.findById(tradeId).orElseThrow(TradeNotFoundException::new);
         Long memberId = tradeUpdateClassifyReqDto.getMemberId();
