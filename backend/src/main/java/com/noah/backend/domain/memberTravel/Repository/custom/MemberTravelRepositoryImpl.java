@@ -1,5 +1,6 @@
 package com.noah.backend.domain.memberTravel.Repository.custom;
 
+import com.noah.backend.domain.memberTravel.dto.Response.GetTravelListResDto;
 import com.noah.backend.domain.memberTravel.dto.Response.MemberTravelGetDto;
 import com.noah.backend.domain.memberTravel.dto.Response.MemberTravelListGetDto;
 import com.noah.backend.domain.memberTravel.entity.MemberTravel;
@@ -16,6 +17,7 @@ import static com.noah.backend.domain.memberTravel.entity.QMemberTravel.memberTr
 public class MemberTravelRepositoryImpl implements MemberTravelRepositoryCustom {
 
     private final JPAQueryFactory query;
+
     @Override
     public Optional<List<MemberTravelListGetDto>> findByTravelId(Long travelId) {
 
@@ -28,6 +30,7 @@ public class MemberTravelRepositoryImpl implements MemberTravelRepositoryCustom 
         return Optional.ofNullable(travelListGetDtos.isEmpty() ? null : travelListGetDtos);
 
     }
+
 
     @Override
     public Optional<MemberTravelGetDto> getSelect(Long memberTravelId) {

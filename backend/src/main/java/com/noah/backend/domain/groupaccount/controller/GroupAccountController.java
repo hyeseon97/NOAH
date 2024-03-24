@@ -22,7 +22,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "모임통장 컨트롤러", description = "Group Account Controller API")
 @RestController
@@ -76,6 +79,17 @@ public class GroupAccountController {
     public ResponseEntity<?> getGroupAccount(@PathVariable(name = "id") Long groupAccountId) {
         GroupAccountInfoDto groupAccountInfoDto = groupAccountService.groupAccountInfo(groupAccountId);
         return response.success(ResponseCode.GROUP_ACCOUNT_INFO_FETCHED, groupAccountInfoDto);
+    }
+
+    @Operation(summary = "사용자가 속해있는 모임통장 전체조회", description = "사용자가 속해있는 모임통장 전체 조회")
+    @GetMapping
+    public ResponseEntity<?> getMyGroupAccountList(@Parameter(hidden = true) Authentication authentication) {
+        Long memberId = memberService.searchMember(authentication).getMemberId();
+        List<GroupAccountInfoDto> result = groupAccountService.getGroupAccountListByMemberId(memberId);
+        if (result.isEmpty()) {
+            return response.success(ResponseCode.GROUP_ACCOUNT_LIST_NOT_FOUND, null);
+        }
+        return response.success(ResponseCode.GROUP_ACCOUNT_INFO_FETCHED, result);
     }
 
     @Operation(summary = "모임 통장 내용 수정", description = "목표금액, 납입금, 납부일, 수정")
