@@ -1,15 +1,16 @@
 package com.noah.backend.domain.trade.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.noah.backend.domain.trade.dto.requestDto.TradeUpdateClassifyReqDto;
 import com.noah.backend.domain.trade.dto.requestDto.TradeGetReqDto;
 import com.noah.backend.domain.trade.dto.requestDto.TradePostReqDto;
 import com.noah.backend.domain.trade.dto.responseDto.TradeGetResDto;
+import com.noah.backend.domain.trade.repository.TradeRepository;
 import com.noah.backend.domain.trade.service.TradeService;
 import com.noah.backend.global.format.code.ApiResponse;
 import com.noah.backend.global.format.response.ResponseCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,13 +34,13 @@ public class TradeController {
     }
 
     @Operation(summary = "거래내역 조회", description = "시점에 맞는 거래 내역 조회")
-    @GetMapping
+    @GetMapping("/{id}")
     public ResponseEntity<?> getTradeList(
-            @RequestParam Long travelId,
-            @RequestParam String startDate,
-            @RequestParam String endDate,
-            @RequestParam String transactionType,
-            @RequestParam String orderByType
+            @PathVariable(name = "id") Long travelId,
+            @RequestParam(name = "조회시작") String startDate,
+            @RequestParam(name = "조회끝") String endDate,
+            @RequestParam(name = "거래 유형") String transactionType,
+            @RequestParam(name = "정렬") String orderByType
     ) throws JsonProcessingException {
         TradeGetReqDto tradeGetReqDto = TradeGetReqDto.builder()
                 .travelId(travelId)
@@ -53,5 +54,40 @@ public class TradeController {
             return response.success(ResponseCode.TRADE_LIST_NOT_FOUND, null);
         }
         return response.success(ResponseCode.TRADE_INFO_FETCHED, result);
+    }
+
+    @Operation(summary = "거래내역 분류 조회", description = "거래내역 분류 조회, member, consumeType으로 조회, 여러개 해야되서 List로")
+    @GetMapping("/classify/{id}")
+    public ResponseEntity<?> getTradeListByMemberAndConsumeType(@PathVariable(name = "id") Long travelId,
+                                                                @RequestParam(required = false) List<Long> memberIds,
+                                                                @RequestParam(required = false) List<String> consumeTypes) {
+        List<TradeGetResDto> result = tradeService.getTradeListByMemberAndConsumeType(travelId, memberIds, consumeTypes);
+        if (result.isEmpty()) {
+            return response.success(ResponseCode.TRADE_LIST_NOT_FOUND, null);
+        }
+        return response.success(ResponseCode.TRADE_INFO_FETCHED, result);
+    }
+
+    @Operation(summary = "숨김된 거래내역 조회", description = "숨김 된 거래내역 조회")
+    @GetMapping("/hide/{id}")
+    public ResponseEntity<?> getHideTradeList(@PathVariable(name = "id") Long travelId) {
+        List<TradeGetResDto> result = tradeService.getHideTradeList(travelId);
+        if (result.isEmpty()) {
+            return response.success(ResponseCode.TRADE_LIST_NOT_FOUND, null);
+        }
+        return response.success(ResponseCode.TRADE_INFO_FETCHED, result);
+    }
+
+    @Operation(summary = "거래내역 수정 분류용", description = "거래내역 수정, 사용자 설정, 소비 분류 설정")
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateTradeClassify(@PathVariable(name = "id") Long tradeId,
+                                                 @RequestBody TradeUpdateClassifyReqDto tradeClassifyUpdateReqDto) {
+        return response.success(ResponseCode.TRADE_UPDATED, tradeService.updateTradeClassify(tradeId, tradeClassifyUpdateReqDto));
+    }
+
+    @Operation(summary = "거래내역 수정 삭제용", description = "거래내역 포함 여부, true이면 false, false 이면 true로")
+    @PutMapping("/remove/{id}")
+    public ResponseEntity<?> updateTradeContain(@PathVariable(name = "id") Long tradeId) {
+        return response.success(ResponseCode.TRADE_UPDATED, tradeService.updateTradeContain(tradeId));
     }
 }
