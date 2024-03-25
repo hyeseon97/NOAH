@@ -22,10 +22,31 @@ public class TradeRepositoryImpl implements TradeRepositoryCustom {
 
     private final JPAQueryFactory query;
 
-    @Override
-    public Optional<List<TradeGetResDto>> getTradeList(Long accountId, TradeGetReqDto tradeGetReqDto) {
-        String startDate = tradeGetReqDto.getStartDate();
-        String endDate = tradeGetReqDto.getEndDate();
+//    @Override
+//    public Optional<List<TradeGetResDto>> getTradeList(Long accountId, TradeGetReqDto tradeGetReqDto) {
+//        String startDate = tradeGetReqDto.getStartDate();
+//        String endDate = tradeGetReqDto.getEndDate();
+//        return Optional.ofNullable(query.select(
+//                        Projections.constructor(TradeGetResDto.class,
+//                                trade.id,
+//                                trade.type,
+//                                trade.name,
+//                                trade.date,
+//                                trade.time,
+//                                trade.cost,
+//                                trade.amount,
+//                                trade.member.nickname,
+//                                trade.consumeType))
+//                .from(trade)
+//                .where(trade.account.id.eq(accountId),
+//                        trade.date.between(startDate, endDate),
+//                        trade.isContained.isTrue()
+//                )
+//                .orderBy(trade.date.asc(), trade.time.asc())
+//                .fetch());
+//    }
+@Override
+    public Optional<List<TradeGetResDto>> getTradeList(Long accountId) {
         return Optional.ofNullable(query.select(
                         Projections.constructor(TradeGetResDto.class,
                                 trade.id,
@@ -39,7 +60,7 @@ public class TradeRepositoryImpl implements TradeRepositoryCustom {
                                 trade.consumeType))
                 .from(trade)
                 .where(trade.account.id.eq(accountId),
-                        trade.date.between(startDate, endDate),
+//                        trade.date.between(startDate, endDate),
                         trade.isContained.isTrue()
                 )
                 .orderBy(trade.date.asc(), trade.time.asc())

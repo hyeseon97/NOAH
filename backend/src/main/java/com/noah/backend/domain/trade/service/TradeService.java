@@ -11,7 +11,7 @@ import java.util.List;
 public interface TradeService {
     void createTrade(TradePostReqDto tradePostReqDto);
 
-    List<TradeGetResDto> getTradeList(TradeGetReqDto tradeGetReqDto) throws JsonProcessingException;
+    List<TradeGetResDto> getTradeList(Long travelId) throws JsonProcessingException;
 
     List<TradeGetResDto> getTradeListByMemberAndConsumeType(Long travelId, List<Long> memberIds, List<String> consumeTypes);
 

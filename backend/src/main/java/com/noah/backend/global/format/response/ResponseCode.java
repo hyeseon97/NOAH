@@ -44,6 +44,8 @@ public enum ResponseCode {
     GROUP_ACCOUNT_TOTAL_PAY_INFO(HttpStatus.OK,"멤버별 모임통장 필수 납입금이 조회되었습니다."),
     GROUP_ACCOUNT_MEMBER_LIST_FETCHED(HttpStatus.OK, "모임통장에 속한 멤버 내역이 성공적으로 조회되었습니다."),
 
+    DEPOSIT_SUCCESS(HttpStatus.OK, "이체가 성공적으로 완료되었습니다."),
+
     /* 거래내역 (Trade) */
     TRADE_CREATED(HttpStatus.OK, "거래내역이 성공적으로 생성되었습니다."),
     TRADE_INFO_FETCHED(HttpStatus.OK, "거래내역이 성공적으로 조회되었습니다."),

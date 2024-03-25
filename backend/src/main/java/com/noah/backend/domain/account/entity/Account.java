@@ -40,9 +40,9 @@ public class Account extends BaseEntity {
     @Column(name = "amount")
     private int amount = 0;         // 잔액
 
-    @Setter
-    @Column(name = "start_date")
-    private String startDate;       // 조회 시작 시점
+//    @Setter
+//    @Column(name = "start_date")
+//    private String startDate;       // 조회 시작 시점
 
     @Setter
     @Column(name = "end_date")

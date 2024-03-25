@@ -6,6 +6,7 @@ import com.noah.backend.domain.account.service.AccountService;
 import com.noah.backend.domain.bank.dto.requestDto.BankAccountCreateReqDto;
 import com.noah.backend.domain.bank.dto.responseDto.BankAccountCreateResDto;
 import com.noah.backend.domain.bank.service.BankService;
+import com.noah.backend.domain.groupaccount.dto.requestDto.DepositReqDto;
 import com.noah.backend.domain.groupaccount.dto.requestDto.GroupAccountPostDto;
 import com.noah.backend.domain.groupaccount.dto.requestDto.GroupAccountRequestDto;
 import com.noah.backend.domain.groupaccount.dto.requestDto.GroupAccountUpdateDto;
@@ -108,5 +109,12 @@ public class GroupAccountController {
     public ResponseEntity<?> getTotalPayInfo(@PathVariable(name = "travel_id") Long travelId) {
         int result = groupAccountService.getTotalPay(travelId);
         return response.success(ResponseCode.GROUP_ACCOUNT_TOTAL_PAY_INFO, result);
+    }
+
+    @Operation(summary = "모임통장에 입금", description = "모임통장에 입금")
+    @PostMapping("/deposit")
+    public ResponseEntity<?> depositIntoGroupAccount(@Parameter(hidden = true) Authentication authentication, @RequestBody DepositReqDto depositReqDto) throws JsonProcessingException {
+        groupAccountService.depositIntoGroupAccount(authentication, depositReqDto);
+        return response.success(ResponseCode.DEPOSIT_SUCCESS);
     }
 }

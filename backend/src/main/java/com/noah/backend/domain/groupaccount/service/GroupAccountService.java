@@ -1,9 +1,12 @@
 package com.noah.backend.domain.groupaccount.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.noah.backend.domain.groupaccount.dto.requestDto.DepositReqDto;
 import com.noah.backend.domain.groupaccount.dto.requestDto.GroupAccountPostDto;
 import com.noah.backend.domain.groupaccount.dto.requestDto.GroupAccountUpdateDto;
 import com.noah.backend.domain.groupaccount.dto.responseDto.GroupAccountInfoDto;
 import com.noah.backend.domain.memberTravel.dto.Response.MemberTravelListGetDto;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 
@@ -20,4 +23,6 @@ public interface GroupAccountService {
     int getTotalPay(Long travelId);
 
     List<MemberTravelListGetDto> getGroupAccountMembers(Long travelId);
+
+    void depositIntoGroupAccount(Authentication authentication, DepositReqDto depositReqDto) throws JsonProcessingException;
 }

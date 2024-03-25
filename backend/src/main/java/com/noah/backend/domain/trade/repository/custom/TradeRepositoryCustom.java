@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface TradeRepositoryCustom {
 
-    Optional<List<TradeGetResDto>> getTradeList(Long accountId, TradeGetReqDto tradeGetReqDto);
+    Optional<List<TradeGetResDto>> getTradeList(Long accountId);
 
     Optional<TradeDateAndTime> getTradeDateAndTime(String date, String time);
 
