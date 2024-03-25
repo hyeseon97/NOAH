@@ -72,8 +72,8 @@ public class GroupAccountController {
     }
 
     @Operation(summary = "모임 단건 통장 조회", description = "모임 통장 단건 조회")
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getGroupAccount(@PathVariable(name = "id") Long groupAccountId) {
+    @GetMapping("/{group_account_Id}")
+    public ResponseEntity<?> getGroupAccount(@PathVariable(name = "group_account_Id") Long groupAccountId) {
         GroupAccountInfoDto groupAccountInfoDto = groupAccountService.groupAccountInfo(groupAccountId);
         return response.success(ResponseCode.GROUP_ACCOUNT_INFO_FETCHED, groupAccountInfoDto);
     }
@@ -90,7 +90,7 @@ public class GroupAccountController {
     }
 
     @Operation(summary = "모임 통장 내용 수정", description = "목표금액, 납입금, 납부일, 수정")
-    @PutMapping("/{id}")
+    @PutMapping("/{group_account_Id}")
     public ResponseEntity<?> updateGroupAccount(@Parameter(hidden = true) Authentication authentication,
                                                 @RequestBody GroupAccountUpdateDto groupAccountUpdateDto) {
         Long memberId = memberService.searchMember(authentication).getMemberId();
@@ -98,8 +98,8 @@ public class GroupAccountController {
     }
 
     @Operation(summary = "모임통장 멤버별 필수 납입금 조회", description = "모임통장 멤버별 필수 납입금 조회")
-    @GetMapping("/totalDue/{id}")
-    public ResponseEntity<?> getTotalPayInfo(@PathVariable(name = "id") Long travelId) {
+    @GetMapping("/totalDue/{travel_id}")
+    public ResponseEntity<?> getTotalPayInfo(@PathVariable(name = "travel_id") Long travelId) {
         int result = groupAccountService.getTotalPay(travelId);
         return response.success(ResponseCode.GROUP_ACCOUNT_TOTAL_PAY_INFO, result);
     }
