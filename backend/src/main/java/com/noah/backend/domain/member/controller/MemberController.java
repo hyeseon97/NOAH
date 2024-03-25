@@ -121,6 +121,7 @@ public class MemberController {
         return response.success(ResponseCode.LOGOUT_SUCCESS, memberService.logout(authentication.getName(), servletResponse));
     }
 
+    @Operation(summary = "이메일로 회원 찾기", description = "여행에 멤버 초대 시 회원 찾기에 사용")
     @GetMapping("{email}")
     public ResponseEntity<?> searchMember(@PathVariable(name = "email") String email){
         MemberInfoDto member = memberService.searchMember(email);
