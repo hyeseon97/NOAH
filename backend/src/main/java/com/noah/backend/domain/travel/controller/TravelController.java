@@ -73,7 +73,7 @@ public class TravelController {
 
     @Operation(summary = "여행 정보 수정", description = "여행 정보 수정 기능 / travelId 필요")
     @PutMapping("{travelId}")
-    public ResponseEntity<?> updateTravel(@PathVariable Long travelId, @RequestBody TravelUpdateDto travelUpdateDto){
+    public ResponseEntity<?> updateTravel(@PathVariable(value = "travelId") Long travelId, @RequestBody TravelUpdateDto travelUpdateDto){
 
         Long updateTravelId = travelService.updateTravel(travelId, travelUpdateDto);
 
@@ -82,7 +82,7 @@ public class TravelController {
 
     @Operation(summary = "여행 삭제", description = "여행 선택 삭제 / TravelID 필요")
     @DeleteMapping("{travelId}")
-    public ResponseEntity<?> deleteTravel(@PathVariable Long travelId){
+    public ResponseEntity<?> deleteTravel(@PathVariable(value = "travelId") Long travelId){
         travelService.deleteTravel(travelId);
 
         return ResponseEntity.ok().build();

@@ -21,7 +21,7 @@ public class ImageController {
 
     @Operation(summary = "이미지 저장", description = "이미지 저장 / reviewId 필요 / 해당 id를 바탕으로 s2서버에서 리스트 형태로 불러옴")
     @PostMapping
-    public ResponseEntity<Long> saveImage(@RequestParam Long reviewId){
+    public ResponseEntity<Long> saveImage(@RequestParam(value = "reviewId") Long reviewId){
 
         Long saveImageId = imageService.saveImage(reviewId);
         return ResponseEntity.ok(saveImageId);

@@ -75,7 +75,8 @@ public class TravelRepositoryImpl implements TravelRepositoryCustom{
         if(travelDto != null){
             List<MemberTravelListGetFromTravelDto> memberTravelList = query
                     .select(Projections.constructor(MemberTravelListGetFromTravelDto.class,
-                            memberTravel.payment_amount
+                            memberTravel.payment_amount,
+                            memberTravel.member.id
 //                            memberTravel.member
                     ))
                     .from(memberTravel)

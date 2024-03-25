@@ -11,7 +11,7 @@ public class MemberTravelListGetFromTravelDto {
 
     private int payment_amount;
 
-//    private Long member_id;
+    private Long member_id;
 
 //    private Long travel_id;
 

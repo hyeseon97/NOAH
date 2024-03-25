@@ -38,7 +38,7 @@ public class ReviewController {
 
     @Operation(summary = "리뷰 선택 조회", description = "리뷰 선택 조회")
     @GetMapping("/{reviewId}")
-    public ResponseEntity<ReviewGetDto> getReviewSelect(@PathVariable Long reviewId) {
+    public ResponseEntity<ReviewGetDto> getReviewSelect(@PathVariable(value = "reviewId") Long reviewId) {
         ReviewGetDto review = reviewService.getReviewSelect(reviewId);
         return ResponseEntity.ok(review);
     }
@@ -46,7 +46,7 @@ public class ReviewController {
     // 리뷰 생성
     @Operation(summary = "리뷰 생성", description = "리뷰 생성")
     @PostMapping
-    public ResponseEntity<Long> createReview(@RequestBody ReviewPostDto reviewCreateDto, @RequestParam Long travelId) {
+    public ResponseEntity<Long> createReview(@RequestBody ReviewPostDto reviewCreateDto, @RequestParam(value = "travelId") Long travelId) {
         Long createdReviewId = reviewService.createReviewTest2(reviewCreateDto, travelId);
         return ResponseEntity.ok(createdReviewId);
     }
@@ -54,7 +54,7 @@ public class ReviewController {
     // 리뷰 수정
     @Operation(summary = "리뷰 수정", description = "리뷰 수정")
     @PutMapping("/{reviewId}")
-    public ResponseEntity<Long> updateReview(@PathVariable Long reviewId, @RequestBody ReviewUpdateDto reviewUpdateDto) {
+    public ResponseEntity<Long> updateReview(@PathVariable(value = "reviewId") Long reviewId, @RequestBody ReviewUpdateDto reviewUpdateDto) {
         Long updatedReviewId = reviewService.updateReview(reviewId, reviewUpdateDto);
         return ResponseEntity.ok(updatedReviewId);
     }
@@ -62,7 +62,7 @@ public class ReviewController {
     // 리뷰 삭제
     @Operation(summary = "리뷰 삭제", description = "리뷰 삭제")
     @DeleteMapping("/{reviewId}")
-    public ResponseEntity<Void> deleteReview(@PathVariable Long reviewId) {
+    public ResponseEntity<Void> deleteReview(@PathVariable(value = "reviewId") Long reviewId) {
         reviewService.deleteReview(reviewId);
         return ResponseEntity.ok().build();
     }

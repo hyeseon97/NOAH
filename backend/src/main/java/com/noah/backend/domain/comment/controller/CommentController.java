@@ -23,13 +23,13 @@ public class CommentController {
 
     @Operation(summary = "코멘트 목록 조회", description = "코멘트 목록 조회 / travelId가 필요하다.")
     @GetMapping("/list/{travelId}")
-    public ResponseEntity<List<CommentListGetDto>> getCommentList(@PathVariable Long travelId) {
+    public ResponseEntity<List<CommentListGetDto>> getCommentList(@PathVariable(value = "travelId") Long travelId) {
         List<CommentListGetDto> commentList = commentService.getCommentList(travelId);
         return ResponseEntity.ok(commentList);
     }
     @Operation(summary = "코멘트 선택 조회", description = "코멘트 선택 조회 / commentId가 필요하다.")
     @GetMapping("/{commentId}")
-    public ResponseEntity<CommentGetDto> getCommentSelect(@PathVariable Long commentId){
+    public ResponseEntity<CommentGetDto> getCommentSelect(@PathVariable(value = "commentId") Long commentId){
         CommentGetDto selectedComment = commentService.getCommentSelect(commentId);
         return ResponseEntity.ok(selectedComment);
     }
@@ -43,14 +43,14 @@ public class CommentController {
 
     @Operation(summary = "코멘트 수정", description = "코멘트 수정, commentId 필요")
     @PutMapping("/{commentId}")
-    public ResponseEntity<Long> updateComment(@PathVariable Long commentId, @RequestBody CommentUpdateDto reviewUpdateDto){
+    public ResponseEntity<Long> updateComment(@PathVariable(value = "commentId") Long commentId, @RequestBody CommentUpdateDto reviewUpdateDto){
         Long updateCommentId = commentService.updateComment(commentId, reviewUpdateDto);
         return ResponseEntity.ok(updateCommentId);
     }
 
     @Operation(summary = "코멘트 삭제", description = "코멘트 삭제, commentId 필요")
     @DeleteMapping("/{commentId}")
-    public ResponseEntity<Void> deleteComment(@PathVariable Long commentId){
+    public ResponseEntity<Void> deleteComment(@PathVariable(value = "commentId") Long commentId){
         commentService.deleteReview(commentId);
         return ResponseEntity.ok().build();
     }
