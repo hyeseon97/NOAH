@@ -13,11 +13,13 @@ import com.noah.backend.domain.groupaccount.repository.GroupAccountRepository;
 import com.noah.backend.domain.groupaccount.service.GroupAccountService;
 import com.noah.backend.domain.memberTravel.Repository.MemberTravelRepository;
 import com.noah.backend.domain.memberTravel.dto.Response.GetTravelListResDto;
+import com.noah.backend.domain.memberTravel.dto.Response.MemberTravelListGetDto;
 import com.noah.backend.domain.travel.entity.Travel;
 import com.noah.backend.domain.travel.repository.TravelRepository;
 import com.noah.backend.global.exception.account.AccountNotFoundException;
 import com.noah.backend.global.exception.groupaccount.GroupAccountAccessDeniedException;
 import com.noah.backend.global.exception.groupaccount.GroupAccountNotFoundException;
+import com.noah.backend.global.exception.travel.TravelMemberNotFoundException;
 import com.noah.backend.global.exception.travel.TravelNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -104,6 +106,12 @@ public class GroupAccountServiceImpl implements GroupAccountService {
         }
         int totalDue = monthsBetween * groupAccount.getPerAmount();
         return totalDue;
+    }
+
+    @Override
+    public List<MemberTravelListGetDto> getGroupAccountMembers(Long travelId) {
+        List<MemberTravelListGetDto> result = memberTravelRepository.findByTravelId(travelId).orElseThrow(TravelMemberNotFoundException::new);
+        return result;
     }
 
 }

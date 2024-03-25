@@ -13,6 +13,8 @@ public class MemberTravelListGetDto {
 
     private Long member_id;
 
+    private String memberNickname;
+
 //    private Long travel_id;
 
 }

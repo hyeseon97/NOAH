@@ -42,6 +42,7 @@ public enum ResponseCode {
     GROUP_ACCOUNT_INFO_UPDATED(HttpStatus.OK, "모임통장 내용이 성공적으로 수정되었습니다."),
     GROUP_ACCOUNT_LIST_NOT_FOUND(HttpStatus.OK, "조회되는 모임통장이 없습니다."),
     GROUP_ACCOUNT_TOTAL_PAY_INFO(HttpStatus.OK,"멤버별 모임통장 필수 납입금이 조회되었습니다."),
+    GROUP_ACCOUNT_MEMBER_LIST_FETCHED(HttpStatus.OK, "모임통장에 속한 멤버 내역이 성공적으로 조회되었습니다."),
 
     /* 거래내역 (Trade) */
     TRADE_CREATED(HttpStatus.OK, "거래내역이 성공적으로 생성되었습니다."),

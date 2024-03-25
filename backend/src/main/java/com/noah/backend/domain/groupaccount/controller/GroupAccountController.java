@@ -97,6 +97,12 @@ public class GroupAccountController {
         return response.success(ResponseCode.GROUP_ACCOUNT_INFO_UPDATED, groupAccountService.updateGroupAccount(memberId, groupAccountUpdateDto));
     }
 
+    @Operation(summary = "모임통장에 속해있는 멤버, 납입금 조회", description = "모임통장에 속해있는 멤버, 납입금 조회")
+    @GetMapping("/member/{travel_id}")
+    public ResponseEntity<?> getGroupAccountMembers(@PathVariable(name = "travel_id") Long travelId) {
+        return response.success(ResponseCode.GROUP_ACCOUNT_MEMBER_LIST_FETCHED, groupAccountService.getGroupAccountMembers(travelId));
+    }
+
     @Operation(summary = "모임통장 멤버별 필수 납입금 조회", description = "모임통장 멤버별 필수 납입금 조회")
     @GetMapping("/totalDue/{travel_id}")
     public ResponseEntity<?> getTotalPayInfo(@PathVariable(name = "travel_id") Long travelId) {

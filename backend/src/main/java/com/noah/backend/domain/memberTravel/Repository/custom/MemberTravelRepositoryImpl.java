@@ -24,7 +24,8 @@ public class MemberTravelRepositoryImpl implements MemberTravelRepositoryCustom 
         List<MemberTravelListGetDto> travelListGetDtos = query
                 .select(Projections.constructor(MemberTravelListGetDto.class,
                         memberTravel.payment_amount,
-                        memberTravel.member.id))
+                        memberTravel.member.id,
+                        memberTravel.member.nickname))
                 .from(memberTravel)
                 .where(memberTravel.travel.id.eq(travelId))
                 .fetch();
