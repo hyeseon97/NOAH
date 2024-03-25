@@ -34,9 +34,9 @@ public class TradeController {
     }
 
     @Operation(summary = "거래내역 조회", description = "시점에 맞는 거래 내역 조회")
-    @GetMapping("/{id}")
+    @GetMapping("/{travel_id}")
     public ResponseEntity<?> getTradeList(
-            @PathVariable(name = "id") Long travelId,
+            @PathVariable(name = "travel_id") Long travelId,
             @RequestParam(name = "조회시작") String startDate,
             @RequestParam(name = "조회끝") String endDate,
             @RequestParam(name = "거래 유형") String transactionType,
@@ -57,8 +57,8 @@ public class TradeController {
     }
 
     @Operation(summary = "거래내역 분류 조회", description = "거래내역 분류 조회, member, consumeType으로 조회, 여러개 해야되서 List로")
-    @GetMapping("/classify/{id}")
-    public ResponseEntity<?> getTradeListByMemberAndConsumeType(@PathVariable(name = "id") Long travelId,
+    @GetMapping("/classify/{travel_id}")
+    public ResponseEntity<?> getTradeListByMemberAndConsumeType(@PathVariable(name = "travel_id") Long travelId,
                                                                 @RequestParam(required = false) List<Long> memberIds,
                                                                 @RequestParam(required = false) List<String> consumeTypes) {
         List<TradeGetResDto> result = tradeService.getTradeListByMemberAndConsumeType(travelId, memberIds, consumeTypes);
@@ -69,8 +69,8 @@ public class TradeController {
     }
 
     @Operation(summary = "숨김된 거래내역 조회", description = "숨김 된 거래내역 조회")
-    @GetMapping("/hide/{id}")
-    public ResponseEntity<?> getHideTradeList(@PathVariable(name = "id") Long travelId) {
+    @GetMapping("/hide/{travel_id}")
+    public ResponseEntity<?> getHideTradeList(@PathVariable(name = "travel_id") Long travelId) {
         List<TradeGetResDto> result = tradeService.getHideTradeList(travelId);
         if (result.isEmpty()) {
             return response.success(ResponseCode.TRADE_LIST_NOT_FOUND, null);
@@ -79,15 +79,15 @@ public class TradeController {
     }
 
     @Operation(summary = "거래내역 수정 분류용", description = "거래내역 수정, 사용자 설정, 소비 분류 설정")
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateTradeClassify(@PathVariable(name = "id") Long tradeId,
+    @PutMapping("/{trade_id}")
+    public ResponseEntity<?> updateTradeClassify(@PathVariable(name = "trade_id") Long tradeId,
                                                  @RequestBody TradeUpdateClassifyReqDto tradeClassifyUpdateReqDto) {
         return response.success(ResponseCode.TRADE_UPDATED, tradeService.updateTradeClassify(tradeId, tradeClassifyUpdateReqDto));
     }
 
     @Operation(summary = "거래내역 수정 삭제용", description = "거래내역 포함 여부, true이면 false, false 이면 true로")
-    @PutMapping("/remove/{id}")
-    public ResponseEntity<?> updateTradeContain(@PathVariable(name = "id") Long tradeId) {
+    @PutMapping("/remove/{trade_id}")
+    public ResponseEntity<?> updateTradeContain(@PathVariable(name = "trade_id") Long tradeId) {
         return response.success(ResponseCode.TRADE_UPDATED, tradeService.updateTradeContain(tradeId));
     }
 }
