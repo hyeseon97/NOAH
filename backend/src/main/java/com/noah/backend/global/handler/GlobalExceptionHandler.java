@@ -12,7 +12,9 @@ import com.noah.backend.global.exception.member.RefreshTokenNotFoundException;
 import com.noah.backend.global.exception.member.UnauthorizedAccessException;
 import com.noah.backend.global.exception.groupaccount.GroupAccountNotFoundException;
 import com.noah.backend.global.exception.member.MemberNotFoundException;
+import com.noah.backend.global.exception.notification.NotificationNotFoundException;
 import com.noah.backend.global.exception.trade.TradeNotFoundException;
+import com.noah.backend.global.exception.travel.TravelMemberNotFoundException;
 import com.noah.backend.global.exception.travel.TravelNotFoundException;
 import com.noah.backend.global.format.code.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -78,6 +80,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return response.error(e.getErrorCode());
     }
 
+    @ExceptionHandler(TravelMemberNotFoundException.class)
+    protected ResponseEntity<?> handle(TravelMemberNotFoundException e){
+        log.error("TravelMemberNotFoundException = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+
     /* 계좌 */
     @ExceptionHandler(AccountNotFoundException.class)
     protected ResponseEntity<?> handle(AccountNotFoundException e){
@@ -109,4 +117,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("MemberNotFoundException = {}", e.getErrorCode().getMessage());
         return response.error(e.getErrorCode());
     }
+
+    /* 알림 */
+    @ExceptionHandler(NotificationNotFoundException.class)
+    protected ResponseEntity<?> handle(NotificationNotFoundException e){
+        log.error("NotificationNotFoundException = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+
+
 }

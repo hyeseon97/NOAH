@@ -44,8 +44,10 @@ public enum ErrorCode {
     
     /* 여행(Travel) */
     TRAVEL_NOT_FOUND(HttpStatus.NOT_FOUND, "여행을 찾을 수 없습니다."),
-    TRAVEL_MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "여행에 속한 멤버를 찾을 수 없습니다.")
+    TRAVEL_MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "여행에 속한 멤버를 찾을 수 없습니다."),
 
+    /* 알림(Notification) */
+    NOTIFICATION_NOT_FOUND(HttpStatus.NOT_FOUND, "알림을 찾을 수 없습니다.")
 
     ;
 

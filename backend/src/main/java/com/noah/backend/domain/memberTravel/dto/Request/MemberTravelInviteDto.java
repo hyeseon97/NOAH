@@ -13,5 +13,4 @@ public class MemberTravelInviteDto {
 
     private Long travel_id;
 
-    private int payment_amount;
 }

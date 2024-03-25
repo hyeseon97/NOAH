@@ -54,9 +54,16 @@ public enum ResponseCode {
     BANK_DEPOSIT_SUCCESS(HttpStatus.OK,"입금이 성공적으로 완료되었습니다."),
     BANK_WITHDRAW_SUCCESS(HttpStatus.OK,"출금이 성공적으로 완료되었습니다."),
     BANK_TRANSFER_SUCCESS(HttpStatus.OK,"이체가 성공적으로 완료되었습니다."),
-    ;
 
     /* 여행(Travel) */
+    TRAVEL_INVITE_SUCCESS(HttpStatus.OK, "멤버를 성공적으로 초대했습니다."),
+
+
+    /* 알림(Notification) */
+    NOTIFICATION_TOKEN_SAVED(HttpStatus.OK, "파이어베이스 토큰이 저장되었습니다."),
+    NOTIFICATION_LIST_FETCHED(HttpStatus.OK, "알림 리스트를 성공적으로 조회했습니다."),
+    INVITE_ACCEPT(HttpStatus.OK, "여행 초대를 수락했습니다."),
+    INVITE_REFUSE(HttpStatus.OK, "여행 초대를 거절했습니다.");
 
 
     private final HttpStatus status;

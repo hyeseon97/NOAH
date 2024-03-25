@@ -39,9 +39,6 @@ public class Travel extends BaseEntity {
 	@OneToMany(mappedBy = "travel", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
 	private List<MemberTravel> memberTravelList = new ArrayList<>();
 
-	@OneToMany(mappedBy = "travel", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
-	private List<Notification> notificationList = new ArrayList<>();
-
 	@OneToOne(mappedBy = "travel", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
 	private GroupAccount groupAccount;
 

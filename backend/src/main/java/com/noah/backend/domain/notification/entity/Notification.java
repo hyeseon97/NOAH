@@ -5,11 +5,15 @@ import com.noah.backend.domain.member.entity.Member;
 import com.noah.backend.domain.travel.entity.Travel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
+@Getter
+@Builder
 @NoArgsConstructor //아무것도없는 기본생성자
 @AllArgsConstructor //모든 필드가 들어있는 생성자
 @Where(clause = "is_deleted = false")
@@ -27,8 +31,10 @@ public class Notification extends BaseEntity {
 	@JoinColumn(name = "receiver_id")
 	private Member receiver;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "travel_id")
-	private Travel travel;
+	@Column(name = "travel_id")
+	private Long travelId;
+
+	@Column(name = "travel_title")
+	private String travelTitle;
 
 }

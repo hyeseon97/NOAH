@@ -41,8 +41,6 @@ public class QTravel extends EntityPathBase<Travel> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
-    public final ListPath<com.noah.backend.domain.notification.entity.Notification, com.noah.backend.domain.notification.entity.QNotification> notificationList = this.<com.noah.backend.domain.notification.entity.Notification, com.noah.backend.domain.notification.entity.QNotification>createList("notificationList", com.noah.backend.domain.notification.entity.Notification.class, com.noah.backend.domain.notification.entity.QNotification.class, PathInits.DIRECT2);
-
     public final com.noah.backend.domain.plan.entity.QPlan plan;
 
     public final ListPath<com.noah.backend.domain.ticket.entity.Ticket, com.noah.backend.domain.ticket.entity.QTicket> ticketList = this.<com.noah.backend.domain.ticket.entity.Ticket, com.noah.backend.domain.ticket.entity.QTicket>createList("ticketList", com.noah.backend.domain.ticket.entity.Ticket.class, com.noah.backend.domain.ticket.entity.QTicket.class, PathInits.DIRECT2);
