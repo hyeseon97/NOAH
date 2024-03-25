@@ -1,5 +1,6 @@
 package com.noah.backend.global.format.response;
 
+import com.noah.backend.domain.ticket.entity.Ticket;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -43,7 +44,56 @@ public enum ErrorCode {
     EXTERNAL_TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "외부 API 토큰이 만료되었습니다."),
     
     /* 여행(Travel) */
-    TRAVEL_NOT_FOUND(HttpStatus.NOT_FOUND, "여행을 찾을 수 없습니다.");
+    TRAVEL_NOT_FOUND(HttpStatus.NOT_FOUND, "여행을 찾을 수 없습니다."),
+    TRAVEL_BAD_REQUEST(HttpStatus.BAD_REQUEST, "필수 입력을 모두 입력하지 않았습니다."),
+    TRAVEL_PERMISSION_DENIED (HttpStatus.FORBIDDEN, "여행 수정 권한이 없습니다."),
+    TRAVEL_UPDATE_FAILED (HttpStatus.BAD_REQUEST, "여행 정보 업데이트에 실패했습니다."),
+    TRAVEL_DELETE_FAILED (HttpStatus.INTERNAL_SERVER_ERROR, "여행 삭제에 실패했습니다."),
+
+    /*티켓(Ticket)*/
+    TICKET_NOT_FOUND(HttpStatus.NOT_FOUND, "티켓을 찾을 수 없습니다."),
+    TICKET_BAD_REQUEST(HttpStatus.BAD_REQUEST, "필수 입력을 모두 입력하지 않았습니다."),
+    TICKET_PERMISSION_DENIED(HttpStatus.FORBIDDEN, "티켓 수정 권한이 없습니다."),
+    TICKET_UPDATE_FAILED(HttpStatus.BAD_REQUEST, "티켓 수정에 실패했습니다.."),
+    TICKET_DELETE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "티켓 삭제에 실패했습니다."),
+
+    /*계획(Plan)*/
+    PLAN_NOT_FOUNT(HttpStatus.NOT_FOUND,"계획을 찾을 수 없습니다."),
+    PLAN_BAD_REQUEST(HttpStatus.BAD_REQUEST, "필수 입력을 모두 입력하지 않았습니다."),
+    PLAN_PERMISSION_DENIED (HttpStatus.FORBIDDEN, "계획 수정 권한이 없습니다."),
+    PLAN_UPDATE_FAILED (HttpStatus.BAD_REQUEST, "계획 업데이트에 실패했습니다."),
+    PLAN_DELETE_FAILED (HttpStatus.INTERNAL_SERVER_ERROR, "계획 삭제에 실패했습니다."),
+
+    /*세부계획(DetailPlan)*/
+    DETAILPLAN_NOT_FOUNT(HttpStatus.NOT_FOUND,"세부계획을 찾을 수 없습니다."),
+    DETAILPLAN_BAD_REQUEST(HttpStatus.BAD_REQUEST, "필수 입력을 모두 입력하지 않았습니다."),
+    DETAILPLAN_PERMISSION_DENIED (HttpStatus.FORBIDDEN, "세부계획 수정 권한이 없습니다."),
+    DETAILPLAN_UPDATE_FAILED (HttpStatus.BAD_REQUEST, "세부계획 업데이트에 실패했습니다."),
+    DETAILPLAN_DELETE_FAILED (HttpStatus.INTERNAL_SERVER_ERROR, "세부계획 삭제에 실패했습니다."),
+
+    /*리뷰(Review)*/
+    REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "리뷰를 찾을 수 없습니다."),
+    REVIEW_PERMISSION_DENIED(HttpStatus.FORBIDDEN, "리뷰 수정/삭제 권한이 없습니다."),
+    REVIEW_UPDATE_FAILED(HttpStatus.BAD_REQUEST, "리뷰 업데이트에 실패했습니다."),
+    REVIEW_DELETE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "리뷰 삭제에 실패했습니다."),
+
+    /*댓글(Comment)*/
+    COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "댓글을 찾을 수 없습니다."),
+    COMMENT_PERMISSION_DENIED(HttpStatus.FORBIDDEN, "댓글 수정/삭제 권한이 없습니다."),
+    COMMENT_UPDATE_FAILED(HttpStatus.BAD_REQUEST, "댓글 업데이트에 실패했습니다."),
+    COMMENT_DELETE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "댓글 삭제에 실패했습니다."),
+
+    /*이미지(Image)*/
+    IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "이미지를 찾을 수 없습니다."),
+    IMAGE_UPLOAD_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "이미지 업로드에 실패했습니다."),
+    IMAGE_PROCESSING_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "이미지 처리에 실패했습니다."),
+
+    /*멤버여행(TravelMember)*/
+    MEMBERTRAVEL_NOT_FOUND(HttpStatus.NOT_FOUND, "멤버여행을 찾을 수 없습니다."),
+    MEMBERTRAVEL_PERMISSION_DENIED(HttpStatus.FORBIDDEN, "멤버여행 정보 수정 권한이 없습니다."),
+    MEMBERTRAVEL_UPDATE_FAILED(HttpStatus.BAD_REQUEST, "멤버여행 정보 업데이트에 실패했습니다."),
+    MEMBERTRAVEL_DELETE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "멤버여행 삭제에 실패했습니다.");
+
 
     private final HttpStatus status;
     private final String message;
