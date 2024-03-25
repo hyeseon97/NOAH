@@ -65,10 +65,10 @@ public class GroupAccountServiceImpl implements GroupAccountService {
             groupAccount.setTargetDate(groupAccountUpdateDto.getTargetDate());
         }
         if (groupAccountUpdateDto.getPerAmount() != 0) {
-            groupAccount.setPerAmount(groupAccount.getPerAmount());
+            groupAccount.setPerAmount(groupAccountUpdateDto.getPerAmount());
         }
-        if (groupAccount.getPaymentDate() != 0) {
-            groupAccount.setPaymentDate(groupAccount.getPaymentDate());
+        if (groupAccountUpdateDto.getPaymentDate() != 0) {
+            groupAccount.setPaymentDate(groupAccountUpdateDto.getPaymentDate());
         }
 
         groupAccountRepository.save(groupAccount);
