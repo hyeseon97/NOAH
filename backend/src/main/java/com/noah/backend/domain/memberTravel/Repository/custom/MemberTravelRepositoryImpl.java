@@ -47,4 +47,13 @@ public class MemberTravelRepositoryImpl implements MemberTravelRepositoryCustom 
 
         return Optional.ofNullable(travelGetDto);
     }
+
+    @Override
+    public Optional<Long> getMemberTravelByTravelIdAndMemberId(Long travelId, Long memberId) {
+        Long memberTravelId = query.select(memberTravel.id)
+                .from(memberTravel)
+                .where(memberTravel.member.id.eq(memberId).and(memberTravel.travel.id.eq(travelId)))
+                .fetchOne();
+        return Optional.ofNullable(memberTravelId);
+    }
 }

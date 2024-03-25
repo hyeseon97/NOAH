@@ -14,15 +14,20 @@ import com.noah.backend.domain.groupaccount.dto.responseDto.GroupAccountInfoDto;
 import com.noah.backend.domain.groupaccount.entity.GroupAccount;
 import com.noah.backend.domain.groupaccount.repository.GroupAccountRepository;
 import com.noah.backend.domain.groupaccount.service.GroupAccountService;
+import com.noah.backend.domain.member.entity.Member;
+import com.noah.backend.domain.member.repository.MemberRepository;
 import com.noah.backend.domain.member.service.member.MemberService;
 import com.noah.backend.domain.memberTravel.Repository.MemberTravelRepository;
 import com.noah.backend.domain.memberTravel.dto.Response.GetTravelListResDto;
 import com.noah.backend.domain.memberTravel.dto.Response.MemberTravelListGetDto;
+import com.noah.backend.domain.memberTravel.entity.MemberTravel;
 import com.noah.backend.domain.travel.entity.Travel;
 import com.noah.backend.domain.travel.repository.TravelRepository;
 import com.noah.backend.global.exception.account.AccountNotFoundException;
 import com.noah.backend.global.exception.groupaccount.GroupAccountAccessDeniedException;
 import com.noah.backend.global.exception.groupaccount.GroupAccountNotFoundException;
+import com.noah.backend.global.exception.member.MemberNotFoundException;
+import com.noah.backend.global.exception.membertravel.MemberTravelNotFoundException;
 import com.noah.backend.global.exception.travel.TravelMemberNotFoundException;
 import com.noah.backend.global.exception.travel.TravelNotFoundException;
 import jakarta.transaction.Transactional;
@@ -46,6 +51,7 @@ public class GroupAccountServiceImpl implements GroupAccountService {
     private final TravelRepository travelRepository;
     private final MemberTravelRepository memberTravelRepository;
     private final MemberService memberService;
+    private final MemberRepository memberRepository;
     private final BankService bankService;
     private final AccountService accountService;
 
@@ -120,12 +126,16 @@ public class GroupAccountServiceImpl implements GroupAccountService {
         List<MemberTravelListGetDto> result = memberTravelRepository.findByTravelId(travelId).orElseThrow(TravelMemberNotFoundException::new);
         return result;
     }
-
+    
+    @Transactional
     @Override
     public void depositIntoGroupAccount(Authentication authentication, DepositReqDto depositReqDto) throws JsonProcessingException {
         /* 돈 보내는 사람 정보 */
-        String userKey = memberService.searchMember(authentication).getUserKey();
-        String userName = memberService.searchMember(authentication.getName()).getName();
+        Long memberId = memberService.searchMember(authentication).getMemberId();
+        Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
+        String userName = member.getName();
+        String userKey = member.getUserKey();
+
         Account account = accountRepository.findById(depositReqDto.getAccountId()).orElseThrow(AccountNotFoundException::new);
         Map<String, String> bankCodeMap = Map.of(
                 "한국은행", "001",
@@ -135,13 +145,15 @@ public class GroupAccountServiceImpl implements GroupAccountService {
         );
         String depositBankCode = bankCodeMap.get(account.getBankName());
 
-        /* 돈 받는 사람 정보 */
-        Travel travel = travelRepository.findById(depositReqDto.getTravelId()).orElseThrow(TravelNotFoundException::new);
+        /* 돈 받는 사람(모임통장) 정보 */
+        Long travelId = depositReqDto.getTravelId();
+        Travel travel = travelRepository.findById(travelId).orElseThrow(TravelNotFoundException::new);
         GroupAccountInfoDto groupAccountInfoDto = groupAccountRepository.getGroupAccountInfo(travel.getGroupAccount().getId()).orElseThrow(GroupAccountNotFoundException::new);
         String withDrawBankCode = bankCodeMap.get(groupAccountInfoDto.getBankName());
 
         String amount = depositReqDto.getAmount();
 
+        // Bank서비스에 맞게 dto 생성
         BankAccountTransferReqDto bankAccountTransferReqDto = BankAccountTransferReqDto.builder()
                 .userKey(userKey)
                 .depositBankCode(depositBankCode)
@@ -149,10 +161,18 @@ public class GroupAccountServiceImpl implements GroupAccountService {
                 .transactionBalance(amount)
                 .withdrawalBankCode(withDrawBankCode)
                 .withdrawalAccountNo(groupAccountInfoDto.getAccountNumber())
-                .depositTransactionSummary(userName + "님이 " + amount +"원을 입금하셨습니다.")
-                .withdrawalTransactionSummary(userName + "님이 " + amount +"원을 입금하셨습니다.")
+                .depositTransactionSummary(userName + "님이 " + amount + "원을 입금하셨습니다.")
+                .withdrawalTransactionSummary(userName + "님이 " + amount + "원을 입금하셨습니다.")
                 .build();
         bankService.bankAccountTransfer(bankAccountTransferReqDto);
+
+        // memberTravel의 payment 부분에 최신화를 시켜놓을거임, 기존금액 + 입금액 => 총 납부금액
+        Long memberTravelId = memberTravelRepository.getMemberTravelByTravelIdAndMemberId(travelId, memberId).orElseThrow(MemberTravelNotFoundException::new);
+        MemberTravel memberTravel = memberTravelRepository.findById(memberTravelId).orElseThrow(MemberTravelNotFoundException::new);
+        int previous = memberTravel.getPayment_amount();
+        int total = previous + Integer.parseInt(amount);
+        memberTravel.setPayment_amount(total);
+        memberTravelRepository.save(memberTravel);
     }
 
 }

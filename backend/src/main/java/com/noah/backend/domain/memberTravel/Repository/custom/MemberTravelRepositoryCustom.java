@@ -14,4 +14,6 @@ public interface MemberTravelRepositoryCustom {
 
     Optional<MemberTravelGetDto> getSelect(Long memberTravelId);
 
+    Optional<Long> getMemberTravelByTravelIdAndMemberId(Long travelId, Long memberId);
+
 }

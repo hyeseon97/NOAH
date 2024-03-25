@@ -92,7 +92,6 @@ public class TradeServiceImpl implements TradeService {
             fetchAndSaveTradeHistory(account, startDate, endDate);
             return tradeRepository.getTradeList(account.getId()).orElseThrow(TradeNotFoundException::new);
         }
-
     }
 
     /* 은행에서 가져오고 저장하는 메서드 */
@@ -136,6 +135,8 @@ public class TradeServiceImpl implements TradeService {
                         .amount(bankTrade.getAmount())
                         .account(account)
                         .build();
+                tradeRepository.save(trade);
+                account.setAmount(trade.getAmount());
                 accountRepository.save(account);
             }
         }
