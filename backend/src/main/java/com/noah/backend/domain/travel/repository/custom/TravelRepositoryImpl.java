@@ -1,6 +1,10 @@
 package com.noah.backend.domain.travel.repository.custom;
 
 
+import com.noah.backend.domain.datailPlan.dto.responseDto.DetailPlanListGetFromPlanDto;
+import com.noah.backend.domain.memberTravel.dto.Response.MemberTravelListGetDto;
+import com.noah.backend.domain.memberTravel.dto.Response.MemberTravelListGetFromTravelDto;
+import com.noah.backend.domain.plan.dto.responseDto.PlanGetDto;
 import com.noah.backend.domain.ticket.dto.responseDto.TicketListGetFromTravelDto;
 import com.noah.backend.domain.travel.dto.requestDto.TravelGetDto;
 import com.noah.backend.domain.travel.dto.requestDto.TravelGetListDto;
@@ -11,8 +15,10 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.Optional;
 
+import static com.noah.backend.domain.datailPlan.entity.QDetailPlan.detailPlan;
 import static com.noah.backend.domain.memberTravel.entity.QMemberTravel.memberTravel;
 import static com.noah.backend.domain.notification.entity.QNotification.notification;
+import static com.noah.backend.domain.plan.entity.QPlan.plan;
 import static com.noah.backend.domain.ticket.entity.QTicket.ticket;
 import static com.noah.backend.domain.travel.entity.QTravel.travel;
 import static com.querydsl.core.types.Projections.constructor;
@@ -67,14 +73,15 @@ public class TravelRepositoryImpl implements TravelRepositoryCustom{
                 .fetchOne();
 
         if(travelDto != null){
-//            List<MemberTravelListGetFromTravel> memberTravelList = query
-//                    .select(Projections.constructor(MemberTravelListGetFromTravel.class,
-//                            memberTravel.payment_amount
-//                    ))
-//                    .from(memberTravel)
-//                    .where(memberTravel.travel.id.eq(TravelId))
-//                    .fetch();
-//            travelDto.setMemberTrabelList(memberTravelList);
+            List<MemberTravelListGetFromTravelDto> memberTravelList = query
+                    .select(Projections.constructor(MemberTravelListGetFromTravelDto.class,
+                            memberTravel.payment_amount
+//                            memberTravel.member
+                    ))
+                    .from(memberTravel)
+                    .where(memberTravel.travel.id.eq(travelId))
+                    .fetch();
+            travelDto.setMemberTravelList(memberTravelList);
 
 //            List<NotificationListGetFromTravel> notificationListGetFromTravelList = query
 //                    .select(Projections.constructor(NotificationListGetFromTravel.class,
@@ -84,6 +91,36 @@ public class TravelRepositoryImpl implements TravelRepositoryCustom{
 //                    .where(notification.travel.id.eq(TravelId))
 //                    .fetch();
 //            travelDto.setNotificationList(notificationListGetFromTravelList);
+
+            PlanGetDto planGetDto = query
+                    .select(Projections.constructor(PlanGetDto.class,
+                            plan.id,
+                            plan.startDate,
+                            plan.endDate,
+                            plan.travelStart,
+                            plan.country
+                            ))
+                    .from(plan)
+                    .where(plan.travel.id.eq(travelId))
+                    .fetchOne();
+            if(planGetDto != null){
+                List<DetailPlanListGetFromPlanDto> detailDtos = query
+                        .select(Projections.constructor(DetailPlanListGetFromPlanDto.class,
+                                detailPlan.day,
+                                detailPlan.sequence,
+                                detailPlan.place,
+                                detailPlan.pinX,
+                                detailPlan.pinY,
+                                detailPlan.memo,
+                                detailPlan.time
+                                ))
+                        .from(detailPlan)
+                        .leftJoin(plan)
+                        .on(detailPlan.plan.id.eq(planGetDto.getPlan_id()))
+                        .fetch();
+                planGetDto.setDetailPlanList(detailDtos);
+            }
+            travelDto.setPlan(planGetDto);
 
             List<TicketListGetFromTravelDto> ticketListGetFromTravelDtoList = query
                     .select(Projections.constructor(TicketListGetFromTravelDto.class,

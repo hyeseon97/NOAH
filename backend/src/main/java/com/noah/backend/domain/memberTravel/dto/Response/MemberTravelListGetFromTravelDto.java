@@ -7,11 +7,11 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MemberTravelListGetDto {
+public class MemberTravelListGetFromTravelDto {
 
     private int payment_amount;
 
-    private Long member_id;
+//    private Long member_id;
 
 //    private Long travel_id;
 

@@ -77,6 +77,10 @@ public class CommentServiceImpl implements CommentService {
         return currentComment.getId();
     }
 
+
+
+    //사실 이건 매칭만 되어있다면 memberId를 따로 보낼 필요가 없으니 content만 바꾸면 되는 건가?
+    // 이건 물어보고 하자
     @Override
     public Long updateComment(Long commentId, CommentUpdateDto commentDto) {
         Comment currentComment = commentRepository.findById(commentId)

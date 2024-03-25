@@ -28,8 +28,8 @@ public class TicketRepositoryImpl implements TicketRepositoryCustom {
                         ticket.arrival,
                         ticket.aAirport,
                         ticket.dAirport,
-                        ticket.dGate,
-                        ticket.travel.id
+                        ticket.dGate
+//                        ticket.travel.id
                 )).from(ticket).leftJoin(ticket.travel).where(ticket.travel.id.eq(travelId)).fetch();
         return Optional.ofNullable(ticketDtos.isEmpty() ? null : ticketDtos);
     }

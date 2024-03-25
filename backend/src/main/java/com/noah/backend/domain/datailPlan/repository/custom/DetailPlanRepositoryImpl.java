@@ -25,16 +25,16 @@ public class DetailPlanRepositoryImpl implements DetailPlanRepositoryCustom {
     public Optional<List<DetailPlanListGetFromPlanDto>> getDetailPlanList(Long PlanId) {
         List<DetailPlanListGetFromPlanDto> detailPlanDtos = query
                 .select(constructor(DetailPlanListGetFromPlanDto.class,
-                        detailPlan.id,
+//                        detailPlan.id,
                         detailPlan.day,
                         detailPlan.sequence,
                         detailPlan.place,
                         detailPlan.pinX,
                         detailPlan.pinY,
                         detailPlan.memo,
-                        detailPlan.time,
-                        detailPlan.plan))
-                .from(detailPlan).leftJoin(plan).where(detailPlan.plan.id.eq(PlanId)).fetch();
+                        detailPlan.time
+                        ))
+                .from(detailPlan).leftJoin(plan).on(detailPlan.plan.id.eq(PlanId)).fetch();
         return Optional.ofNullable(detailPlanDtos);
     }
 
@@ -49,8 +49,8 @@ public class DetailPlanRepositoryImpl implements DetailPlanRepositoryCustom {
                         detailPlan.pinX,
                         detailPlan.pinY,
                         detailPlan.memo,
-                        detailPlan.time,
-                        detailPlan.plan)
+                        detailPlan.time
+                        )
                 ).from(detailPlan).where(detailPlan.id.eq(DetailPlanId)).fetchOne();
 
         return Optional.ofNullable(DetailPlanDto);

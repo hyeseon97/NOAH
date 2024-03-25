@@ -40,7 +40,7 @@ public class PlanRepositoryImpl implements PlanRepositoryCustom {
     public Optional<PlanGetDto> getPlanSelect(Long PlanId) {
         PlanGetDto planDto = query
                 .select(Projections.constructor(PlanGetDto.class,
-//                        plan.id,
+                        plan.id,
                         plan.startDate,
                         plan.endDate,
                         plan.travelStart,
@@ -64,7 +64,8 @@ public class PlanRepositoryImpl implements PlanRepositoryCustom {
 //                            detailPlan.plan.id
                             ))
                     .from(detailPlan)
-                    .where(detailPlan.plan.id.eq(PlanId))
+                    .leftJoin(plan)
+                    .on(detailPlan.plan.id.eq(PlanId))
                     .fetch();
             planDto.setDetailPlanList(detailDtos);
         }

@@ -32,7 +32,7 @@ public class TicketController {
 
     @Operation(summary = "티켓 수정",description = "티켓 수정 / TicketId가 필요")
     @PutMapping("/{ticketId}")
-    public ResponseEntity<Long> updateTicket(@PathVariable Long ticketId, @RequestBody TicketUpdateDto ticketDto){
+    public ResponseEntity<Long> updateTicket(@PathVariable(value = "ticketId") Long ticketId, @RequestBody TicketUpdateDto ticketDto){
         Long updateTicketId = ticketService.updateTicket(ticketId,ticketDto);
 
         return ResponseEntity.ok(updateTicketId);
@@ -40,7 +40,7 @@ public class TicketController {
 
     @Operation(summary = "티켓 삭제",description = "티켓 삭제 / TicketId가 필요")
     @DeleteMapping("/{ticketId}")
-    public ResponseEntity<Long> deleteTicket(@PathVariable Long ticketId){
+    public ResponseEntity<Long> deleteTicket(@PathVariable(value = "ticketId") Long ticketId){
         ticketService.deleteTicket(ticketId);
 
         return ResponseEntity.ok().build();
@@ -48,7 +48,7 @@ public class TicketController {
 
     @Operation(summary = "티켓 목록 조회",description = "티켓 목록 조회 / TravelId가 필요")
     @GetMapping("/list")
-    public ResponseEntity<List<TicketListGetFromTravelDto>> getTicketList(@RequestParam Long travelId){
+    public ResponseEntity<List<TicketListGetFromTravelDto>> getTicketList(@RequestParam(value = "travelId") Long travelId){
         List<TicketListGetFromTravelDto> ticketList = ticketService.getTicketList(travelId);
         return ResponseEntity.ok(ticketList);
     }
@@ -56,7 +56,7 @@ public class TicketController {
 
     @Operation(summary = "티켓 상세 조회",description = "티켓 상세 조회 / TicketId가 필요")
     @GetMapping("/{ticketId}")
-    public ResponseEntity<TicketGetDto> getTicketSelect(@PathVariable Long ticketId){
+    public ResponseEntity<TicketGetDto> getTicketSelect(@PathVariable(value = "ticketId") Long ticketId){
         TicketGetDto selectTicket = ticketService.getTicketSelect(ticketId);
         return ResponseEntity.ok(selectTicket);
     }

@@ -10,8 +10,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class TravelController {
 
     private final TravelService travelService;
     private final MemberService memberService;
-    private final Authentication authentication;
+//    private final Authentication authentication;
 
 //    @PostMapping()
 //    public ResponseEntity<?> create(Authentication authentication, TravelPostDto travelPostDto){
@@ -45,7 +46,7 @@ public class TravelController {
 
     @Operation(summary = "여행 선택 조회", description = "여행 선택 상세 조회 / travelID 필요")
     @GetMapping("{travelId}")
-    public ResponseEntity<?> getTravelSelect(@PathVariable Long travelId){
+    public ResponseEntity<?> getTravelSelect(@PathVariable(value = "travelId") Long travelId){
         TravelGetDto selectTravel = travelService.getTravelSelect(travelId);
 
         return ResponseEntity.ok(selectTravel);
@@ -53,7 +54,7 @@ public class TravelController {
 
     @Operation(summary = "여행 생성", description = "여행 생성 기능")
     @PostMapping
-    public ResponseEntity<?> createTravel(@RequestBody TravelPostDto travelPostDto, Long memberId){
+    public ResponseEntity<?> createTravel(@RequestBody TravelPostDto travelPostDto, @RequestParam(value = "memberId") Long memberId){
 
         Long createTravelId = travelService.createTravelTest(travelPostDto, memberId);
         return ResponseEntity.ok(createTravelId);

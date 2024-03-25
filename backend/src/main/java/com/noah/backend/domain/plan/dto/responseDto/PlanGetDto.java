@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PlanGetDto {
 
-//    private Long plan_id;
+    private Long plan_id;
     private Date start_date;
     private Date end_date;
     
@@ -27,7 +27,8 @@ public class PlanGetDto {
     @Setter
     private List<DetailPlanListGetFromPlanDto> detailPlanList;
 
-    public PlanGetDto(Date start_date, Date end_date, boolean travel_start, String country) {
+    public PlanGetDto(Long plan_id, Date start_date, Date end_date, boolean travel_start, String country) {
+        this.plan_id = plan_id;
         this.start_date = start_date;
         this.end_date = end_date;
         this.travel_start = travel_start;

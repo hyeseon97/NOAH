@@ -1,8 +1,11 @@
 package com.noah.backend.domain.travel.dto.requestDto;
 
 import com.noah.backend.domain.groupaccount.entity.GroupAccount;
+import com.noah.backend.domain.memberTravel.dto.Response.MemberTravelListGetDto;
+import com.noah.backend.domain.memberTravel.dto.Response.MemberTravelListGetFromTravelDto;
 import com.noah.backend.domain.memberTravel.entity.MemberTravel;
 import com.noah.backend.domain.notification.entity.Notification;
+import com.noah.backend.domain.plan.dto.responseDto.PlanGetDto;
 import com.noah.backend.domain.plan.entity.Plan;
 import com.noah.backend.domain.ticket.dto.responseDto.TicketListGetFromTravelDto;
 import com.noah.backend.domain.ticket.entity.Ticket;
@@ -23,11 +26,12 @@ public class TravelGetDto {
 //    @Setter
 //    private GroupAccount account;
 //    @Setter
-//    private Plan plan;
+    private PlanGetDto plan;
 //    private Long account_id;
 //    private Long plan_id;
 //    @Setter
-//    private List<memberTravelDto> memberTrabelList;
+    @Setter
+    private List<MemberTravelListGetFromTravelDto> memberTravelList;
 //    @Setter
 //    private List<NotificationGetDto> notificationList;
     @Setter
