@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +24,6 @@ public class TravelController {
 
     private final TravelService travelService;
     private final MemberService memberService;
-    private final Authentication authentication;
 
 //    @PostMapping()
 //    public ResponseEntity<?> create(Authentication authentication, TravelPostDto travelPostDto){

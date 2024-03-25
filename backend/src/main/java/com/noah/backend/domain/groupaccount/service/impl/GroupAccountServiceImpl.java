@@ -10,6 +10,8 @@ import com.noah.backend.domain.groupaccount.dto.responseDto.GroupAccountInfoDto;
 import com.noah.backend.domain.groupaccount.entity.GroupAccount;
 import com.noah.backend.domain.groupaccount.repository.GroupAccountRepository;
 import com.noah.backend.domain.groupaccount.service.GroupAccountService;
+import com.noah.backend.domain.memberTravel.Repository.MemberTravelRepository;
+import com.noah.backend.domain.memberTravel.dto.Response.GetTravelListResDto;
 import com.noah.backend.domain.travel.entity.Travel;
 import com.noah.backend.domain.travel.repository.TravelRepository;
 import com.noah.backend.global.exception.account.AccountNotFoundException;
@@ -21,6 +23,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -29,8 +33,14 @@ public class GroupAccountServiceImpl implements GroupAccountService {
     private final GroupAccountRepository groupAccountRepository;
     private final AccountRepository accountRepository;
     private final TravelRepository travelRepository;
+    private final MemberTravelRepository memberTravelRepository;
     private final BankService bankService;
     private final AccountService accountService;
+
+    @Override
+    public List<GroupAccountInfoDto> getGroupAccountListByMemberId(Long memberId) {
+        return groupAccountRepository.getGroupAccountListByMemberId(memberId).orElseThrow(GroupAccountNotFoundException::new);
+    }
 
     @Transactional
     @Override
@@ -55,7 +65,7 @@ public class GroupAccountServiceImpl implements GroupAccountService {
     @Override
     public Long updateGroupAccount(Long memberId, GroupAccountUpdateDto groupAccountUpdateDto) {
         GroupAccount groupAccount = groupAccountRepository.findById(groupAccountUpdateDto.getGroupAccountId()).orElseThrow(GroupAccountNotFoundException::new);
-        if(!groupAccount.getAccount().getMember().getId().equals(memberId)){
+        if (!groupAccount.getAccount().getMember().getId().equals(memberId)) {
             throw new GroupAccountAccessDeniedException();
         }
         if (groupAccountUpdateDto.getTargetAmount() != 0) {
