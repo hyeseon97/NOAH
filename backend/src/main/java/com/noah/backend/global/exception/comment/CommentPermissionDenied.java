@@ -6,7 +6,7 @@ public class CommentPermissionDenied extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public CommentPermissionDenied(ErrorCode errorCode) {
+    public CommentPermissionDenied( ) {
         this.errorCode = ErrorCode.COMMENT_PERMISSION_DENIED;
     }
 }

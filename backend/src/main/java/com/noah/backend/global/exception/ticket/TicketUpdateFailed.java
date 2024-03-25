@@ -6,7 +6,7 @@ public class TicketUpdateFailed extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public TicketUpdateFailed(ErrorCode errorCode) {
+    public TicketUpdateFailed( ) {
         this.errorCode = ErrorCode.TICKET_UPDATE_FAILED;
     }
 }

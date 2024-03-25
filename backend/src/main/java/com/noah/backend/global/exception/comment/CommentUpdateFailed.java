@@ -6,7 +6,7 @@ public class CommentUpdateFailed extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public CommentUpdateFailed(ErrorCode errorCode) {
+    public CommentUpdateFailed( ) {
         this.errorCode = ErrorCode.COMMENT_UPDATE_FAILED;
     }
 }

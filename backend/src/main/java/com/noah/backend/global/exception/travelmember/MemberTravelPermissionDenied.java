@@ -6,7 +6,7 @@ public class MemberTravelPermissionDenied extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public MemberTravelPermissionDenied(ErrorCode errorCode) {
+    public MemberTravelPermissionDenied( ) {
         this.errorCode = ErrorCode.MEMBERTRAVEL_PERMISSION_DENIED;
     }
 }

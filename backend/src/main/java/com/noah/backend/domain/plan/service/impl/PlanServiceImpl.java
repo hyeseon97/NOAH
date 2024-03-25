@@ -12,6 +12,9 @@ import com.noah.backend.domain.review.repository.ReviewRepository;
 import com.noah.backend.domain.ticket.repository.TicketRepository;
 import com.noah.backend.domain.travel.entity.Travel;
 import com.noah.backend.domain.travel.repository.TravelRepository;
+import com.noah.backend.global.exception.plan.PlanNotFound;
+import com.noah.backend.global.exception.plan.PlanUpdateFailed;
+import com.noah.backend.global.exception.travel.TravelNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -31,17 +34,17 @@ public class PlanServiceImpl implements PlanService {
 
     @Override
     public List<PlanListGetFromTravelDto> getPlanList(Long travelId) {
-        return planRepository.getPlanList(travelId).orElseThrow(() -> new RuntimeException("계획을 찾을 수 없습니다"));
+        return planRepository.getPlanList(travelId).orElseThrow(PlanNotFound::new);
     }
 
     @Override
     public PlanGetDto getPlanSelect(Long planId) {
-        return planRepository.getPlanSelect(planId).orElseThrow(() -> new RuntimeException("계획을 찾을 수 없습니다."));
+        return planRepository.getPlanSelect(planId).orElseThrow(PlanNotFound::new);
     }
 
     @Override
     public Long createPlan(PlanPostDto planDto) {
-        Travel travel = travelRepository.findById(planDto.getTravel_id()).orElseThrow(() -> new RuntimeException("여행 정보를 찾을 수 없어요"));
+        Travel travel = travelRepository.findById(planDto.getTravel_id()).orElseThrow(TravelNotFoundException::new);
         Plan plan = Plan.builder()
                 .startDate(planDto.getStart_date())
                 .endDate(planDto.getEnd_date())
@@ -54,7 +57,7 @@ public class PlanServiceImpl implements PlanService {
 
     @Override
     public Long updatePlan(Long planId, PlanUpdateDto planDto) {
-        Plan currentPlan = planRepository.findById(planId).orElseThrow(() -> new RuntimeException("수정할 계획을 찾을 수 없습니다."));
+        Plan currentPlan = planRepository.findById(planId).orElseThrow(PlanUpdateFailed::new);
         currentPlan.setStartDate(planDto.getStart_date());
         currentPlan.setEndDate(planDto.getEnd_date());
         currentPlan.setCountry(planDto.getCountry());
@@ -65,7 +68,7 @@ public class PlanServiceImpl implements PlanService {
     }
 
     public boolean changeStart(Long planId, PlanUpdateDto planDto){
-        Plan currentPlan = planRepository.findById(planId).orElseThrow(() -> new RuntimeException("상세 계획을 찾을 수 없습니다."));
+        Plan currentPlan = planRepository.findById(planId).orElseThrow(PlanNotFound::new);
         boolean changePlanStart = !currentPlan.isTravelStart();
         currentPlan.setTravelStart(changePlanStart);
 

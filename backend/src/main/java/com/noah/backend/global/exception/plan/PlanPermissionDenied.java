@@ -6,7 +6,7 @@ public class PlanPermissionDenied extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public PlanPermissionDenied(ErrorCode errorCode) {
+    public PlanPermissionDenied( ) {
         this.errorCode = ErrorCode.PLAN_PERMISSION_DENIED;
     }
 }

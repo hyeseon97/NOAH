@@ -6,7 +6,7 @@ public class CommentNotFound extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public CommentNotFound(ErrorCode errorCode) {
+    public CommentNotFound( ) {
         this.errorCode = ErrorCode.COMMENT_NOT_FOUND;
     }
 }

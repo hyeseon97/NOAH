@@ -62,7 +62,7 @@ public enum ErrorCode {
     TICKET_DELETE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "티켓 삭제에 실패했습니다."),
 
     /*계획(Plan)*/
-    PLAN_NOT_FOUNT(HttpStatus.NOT_FOUND,"계획을 찾을 수 없습니다."),
+    PLAN_NOT_FOUND(HttpStatus.NOT_FOUND,"계획을 찾을 수 없습니다."),
     PLAN_BAD_REQUEST(HttpStatus.BAD_REQUEST, "필수 입력을 모두 입력하지 않았습니다."),
     PLAN_PERMISSION_DENIED (HttpStatus.FORBIDDEN, "계획 수정 권한이 없습니다."),
     PLAN_UPDATE_FAILED (HttpStatus.BAD_REQUEST, "계획 업데이트에 실패했습니다."),

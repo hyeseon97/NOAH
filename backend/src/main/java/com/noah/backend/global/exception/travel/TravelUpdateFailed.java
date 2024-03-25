@@ -6,7 +6,7 @@ public class TravelUpdateFailed extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public TravelUpdateFailed(ErrorCode errorCode) {
+    public TravelUpdateFailed( ) {
         this.errorCode = ErrorCode.TRAVEL_UPDATE_FAILED;
     }
 }

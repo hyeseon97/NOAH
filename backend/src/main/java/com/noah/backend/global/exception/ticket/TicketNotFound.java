@@ -6,7 +6,7 @@ public class TicketNotFound extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public TicketNotFound(ErrorCode errorCode) {
+    public TicketNotFound( ) {
         this.errorCode = ErrorCode.TICKET_NOT_FOUND;
     }
 }

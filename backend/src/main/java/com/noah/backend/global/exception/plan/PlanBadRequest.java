@@ -6,7 +6,7 @@ public class PlanBadRequest extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public PlanBadRequest(ErrorCode errorCode) {
+    public PlanBadRequest( ) {
         this.errorCode = ErrorCode.PLAN_BAD_REQUEST;
     }
 }

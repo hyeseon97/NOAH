@@ -6,7 +6,7 @@ public class PlanNotFound extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public PlanNotFound(ErrorCode errorCode) {
-        this.errorCode = ErrorCode.PLAN_NOT_FOUNT;
+    public PlanNotFound() {
+        this.errorCode = ErrorCode.PLAN_NOT_FOUND;
     }
 }

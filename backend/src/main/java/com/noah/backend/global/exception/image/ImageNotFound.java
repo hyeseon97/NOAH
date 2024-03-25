@@ -6,7 +6,7 @@ public class ImageNotFound extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public ImageNotFound(ErrorCode errorCode) {
+    public ImageNotFound( ) {
         this.errorCode = ErrorCode.IMAGE_NOT_FOUND;
     }
 }

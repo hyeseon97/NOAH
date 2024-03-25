@@ -6,7 +6,7 @@ public class CommentDeleteFailed extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public CommentDeleteFailed(ErrorCode errorCode) {
+    public CommentDeleteFailed( ) {
         this.errorCode = ErrorCode.COMMENT_DELETE_FAILED;
     }
 }

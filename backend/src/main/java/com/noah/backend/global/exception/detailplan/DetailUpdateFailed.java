@@ -6,7 +6,7 @@ public class DetailUpdateFailed extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public DetailUpdateFailed(ErrorCode errorCode) {
+    public DetailUpdateFailed( ) {
         this.errorCode = ErrorCode.DETAILPLAN_UPDATE_FAILED;
     }
 }

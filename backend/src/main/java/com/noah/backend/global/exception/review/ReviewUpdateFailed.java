@@ -6,7 +6,7 @@ public class ReviewUpdateFailed extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public ReviewUpdateFailed(ErrorCode errorCode) {
+    public ReviewUpdateFailed( ) {
         this.errorCode = ErrorCode.REVIEW_UPDATE_FAILED;
     }
 }

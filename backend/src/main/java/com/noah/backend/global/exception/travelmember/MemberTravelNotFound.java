@@ -6,7 +6,7 @@ public class MemberTravelNotFound extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public MemberTravelNotFound(ErrorCode errorCode) {
+    public MemberTravelNotFound( ) {
         this.errorCode = ErrorCode.MEMBER_NOT_FOUND;
     }
 }

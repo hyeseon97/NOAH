@@ -6,7 +6,7 @@ public class TravelDeleteFailed extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public TravelDeleteFailed(ErrorCode errorCode) {
+    public TravelDeleteFailed( ) {
         this.errorCode = ErrorCode.TRAVEL_DELETE_FAILED;
     }
 }

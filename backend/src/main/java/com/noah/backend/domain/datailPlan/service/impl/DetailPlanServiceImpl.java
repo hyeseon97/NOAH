@@ -11,6 +11,7 @@ import com.noah.backend.domain.plan.entity.Plan;
 import com.noah.backend.domain.plan.repository.PlanRepository;
 import com.noah.backend.domain.review.repository.ReviewRepository;
 import com.noah.backend.domain.ticket.repository.TicketRepository;
+import com.noah.backend.global.exception.detailplan.DetailPlanNotFound;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -29,12 +30,12 @@ public class DetailPlanServiceImpl implements DetailPlanService {
 
     @Override
     public List<DetailPlanListGetFromPlanDto> getDetailPlanList(Long PlanId) {
-        return detailPlanRepository.getDetailPlanList(PlanId).orElseThrow(() -> new RuntimeException("세부 계획이 없어용"));
+        return detailPlanRepository.getDetailPlanList(PlanId).orElseThrow(DetailPlanNotFound::new);
     }
 
     @Override
     public DetailPlanGetDto getDetailPlanSelect(Long detailPlanId) {
-        return detailPlanRepository.getDetailPlanSelect(detailPlanId).orElseThrow(() -> new RuntimeException("세부 계획이 없어용"));
+        return detailPlanRepository.getDetailPlanSelect(detailPlanId).orElseThrow(() -> new DetailPlanNotFound());
     }
 
     @Override
@@ -55,7 +56,7 @@ public class DetailPlanServiceImpl implements DetailPlanService {
 
     @Override
     public Long updateDetailPlan(Long detailPlanId, DetailPlanUpdateDto detailPlan) {
-        DetailPlan currentDetailPlan = detailPlanRepository.findById(detailPlanId).orElseThrow(() -> new RuntimeException("없어요 상세내역이"));
+        DetailPlan currentDetailPlan = detailPlanRepository.findById(detailPlanId).orElseThrow(() -> new DetailPlanNotFound());
 
         currentDetailPlan.setDay(detailPlan.getDay());
         currentDetailPlan.setSequence(detailPlan.getSequence());

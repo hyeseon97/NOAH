@@ -6,7 +6,7 @@ public class ReviewNotFound extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public ReviewNotFound(ErrorCode errorCode) {
+    public ReviewNotFound( ) {
         this.errorCode = ErrorCode.REVIEW_NOT_FOUND;
     }
 }

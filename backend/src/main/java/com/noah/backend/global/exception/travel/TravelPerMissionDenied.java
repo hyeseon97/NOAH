@@ -6,7 +6,7 @@ public class TravelPerMissionDenied extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public TravelPerMissionDenied(ErrorCode errorCode) {
+    public TravelPerMissionDenied( ) {
         this.errorCode = ErrorCode.TICKET_PERMISSION_DENIED;
     }
 }

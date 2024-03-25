@@ -17,6 +17,9 @@ import com.noah.backend.domain.review.entity.Review;
 import com.noah.backend.domain.review.repository.ReviewRepository;
 import com.noah.backend.domain.review.service.ReviewService;
 import com.noah.backend.domain.ticket.repository.TicketRepository;
+import com.noah.backend.global.exception.member.MemberNotFoundException;
+import com.noah.backend.global.exception.review.ReviewNotFound;
+import com.noah.backend.global.exception.travel.TravelNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -41,13 +44,13 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<ReviewListGetDto> getReviewList() {
         return reviewRepository.getReviewList()
-                .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
+                .orElseThrow(ReviewNotFound::new);
     }
 
     @Override
     public ReviewGetDto getReviewSelect(Long reviewId) {
         return reviewRepository.getReviewSelect(reviewId)
-                .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
+                .orElseThrow(ReviewNotFound::new);
     }
 
     @Override
@@ -110,13 +113,13 @@ public class ReviewServiceImpl implements ReviewService {
         Review savedReview = reviewRepository.save(createReview);
 
             List<MemberTravelListGetDto> memberTravelList = memberTravelRepository.findByTravelId(travelId)
-                    .orElseThrow(() -> new NotFoundException("travelId " + travelId + "is can't fonud."));
+                    .orElseThrow(TravelNotFoundException::new);
 
         for (MemberTravelListGetDto memberTravel : memberTravelList) {
                 Long joinMemberId = memberTravel.getMember_id();
 
                 Member joinMember = memberRepository.findById(joinMemberId)
-                        .orElseThrow(() -> new RuntimeException("No matching MemberId."));
+                        .orElseThrow(MemberNotFoundException::new);
 
             Comment comment = Comment.builder()
                     .content("")

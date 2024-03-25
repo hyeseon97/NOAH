@@ -6,7 +6,7 @@ public class TravelBadRequest extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public TravelBadRequest(ErrorCode errorCode) {
+    public TravelBadRequest( ) {
         this.errorCode = ErrorCode.TRAVEL_BAD_REQUEST;
     }
 }

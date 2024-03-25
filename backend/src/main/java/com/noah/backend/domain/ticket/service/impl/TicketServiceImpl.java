@@ -12,6 +12,8 @@ import com.noah.backend.domain.ticket.repository.TicketRepository;
 import com.noah.backend.domain.ticket.service.TicketService;
 import com.noah.backend.domain.travel.entity.Travel;
 import com.noah.backend.domain.travel.repository.TravelRepository;
+import com.noah.backend.global.exception.ticket.TicketNotFound;
+import com.noah.backend.global.exception.travel.TravelNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -31,17 +33,17 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public List<TicketListGetFromTravelDto> getTicketList(Long travelId) {
-        return ticketRepository.getTicketList(travelId).orElseThrow(() -> new RuntimeException("여행 ID에 등록된 티켓이 없습니다."));
+        return ticketRepository.getTicketList(travelId).orElseThrow(TicketNotFound::new);
     }
 
     @Override
     public TicketGetDto getTicketSelect(Long ticketId) {
-        return ticketRepository.getTicketSelect(ticketId).orElseThrow(() -> new RuntimeException("해당 티켓 ID에 대한 정보가 없습니다."));
+        return ticketRepository.getTicketSelect(ticketId).orElseThrow(TicketNotFound::new);
     }
 
     @Override
     public Long createTicket(TicketPostDto ticketDto) {
-        Travel foundTravel = travelRepository.findById(ticketDto.getTravel_id()).orElseThrow(() -> new RuntimeException("travelID가 입력되지않았어요"));
+        Travel foundTravel = travelRepository.findById(ticketDto.getTravel_id()).orElseThrow(TravelNotFoundException::new);
 
         Ticket ticket = Ticket.builder()
                 .departure(ticketDto.getDeparture())
@@ -56,7 +58,7 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public Long updateTicket(Long ticketId, TicketUpdateDto ticketDto) {
-        Ticket currentTicket = ticketRepository.findById(ticketId).orElseThrow(() -> new RuntimeException("업데이트할 티켓 정보가 없어요"));
+        Ticket currentTicket = ticketRepository.findById(ticketId).orElseThrow(TicketNotFound::new);
         currentTicket.setDeparture(ticketDto.getDeparture());
         currentTicket.setArrival(ticketDto.getArrival());
         currentTicket.setDAirport(ticketDto.getD_airport());

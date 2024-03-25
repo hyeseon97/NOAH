@@ -6,7 +6,7 @@ public class DetailPlanPermissionDenied extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public DetailPlanPermissionDenied(ErrorCode errorCode) {
+    public DetailPlanPermissionDenied( ) {
         this.errorCode = ErrorCode.DETAILPLAN_PERMISSION_DENIED;
     }
 }

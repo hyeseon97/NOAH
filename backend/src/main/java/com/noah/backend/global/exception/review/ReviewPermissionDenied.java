@@ -6,7 +6,7 @@ public class ReviewPermissionDenied extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public ReviewPermissionDenied(ErrorCode errorCode) {
+    public ReviewPermissionDenied( ) {
         this.errorCode = ErrorCode.REVIEW_PERMISSION_DENIED;
     }
 }

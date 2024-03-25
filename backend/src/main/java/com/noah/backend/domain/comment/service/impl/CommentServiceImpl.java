@@ -11,6 +11,8 @@ import com.noah.backend.domain.member.entity.Member;
 import com.noah.backend.domain.member.repository.MemberRepository;
 import com.noah.backend.domain.review.repository.ReviewRepository;
 import com.noah.backend.domain.ticket.repository.TicketRepository;
+import com.noah.backend.global.exception.comment.CommentNotFound;
+import com.noah.backend.global.exception.member.MemberNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -33,13 +35,13 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<CommentListGetDto> getCommentList(Long reviewId) {
         return commentRepository.getCommentList(reviewId)
-                .orElseThrow(() -> new RuntimeException("코멘트가 없슈"));
+                .orElseThrow(CommentNotFound::new);
     }
 
     @Override
     public CommentGetDto getCommentSelect(Long commentId) {
         return commentRepository.getCommentSelect(commentId)
-                .orElseThrow(() -> new RuntimeException("코멘트가 없어요"));
+                .orElseThrow(CommentNotFound::new);
     }
 
 //    @Override
@@ -62,10 +64,10 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Long updateCommentTest(Long commentId, CommentUpdateDto commentDto) {
         Comment currentComment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new RuntimeException("코멘트 없어용"));
+                .orElseThrow(CommentNotFound::new);
         //이건 따로 값을 받아야할지도 모른다.
         Member writer = memberRepository.findById(commentDto.getMember_id())
-                .orElseThrow(() -> new RuntimeException("멤버 id를 확인하세요"));
+                .orElseThrow(MemberNotFoundException::new);
 
         currentComment.setContent(commentDto.getContent());
         currentComment.setMember(writer);
@@ -79,10 +81,10 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Long updateCommentTestToMemberId(Long commentId, Long memberId, CommentUpdateDto commentDto) {
         Comment currentComment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new RuntimeException("코멘트 없어용"));
+                .orElseThrow(CommentNotFound::new);
         //이건 따로 값을 받아야할지도 모른다.
         Member writer = memberRepository.findById(memberId)
-                .orElseThrow(() -> new RuntimeException("멤버 id를 확인하세요"));
+                .orElseThrow(MemberNotFoundException::new);
 
         currentComment.setContent(commentDto.getContent());
         currentComment.setMember(writer);
@@ -100,7 +102,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Long updateComment(Long commentId, CommentUpdateDto commentDto) {
         Comment currentComment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new RuntimeException("코멘트 없어용"));
+                .orElseThrow(CommentNotFound::new);
         currentComment.setContent(commentDto.getContent());
         commentRepository.save(currentComment);
 

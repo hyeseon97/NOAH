@@ -16,6 +16,8 @@ import com.noah.backend.domain.travel.dto.responseDto.TravelUpdateDto;
 import com.noah.backend.domain.travel.entity.Travel;
 import com.noah.backend.domain.travel.repository.TravelRepository;
 import com.noah.backend.domain.travel.service.TravelService;
+import com.noah.backend.global.exception.travel.TravelNotFoundException;
+import com.noah.backend.global.exception.travelmember.MemberTravelNotFound;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -40,12 +42,12 @@ public class TravelServiceImpl implements TravelService {
     @Override
     public List<TravelGetListDto> getTravelList() {
 
-        return travelRepository.getTravelList().orElseThrow(() -> new RuntimeException("여행 정보를 찾을 수 없습니다."));
+        return travelRepository.getTravelList().orElseThrow(TravelNotFoundException::new);
     }
 
     @Override
     public TravelGetDto getTravelSelect(Long travelId) {
-        return travelRepository.getTravelSelect(travelId).orElseThrow(() -> new RuntimeException("선택하신 여행 정보를 찾을 수 없습니다."));
+        return travelRepository.getTravelSelect(travelId).orElseThrow(TravelNotFoundException::new);
     }
 
     @Override
@@ -73,8 +75,7 @@ public class TravelServiceImpl implements TravelService {
 
         Travel saveTravel = travelRepository.save(travel);
 
-        Member member = memberRepository.findById(memberId).orElseThrow(() ->
-                new RuntimeException("member " + memberId + "를 찾을 수 없습니다."));
+        Member member = memberRepository.findById(memberId).orElseThrow(MemberTravelNotFound::new);
 
 
         MemberTravel memberTravel = MemberTravel.builder()
@@ -88,7 +89,7 @@ public class TravelServiceImpl implements TravelService {
 
     @Override
     public Long updateTravel(Long travelId, TravelUpdateDto travelDto) {
-        Travel travel = travelRepository.findById(travelId).orElseThrow(() -> new NotFoundException("수정할 여행 정보가 없습니다."));
+        Travel travel = travelRepository.findById(travelId).orElseThrow(TravelNotFoundException::new);
         travel.setTitle(travelDto.getTitle());
         travel.setEnded(travelDto.isEnded());
 

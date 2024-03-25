@@ -6,7 +6,7 @@ public class DetailPlanDeleteFailed extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public DetailPlanDeleteFailed(ErrorCode errorCode) {
+    public DetailPlanDeleteFailed( ) {
         this.errorCode = ErrorCode.DETAILPLAN_DELETE_FAILED;
     }
 }

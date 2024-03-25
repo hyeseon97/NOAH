@@ -6,7 +6,7 @@ public class DetailPlanNotFound extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public DetailPlanNotFound(ErrorCode errorCode) {
+    public DetailPlanNotFound( ) {
         this.errorCode = ErrorCode.DETAILPLAN_NOT_FOUNT;
     }
 }

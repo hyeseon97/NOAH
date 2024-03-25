@@ -14,6 +14,8 @@ import com.noah.backend.domain.travel.entity.Travel;
 import com.noah.backend.domain.travel.repository.TravelRepository;
 import com.noah.backend.global.exception.member.MemberNotFoundException;
 import com.noah.backend.global.exception.travel.TravelMemberNotFoundException;
+import com.noah.backend.global.exception.travel.TravelNotFoundException;
+import com.noah.backend.global.exception.travelmember.MemberTravelNotFound;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -33,8 +35,8 @@ public class MemberTravelServiceImpl implements MemberTravelService {
     @Override
     public Long createMemberTravel(MemberTravelPostDto memberTravelPostDto) {
 
-        Travel travel = travelRepository.findById(memberTravelPostDto.getTravel_id()).orElseThrow(() -> new RuntimeException("여행 id 안넣냐?"));
-        Member member = memberReopsitory.findById(memberTravelPostDto.getMember_id()).orElseThrow(() -> new RuntimeException("멤버 id 안넣냐?"));
+        Travel travel = travelRepository.findById(memberTravelPostDto.getTravel_id()).orElseThrow(TravelNotFoundException::new);
+        Member member = memberReopsitory.findById(memberTravelPostDto.getMember_id()).orElseThrow(MemberTravelNotFound::new);
 
         MemberTravel memberTravel =  MemberTravel.builder()
                 .payment_amount(memberTravelPostDto.getPayment_amount())
@@ -50,7 +52,7 @@ public class MemberTravelServiceImpl implements MemberTravelService {
     @Override
     public Long updateMemberTravel(Long memberTravelId, MemberTravelUpdateDto memberTravelUpdateDto) {
         MemberTravel updateMemberTravel = memberTravelRepository.findById(memberTravelId)
-                .orElseThrow(() -> new NotFoundException("정보를 찾을 수 없는디"));
+                .orElseThrow(MemberTravelNotFound::new);
         updateMemberTravel.setPayment_amount(memberTravelUpdateDto.getPayment_amount());
 
         memberTravelRepository.save(updateMemberTravel);

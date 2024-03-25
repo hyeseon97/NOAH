@@ -6,7 +6,7 @@ public class ImageProcessingFailed extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public ImageProcessingFailed(ErrorCode errorCode) {
+    public ImageProcessingFailed( ) {
         this.errorCode = ErrorCode.IMAGE_PROCESSING_FAILED;
     }
 }

@@ -6,7 +6,7 @@ public class DetailPlanBadRequest extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public DetailPlanBadRequest(ErrorCode errorCode) {
+    public DetailPlanBadRequest( ) {
         this.errorCode = ErrorCode.DETAILPLAN_BAD_REQUEST;
     }
 }

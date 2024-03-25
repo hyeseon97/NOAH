@@ -6,7 +6,7 @@ public class ImageUploadFailed extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public ImageUploadFailed(ErrorCode errorCode) {
+    public ImageUploadFailed( ) {
         this.errorCode = ErrorCode.IMAGE_UPLOAD_FAILED;
     }
 }

@@ -6,7 +6,7 @@ public class PlanUpdateFailed extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public PlanUpdateFailed(ErrorCode errorCode) {
+    public PlanUpdateFailed() {
         this.errorCode = ErrorCode.PLAN_UPDATE_FAILED;
     }
 }

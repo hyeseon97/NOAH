@@ -6,7 +6,7 @@ public class TicketBadRequest extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public TicketBadRequest(ErrorCode errorCode) {
+    public TicketBadRequest( ) {
         this.errorCode = ErrorCode.TICKET_BAD_REQUEST;
     }
 }

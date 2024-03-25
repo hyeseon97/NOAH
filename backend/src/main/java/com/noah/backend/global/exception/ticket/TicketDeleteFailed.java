@@ -6,7 +6,7 @@ public class TicketDeleteFailed extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public TicketDeleteFailed(ErrorCode errorCode) {
+    public TicketDeleteFailed( ) {
         this.errorCode = ErrorCode.TICKET_DELETE_FAILED;
     }
 }

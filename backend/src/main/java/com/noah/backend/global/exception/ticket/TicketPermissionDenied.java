@@ -6,7 +6,7 @@ public class TicketPermissionDenied extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public TicketPermissionDenied(ErrorCode errorCode) {
+    public TicketPermissionDenied( ) {
         this.errorCode = ErrorCode.TICKET_PERMISSION_DENIED;
     }
 }
