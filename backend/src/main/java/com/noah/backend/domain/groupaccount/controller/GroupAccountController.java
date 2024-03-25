@@ -11,9 +11,7 @@ import com.noah.backend.domain.groupaccount.dto.requestDto.GroupAccountRequestDt
 import com.noah.backend.domain.groupaccount.dto.requestDto.GroupAccountUpdateDto;
 import com.noah.backend.domain.groupaccount.dto.responseDto.GroupAccountInfoDto;
 import com.noah.backend.domain.groupaccount.service.GroupAccountService;
-import com.noah.backend.domain.member.repository.MemberRepository;
 import com.noah.backend.domain.member.service.member.MemberService;
-import com.noah.backend.global.exception.bank.BankAccountCreateFailed;
 import com.noah.backend.global.format.code.ApiResponse;
 import com.noah.backend.global.format.response.ResponseCode;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,7 +20,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -98,5 +95,12 @@ public class GroupAccountController {
                                                 @RequestBody GroupAccountUpdateDto groupAccountUpdateDto) {
         Long memberId = memberService.searchMember(authentication).getMemberId();
         return response.success(ResponseCode.GROUP_ACCOUNT_INFO_UPDATED, groupAccountService.updateGroupAccount(memberId, groupAccountUpdateDto));
+    }
+
+    @Operation(summary = "모임통장 멤버별 필수 납입금 조회", description = "모임통장 멤버별 필수 납입금 조회")
+    @GetMapping("/totalDue/{id}")
+    public ResponseEntity<?> getTotalPayInfo(@PathVariable(name = "id") Long travelId) {
+        int result = groupAccountService.getTotalPay(travelId);
+        return response.success(ResponseCode.GROUP_ACCOUNT_TOTAL_PAY_INFO, result);
     }
 }

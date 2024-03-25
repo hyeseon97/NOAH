@@ -15,4 +15,6 @@ public interface GroupAccountService {
     GroupAccountInfoDto groupAccountInfo(Long groupAccountId);
 
     Long updateGroupAccount(Long memberId, GroupAccountUpdateDto groupAccountUpdateDto);
+
+    int getTotalPay(Long travelId);
 }

@@ -1,5 +1,6 @@
 package com.noah.backend.domain.groupaccount.service.impl;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.noah.backend.domain.account.entity.Account;
 import com.noah.backend.domain.account.repository.AccountRepository;
 import com.noah.backend.domain.account.service.AccountService;
@@ -23,6 +24,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Slf4j
@@ -84,4 +87,23 @@ public class GroupAccountServiceImpl implements GroupAccountService {
         groupAccountRepository.save(groupAccount);
         return groupAccount.getId();
     }
+
+    @Override
+    public int getTotalPay(Long travelId) {
+        Travel travel = travelRepository.findById(travelId).orElseThrow(TravelNotFoundException::new);
+        GroupAccount groupAccount = groupAccountRepository.findById(travel.getGroupAccount().getId()).orElseThrow(GroupAccountNotFoundException::new);
+        LocalDate today = LocalDate.now();
+        LocalDate createdAt = groupAccount.getCreatedAt().toLocalDate();
+
+        int monthsBetween = (int) ChronoUnit.MONTHS.between(createdAt, today);
+
+        // 현재 달의 납부일이 지났는지 확인
+        if (today.getDayOfMonth() >= groupAccount.getPaymentDate()) {
+            // 현재 달의 납부일이 지났다면, 해당 월도 납부 대상 월로 포함
+            monthsBetween++;
+        }
+        int totalDue = monthsBetween * groupAccount.getPerAmount();
+        return totalDue;
+    }
+
 }
