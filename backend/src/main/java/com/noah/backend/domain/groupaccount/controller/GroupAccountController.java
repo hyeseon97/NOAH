@@ -11,9 +11,7 @@ import com.noah.backend.domain.groupaccount.dto.requestDto.GroupAccountRequestDt
 import com.noah.backend.domain.groupaccount.dto.requestDto.GroupAccountUpdateDto;
 import com.noah.backend.domain.groupaccount.dto.responseDto.GroupAccountInfoDto;
 import com.noah.backend.domain.groupaccount.service.GroupAccountService;
-import com.noah.backend.domain.member.repository.MemberRepository;
 import com.noah.backend.domain.member.service.member.MemberService;
-import com.noah.backend.global.exception.bank.BankAccountCreateFailed;
 import com.noah.backend.global.format.code.ApiResponse;
 import com.noah.backend.global.format.response.ResponseCode;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,6 +21,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "모임통장 컨트롤러", description = "Group Account Controller API")
 @RestController
@@ -72,17 +72,35 @@ public class GroupAccountController {
     }
 
     @Operation(summary = "모임 단건 통장 조회", description = "모임 통장 단건 조회")
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getGroupAccount(@PathVariable(name = "id") Long groupAccountId) {
+    @GetMapping("/{group_account_Id}")
+    public ResponseEntity<?> getGroupAccount(@PathVariable(name = "group_account_Id") Long groupAccountId) {
         GroupAccountInfoDto groupAccountInfoDto = groupAccountService.groupAccountInfo(groupAccountId);
         return response.success(ResponseCode.GROUP_ACCOUNT_INFO_FETCHED, groupAccountInfoDto);
     }
 
+    @Operation(summary = "사용자가 속해있는 모임통장 전체조회", description = "사용자가 속해있는 모임통장 전체 조회")
+    @GetMapping
+    public ResponseEntity<?> getMyGroupAccountList(@Parameter(hidden = true) Authentication authentication) {
+        Long memberId = memberService.searchMember(authentication).getMemberId();
+        List<GroupAccountInfoDto> result = groupAccountService.getGroupAccountListByMemberId(memberId);
+        if (result.isEmpty()) {
+            return response.success(ResponseCode.GROUP_ACCOUNT_LIST_NOT_FOUND, null);
+        }
+        return response.success(ResponseCode.GROUP_ACCOUNT_INFO_FETCHED, result);
+    }
+
     @Operation(summary = "모임 통장 내용 수정", description = "목표금액, 납입금, 납부일, 수정")
-    @PutMapping("/{id}")
+    @PutMapping("/{group_account_Id}")
     public ResponseEntity<?> updateGroupAccount(@Parameter(hidden = true) Authentication authentication,
                                                 @RequestBody GroupAccountUpdateDto groupAccountUpdateDto) {
         Long memberId = memberService.searchMember(authentication).getMemberId();
         return response.success(ResponseCode.GROUP_ACCOUNT_INFO_UPDATED, groupAccountService.updateGroupAccount(memberId, groupAccountUpdateDto));
+    }
+
+    @Operation(summary = "모임통장 멤버별 필수 납입금 조회", description = "모임통장 멤버별 필수 납입금 조회")
+    @GetMapping("/totalDue/{travel_id}")
+    public ResponseEntity<?> getTotalPayInfo(@PathVariable(name = "travel_id") Long travelId) {
+        int result = groupAccountService.getTotalPay(travelId);
+        return response.success(ResponseCode.GROUP_ACCOUNT_TOTAL_PAY_INFO, result);
     }
 }

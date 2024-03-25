@@ -1,5 +1,6 @@
 package com.noah.backend.domain.memberTravel.Repository.custom;
 
+import com.noah.backend.domain.memberTravel.dto.Response.GetTravelListResDto;
 import com.noah.backend.domain.memberTravel.dto.Response.MemberTravelGetDto;
 import com.noah.backend.domain.memberTravel.dto.Response.MemberTravelListGetDto;
 import com.noah.backend.domain.memberTravel.entity.MemberTravel;
