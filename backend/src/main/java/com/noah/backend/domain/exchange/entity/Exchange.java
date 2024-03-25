@@ -27,7 +27,7 @@ public class Exchange extends BaseEntity {
     @Column(name = "exchange_amount")
     private int exchangeAmount;
 
-    @OneToOne(mappedBy = "exchange", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     @JoinColumn(name = "group_account_id")
     private GroupAccount groupAccount;
 }

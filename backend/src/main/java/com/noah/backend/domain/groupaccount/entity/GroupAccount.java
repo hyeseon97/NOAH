@@ -51,7 +51,7 @@ public class GroupAccount extends BaseEntity {
     @JoinColumn(name = "account_id")
     private Account account;
 
-    @OneToOne
+    @OneToOne(mappedBy = "exchange")
     @JoinColumn(name = "exchange_id")
     private Exchange exchange;
 }
