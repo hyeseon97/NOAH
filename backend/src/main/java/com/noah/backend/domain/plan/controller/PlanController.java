@@ -49,6 +49,7 @@ public class PlanController {
     @PutMapping("/update/{planId}")
     public ResponseEntity<Long> updatePlan(@PathVariable(value = "planId") Long planId, @RequestBody PlanUpdateDto planDto){
         Long updatePlan = planService.updatePlan(planId, planDto);
+
         return ResponseEntity.ok(updatePlan);
     }
 

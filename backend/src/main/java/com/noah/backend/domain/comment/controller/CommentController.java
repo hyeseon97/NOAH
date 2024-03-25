@@ -41,7 +41,7 @@ public class CommentController {
 //        return ResponseEntity.ok(createCommentId);
 //    }
 
-    @Operation(summary = "코멘트 수정", description = "코멘트 수정, commentId 필요")
+    @Operation(summary = "코멘트 수정", description = "코멘트 수정 작업, commentId 필요")
     @PutMapping("/{commentId}")
     public ResponseEntity<Long> updateComment(@PathVariable(value = "commentId") Long commentId, @RequestBody CommentUpdateDto reviewUpdateDto){
         Long updateCommentId = commentService.updateComment(commentId, reviewUpdateDto);
