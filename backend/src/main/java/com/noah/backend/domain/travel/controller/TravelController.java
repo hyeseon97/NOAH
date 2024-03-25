@@ -25,7 +25,7 @@ public class TravelController {
 
     private final TravelService travelService;
     private final MemberService memberService;
-    private final Authentication authentication;
+//    private final Authentication authentication;
 
 //    @PostMapping()
 //    public ResponseEntity<?> create(Authentication authentication, TravelPostDto travelPostDto){
