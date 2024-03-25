@@ -37,10 +37,12 @@ public class TradeRepositoryImpl implements TradeRepositoryCustom {
                                 trade.amount,
                                 trade.member.nickname,
                                 trade.consumeType))
-                .from(trade).where(trade.account.id.eq(accountId),
+                .from(trade)
+                .where(trade.account.id.eq(accountId),
                         trade.date.between(startDate, endDate),
                         trade.isContained.isTrue()
                 )
+                .orderBy(trade.date.asc(), trade.time.asc())
                 .fetch());
     }
 
@@ -49,6 +51,7 @@ public class TradeRepositoryImpl implements TradeRepositoryCustom {
         return Optional.ofNullable(query.select(Projections.constructor(TradeDateAndTime.class, trade.date, trade.time))
                 .from(trade)
                 .where(trade.date.eq(date).and(trade.time.eq(time)))
+                .orderBy(trade.date.asc(), trade.time.asc())
                 .fetchOne());
     }
 
@@ -69,6 +72,7 @@ public class TradeRepositoryImpl implements TradeRepositoryCustom {
                         memberIdsCondition(memberIds),
                         consumeTypesCondition(consumeTypes),
                         trade.isContained.isTrue())
+                .orderBy(trade.date.asc(), trade.time.asc())
                 .fetch());
     }
 
@@ -96,6 +100,7 @@ public class TradeRepositoryImpl implements TradeRepositoryCustom {
                 .from(trade)
                 .where(trade.account.id.eq(accountId),
                         trade.isContained.isFalse())
+                .orderBy(trade.date.asc(), trade.time.asc())
                 .fetch());
     }
 }

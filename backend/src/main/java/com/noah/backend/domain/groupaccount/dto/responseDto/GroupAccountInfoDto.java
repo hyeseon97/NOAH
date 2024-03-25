@@ -9,6 +9,7 @@ import lombok.*;
 @Builder
 public class GroupAccountInfoDto {
     private Long groupAccountId;    // id
+    private Long travelId;          // 여행ID
     private String title;           // 여행 제목
     private String bankName;        // 은행 이름
     private String accountNumber;   // 계좌 번호

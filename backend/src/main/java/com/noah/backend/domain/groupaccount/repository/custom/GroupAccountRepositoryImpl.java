@@ -56,6 +56,7 @@ public class GroupAccountRepositoryImpl implements GroupAccountRepositoryCustom 
         return Optional.ofNullable(query.select(Projections.constructor(
                         GroupAccountInfoDto.class,
                         groupAccount.id.as("groupAccountId"),
+                        groupAccount.travel.id,
                         groupAccount.travel.title.as("title"),
                         groupAccount.account.bankName.as("bankName"),
                         groupAccount.account.accountNumber.as("accountNumber"),
