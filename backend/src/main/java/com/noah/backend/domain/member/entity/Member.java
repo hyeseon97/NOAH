@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -46,6 +47,10 @@ public class Member extends BaseEntity {
 
     @Column(name = "userkey", nullable = false)
     private String userKey;
+
+    @Setter
+    @Column(name = "notification_token", nullable = false)
+    private String notificationToken = null;
 
     @OneToMany(mappedBy = "member", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<Account> accountList = new ArrayList<>();

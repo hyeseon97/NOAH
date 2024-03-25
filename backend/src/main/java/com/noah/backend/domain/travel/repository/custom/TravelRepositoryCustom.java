@@ -13,4 +13,6 @@ public interface TravelRepositoryCustom  {
     Optional<List<TravelGetListDto>> getTravelList();
 
     Optional<TravelGetDto> getTravelSelect(Long TravelId);
+
+    Optional<List<Long>> findTravelPaymentDateIsToday(int todayDate);
 }

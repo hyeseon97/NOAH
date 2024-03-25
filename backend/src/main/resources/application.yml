@@ -5,6 +5,7 @@ spring:
       - filter
       - jwt
       - mail
+      - notification
 
   jpa:
     open-in-view: false

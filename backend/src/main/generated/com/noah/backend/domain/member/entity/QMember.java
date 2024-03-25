@@ -47,6 +47,8 @@ public class QMember extends EntityPathBase<Member> {
 
     public final ListPath<com.noah.backend.domain.notification.entity.Notification, com.noah.backend.domain.notification.entity.QNotification> notificationList = this.<com.noah.backend.domain.notification.entity.Notification, com.noah.backend.domain.notification.entity.QNotification>createList("notificationList", com.noah.backend.domain.notification.entity.Notification.class, com.noah.backend.domain.notification.entity.QNotification.class, PathInits.DIRECT2);
 
+    public final StringPath notificationToken = createString("notificationToken");
+
     public final StringPath password = createString("password");
 
     public final ListPath<com.noah.backend.domain.trade.entity.Trade, com.noah.backend.domain.trade.entity.QTrade> tradeList = this.<com.noah.backend.domain.trade.entity.Trade, com.noah.backend.domain.trade.entity.QTrade>createList("tradeList", com.noah.backend.domain.trade.entity.Trade.class, com.noah.backend.domain.trade.entity.QTrade.class, PathInits.DIRECT2);

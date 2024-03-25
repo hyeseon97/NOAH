@@ -37,7 +37,9 @@ public class QNotification extends EntityPathBase<Notification> {
 
     public final com.noah.backend.domain.member.entity.QMember receiver;
 
-    public final com.noah.backend.domain.travel.entity.QTravel travel;
+    public final NumberPath<Long> travelId = createNumber("travelId", Long.class);
+
+    public final StringPath travelTitle = createString("travelTitle");
 
     public final NumberPath<Integer> type = createNumber("type", Integer.class);
 
@@ -60,7 +62,6 @@ public class QNotification extends EntityPathBase<Notification> {
     public QNotification(Class<? extends Notification> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.receiver = inits.isInitialized("receiver") ? new com.noah.backend.domain.member.entity.QMember(forProperty("receiver")) : null;
-        this.travel = inits.isInitialized("travel") ? new com.noah.backend.domain.travel.entity.QTravel(forProperty("travel"), inits.get("travel")) : null;
     }
 
 }

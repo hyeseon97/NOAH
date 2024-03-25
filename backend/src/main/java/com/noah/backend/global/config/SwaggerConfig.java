@@ -123,6 +123,15 @@ public class SwaggerConfig {
 
     }
 
+    @Bean
+    public GroupedOpenApi notificationGroup() {
+        return GroupedOpenApi.builder()
+                             .group("알림")
+                             .pathsToMatch("/api/v1/notification/**")
+                             .build();
+
+    }
+
 //    @Bean
 //    public GroupedOpenApi flightGroup() {
 //        return GroupedOpenApi.builder()

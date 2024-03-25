@@ -1,11 +1,15 @@
 package com.noah.backend.domain.travel.controller;
 
 import com.noah.backend.domain.member.service.member.MemberService;
+import com.noah.backend.domain.memberTravel.Service.MemberTravelService;
+import com.noah.backend.domain.memberTravel.dto.Request.MemberTravelInviteDto;
 import com.noah.backend.domain.travel.dto.requestDto.TravelGetDto;
 import com.noah.backend.domain.travel.dto.requestDto.TravelGetListDto;
 import com.noah.backend.domain.travel.dto.responseDto.TravelPostDto;
 import com.noah.backend.domain.travel.dto.responseDto.TravelUpdateDto;
 import com.noah.backend.domain.travel.service.TravelService;
+import com.noah.backend.global.format.code.ApiResponse;
+import com.noah.backend.global.format.response.ResponseCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,8 +27,10 @@ import java.util.List;
 @RequestMapping("/api/v1/travel")
 public class TravelController {
 
+    private final ApiResponse response;
     private final TravelService travelService;
     private final MemberService memberService;
+    private final MemberTravelService memberTravelService;
 
 //    @PostMapping()
 //    public ResponseEntity<?> create(Authentication authentication, TravelPostDto travelPostDto){
@@ -86,5 +92,11 @@ public class TravelController {
         return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "여행 멤버 초대 요청", description = "여행에 멤버 초대 요청 보내기")
+    @PostMapping("/invite")
+    public ResponseEntity<?> invite(@RequestBody MemberTravelInviteDto memberTravelInviteDto){
+        Long memberTravelId = memberTravelService.inviteMember(memberTravelInviteDto);
+        return response.success(ResponseCode.TRAVEL_INVITE_SUCCESS, memberTravelId);
+    }
 
 }
