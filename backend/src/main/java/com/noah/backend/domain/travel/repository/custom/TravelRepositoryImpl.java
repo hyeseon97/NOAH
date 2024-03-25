@@ -10,12 +10,14 @@ import com.noah.backend.domain.travel.dto.requestDto.TravelGetDto;
 import com.noah.backend.domain.travel.dto.requestDto.TravelGetListDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.Optional;
 
 import static com.noah.backend.domain.datailPlan.entity.QDetailPlan.detailPlan;
+import static com.noah.backend.domain.groupaccount.entity.QGroupAccount.groupAccount;
 import static com.noah.backend.domain.memberTravel.entity.QMemberTravel.memberTravel;
 import static com.noah.backend.domain.notification.entity.QNotification.notification;
 import static com.noah.backend.domain.plan.entity.QPlan.plan;
@@ -139,4 +141,14 @@ public class TravelRepositoryImpl implements TravelRepositoryCustom{
 
         return Optional.ofNullable(travelDto);
     }
+
+    @Override
+    public Optional<List<Long>> findTravelPaymentDateIsToday(int todayDate) {
+        return Optional.ofNullable(query.select(travel.id)
+                                       .from(travel)
+                                       .leftJoin(groupAccount).on(groupAccount.travel.id.eq(travel.id))
+                                       .where(groupAccount.paymentDate.eq(todayDate).and(travel.isDeleted.eq(false)))
+                                       .fetch());
+    }
+
 }

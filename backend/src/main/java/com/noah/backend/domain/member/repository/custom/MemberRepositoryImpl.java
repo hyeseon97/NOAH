@@ -1,11 +1,13 @@
 package com.noah.backend.domain.member.repository.custom;
 
 import static com.noah.backend.domain.member.entity.QMember.member;
+import static com.noah.backend.domain.memberTravel.entity.QMemberTravel.memberTravel;
 
 import com.noah.backend.domain.member.dto.responseDto.MemberInfoDto;
 import com.noah.backend.domain.member.entity.Member;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 
@@ -35,6 +37,15 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
                                        .from(member)
                                        .where(member.email.eq(email))
                                        .fetchOne());
+    }
+
+    @Override
+    public Optional<List<Long>> findByTravelId(Long travelId) {
+        return Optional.ofNullable(query.select(member.id)
+                                       .from(member)
+                                       .leftJoin(memberTravel).on(memberTravel.member.id.eq(member.id))
+                                       .where(memberTravel.travel.id.eq(travelId))
+                                       .fetch());
     }
 
 }
