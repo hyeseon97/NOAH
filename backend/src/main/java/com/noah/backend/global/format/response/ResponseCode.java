@@ -58,14 +58,53 @@ public enum ResponseCode {
     BANK_TRANSFER_SUCCESS(HttpStatus.OK,"이체가 성공적으로 완료되었습니다."),
 
     /* 여행(Travel) */
+    TRAVEL_CREATED(HttpStatus.OK, "여행이 성공적으로 생성되었습니다."),
+    TRAVEL_INFO_FETCHED(HttpStatus.OK, "여행 정보가 성공적으로 조회되었습니다."),
+    TRAVEL_INFO_UPDATED(HttpStatus.OK, "여행 정보가 성공적으로 수정되었습니다."),
+    TRAVEL_DELETED(HttpStatus.OK, "여행이 성공적으로 삭제되었습니다."),
     TRAVEL_INVITE_SUCCESS(HttpStatus.OK, "멤버를 성공적으로 초대했습니다."),
 
+    /* 계획(Plan) */
+    PLAN_CREATED(HttpStatus.OK, "계획이 성공적으로 생성되었습니다."),
+    PLAN_INFO_FETCHED(HttpStatus.OK, "계획 정보가 성공적으로 조회되었습니다."),
+    PLAN_INFO_UPDATED(HttpStatus.OK, "계획 정보가 성공적으로 수정되었습니다."),
+    PLAN_DELETED(HttpStatus.OK, "계획이 성공적으로 삭제되었습니다."),
+
+    /* 세부계획(DetailPlan) */
+    DETAILPLAN_CREATED(HttpStatus.OK, "세부계획이 성공적으로 생성되었습니다."),
+    DETAILPLAN_INFO_FETCHED(HttpStatus.OK, "세부계획 정보가 성공적으로 조회되었습니다."),
+    DETAILPLAN_INFO_UPDATED(HttpStatus.OK, "세부계획 정보가 성공적으로 수정되었습니다."),
+    DETAILPLAN_DELETED(HttpStatus.OK, "세부계획이 성공적으로 삭제되었습니다."),
+
+    /* 멤버여행(TravelMember) */
+    MEMBERTRAVEL_ADDED(HttpStatus.OK, "멤버가 여행에 성공적으로 추가되었습니다."),
+    MEMBERTRAVEL_REMOVED(HttpStatus.OK, "멤버가 여행에서 성공적으로 제거되었습니다."),
+    MEMBERTRAVEL_LIST_FETCHED(HttpStatus.OK, "멤버여행 목록이 성공적으로 조회되었습니다."),
+
+    /* 리뷰(Review) */
+    REVIEW_CREATED(HttpStatus.OK, "리뷰가 성공적으로 생성되었습니다."),
+    REVIEW_FETCHED(HttpStatus.OK, "리뷰 정보가 성공적으로 조회되었습니다."),
+    REVIEW_UPDATED(HttpStatus.OK, "리뷰가 성공적으로 수정되었습니다."),
+    REVIEW_DELETED(HttpStatus.OK, "리뷰가 성공적으로 삭제되었습니다."),
+
+    /* 댓글(Comment) */
+    COMMENT_CREATED(HttpStatus.OK, "댓글이 성공적으로 생성되었습니다."),
+    COMMENT_FETCHED(HttpStatus.OK, "댓글 정보가 성공적으로 조회되었습니다."),
+    COMMENT_UPDATED(HttpStatus.OK, "댓글이 성공적으로 수정되었습니다."),
+    COMMENT_DELETED(HttpStatus.OK, "댓글이 성공적으로 삭제되었습니다."),
+
+    /* 이미지(Image) */
+    IMAGE_UPLOADED(HttpStatus.OK, "이미지가 성공적으로 업로드되었습니다."),
+    IMAGE_FETCHED(HttpStatus.OK, "이미지 정보가 성공적으로 조회되었습니다."),
+    IMAGE_DELETED(HttpStatus.OK, "이미지가 성공적으로 삭제되었습니다."),
 
     /* 알림(Notification) */
     NOTIFICATION_TOKEN_SAVED(HttpStatus.OK, "파이어베이스 토큰이 저장되었습니다."),
     NOTIFICATION_LIST_FETCHED(HttpStatus.OK, "알림 리스트를 성공적으로 조회했습니다."),
     INVITE_ACCEPT(HttpStatus.OK, "여행 초대를 수락했습니다."),
-    INVITE_REFUSE(HttpStatus.OK, "여행 초대를 거절했습니다.");
+    INVITE_REFUSE(HttpStatus.OK, "여행 초대를 거절했습니다.")
+    ;
+
 
 
     private final HttpStatus status;

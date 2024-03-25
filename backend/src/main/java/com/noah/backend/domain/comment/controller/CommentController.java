@@ -48,6 +48,13 @@ public class CommentController {
         return ResponseEntity.ok(updateCommentId);
     }
 
+    @Operation(summary = "코멘트 수정", description = "코멘트 수정 작업, commentId 필요")
+    @PutMapping("/{commentId}")
+    public ResponseEntity<Long> updateCommentToMemberId(@PathVariable(value = "commentId") Long commentId, @RequestParam Long memberId, @RequestBody CommentUpdateDto reviewUpdateDto){
+        Long updateCommentId = commentService.updateCommentTestToMemberId(commentId,memberId, reviewUpdateDto);
+        return ResponseEntity.ok(updateCommentId);
+    }
+
     @Operation(summary = "코멘트 삭제", description = "코멘트 삭제, commentId 필요")
     @DeleteMapping("/{commentId}")
     public ResponseEntity<Void> deleteComment(@PathVariable(value = "commentId") Long commentId){

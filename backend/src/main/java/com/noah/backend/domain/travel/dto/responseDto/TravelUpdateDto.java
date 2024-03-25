@@ -16,12 +16,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TravelUpdateDto {
-    private Long id;
+//    private Long id;
     private String title;
     private boolean isEnded;
-    private List<MemberTravel> memberTrabelList;
-    private List<Notification> notificationList;
-    private GroupAccount groupAccount;
-    private Plan plan;
-    private List<Ticket> ticketList;
+//    private List<MemberTravel> memberTrabelList;
+//    private List<Notification> notificationList;
+//    private GroupAccount groupAccount;
+//    private Plan plan;
+//    private List<Ticket> ticketList;
 }

@@ -1,6 +1,5 @@
 package com.noah.backend.domain.comment.service.impl;
 
-import com.noah.backend.domain.comment.dto.requestDto.CommentPostDto;
 import com.noah.backend.domain.comment.dto.requestDto.CommentUpdateDto;
 import com.noah.backend.domain.comment.dto.responseDto.CommentGetDto;
 import com.noah.backend.domain.comment.dto.responseDto.CommentListGetDto;
@@ -66,6 +65,23 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(() -> new RuntimeException("코멘트 없어용"));
         //이건 따로 값을 받아야할지도 모른다.
         Member writer = memberRepository.findById(commentDto.getMember_id())
+                .orElseThrow(() -> new RuntimeException("멤버 id를 확인하세요"));
+
+        currentComment.setContent(commentDto.getContent());
+        currentComment.setMember(writer);
+
+//        commentRepository.save(currentComment);
+
+
+        return currentComment.getId();
+    }
+
+    @Override
+    public Long updateCommentTestToMemberId(Long commentId, Long memberId, CommentUpdateDto commentDto) {
+        Comment currentComment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new RuntimeException("코멘트 없어용"));
+        //이건 따로 값을 받아야할지도 모른다.
+        Member writer = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException("멤버 id를 확인하세요"));
 
         currentComment.setContent(commentDto.getContent());

@@ -17,6 +17,8 @@ public interface CommentService {
 
     Long updateCommentTest(Long commentId, CommentUpdateDto commentDto);
 
+    Long updateCommentTestToMemberId(Long commentId, Long memberId, CommentUpdateDto commentDto);
+
     Long updateComment(Long commentId, CommentUpdateDto comment);
 
     void deleteReview(Long commentId);
