@@ -8,7 +8,8 @@ export default function WelcomePage() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate("/join");
+      /* 로그인 상태를 판별하고 로그인 상태라면 /home 으로, 아니라면 /login 으로 리다이렉트 */
+      navigate("/login");
     }, 1000);
 
     return () => clearTimeout(timer);

@@ -2,7 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/common/ScrollToTop";
 import App from "./App";
 import WelcomePage from "./pages/WelcomgPage";
-import JoinPage from "./pages/JoinPage";
+import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
 import HomePage from "./pages/HomePage";
 import TransferPage from "./pages/TransferPage";
 import TripCreatePage from "./pages/TripCreatePage";
@@ -27,7 +28,8 @@ export default function Main() {
       <Routes>
         <Route path="/" element={<App />}>
           <Route index element={<WelcomePage />} />
-          <Route path="join" element={<JoinPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="signup" element={<SignUpPage />} />
           <Route path="home" element={<HomePage />} />
           <Route path="transfer" element={<TransferPage />} />
           <Route path="tripcreate" element={<TripCreatePage />} />

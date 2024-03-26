@@ -1,5 +1,6 @@
 export default function Logo() {
   const logoStyle = {
+    /* Heading/XXL */
     fontFamily: "Pretendard",
     fontSize: "10.6vw",
     fontWeight: "bold",
