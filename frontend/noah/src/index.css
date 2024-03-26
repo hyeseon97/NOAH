@@ -1,11 +1,13 @@
-/* index.css */
-html,
-body {
+* {
   margin: 0;
   padding: 0;
-  /* 뷰포트 너비에 맞춰 폰트 사이즈 조정 */
-  font-size: 16px;
-  /* 반응형 웹 디자인을 위한 기본 설정 */
-  font-family: "Roboto", sans-serif;
   box-sizing: border-box;
+}
+
+html {
+}
+
+body {
+  min-height: 100vh;
+  width: 100%;
 }

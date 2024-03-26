@@ -18,6 +18,7 @@ import PlanningPage from "./pages/PlanningPage";
 import MyPage from "./pages/MyPage";
 import TravelHistoryPage from "./pages/TravelHistoryPage";
 import AutomaticWithdrawalSettingPage from "./pages/AutomaticWithdrawalSettingPage";
+import ErrorPage from "./pages/ErrorPage";
 
 export default function Main() {
   return (
@@ -54,6 +55,7 @@ export default function Main() {
             element={<AutomaticWithdrawalSettingPage />}
           />
         </Route>
+        <Route path="*" element={<ErrorPage />}></Route>
       </Routes>
     </BrowserRouter>
   );
