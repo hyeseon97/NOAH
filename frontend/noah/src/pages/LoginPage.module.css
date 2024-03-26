@@ -31,3 +31,15 @@
 
   color: #000000;
 }
+
+.agreementCheckbox {
+  margin-top: 10px;
+  margin-bottom: 1vw;
+
+  font-family: "Pretendard";
+  font-style: "normal";
+  line-height: "160%";
+  color: "black";
+  font-size: "3.3vw";
+  margin-left: "6vw";
+}

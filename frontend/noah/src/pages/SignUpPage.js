@@ -9,10 +9,46 @@ export default function SignUpPage() {
   const navigate = useNavigate();
   const [signUpFailedMessage, setSignUpFailedMessage] = useState(""); // 로그인 실패시 메시지 변경 "아이디와 비밀번호를 다시 확인해주세요."
   const [isEmailVerifying, setIsEmailVerifying] = useState(false); // 이메일 인증 중인 상태
+  const [isEmailVerified, setIsEmailVerified] = useState(false); // 이메일 인증 완료한 상태
+  const [isAgreed, setIsAgreed] = useState(true);
+  const [buttonText, setButtonText] = useState("이메일 인증");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    code: "",
+    nickname: "",
+  });
+
+  /* 값을 입력함과 동시에 form 데이터 동시에 갱신 */
+  function handleChange(e) {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [e.target.name]: e.target.value,
+    }));
+  }
 
   const handleButtonClick = () => {
-    if (!isEmailVerifying) {
+    if (!isEmailVerifying && !isEmailVerified) {
       setIsEmailVerifying(true);
+      setButtonText("인증번호 확인");
+      return;
+    }
+
+    if (!isEmailVerified) {
+      // 인증 확인 시도
+      // 실패시
+      //setSignUpFailedMessage("인증 번호가 올바르지 않습니다.");
+
+      // 성공시
+      setIsEmailVerified(true);
+      setIsEmailVerifying(false);
+      setSignUpFailedMessage("");
+      setButtonText("회원가입");
+
+      return;
+    }
+    if (!isAgreed) {
+      setSignUpFailedMessage("약관 동의가 필요합니다.");
       return;
     }
     /* 회원가입 API 작성 */
@@ -39,26 +75,46 @@ export default function SignUpPage() {
           <Logo />
         </div>
         <div className={styles.inputContainer}>
-          <Input inputType={"text"} placeholderText={"이메일"}></Input>
+          <Input
+            inputType={"text"}
+            placeholderText={"이메일"}
+            onChange={handleChange}
+            value={formData.email}
+            name="email"
+          ></Input>
           {isEmailVerifying && (
             <>
-              <Input inputType={"text"} placeholderText={"인증번호"}></Input>
+              <Input
+                inputType={"text"}
+                placeholderText={"인증번호"}
+                onChange={handleChange}
+                value={formData.code}
+                name="code"
+              ></Input>
+            </>
+          )}
+          {isEmailVerified && (
+            <>
               <Input
                 inputType={"password"}
                 placeholderText={"비밀번호"}
+                onChange={handleChange}
+                value={formData.password}
+                name="password"
               ></Input>
               <Input
                 inputType={"text"}
                 placeholderText={"닉네임 (한글 2~8자)"}
+                onChange={handleChange}
+                value={formData.nickname}
+                name="nickname"
               ></Input>
             </>
           )}
         </div>
+
         <div onClick={() => handleButtonClick()}>
-          <Button
-            buttonText={isEmailVerifying ? "회원가입" : "이메일 인증"}
-            warningText={signUpFailedMessage}
-          />
+          <Button buttonText={buttonText} warningText={signUpFailedMessage} />
         </div>
 
         <div className={styles.loginFooter}>

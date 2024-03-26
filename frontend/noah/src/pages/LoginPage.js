@@ -8,7 +8,20 @@ import { useNavigate } from "react-router-dom";
 export default function LoginPage() {
   const navigate = useNavigate();
   const [loginFailedMessage, setLoginFailedMessage] = useState(""); // 로그인 실패시 메시지 변경 "아이디와 비밀번호를 다시 확인해주세요."
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
+  /* 값을 입력함과 동시에 form 데이터 동시에 갱신 */
+  function handleChange(e) {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [e.target.name]: e.target.value,
+    }));
+  }
+
+  //formData 전송
   const handleLoginClick = () => {
     /* 로그인 API 작성 + 유효성 검사 */
     /* 로그인 실패 시 */
@@ -35,8 +48,20 @@ export default function LoginPage() {
           <Logo />
         </div>
         <div className={styles.inputContainer}>
-          <Input inputType={"text"} placeholderText={"이메일"}></Input>
-          <Input inputType={"password"} placeholderText={"비밀번호"}></Input>
+          <Input
+            inputType={"text"}
+            placeholderText={"이메일"}
+            onChange={handleChange}
+            value={formData.email}
+            name="email"
+          ></Input>
+          <Input
+            inputType={"password"}
+            placeholderText={"비밀번호"}
+            onChange={handleChange}
+            value={formData.password}
+            name="password"
+          ></Input>
         </div>
         <div onClick={() => handleLoginClick()}>
           <Button buttonText="로그인" warningText={loginFailedMessage} />

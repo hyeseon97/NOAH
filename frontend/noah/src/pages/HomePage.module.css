@@ -1,0 +1,38 @@
+.headerContainer {
+  display: flex;
+  gap: 44.4vw;
+  align-items: center;
+  margin-top: 8.89vw;
+  margin-left: 8.89vw;
+  margin-bottom: 15vw;
+}
+
+.headerLogo {
+  /* Heading/Large */
+  /* Logo */
+
+  /* Heading/Large */
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 5.92vw;
+  line-height: 140%;
+
+  color: #000000;
+}
+
+.headerIcon {
+  display: flex;
+  gap: 4.44vw;
+}
+
+.icon {
+  width: 6.67vw;
+  height: 6.67vw;
+  cursor: pointer;
+}
+
+.tripContainer {
+  display: flex;
+  gap: 4.44vw;
+}

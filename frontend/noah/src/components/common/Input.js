@@ -1,4 +1,10 @@
-export default function Input({ inputType, inputText, placeholderText }) {
+export default function Input({
+  inputType,
+  placeholderText,
+  value,
+  onChange,
+  name,
+}) {
   const inputStyle = {
     width: "88vw",
     height: "10vw",
@@ -17,6 +23,9 @@ export default function Input({ inputType, inputText, placeholderText }) {
       <input
         type={inputType}
         placeholder={placeholderText}
+        name={name}
+        value={value}
+        onChange={onChange}
         style={inputStyle}
       />
     </>
