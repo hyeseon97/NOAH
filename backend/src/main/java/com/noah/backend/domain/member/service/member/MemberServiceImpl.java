@@ -68,7 +68,7 @@ public class MemberServiceImpl implements MemberService {
             MemberCheckReqDto memberCheckReqDto = MemberCheckReqDto.builder()
                                                                    .email(requestDto.getEmail()).build();
             userKey = bankService.memberCheck(memberCheckReqDto).getUserKey();
-        } else{
+        } else {
             userKey = memberCreateResDto.getUserKey();
         }
 
@@ -78,7 +78,8 @@ public class MemberServiceImpl implements MemberService {
                               .name(requestDto.getName())
                               .nickname(requestDto.getNickname())
                               .password(passwordEncoder.encode(requestDto.getPassword()))
-                              .userKey(userKey).build();
+                              .userKey(userKey)
+                              .notificationToken(null).build();
         Member savedMember = memberRepository.save(member);
         System.out.println("회원가입된 아이디 : " + savedMember.getId());
 
@@ -91,15 +92,24 @@ public class MemberServiceImpl implements MemberService {
             int money = ThreadLocalRandom.current().nextInt(1000, 150000) * 10;
             int type = ThreadLocalRandom.current().nextInt(1, 5);
 
-            System.out.println((i+1) + "번 계좌 잔액 : " + money + " " + type + "번 은행");
+            System.out.println((i + 1) + "번 계좌 잔액 : " + money + " " + type + "번 은행");
 
             String typeSsafy = null;
-            switch (type){
-                case 1: typeSsafy = "001"; break;
-                case 2: typeSsafy = "002"; break;
-                case 3: typeSsafy = "003"; break;
-                case 4: typeSsafy = "004"; break;
-                default: break;
+            switch (type) {
+                case 1:
+                    typeSsafy = "001";
+                    break;
+                case 2:
+                    typeSsafy = "002";
+                    break;
+                case 3:
+                    typeSsafy = "003";
+                    break;
+                case 4:
+                    typeSsafy = "004";
+                    break;
+                default:
+                    break;
             }
 
             // 싸피 금융망에 저장
@@ -110,12 +120,12 @@ public class MemberServiceImpl implements MemberService {
 
             // DB에 저장
             Account account = Account.builder()
-                .bankName(bankAccountCreateResDto.getBankName())
-                .accountNumber(bankAccountCreateResDto.getAccountNumber())
-                .type("개인계좌")
-                .member(savedMember)
-                .amount(money)
-                .build();
+                                     .bankName(bankAccountCreateResDto.getBankName())
+                                     .accountNumber(bankAccountCreateResDto.getAccountNumber())
+                                     .type("개인계좌")
+                                     .member(savedMember)
+                                     .amount(money)
+                                     .build();
             Account savedAccount = accountRepository.save(account);
 
         }
@@ -218,9 +228,9 @@ public class MemberServiceImpl implements MemberService {
     public MemberSearchDto searchMember(Authentication authentication) {
         Member member = memberRepository.findByEmail(authentication.getName()).orElseThrow(MemberNotFoundException::new);
         MemberSearchDto searchMember = MemberSearchDto.builder()
-                .memberId(member.getId())
-                .userKey(member.getUserKey())
-                .build();
+                                                      .memberId(member.getId())
+                                                      .userKey(member.getUserKey())
+                                                      .build();
         return searchMember;
     }
 
