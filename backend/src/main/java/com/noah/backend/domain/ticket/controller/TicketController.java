@@ -6,6 +6,8 @@ import com.noah.backend.domain.ticket.dto.responseDto.TicketGetDto;
 import com.noah.backend.domain.ticket.dto.responseDto.TicketListGetFromTravelDto;
 import com.noah.backend.domain.ticket.entity.Ticket;
 import com.noah.backend.domain.ticket.service.TicketService;
+import com.noah.backend.global.format.code.ApiResponse;
+import com.noah.backend.global.format.response.ResponseCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -21,43 +23,44 @@ import java.util.List;
 public class TicketController {
 
     private final TicketService ticketService;
+    private final ApiResponse response;
 
     @Operation(summary = "티켓 생성",description = "티켓 생성 / TravelId가 필요")
     @PostMapping
-    public ResponseEntity<Long> createTicket(@RequestBody TicketPostDto ticketDto){
+    public ResponseEntity<?> createTicket(@RequestBody TicketPostDto ticketDto){
         Long createTicketId = ticketService.createTicket(ticketDto);
 
-        return ResponseEntity.ok(createTicketId);
+        return response.success(ResponseCode.TICKET_CREATED, createTicketId);
     }
 
     @Operation(summary = "티켓 수정",description = "티켓 수정 / TicketId가 필요")
     @PutMapping("/{ticketId}")
-    public ResponseEntity<Long> updateTicket(@PathVariable(value = "ticketId") Long ticketId, @RequestBody TicketUpdateDto ticketDto){
+    public ResponseEntity<?> updateTicket(@PathVariable(value = "ticketId") Long ticketId, @RequestBody TicketUpdateDto ticketDto){
         Long updateTicketId = ticketService.updateTicket(ticketId,ticketDto);
 
-        return ResponseEntity.ok(updateTicketId);
+        return response.success(ResponseCode.TICKET_UPDATED, updateTicketId);
     }
 
     @Operation(summary = "티켓 삭제",description = "티켓 삭제 / TicketId가 필요")
     @DeleteMapping("/{ticketId}")
-    public ResponseEntity<Long> deleteTicket(@PathVariable(value = "ticketId") Long ticketId){
+    public ResponseEntity<?> deleteTicket(@PathVariable(value = "ticketId") Long ticketId){
         ticketService.deleteTicket(ticketId);
 
-        return ResponseEntity.ok().build();
+        return response.success(ResponseCode.TICKET_DELETED);
     }
 
     @Operation(summary = "티켓 목록 조회",description = "티켓 목록 조회 / TravelId가 필요")
     @GetMapping("/list")
-    public ResponseEntity<List<TicketListGetFromTravelDto>> getTicketList(@RequestParam(value = "travelId") Long travelId){
+    public ResponseEntity<?> getTicketList(@RequestParam(value = "travelId") Long travelId){
         List<TicketListGetFromTravelDto> ticketList = ticketService.getTicketList(travelId);
-        return ResponseEntity.ok(ticketList);
+        return response.success(ResponseCode.TICKET_FETCHED, ticketList);
     }
 
 
     @Operation(summary = "티켓 상세 조회",description = "티켓 상세 조회 / TicketId가 필요")
     @GetMapping("/{ticketId}")
-    public ResponseEntity<TicketGetDto> getTicketSelect(@PathVariable(value = "ticketId") Long ticketId){
+    public ResponseEntity<?> getTicketSelect(@PathVariable(value = "ticketId") Long ticketId){
         TicketGetDto selectTicket = ticketService.getTicketSelect(ticketId);
-        return ResponseEntity.ok(selectTicket);
+        return response.success(ResponseCode.TICKET_FETCHED, selectTicket);
     }
 }

@@ -7,6 +7,7 @@ import com.noah.backend.domain.datailPlan.dto.responseDto.DetailPlanListGetFromP
 import com.noah.backend.domain.datailPlan.service.DetailPlanService;
 import com.noah.backend.domain.review.service.ReviewService;
 import com.noah.backend.global.format.code.ApiResponse;
+import com.noah.backend.global.format.response.ResponseCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -22,41 +23,42 @@ import java.util.List;
 public class DetailPlanController {
 
     private final DetailPlanService detailPlanService;
+    private final ApiResponse response;
 
     @Operation(summary = "상세 계획 목록 조회", description = "상세 계획 목록 조회")
     @GetMapping("/list")
-    public ResponseEntity<List<DetailPlanListGetFromPlanDto>> getDetailPlanList(@RequestParam(value = "planId") Long planId){
+    public ResponseEntity<?> getDetailPlanList(@RequestParam(value = "planId") Long planId){
         List<DetailPlanListGetFromPlanDto> detailPlanList = detailPlanService.getDetailPlanList(planId);
-        return ResponseEntity.ok(detailPlanList);
+        return response.success(ResponseCode.DETAILPLAN_INFO_FETCHED, detailPlanList);
     }
 
     @Operation(summary = "상세 계획 조회", description = "상세 목록 조회")
     @GetMapping("/{detailPlanId}")
-    public ResponseEntity<DetailPlanGetDto> detailPlanSelect(@PathVariable(value = "detailPlanId") Long detailPlanId){
+    public ResponseEntity<?> detailPlanSelect(@PathVariable(value = "detailPlanId") Long detailPlanId){
         DetailPlanGetDto detailPlan = detailPlanService.getDetailPlanSelect(detailPlanId);
-        return ResponseEntity.ok(detailPlan);
+        return response.success(ResponseCode.DETAILPLAN_INFO_FETCHED, detailPlan);
     }
 
     @Operation(summary = "상세 계획 작성", description = "상세 계획 작성 / PlanId 필요")
     @PostMapping
-    public ResponseEntity<Long> createDetailPlan(@RequestParam(value = "planId") Long planId, @RequestBody DetailPlanPostDto detailPlanDto){
+    public ResponseEntity<?> createDetailPlan(@RequestParam(value = "planId") Long planId, @RequestBody DetailPlanPostDto detailPlanDto){
         Long createDetailPlanId = detailPlanService.createDetailPlan(planId, detailPlanDto);
-        return ResponseEntity.ok(createDetailPlanId);
+        return response.success(ResponseCode.DETAILPLAN_CREATED, createDetailPlanId);
     }
 
 
     @Operation(summary = "상세 계획 수정", description = "상세 계획 목록 수정 / detailPlanId 필요")
     @PutMapping("/{detailPlanId}")
-    public ResponseEntity<Long> updateDeiltePlan(@PathVariable(value = "detailPlanId") Long detailPlanId, @RequestBody DetailPlanUpdateDto detailPlanDto){
+    public ResponseEntity<?> updateDeiltePlan(@PathVariable(value = "detailPlanId") Long detailPlanId, @RequestBody DetailPlanUpdateDto detailPlanDto){
         Long updateDetailPlanId = detailPlanService.updateDetailPlan(detailPlanId, detailPlanDto);
-        return ResponseEntity.ok(updateDetailPlanId);
+        return response.success(ResponseCode.DETAILPLAN_INFO_UPDATED, updateDetailPlanId);
     }
 
     @Operation(summary = "상세 계획 삭제", description = "상세 계획 삭제")
     @DeleteMapping("/{detailPlanId}")
-    public ResponseEntity<Void> deleteDetailPlan(@PathVariable(value = "detailPlanId") Long detailPlanId){
+    public ResponseEntity<?> deleteDetailPlan(@PathVariable(value = "detailPlanId") Long detailPlanId){
         detailPlanService.deleteDetailPlan(detailPlanId);
-        return ResponseEntity.ok().build();
+        return response.success(ResponseCode.DETAILPLAN_DELETED);
     }
 
 
