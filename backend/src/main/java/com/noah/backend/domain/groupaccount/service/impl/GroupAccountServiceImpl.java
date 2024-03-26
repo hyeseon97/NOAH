@@ -164,7 +164,6 @@ public class GroupAccountServiceImpl implements GroupAccountService {
                 .depositTransactionSummary(userName + "님이 " + amount + "원을 입금하셨습니다.")
                 .withdrawalTransactionSummary(userName + "님이 " + amount + "원을 입금하셨습니다.")
                 .build();
-        System.out.println(bankAccountTransferReqDto.toString());
         bankService.bankAccountTransfer(bankAccountTransferReqDto);
 
         // memberTravel의 payment 부분에 최신화를 시켜놓을거임, 기존금액 + 입금액 => 총 납부금액
