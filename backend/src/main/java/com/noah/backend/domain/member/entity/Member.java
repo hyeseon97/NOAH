@@ -49,7 +49,7 @@ public class Member extends BaseEntity {
     private String userKey;
 
     @Setter
-    @Column(name = "notification_token", nullable = false)
+    @Column(name = "notification_token", nullable = true)
     private String notificationToken = null;
 
     @OneToMany(mappedBy = "member", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
