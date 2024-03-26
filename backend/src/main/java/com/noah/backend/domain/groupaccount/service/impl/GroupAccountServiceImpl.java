@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.noah.backend.domain.account.entity.Account;
 import com.noah.backend.domain.account.repository.AccountRepository;
 import com.noah.backend.domain.account.service.AccountService;
+import com.noah.backend.domain.bank.dto.requestDto.BankAccountBalanceCheckReqDto;
 import com.noah.backend.domain.bank.dto.requestDto.BankAccountTransferReqDto;
 import com.noah.backend.domain.bank.service.BankService;
 import com.noah.backend.domain.groupaccount.dto.requestDto.DepositReqDto;
@@ -56,7 +57,31 @@ public class GroupAccountServiceImpl implements GroupAccountService {
     private final AccountService accountService;
 
     @Override
-    public List<GroupAccountInfoDto> getGroupAccountListByMemberId(Long memberId) {
+    public List<GroupAccountInfoDto> getGroupAccountListByMemberId(Long memberId) throws JsonProcessingException {
+        // accountId List 받아오기
+        List<Long> accountIds = groupAccountRepository.getGroupAccountIdsByMemberId(memberId).orElseThrow(GroupAccountNotFoundException::new);
+        for (Long accountId : accountIds) {
+            Account account = accountRepository.findById(accountId).orElseThrow(AccountNotFoundException::new);
+            String userKey = account.getMember().getUserKey();
+            Map<String, String> bankCodeMap = Map.of(
+                    "한국은행", "001",
+                    "산업은행", "002",
+                    "기업은행", "003",
+                    "국민은행", "004"
+            );
+            String bankCode = bankCodeMap.get(account.getBankName());
+
+            // 은행에서 잔액조회, 금액 최신화
+            BankAccountBalanceCheckReqDto bankAccountBalanceCheckReqDto = BankAccountBalanceCheckReqDto.builder()
+                    .userKey(userKey)
+                    .bankCode(bankCode)
+                    .accountNo(account.getAccountNumber())
+                    .build();
+            int amount = bankService.bankAccountBalanceCheck(bankAccountBalanceCheckReqDto).getAccountBalance();
+            account.setAmount(amount);
+            accountRepository.save(account);
+        }
+        // 통장정보 반환
         return groupAccountRepository.getGroupAccountListByMemberId(memberId).orElseThrow(GroupAccountNotFoundException::new);
     }
 
@@ -77,6 +102,7 @@ public class GroupAccountServiceImpl implements GroupAccountService {
     public GroupAccountInfoDto groupAccountInfo(Long groupAccountId) {
 
         GroupAccountInfoDto groupAccountInfoDto = groupAccountRepository.getGroupAccountInfo(groupAccountId).orElseThrow(GroupAccountNotFoundException::new);
+
         return groupAccountInfoDto;
     }
 
@@ -126,7 +152,7 @@ public class GroupAccountServiceImpl implements GroupAccountService {
         List<MemberTravelListGetDto> result = memberTravelRepository.findByTravelId(travelId).orElseThrow(TravelMemberNotFoundException::new);
         return result;
     }
-    
+
     @Transactional
     @Override
     public void depositIntoGroupAccount(Authentication authentication, DepositReqDto depositReqDto) throws JsonProcessingException {

@@ -78,4 +78,23 @@ public class GroupAccountRepositoryImpl implements GroupAccountRepositoryCustom 
                 .fetch());
     }
 
+    @Override
+    public Optional<List<Long>> getGroupAccountIdsByMemberId(Long memberId) {
+        List<Long> travelIds = query.select(memberTravel.travel.id)
+                .from(memberTravel)
+                .where(memberTravel.member.id.eq(memberId))
+                .fetch();
+
+        List<Long> accountIds = query.select(groupAccount.account.id)
+                .from(groupAccount)
+                .leftJoin(travel).on(travel.id.eq(groupAccount.travel.id))
+                .leftJoin(account).on(account.id.eq(groupAccount.account.id))
+                .where(groupAccount.travel.id.in(travelIds)
+                        .and(groupAccount.isDeleted.eq(false))
+                        .and(account.isDeleted.eq(false))
+                        .and(travel.isDeleted.eq(false)))
+                .fetch();
+        return Optional.ofNullable(accountIds);
+    }
+
 }

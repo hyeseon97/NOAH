@@ -1,5 +1,6 @@
 package com.noah.backend.domain.account.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.noah.backend.domain.account.dto.requestDto.AccountPostDto;
 import com.noah.backend.domain.account.dto.requestDto.AccountUpdateDto;
 import com.noah.backend.domain.account.dto.responseDto.AccountInfoDto;
@@ -39,18 +40,18 @@ public class AccountController {
 
     @Operation(summary = "멤버별 계좌 조회", description = "멤버별 계좌 조회")
     @GetMapping("/my")
-    public ResponseEntity<?> getMyAccountList(@Parameter(hidden = true) Authentication authentication){
+    public ResponseEntity<?> getMyAccountList(@Parameter(hidden = true) Authentication authentication) throws JsonProcessingException {
         Long memberId = memberService.searchMember(authentication).getMemberId();
         List<AccountInfoDto> accountInfoList = accountService.getMyAccountList(memberId);
-        if(accountInfoList.isEmpty()){
+        if (accountInfoList.isEmpty()) {
             return response.success(ResponseCode.ACCOUNT_LIST_NOT_FOUND, null);
-        };
+        }
         return response.success(ResponseCode.ACCOUNT_LIST_FETCHED, accountService.getMyAccountList(memberId));
     }
 
     @Operation(summary = "계좌 잔액 업데이트", description = "계좌 잔액 업데이트")
     @PutMapping
-    public ResponseEntity<?> updateAmount(@RequestBody AccountUpdateDto accountUpdateDto){
+    public ResponseEntity<?> updateAmount(@RequestBody AccountUpdateDto accountUpdateDto) {
         Long accountId = accountService.updateAmount(accountUpdateDto);
         return response.success(ResponseCode.ACCOUNT_INFO_UPDATED, accountId);
     }

@@ -81,7 +81,7 @@ public class GroupAccountController {
 
     @Operation(summary = "사용자가 속해있는 모임통장 전체조회", description = "사용자가 속해있는 모임통장 전체 조회")
     @GetMapping
-    public ResponseEntity<?> getMyGroupAccountList(@Parameter(hidden = true) Authentication authentication) {
+    public ResponseEntity<?> getMyGroupAccountList(@Parameter(hidden = true) Authentication authentication) throws JsonProcessingException {
         Long memberId = memberService.searchMember(authentication).getMemberId();
         List<GroupAccountInfoDto> result = groupAccountService.getGroupAccountListByMemberId(memberId);
         if (result.isEmpty()) {

@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface GroupAccountService {
 
-    List<GroupAccountInfoDto> getGroupAccountListByMemberId(Long memberId);
+    List<GroupAccountInfoDto> getGroupAccountListByMemberId(Long memberId) throws JsonProcessingException;
 
     Long createGroupAccount(GroupAccountPostDto groupAccountPostDto);
 

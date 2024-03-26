@@ -136,8 +136,10 @@ public class TradeServiceImpl implements TradeService {
                         .account(account)
                         .build();
                 tradeRepository.save(trade);
-                account.setAmount(trade.getAmount());
-                accountRepository.save(account);
+
+                // 잔액 최신화 부분
+//                account.setAmount(trade.getAmount());
+//                accountRepository.save(account);
             }
         }
     }
