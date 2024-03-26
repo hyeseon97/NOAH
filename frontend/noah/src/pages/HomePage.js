@@ -25,17 +25,22 @@ export default function HomePage() {
   /* Trip 컴포넌트 스와이프 */
   const containerRef = useRef(null);
   const [startX, setStartX] = useState(0);
+  const [startTime, setStartTime] = useState(0); // 스와이프 시작 시간을 저장하기 위한 상태
 
   const handleSwipeStart = (position) => {
     setStartX(position);
+    setStartTime(Date.now()); // 스와이프 시작 시간 저장
   };
 
   const handleSwipeEnd = (endPosition) => {
-    if (containerRef.current) {
-      const moveDistance = startX - endPosition;
-      if (Math.abs(moveDistance) >= window.innerWidth * 0.05) {
-        const direction = moveDistance > 0 ? 1 : -1; // 스와이프 방향 결정
-        // 다음 Trip으로 스무스하게 스크롤
+    const endTime = Date.now(); // 스와이프가 끝난 시간
+    const moveDistance = startX - endPosition;
+    const moveTime = endTime - startTime; // 총 이동 시간 계산
+
+    if (Math.abs(moveDistance) >= window.innerWidth * 0.05 || moveTime > 150) {
+      // 이동 거리가 충분히 길거나 이동 시간이 150ms 이상인 경우 스와이프로 판단
+      if (containerRef.current) {
+        const direction = moveDistance > 0 ? 1 : -1;
         containerRef.current.scrollTo({
           left:
             containerRef.current.scrollLeft +
@@ -43,6 +48,13 @@ export default function HomePage() {
           behavior: "smooth",
         });
       }
+    } else if (
+      Math.abs(moveDistance) < window.innerWidth * 0.05 &&
+      moveTime < 150
+    ) {
+      // 이동 거리가 짧고 이동 시간이 150ms 미만인 경우 클릭으로 판단
+      // 클릭 이벤트 처리
+      // 여기서는 별도의 클릭 이벤트 처리 로직을 실행하지 않음
     }
   };
 
@@ -77,7 +89,7 @@ export default function HomePage() {
       >
         <div style={{ marginLeft: "5vw" }}></div>
         {trips.map((trip, index) => (
-          <Trip onClick={() => handleTripClick(index)} /> // index 가 아니라 여행 id 전달하면 된다
+          <Trip fromHome={true} onClick={() => handleTripClick(index)} /> // index 가 아니라 여행 id 전달하면 된다
         ))}
         <Trip isLast={true} />
         <div style={{ marginRight: "5vw" }}></div>
