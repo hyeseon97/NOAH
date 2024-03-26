@@ -49,7 +49,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Transactional
-//    @Scheduled(cron = "${schedule.cron}")
+    @Scheduled(cron = "${schedule.cron}")
     @Override
     public void paymentNotify() {
         System.out.println("납입일 알림을 보낼 시간");

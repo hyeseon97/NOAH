@@ -45,7 +45,7 @@ public class TravelController {
     public ResponseEntity<?> getTravelList(){
         List<TravelGetListDto> travelList = travelService.getTravelList();
 
-        return ResponseEntity.ok(travelList);
+        return response.success(ResponseCode.TRAVEL_INFO_FETCHED, travelList);
     }
 
     @Operation(summary = "여행 선택 조회", description = "여행 선택 상세 조회 / travelID 필요")
@@ -53,7 +53,7 @@ public class TravelController {
     public ResponseEntity<?> getTravelSelect(@PathVariable(value = "travelId") Long travelId){
         TravelGetDto selectTravel = travelService.getTravelSelect(travelId);
 
-        return ResponseEntity.ok(selectTravel);
+        return response.success(ResponseCode.TRAVEL_INFO_FETCHED, selectTravel);
     }
 
     @Operation(summary = "여행 생성", description = "여행 생성 기능")
@@ -61,7 +61,7 @@ public class TravelController {
     public ResponseEntity<?> createTravel(@RequestBody TravelPostDto travelPostDto, @RequestParam(value = "memberId") Long memberId){
 
         Long createTravelId = travelService.createTravelTest(travelPostDto, memberId);
-        return ResponseEntity.ok(createTravelId);
+        return response.success(ResponseCode.TRAVEL_CREATED, createTravelId);
     }
     
 //    @Operation(summary = "여행 생성", description = "여행 생성 기능")
@@ -81,7 +81,7 @@ public class TravelController {
 
         Long updateTravelId = travelService.updateTravel(travelId, travelUpdateDto);
 
-        return ResponseEntity.ok(updateTravelId);
+        return response.success(ResponseCode.TRAVEL_INFO_UPDATED, updateTravelId);
     }
 
     @Operation(summary = "여행 삭제", description = "여행 선택 삭제 / TravelID 필요")
@@ -89,7 +89,7 @@ public class TravelController {
     public ResponseEntity<?> deleteTravel(@PathVariable(value = "travelId") Long travelId){
         travelService.deleteTravel(travelId);
 
-        return ResponseEntity.ok().build();
+        return response.success(ResponseCode.TRAVEL_DELETED);
     }
 
     @Operation(summary = "여행 멤버 초대 요청", description = "여행에 멤버 초대 요청 보내기")
