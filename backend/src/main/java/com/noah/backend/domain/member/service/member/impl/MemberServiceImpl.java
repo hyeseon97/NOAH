@@ -1,11 +1,14 @@
-package com.noah.backend.domain.member.service.member;
+package com.noah.backend.domain.member.service.member.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.noah.backend.domain.account.entity.Account;
 import com.noah.backend.domain.account.repository.AccountRepository;
+import com.noah.backend.domain.bank.dto.requestDto.BankAccountBalanceCheckReqDto;
 import com.noah.backend.domain.bank.dto.requestDto.BankAccountCreateReqDto;
+import com.noah.backend.domain.bank.dto.requestDto.BankAccountDepositReqDto;
 import com.noah.backend.domain.bank.dto.requestDto.MemberCheckReqDto;
 import com.noah.backend.domain.bank.dto.requestDto.MemberCreateReqDto;
+import com.noah.backend.domain.bank.dto.responseDto.BankAccountBalanceCheckResDto;
 import com.noah.backend.domain.bank.dto.responseDto.BankAccountCreateResDto;
 import com.noah.backend.domain.bank.dto.responseDto.MemberCreateResDto;
 import com.noah.backend.domain.bank.service.BankService;
@@ -16,6 +19,7 @@ import com.noah.backend.domain.member.dto.responseDto.MemberInfoDto;
 import com.noah.backend.domain.member.dto.responseDto.MemberSearchDto;
 import com.noah.backend.domain.member.entity.Member;
 import com.noah.backend.domain.member.repository.MemberRepository;
+import com.noah.backend.domain.member.service.member.MemberService;
 import com.noah.backend.global.exception.member.EmailNotFoundException;
 import com.noah.backend.global.exception.member.InvalidLoginAttemptException;
 import com.noah.backend.global.exception.member.MemberNotFoundException;
@@ -117,6 +121,22 @@ public class MemberServiceImpl implements MemberService {
                                                                                      .bankType(typeSsafy)
                                                                                      .userKey(userKey).build();
             BankAccountCreateResDto bankAccountCreateResDto = bankService.bankAccountCreate(bankAccountCreateReqDto);
+
+            // 입금으로 잔액 채워넣기
+            BankAccountDepositReqDto bankAccountDepositReqDto = BankAccountDepositReqDto.builder()
+                .userKey(userKey)
+                .bankCode(typeSsafy)
+                .accountNo(bankAccountCreateResDto.getAccountNumber())
+                .transactionBalance(String.valueOf(money))
+                .transactionSummary("기존잔액").build();
+            bankService.bankAccountDeposit(bankAccountDepositReqDto);
+
+            BankAccountBalanceCheckReqDto test = BankAccountBalanceCheckReqDto.builder()
+                .userKey(userKey)
+                .bankCode(typeSsafy)
+                .accountNo(bankAccountCreateResDto.getAccountNumber()).build();
+            BankAccountBalanceCheckResDto blance = bankService.bankAccountBalanceCheck(test);
+            System.out.println("계좌잔액 : " + blance.getAccountBalance());
 
             // DB에 저장
             Account account = Account.builder()

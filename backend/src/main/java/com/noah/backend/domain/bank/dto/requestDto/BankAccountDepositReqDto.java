@@ -1,12 +1,14 @@
 package com.noah.backend.domain.bank.dto.requestDto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class BankAccountDepositReqDto {//계좌 입금 요청Dto
