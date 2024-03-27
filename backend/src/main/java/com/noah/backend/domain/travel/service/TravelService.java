@@ -14,6 +14,8 @@ public interface TravelService {
 
     TravelGetDto getTravelSelect(Long travelId);
 
+    List<TravelGetListDto> getTravelMemberId(Long memberId);
+
     Long createTravel(TravelPostDto travelDto);
 
     Long createTravelTest(TravelPostDto travelDto, Long memberId);

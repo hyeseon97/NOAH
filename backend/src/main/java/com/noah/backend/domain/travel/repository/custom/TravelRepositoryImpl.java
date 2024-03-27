@@ -2,7 +2,6 @@ package com.noah.backend.domain.travel.repository.custom;
 
 
 import com.noah.backend.domain.datailPlan.dto.responseDto.DetailPlanListGetFromPlanDto;
-import com.noah.backend.domain.memberTravel.dto.Response.MemberTravelListGetDto;
 import com.noah.backend.domain.memberTravel.dto.Response.MemberTravelListGetFromTravelDto;
 import com.noah.backend.domain.plan.dto.responseDto.PlanGetDto;
 import com.noah.backend.domain.ticket.dto.responseDto.TicketListGetFromTravelDto;
@@ -10,7 +9,6 @@ import com.noah.backend.domain.travel.dto.requestDto.TravelGetDto;
 import com.noah.backend.domain.travel.dto.requestDto.TravelGetListDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -19,7 +17,6 @@ import java.util.Optional;
 import static com.noah.backend.domain.datailPlan.entity.QDetailPlan.detailPlan;
 import static com.noah.backend.domain.groupaccount.entity.QGroupAccount.groupAccount;
 import static com.noah.backend.domain.memberTravel.entity.QMemberTravel.memberTravel;
-import static com.noah.backend.domain.notification.entity.QNotification.notification;
 import static com.noah.backend.domain.plan.entity.QPlan.plan;
 import static com.noah.backend.domain.ticket.entity.QTicket.ticket;
 import static com.noah.backend.domain.travel.entity.QTravel.travel;
@@ -48,6 +45,31 @@ public class TravelRepositoryImpl implements TravelRepositoryCustom{
 //                .leftJoin(memberTravel).on(travel.id.eq(memberTravel.travel.id))
 //                .leftJoin(ticket).on(travel.id.eq(ticket.travel.id))
                 .from(travel)
+                .fetch();
+
+        return Optional.ofNullable(travelDtos);
+    }
+
+    @Override
+    public Optional<List<TravelGetListDto>> getTravelListToMember(Long memberId) {
+        List<TravelGetListDto> travelDtos = query
+                .select(constructor(TravelGetListDto.class,
+//                        travel.id,
+                        travel.title,
+                        travel.isEnded
+//                        travel.memberTravelList,
+//                        travel.notificationList,
+//                        travel.groupAccount.id,
+//                        travel.plan.id
+//                        travel.ticketList
+                ))
+//                .leftJoin(notification)
+//                .on(travel.id.eq(notification.travel.id))
+//                .leftJoin(memberTravel).on(travel.id.eq(memberTravel.travel.id))
+//                .leftJoin(ticket).on(travel.id.eq(ticket.travel.id))
+                .from(travel)
+                .join(travel.memberTravelList, memberTravel)
+                .where(memberTravel.member.id.eq(memberId))
                 .fetch();
 
         return Optional.ofNullable(travelDtos);
