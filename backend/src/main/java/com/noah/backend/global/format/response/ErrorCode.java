@@ -39,6 +39,11 @@ public enum ErrorCode {
     /* 거래내역(Trade) */
     TRADE_NOT_FOUND(HttpStatus.NOT_FOUND, "거래내역을 찾을 수 없습니다."),
 
+    /* 환전 */
+    EXCHANGE_NOT_FOUND(HttpStatus.NOT_FOUND, "환전내용을 찾을 수 없습니다."),
+    EXCHANGE_FAILED(HttpStatus.NOT_ACCEPTABLE, "기존 환전 통화로만 환전할 수 있습니다."),
+    EXCHANGE_CURRENCY_NOT_ACCEPTABLE(HttpStatus.NOT_ACCEPTABLE, "지원하지 않는 통화입니다."),
+
     /* 여행멤버 */
     MEMBER_TRAVEL_NOT_FOUND(HttpStatus.NOT_FOUND, "여행에 속한 멤버를 찾을 수 없습니다."),
 
