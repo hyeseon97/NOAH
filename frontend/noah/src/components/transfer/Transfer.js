@@ -91,6 +91,10 @@ export default function Transfer() {
 
   // 외화 금액 변경 핸들러
   const handleForeignAmountChange = (e) => {
+    if (isNaN(e.target.value) || e.target.value.includes("e")) {
+      return;
+    }
+
     const newForeignAmount = e.target.value;
     setForeignAmount(newForeignAmount);
 
@@ -101,6 +105,10 @@ export default function Transfer() {
 
   // KRW 금액 변경 핸들러
   const handleKrwAmountChange = (e) => {
+    if (isNaN(e.target.value) || e.target.value.includes("e")) {
+      return;
+    }
+
     const newKrwAmount = e.target.value;
     setKrwAmount(newKrwAmount);
 
@@ -134,7 +142,10 @@ export default function Transfer() {
             value={foreignAmount}
             onChange={handleForeignAmountChange}
           ></input>
-          <div style={resultStyle}>{currencyLabel}</div>
+          <div style={resultStyle}>
+            {new Intl.NumberFormat("ko-KR").format(foreignAmount)}{" "}
+            {currencyLabel}
+          </div>
         </div>
       </div>
       <Stick />
