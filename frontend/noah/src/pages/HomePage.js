@@ -4,6 +4,8 @@ import { ReactComponent as Notification } from "../assets/Icon/Notification.svg"
 import { ReactComponent as My } from "../assets/Icon/My.svg";
 import { useNavigate } from "react-router-dom";
 import Trip from "../components/trip/Trip";
+import Transfer from "../components/transfer/Transfer";
+import Stick from "../components/common/Stick";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -93,6 +95,9 @@ export default function HomePage() {
         ))}
         <Trip isLast={true} />
         <div style={{ marginRight: "5vw" }}></div>
+      </div>
+      <div className={styles.transferContainer}>
+        <Transfer />
       </div>
     </>
   );

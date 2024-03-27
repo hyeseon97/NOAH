@@ -35,4 +35,9 @@
 .tripContainer {
   display: flex;
   gap: 4.44vw;
+  margin-bottom: 12.22vw;
+}
+
+.transferContainer {
+  margin-left: 8.87vw;
 }
