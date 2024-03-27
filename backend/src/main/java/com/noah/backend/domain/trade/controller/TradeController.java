@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Tag(name = "Trade 컨트롤러", description = "Trade Controller API")
@@ -34,7 +35,7 @@ public class TradeController {
 
     @Operation(summary = "거래내역 전체 조회", description = "전체 거래 내역 조회")
     @GetMapping("/{travel_id}")
-    public ResponseEntity<?> getTradeList(@PathVariable(name = "travel_id") Long travelId) throws JsonProcessingException {
+    public ResponseEntity<?> getTradeList(@PathVariable(name = "travel_id") Long travelId) throws IOException {
 
         List<TradeGetResDto> result = tradeService.getTradeList(travelId);
         if (result.isEmpty()) {

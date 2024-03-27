@@ -1,6 +1,7 @@
 package com.noah.backend.global.handler;
 
 import com.noah.backend.global.exception.account.AccountNotFoundException;
+import com.noah.backend.global.exception.bank.*;
 import com.noah.backend.global.exception.groupaccount.GroupAccountAccessDeniedException;
 import com.noah.backend.global.exception.member.AccessTokenNotFoundException;
 import com.noah.backend.global.exception.member.DuplicateEmailException;
@@ -125,5 +126,53 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return response.error(e.getErrorCode());
     }
 
+    /* 은행 */
+    @ExceptionHandler(A1001Exception.class)
+    protected ResponseEntity<?> handle(A1001Exception e){
+        log.error("A1001Exception = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+
+    @ExceptionHandler(A1003Exception.class)
+    protected ResponseEntity<?> handle(A1003Exception e){
+        log.error("A1001Exception = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+    @ExceptionHandler(A1011Exception.class)
+    protected ResponseEntity<?> handle(A1011Exception e){
+        log.error("A1001Exception = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+    @ExceptionHandler(A1014Exception.class)
+    protected ResponseEntity<?> handle(A1014Exception e){
+        log.error("A1001Exception = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+    @ExceptionHandler(A1016Exception.class)
+    protected ResponseEntity<?> handle(A1016Exception e){
+        log.error("A1001Exception = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+    @ExceptionHandler(A1017Exception.class)
+    protected ResponseEntity<?> handle(A1017Exception e){
+        log.error("A1001Exception = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+
+    @ExceptionHandler(A1018Exception.class)
+    protected ResponseEntity<?> handle(A1018Exception e){
+        log.error("A1001Exception = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+    @ExceptionHandler(H1008Exception.class)
+    protected ResponseEntity<?> handle(H1008Exception e){
+        log.error("A1001Exception = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+    @ExceptionHandler(H1009Exception.class)
+    protected ResponseEntity<?> handle(H1009Exception e){
+        log.error("A1001Exception = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
 
 }

@@ -104,8 +104,18 @@ public enum ErrorCode {
     MEMBERTRAVEL_DELETE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "멤버여행 삭제에 실패했습니다."),
 
     /* 알림(Notification) */
-    NOTIFICATION_NOT_FOUND(HttpStatus.NOT_FOUND, "알림을 찾을 수 없습니다.");
+    NOTIFICATION_NOT_FOUND(HttpStatus.NOT_FOUND, "알림을 찾을 수 없습니다."),
 
+    /* 은행(Bank) */
+    API_KEY_NOT_AVAILIABLE(HttpStatus.BAD_REQUEST, "API_KEY가 유효하지 않습니다."),
+    USER_KEY_NOT_AVAILIABLE(HttpStatus.BAD_REQUEST, "USER_KEY가 유효하지 않습니다."),
+    BANK_CODE_NOT_AVAILIABLE(HttpStatus.BAD_REQUEST, "은행코드가 유효하지 않습니다."),
+    BANK_ACCOUNT_NUMBER_NOT_AVAILIABLE(HttpStatus.BAD_REQUEST, " 계좌번호가 유효하지 않습니다."),
+    TRANSACTION_BALANCE_NOT_AVAILIABLE(HttpStatus.BAD_REQUEST, " 거래금액이 유효하지 않습니다."),
+    TRANSACTION_BALANCE_LACK(HttpStatus.BAD_REQUEST, " 계좌 잔액이 부족하여 거래가 실패했습니다. "),
+    EXCEEDED_TRANSFER_LIMIT_ONCE(HttpStatus.BAD_REQUEST, " 이체 가능 한도 초과(1회)."),
+    EXCEEDED_TRANSFER_LIMIT_ONEDAY(HttpStatus.BAD_REQUEST, " 이체 가능 한도 초과(1일)."),
+    TRANSACTION_SUMMARY_NOT_AVAILIABLE(HttpStatus.BAD_REQUEST, " 거래요약내용 길이가 초과되었습니다.");
     private final HttpStatus status;
     private final String message;
 

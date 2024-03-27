@@ -29,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -69,7 +70,7 @@ public class TradeServiceImpl implements TradeService {
 
     @Transactional
     @Override
-    public List<TradeGetResDto> getTradeList(Long travelId) throws JsonProcessingException {
+    public List<TradeGetResDto> getTradeList(Long travelId) throws IOException {
         Travel travel = travelRepository.findById(travelId).orElseThrow(TravelNotFoundException::new);
         Account account = accountRepository.findById(travel.getGroupAccount().getAccount().getId()).orElseThrow(AccountNotFoundException::new);
 
@@ -95,7 +96,7 @@ public class TradeServiceImpl implements TradeService {
     }
 
     /* 은행에서 가져오고 저장하는 메서드 */
-    private void fetchAndSaveTradeHistory(Account account, String startDate, String endDate) throws JsonProcessingException {
+    private void fetchAndSaveTradeHistory(Account account, String startDate, String endDate) throws IOException {
         /* 은행 코드 */
         Map<String, String> bankCodeMap = Map.of(
                 "한국은행", "001",

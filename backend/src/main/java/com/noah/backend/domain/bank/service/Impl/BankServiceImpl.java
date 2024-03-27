@@ -10,6 +10,7 @@ import com.noah.backend.domain.bank.dto.requestDto.*;
 import com.noah.backend.domain.bank.dto.responseDto.*;
 import com.noah.backend.domain.bank.service.BankService;
 import com.noah.backend.domain.member.dto.requestDto.UserKeyRequestDto;
+import com.noah.backend.global.exception.bank.*;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
@@ -18,9 +19,11 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Service;
 
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,11 +37,11 @@ public class BankServiceImpl implements BankService {
 
 	//관리자 키 발급
 	@Override
-	public void adKeyRequest() throws JsonProcessingException {
+	public void adKeyRequest() throws IOException {
 		String requestURL = "https://finapi.p.ssafy.io/ssafy/api/v1/edu/app/issuedApiKey";
 		Map result = objectMapper.convertValue(new AdminKeyRequestDto(), Map.class);
 		String jsonMessage = objectMapper.writeValueAsString(result);
-		try {
+
 			HttpClient client = HttpClientBuilder.create().build(); // HttpClient 생성
 			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
 			System.out.println(result);
@@ -52,23 +55,21 @@ public class BankServiceImpl implements BankService {
 				String body = handler.handleResponse(response);
 				System.out.println(body);
 			} else {
-				System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+				errorCheck(response);
 			}
-		} catch (Exception e){
-			System.err.println(e.toString());
-		}
+
 	}
 
 	//사용자 계정생성
 	@Override
-	public MemberCreateResDto memberCreate(MemberCreateReqDto memberCreateReqDto) throws JsonProcessingException {
+	public MemberCreateResDto memberCreate(MemberCreateReqDto memberCreateReqDto) throws IOException {
 		String requestURL = "https://finapi.p.ssafy.io/ssafy/api/v1/member/";
 		UserKeyRequestDto userKeyRequestDto = new UserKeyRequestDto();
 		userKeyRequestDto.setApiKey(adminKey);
 		userKeyRequestDto.setUserId(memberCreateReqDto.getEmail());
 		Map result = objectMapper.convertValue(userKeyRequestDto, Map.class);
 		String jsonMessage = objectMapper.writeValueAsString(result);
-		try {
+
 			HttpClient client = HttpClientBuilder.create().build(); // HttpClient 생성
 			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
 //			System.out.println(result);
@@ -89,25 +90,22 @@ public class BankServiceImpl implements BankService {
 				return memberCreateResDto;
 			} else {
 				//오류가 발생하면 이미 존재하는 사용자입니다.(회원가입 불가) null값 대신 나중에 예외처리로 변경
-				System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+				errorCheck(response);
 				return null;
 			}
-		} catch (Exception e){
-			System.err.println(e.toString());
-			return null;
-		}
+
 	}
 
 	//사용자 계정조회
 	@Override
-	public MemberCheckResDto memberCheck(MemberCheckReqDto memberCheckReqDto) throws JsonProcessingException{
+	public MemberCheckResDto memberCheck(MemberCheckReqDto memberCheckReqDto) throws IOException {
 		String requestURL = "https://finapi.p.ssafy.io/ssafy/api/v1/member/search";
 		UserKeyRequestDto userKeyRequestDto = new UserKeyRequestDto();
 		userKeyRequestDto.setApiKey(adminKey);
 		userKeyRequestDto.setUserId(memberCheckReqDto.getEmail());
 		Map result = objectMapper.convertValue(userKeyRequestDto, Map.class);
 		String jsonMessage = objectMapper.writeValueAsString(result);
-		try {
+
 			HttpClient client = HttpClientBuilder.create().build(); // HttpClient 생성
 			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
 //			System.out.println(result);
@@ -128,18 +126,15 @@ public class BankServiceImpl implements BankService {
 				return memberCheckResDto;
 			} else {
 				//오류가 발생하면 이미 존재하는 사용자입니다.(회원가입 불가) null값 대신 나중에 예외처리로 변경
-				System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+				errorCheck(response);
 				return null;
 			}
-		} catch (Exception e){
-			System.err.println(e.toString());
-			return null;
-		}
+
 	}
 
 	//상품 조회
 	@Override
-	public void productSelect() throws JsonProcessingException {
+	public void productSelect() throws IOException {
 		String requestURL = "https://finapi.p.ssafy.io/ssafy/api/v1/edu/account/inquireBankAccountTypes";
 		RequestHeaderDto requestHeaderDto = new RequestHeaderDto();
 		requestHeaderDto.setApiKey(adminKey);
@@ -147,7 +142,7 @@ public class BankServiceImpl implements BankService {
 		requestHeaderDto.setApiServiceCode(requestHeaderDto.getApiName());
 		HashMap<String,String> result = objectMapper.convertValue(requestHeaderDto, HashMap.class);
 		String headerMessage = makeHeader(result);
-		try {
+
 			HttpClient client = HttpClientBuilder.create().build(); // HttpClient 생성
 			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
 
@@ -161,16 +156,14 @@ public class BankServiceImpl implements BankService {
 				String body = handler.handleResponse(response);
 				System.out.println(body);
 			} else {
-				System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+				errorCheck(response);
 			}
-		} catch (Exception e){
-			System.err.println(e.toString());
-		}
+
 	}
 
 	//계좌 생성
 	@Override
-	public BankAccountCreateResDto bankAccountCreate(BankAccountCreateReqDto bankAccountCreateReqDto) throws JsonProcessingException {
+	public BankAccountCreateResDto bankAccountCreate(BankAccountCreateReqDto bankAccountCreateReqDto) throws IOException {
 		String requestURL = "https://finapi.p.ssafy.io/ssafy/api/v1/edu/account/openAccount";
 		RequestHeaderDto requestHeaderDto = new RequestHeaderDto();
 		requestHeaderDto.setApiKey(adminKey);
@@ -182,7 +175,7 @@ public class BankServiceImpl implements BankService {
 		HashMap<String,Object> bodyHm = selectBank(bankAccountCreateReqDto.getBankType());
 		String bodyMessage = makeBody(bodyHm);
 		String mergeMessage = makeMerge(headerMessage,bodyMessage);
-		try {
+
 			HttpClient client = HttpClientBuilder.create().build(); // HttpClient 생성
 			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
 
@@ -203,18 +196,15 @@ public class BankServiceImpl implements BankService {
 				bankAccountCreateResDto.setAccountNumber((String)REC.get("accountNo"));
 				return bankAccountCreateResDto;
 			} else {
-				System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+				errorCheck(response);
 				return null;
 			}
-		} catch (Exception e){
-			System.err.println(e.toString());
-			return null;
-		}
+
 	}
 
 	//예금주 조회
 	@Override
-	public BankHolderCheckResDto bankHolderCheck(BankHolderCheckReqDto bankHolderCheckReqDto) throws JsonProcessingException {
+	public BankHolderCheckResDto bankHolderCheck(BankHolderCheckReqDto bankHolderCheckReqDto) throws IOException {
 		String requestURL = "https://finapi.p.ssafy.io/ssafy/api/v1/edu/account/inquireDepositorAccountNumber";
 		RequestHeaderDto requestHeaderDto = new RequestHeaderDto();
 		requestHeaderDto.setApiKey(adminKey);
@@ -229,7 +219,7 @@ public class BankServiceImpl implements BankService {
 		bodyHm.put("accountNo",bankHolderCheckReqDto.getAccountNo());
 		String bodyMessage = makeBody(bodyHm);
 		String mergeMessage = makeMerge(headerMessage,bodyMessage);
-		try {
+
 			HttpClient client = HttpClientBuilder.create().build(); // HttpClient 생성
 			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
 
@@ -252,18 +242,15 @@ public class BankServiceImpl implements BankService {
 				bankHolderCheckResDto.setUserName((String)REC.get("userName"));
 				return bankHolderCheckResDto;
 			} else {
-				System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+				errorCheck(response);
 				return null;
 			}
-		} catch (Exception e){
-			System.err.println(e.toString());
-			return null;
-		}
+
 	}
 
 	//계좌 목록 조회
 	@Override
-	public ArrayList<BankAccountListResDto> bankAccountList(BankAccountListReqDto bankAccountListReqDto) throws JsonProcessingException {
+	public ArrayList<BankAccountListResDto> bankAccountList(BankAccountListReqDto bankAccountListReqDto) throws IOException {
 		String requestURL = "https://finapi.p.ssafy.io/ssafy/api/v1/edu/account/inquireAccountList";
 		RequestHeaderDto requestHeaderDto = new RequestHeaderDto();
 		requestHeaderDto.setApiKey(adminKey);
@@ -272,7 +259,7 @@ public class BankServiceImpl implements BankService {
 		requestHeaderDto.setUserKey(bankAccountListReqDto.getUserKey());
 		HashMap<String,String> result = objectMapper.convertValue(requestHeaderDto, HashMap.class);
 		String headerMessage = makeHeader(result);
-		try {
+
 			HttpClient client = HttpClientBuilder.create().build(); // HttpClient 생성
 			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
 
@@ -294,18 +281,15 @@ public class BankServiceImpl implements BankService {
 //				RECextractionListView(RECextractionList);
 				return RECextractionList;
 			} else {
-				System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+				errorCheck(response);
 				return null;
 			}
-		} catch (Exception e){
-			System.err.println(e.toString());
-			return null;
-		}
+
 	}
 
 	//계좌 잔액 조회
 	@Override
-	public BankAccountBalanceCheckResDto bankAccountBalanceCheck(BankAccountBalanceCheckReqDto bankAccountBalanceCheckReqDto) throws JsonProcessingException {
+	public BankAccountBalanceCheckResDto bankAccountBalanceCheck(BankAccountBalanceCheckReqDto bankAccountBalanceCheckReqDto) throws IOException {
 		String requestURL = "https://finapi.p.ssafy.io/ssafy/api/v1/edu/account/inquireAccountBalance";
 		RequestHeaderDto requestHeaderDto = new RequestHeaderDto();
 		requestHeaderDto.setApiKey(adminKey);
@@ -319,13 +303,15 @@ public class BankServiceImpl implements BankService {
 		bodyHm.put("accountNo",bankAccountBalanceCheckReqDto.getAccountNo());
 		String bodyMessage = makeBody(bodyHm);
 		String mergeMessage = makeMerge(headerMessage,bodyMessage);
-		try {
+
+		HttpResponse response = null;
+
 			HttpClient client = HttpClientBuilder.create().build(); // HttpClient 생성
 			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
 
 			postRequest.setHeader("Content-Type", "application/json");
 			postRequest.setEntity(new StringEntity(mergeMessage,ContentType.APPLICATION_JSON.withCharset(StandardCharsets.UTF_8))); //json 메시지 입력
-			HttpResponse response = client.execute(postRequest);
+			response = client.execute(postRequest);
 
 			//Response 출력
 			if (response.getStatusLine().getStatusCode() == 200) {
@@ -339,18 +325,15 @@ public class BankServiceImpl implements BankService {
 				bankAccountBalanceCheckResDto.setAccountBalance(Integer.parseInt((String)REC.get("accountBalance")));
 				return bankAccountBalanceCheckResDto;
 			} else {
-				System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+				errorCheck(response);
 				return null; //오류나면 null
 			}
-		} catch (Exception e){
-			System.err.println(e.toString());
-			return null;
-		}
+
 	}
 
 	//계좌 입금
 	@Override
-	public void bankAccountDeposit(BankAccountDepositReqDto bankAccountDepositReqDto) throws JsonProcessingException {
+	public void bankAccountDeposit(BankAccountDepositReqDto bankAccountDepositReqDto) throws IOException {
 		String requestURL = "https://finapi.p.ssafy.io/ssafy/api/v1/edu/account/receivedTransferAccountNumber";
 		RequestHeaderDto requestHeaderDto = new RequestHeaderDto();
 		requestHeaderDto.setApiKey(adminKey);
@@ -366,7 +349,7 @@ public class BankServiceImpl implements BankService {
 		bodyHm.put("transactionSummary",bankAccountDepositReqDto.getTransactionSummary()); //입금 계좌 요약
 		String bodyMessage = makeBody(bodyHm);
 		String mergeMessage = makeMerge(headerMessage,bodyMessage);
-		try {
+
 			HttpClient client = HttpClientBuilder.create().build(); // HttpClient 생성
 			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
 			postRequest.setHeader("Content-Type", "application/json");
@@ -384,16 +367,14 @@ public class BankServiceImpl implements BankService {
 				System.out.println("계좌 입금 제대로되는지 확인");
 				System.out.println("처리 결과 : " + (String)REC.get("responseMessage"));
 			} else {
-				System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+				errorCheck(response);
 			}
-		} catch (Exception e){
-			System.err.println(e.toString());
-		}
+
 	}
 
 	//계좌 출금
 	@Override
-	public void bankAccountWithdraw(BankAccountWithdrawReqDto bankAccountWithdrawReqDto) throws JsonProcessingException {
+	public void bankAccountWithdraw(BankAccountWithdrawReqDto bankAccountWithdrawReqDto) throws IOException {
 		String requestURL = "https://finapi.p.ssafy.io/ssafy/api/v1/edu/account/drawingTransfer";
 		RequestHeaderDto requestHeaderDto = new RequestHeaderDto();
 		requestHeaderDto.setApiKey(adminKey);
@@ -409,7 +390,7 @@ public class BankServiceImpl implements BankService {
 		bodyHm.put("transactionSummary",bankAccountWithdrawReqDto.getTransactionSummary()); //출금 계좌 요약
 		String bodyMessage = makeBody(bodyHm);
 		String mergeMessage = makeMerge(headerMessage,bodyMessage);
-		try {
+
 			HttpClient client = HttpClientBuilder.create().build(); // HttpClient 생성
 			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
 
@@ -428,16 +409,14 @@ public class BankServiceImpl implements BankService {
 				System.out.println("계좌 출금 제대로되는지 확인");
 				System.out.println("처리 결과 : " + (String)REC.get("responseMessage"));
 			} else {
-				System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+				errorCheck(response);
 			}
-		} catch (Exception e){
-			System.err.println(e.toString());
-		}
+
 	}
 
 	//계좌 이체
 	@Override
-	public void bankAccountTransfer(BankAccountTransferReqDto bankAccountTransferReqDto) throws JsonProcessingException{
+	public void bankAccountTransfer(BankAccountTransferReqDto bankAccountTransferReqDto) throws IOException {
 		String requestURL = "https://finapi.p.ssafy.io/ssafy/api/v1/edu/account/accountTransfer";
 		RequestHeaderDto requestHeaderDto = new RequestHeaderDto();
 		requestHeaderDto.setApiKey(adminKey);
@@ -456,7 +435,7 @@ public class BankServiceImpl implements BankService {
 		bodyHm.put("withdrawalTransactionSummary",bankAccountTransferReqDto.getWithdrawalTransactionSummary()); //거래 요약내용(출금계좌)
 		String bodyMessage = makeBody(bodyHm);
 		String mergeMessage = makeMerge(headerMessage,bodyMessage);
-		try {
+
 			HttpClient client = HttpClientBuilder.create().build(); // HttpClient 생성
 			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
 
@@ -475,16 +454,14 @@ public class BankServiceImpl implements BankService {
 				System.out.println("계좌 이체 제대로되는지 확인");
 				System.out.println("처리 결과 : " + (String)REC.get("responseMessage"));
 			} else {
-				System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+				errorCheck(response);
 			}
-		} catch (Exception e){
-			System.err.println(e.toString());
-		}
+
 	}
 
 	//계좌 거래 내역 조회
 	@Override
-	public ArrayList<TransactionHistoryResDto> transactionHistory(TransactionHistoryReqDto transactionHistoryReqDto) throws JsonProcessingException {
+	public ArrayList<TransactionHistoryResDto> transactionHistory(TransactionHistoryReqDto transactionHistoryReqDto) throws IOException {
 		String requestURL = "https://finapi.p.ssafy.io/ssafy/api/v1/edu/account/inquireAccountTransactionHistory";
 		RequestHeaderDto requestHeaderDto = new RequestHeaderDto();
 		requestHeaderDto.setApiKey(adminKey);
@@ -502,7 +479,7 @@ public class BankServiceImpl implements BankService {
 		bodyHm.put("orderByType",transactionHistoryReqDto.getOrderByType()); //정렬순서
 		String bodyMessage = makeBody(bodyHm);
 		String mergeMessage = makeMerge(headerMessage,bodyMessage);
-		try {
+
 			HttpClient client = HttpClientBuilder.create().build(); // HttpClient 생성
 			HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
 
@@ -526,12 +503,10 @@ public class BankServiceImpl implements BankService {
 //				System.out.println("처리 결과 : " + (String)REC.get("responseMessage"));
 			} else {
 				System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+				errorCheck(response);
 				return null;
 			}
-		} catch (Exception e){
-			System.err.println(e.toString());
-			return null;
-		}
+
 	}
 
 
@@ -717,5 +692,33 @@ public static String makeHeader(HashMap<String,String> result) throws JsonProces
 			System.out.println(result.get(key));
 		}
 		System.out.println(result);
+	}
+
+	public static void errorCheck(HttpResponse response) throws IOException {
+		System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+		String responseString = EntityUtils.toString(response.getEntity());
+		Gson gson = new Gson();
+		Map<String, Object> responseMap = gson.fromJson(responseString, Map.class);
+		System.out.println(responseMap.get("responseCode"));
+		String errorCode = (String) responseMap.get("responseCode");
+		if(errorCode.equals("H1008")){
+			throw new H1008Exception();
+		}else if(errorCode.equals("H1009")){
+			throw new H1009Exception();
+		}else if(errorCode.equals("A1001")){
+			throw new A1001Exception();
+		}else if(errorCode.equals("A1003")){
+			throw new A1003Exception();
+		}else if(errorCode.equals("A1011")){
+			throw new A1011Exception();
+		}else if(errorCode.equals("A1014")){
+			throw new A1014Exception();
+		}else if(errorCode.equals("A1016")){
+			throw new A1016Exception();
+		}else if(errorCode.equals("A1017")){
+			throw new A1017Exception();
+		}else if(errorCode.equals("A1018")){
+			throw new A1018Exception();
+		}
 	}
 }
