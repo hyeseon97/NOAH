@@ -179,7 +179,7 @@ public class BankServiceImpl implements BankService {
 		requestHeaderDto.setUserKey(bankAccountCreateReqDto.getUserKey());
 		HashMap<String,String> result = objectMapper.convertValue(requestHeaderDto, HashMap.class);
 		String headerMessage = makeHeader(result);
-		HashMap<String,String> bodyHm = selectBank(bankAccountCreateReqDto.getBankType());
+		HashMap<String,Object> bodyHm = selectBank(bankAccountCreateReqDto.getBankType());
 		String bodyMessage = makeBody(bodyHm);
 		String mergeMessage = makeMerge(headerMessage,bodyMessage);
 		try {
@@ -224,7 +224,7 @@ public class BankServiceImpl implements BankService {
 		requestHeaderDto.setUserKey(userKey);
 		HashMap<String,String> result = objectMapper.convertValue(requestHeaderDto, HashMap.class);
 		String headerMessage = makeHeader(result);
-		HashMap<String,String> bodyHm = new HashMap<>();
+		HashMap<String,Object> bodyHm = new HashMap<>();
 		bodyHm.put("bankCode",bankHolderCheckReqDto.getBankCode());
 		bodyHm.put("accountNo",bankHolderCheckReqDto.getAccountNo());
 		String bodyMessage = makeBody(bodyHm);
@@ -314,7 +314,7 @@ public class BankServiceImpl implements BankService {
 		requestHeaderDto.setUserKey(bankAccountBalanceCheckReqDto.getUserKey()); //확인하려는 계좌의 주인의 유저키가 필요
 		HashMap<String,String> result = objectMapper.convertValue(requestHeaderDto, HashMap.class);
 		String headerMessage = makeHeader(result);
-		HashMap<String,String> bodyHm = new HashMap<>();
+		HashMap<String,Object> bodyHm = new HashMap<>();
 		bodyHm.put("bankCode",bankAccountBalanceCheckReqDto.getBankCode());
 		bodyHm.put("accountNo",bankAccountBalanceCheckReqDto.getAccountNo());
 		String bodyMessage = makeBody(bodyHm);
@@ -359,7 +359,7 @@ public class BankServiceImpl implements BankService {
 		requestHeaderDto.setUserKey(bankAccountDepositReqDto.getUserKey()); //확인하려는 계좌의 주인의 유저키가 필요
 		HashMap<String,String> result = objectMapper.convertValue(requestHeaderDto, HashMap.class);
 		String headerMessage = makeHeader(result);
-		HashMap<String,String> bodyHm = new HashMap<>();
+		HashMap<String,Object> bodyHm = new HashMap<>();
 		bodyHm.put("bankCode",bankAccountDepositReqDto.getBankCode()); //은행 코드
 		bodyHm.put("accountNo",bankAccountDepositReqDto.getAccountNo()); //계좌 번호
 		bodyHm.put("transactionBalance",bankAccountDepositReqDto.getTransactionBalance()); //입금 금액
@@ -402,7 +402,7 @@ public class BankServiceImpl implements BankService {
 		requestHeaderDto.setUserKey(bankAccountWithdrawReqDto.getUserKey()); //확인하려는 계좌의 주인의 유저키가 필요
 		HashMap<String,String> result = objectMapper.convertValue(requestHeaderDto, HashMap.class);
 		String headerMessage = makeHeader(result);
-		HashMap<String,String> bodyHm = new HashMap<>();
+		HashMap<String,Object> bodyHm = new HashMap<>();
 		bodyHm.put("bankCode",bankAccountWithdrawReqDto.getBankCode()); //은행 코드
 		bodyHm.put("accountNo",bankAccountWithdrawReqDto.getAccountNo()); //계좌 번호
 		bodyHm.put("transactionBalance",bankAccountWithdrawReqDto.getTransactionBalance()); //출금 금액
@@ -446,7 +446,7 @@ public class BankServiceImpl implements BankService {
 		requestHeaderDto.setUserKey(bankAccountTransferReqDto.getUserKey()); //확인하려는 계좌의 주인의 유저키가 필요
 		HashMap<String,String> result = objectMapper.convertValue(requestHeaderDto, HashMap.class);
 		String headerMessage = makeHeader(result);
-		HashMap<String,String> bodyHm = new HashMap<>();
+		HashMap<String,Object> bodyHm = new HashMap<>();
 		bodyHm.put("depositBankCode",bankAccountTransferReqDto.getDepositBankCode()); //입금계좌은행코드
 		bodyHm.put("depositAccountNo",bankAccountTransferReqDto.getDepositAccountNo()); //입금계좌번호
 		bodyHm.put("transactionBalance",bankAccountTransferReqDto.getTransactionBalance()); //거래금액
@@ -493,7 +493,7 @@ public class BankServiceImpl implements BankService {
 		requestHeaderDto.setUserKey(transactionHistoryReqDto.getUserKey()); //확인하려는 계좌의 주인의 유저키가 필요
 		HashMap<String,String> result = objectMapper.convertValue(requestHeaderDto, HashMap.class);
 		String headerMessage = makeHeader(result);
-		HashMap<String,String> bodyHm = new HashMap<>();
+		HashMap<String,Object> bodyHm = new HashMap<>();
 		bodyHm.put("bankCode",transactionHistoryReqDto.getBankCode()); //은행코드
 		bodyHm.put("accountNo",transactionHistoryReqDto.getAccountNo()); //계좌번호
 		bodyHm.put("startDate",transactionHistoryReqDto.getStartDate()); //조회시작일자
@@ -550,7 +550,7 @@ public static String makeHeader(HashMap<String,String> result) throws JsonProces
 }
 
 	//result를 넣으면 Body를 만들어주는 메소드
-	public static String makeBody(HashMap<String,String> result) throws JsonProcessingException {
+	public static String makeBody(HashMap<String,Object> result) throws JsonProcessingException {
 		return objectMapper.writeValueAsString(result);
 	}
 
@@ -590,8 +590,8 @@ public static String makeHeader(HashMap<String,String> result) throws JsonProces
 	}
 
 	//은행 정보 제공 메소드 //필요: 프론트엔드에서 유저가 선택한 은행 type
-	public static HashMap<String, String> selectBank(String bankType){
-		HashMap<String,String> returnHm = new HashMap<>();
+	public static HashMap<String, Object> selectBank(String bankType){
+		HashMap<String,Object> returnHm = new HashMap<>();
 		switch (bankType){
 			case "001"://한국은행
 				returnHm.put("accountTypeUniqueNo","001-1-81fe2deafd1943");

@@ -177,7 +177,7 @@ public class GroupAccountServiceImpl implements GroupAccountService {
         GroupAccountInfoDto groupAccountInfoDto = groupAccountRepository.getGroupAccountInfo(travel.getGroupAccount().getId()).orElseThrow(GroupAccountNotFoundException::new);
         String withDrawBankCode = bankCodeMap.get(groupAccountInfoDto.getBankName());
 
-        String amount = depositReqDto.getAmount();
+        int amount = depositReqDto.getAmount();
 
         // Bank서비스에 맞게 dto 생성
         BankAccountTransferReqDto bankAccountTransferReqDto = BankAccountTransferReqDto.builder()
@@ -196,7 +196,7 @@ public class GroupAccountServiceImpl implements GroupAccountService {
         Long memberTravelId = memberTravelRepository.getMemberTravelByTravelIdAndMemberId(travelId, memberId).orElseThrow(MemberTravelNotFoundException::new);
         MemberTravel memberTravel = memberTravelRepository.findById(memberTravelId).orElseThrow(MemberTravelNotFoundException::new);
         int previous = memberTravel.getPayment_amount();
-        int total = previous + Integer.parseInt(amount);
+        int total = previous + amount;
         memberTravel.setPayment_amount(total);
         memberTravelRepository.save(memberTravel);
     }
