@@ -90,18 +90,6 @@ public class MemberTravelServiceImpl implements MemberTravelService {
 
         // 파이어베이스 푸쉬 알림
 
-        // 준규오빠 코드
-//        Member inviteMember = memberReopsitory.findById(memberTravelInviteDto.getTravel_id())
-//                .orElseThrow(() -> new NotFoundException("멤버를 찾을 수 없으요"));
-//
-//        Travel inviteTravel = travelRepository.findById(memberTravelInviteDto.getMember_id())
-//                .orElseThrow(() -> new NotFoundException("여행 정보를 찾을 수 없슈"));
-//
-//        MemberTravel newMemberTravel = MemberTravel.builder()
-//                .member(inviteMember)
-//                .travel(inviteTravel)
-//                .payment_amount(0)
-//                .build();
 
         return savedNotification.getId();
     }
