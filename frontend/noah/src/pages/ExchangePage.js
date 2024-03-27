@@ -1,7 +1,8 @@
+import Header from "./../components/common/Header";
 export default function ExchangePage() {
   return (
     <>
-      <h1>환전처리</h1>
+      <Header LeftIcon="Arrow" Title="환전" />
     </>
   );
 }

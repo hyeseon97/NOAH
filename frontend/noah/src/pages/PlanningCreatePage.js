@@ -1,7 +1,9 @@
+import Header from "../components/common/Header";
+
 export default function PlanningCreatePage() {
   return (
     <>
-      <h1>계획 생성 페이지</h1>
+      <Header LeftIcon="Arrow" Title="계획 생성" />
     </>
   );
 }

@@ -1,7 +1,7 @@
 import Stick from "../common/Stick";
-import Dropdown from "./../common/Dropdown";
+import Dropdown from "../common/Dropdown";
 import { useState, useEffect } from "react";
-export default function Transfer() {
+export default function Exchange() {
   const borderStyle = {
     border: "0.277vw solid #E1E1E1",
     backdropFilter: "blur(0.277vw)",
