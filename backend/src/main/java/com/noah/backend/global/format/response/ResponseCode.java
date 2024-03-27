@@ -53,7 +53,10 @@ public enum ResponseCode {
     TRADE_LIST_NOT_FOUND(HttpStatus.OK, "조회되는 거래내역이 없습니다."),
     TRADE_UPDATED(HttpStatus.OK, "거래정보가 성공적으로 수정되었습니다."),
 
+    /* 환전 */
     EXCHANGE_SUCCESS(HttpStatus.OK, "환전이 성공적으로 완료되었습니다."),
+    EXCHANGE_INFO_FETCHED(HttpStatus.OK, "환전 내역이 성공적으로 조회되었습니다."),
+    EXCHANGE_NOT_FOUND(HttpStatus.OK, "환전내역이 없습니다."),
 
     /* 은행 (Bank) */
     BANK_DEPOSIT_SUCCESS(HttpStatus.OK,"입금이 성공적으로 완료되었습니다."),

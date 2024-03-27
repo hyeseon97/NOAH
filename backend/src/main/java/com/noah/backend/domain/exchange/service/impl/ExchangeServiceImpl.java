@@ -6,6 +6,7 @@ import com.noah.backend.domain.account.repository.AccountRepository;
 import com.noah.backend.domain.bank.dto.requestDto.BankAccountWithdrawReqDto;
 import com.noah.backend.domain.bank.service.BankService;
 import com.noah.backend.domain.exchange.dto.requestDto.ExchangeReqDto;
+import com.noah.backend.domain.exchange.dto.responseDto.ExchangeInfoDto;
 import com.noah.backend.domain.exchange.entity.Exchange;
 import com.noah.backend.domain.exchange.repository.ExchangeRepository;
 import com.noah.backend.domain.exchange.service.ExchangeService;
@@ -85,7 +86,7 @@ public class ExchangeServiceImpl implements ExchangeService {
                 break;
             default:
                 throw new ExchangeCurrencyNotAcceptableException();
-                
+
         }
 
         Long exchangeId = exchangeRepository.getExchangeIdByTravelId(travel.getId());
@@ -117,5 +118,43 @@ public class ExchangeServiceImpl implements ExchangeService {
             return exchange.getId();
         }
 
+    }
+
+    @Override
+    public ExchangeInfoDto getExchangeInfo(Long travelId) {
+        Long exchangeId = exchangeRepository.getExchangeIdByTravelId(travelId);
+        if (exchangeId == null) {
+            return null;
+        } else {
+            Exchange exchange = exchangeRepository.findById(exchangeId).orElseThrow(ExchangeNotFoundException::new);
+
+            int currencyCode = exchange.getCurrency();
+            String currencyName;
+
+            switch (currencyCode) {
+                case 0:
+                    currencyName = "달러";
+                    break;
+                case 1:
+                    currencyName = "엔화";
+                    break;
+                case 2:
+                    currencyName = "위안화";
+                    break;
+                case 3:
+                    currencyName = "유로";
+                    break;
+                default:
+                    throw new ExchangeCurrencyNotAcceptableException();
+
+            }
+
+            ExchangeInfoDto exchangeInfoDto = ExchangeInfoDto.builder()
+                    .currency(currencyName)
+                    .exchangeAmount(exchange.getExchangeAmount())
+                    .build();
+
+            return exchangeInfoDto;
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.noah.backend.domain.exchange.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.noah.backend.domain.exchange.dto.requestDto.ExchangeReqDto;
+import com.noah.backend.domain.exchange.dto.responseDto.ExchangeInfoDto;
 import com.noah.backend.domain.exchange.service.ExchangeService;
 import com.noah.backend.global.format.code.ApiResponse;
 import com.noah.backend.global.format.response.ResponseCode;
@@ -30,7 +31,11 @@ public class ExchangeController {
     @Operation(summary = "환전금액 조회", description = "환전금액 조회")
     @GetMapping("/{travel_id}")
     public ResponseEntity<?> getGroupAccountExchange(@PathVariable(name = "travel_id") Long travelId) {
-        return null;
+        ExchangeInfoDto result = exchangeService.getExchangeInfo(travelId);
+        if (result == null) {
+            return response.success(ResponseCode.EXCHANGE_NOT_FOUND, null);
+        }
+        return response.success(ResponseCode.EXCHANGE_INFO_FETCHED, result);
     }
 
 }
