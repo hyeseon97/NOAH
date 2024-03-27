@@ -1,0 +1,63 @@
+{
+  "data": [
+    {
+      "type": "hotel-offers",
+      "hotel": {
+        "type": "hotel",
+        "hotelId": "MCLONGHM",
+        "chainCode": "MC",
+        "dupeId": "700031300",
+        "name": "JW Marriott Grosvenor House London",
+        "cityCode": "LON",
+        "latitude": 51.50988,
+        "longitude": -0.15509
+      },
+      "available": true,
+      "offers": [
+        {
+          "id": "OG3OOS08PF",
+          "checkInDate": "2024-07-22",
+          "checkOutDate": "2024-07-23",
+          "rateCode": "S9R",
+          "room": {
+            "type": "XMI",
+            "description": {
+              "text": "메리어트 경로 우대 할인, 요금 세부 정보 보기\n1 퀸베드, 미니 냉장고, 20m²/215ft²-29m²/312ft², 무선 인터넷(\n무료), 유선 인터넷(유료), 커피/티 메이커",
+              "lang": "KO"
+            }
+          },
+          "guests": {
+            "adults": 1
+          },
+          "price": {
+            "currency": "GBP",
+            "base": "716.00",
+            "total": "751.80",
+            "variations": {
+              "average": {
+                "base": "716.00"
+              },
+              "changes": [
+                {
+                  "startDate": "2024-07-22",
+                  "endDate": "2024-07-23",
+                  "base": "716.00"
+                }
+              ]
+            }
+          },
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2024-07-21T23:59:00+01:00",
+                "amount": "716.00"
+              }
+            ]
+          },
+          "self": "https://test.api.amadeus.com/v3/shopping/hotel-offers/OG3OOS08PF"
+        }
+      ],
+      "self": "https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=MCLONGHM&adults=1&checkInDate=2024-07-22&paymentPolicy=NONE&roomQuantity=1"
+    }
+  ]
+}
