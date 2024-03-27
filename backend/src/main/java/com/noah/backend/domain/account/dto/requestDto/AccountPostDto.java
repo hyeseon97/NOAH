@@ -4,14 +4,12 @@ import lombok.*;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class AccountPostDto {
-
-    private String name;        // 계좌 이름
-    private int targetAmount;   // 목표 금액
-    private int perAmount;      // 납입금
-    private int paymentDate;    // 납입일
-
+    private Long memberId;
+    private Long travelId;
+    private String bankName;
+    private String accountNumber;
 }

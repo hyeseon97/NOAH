@@ -2,6 +2,8 @@ package com.noah.backend.domain.travel.service;
 
 import com.noah.backend.domain.travel.dto.requestDto.TravelGetDto;
 import com.noah.backend.domain.travel.dto.requestDto.TravelGetListDto;
+import com.noah.backend.domain.travel.dto.responseDto.TravelPostDto;
+import com.noah.backend.domain.travel.dto.responseDto.TravelUpdateDto;
 import com.noah.backend.domain.travel.entity.Travel;
 
 import java.util.List;
@@ -12,9 +14,13 @@ public interface TravelService {
 
     TravelGetDto getTravelSelect(Long travelId);
 
-    Long createTravel(Travel travel);
+    List<TravelGetListDto> getTravelMemberId(Long memberId);
 
-    Long updateTravel(Long travelId, Travel travel);
+    Long createTravel(TravelPostDto travelDto);
+
+    Long createTravelTest(TravelPostDto travelDto, Long memberId);
+
+    Long updateTravel(Long travelId, TravelUpdateDto travelDto);
 
     void deleteTravel(Long travelId);
 }

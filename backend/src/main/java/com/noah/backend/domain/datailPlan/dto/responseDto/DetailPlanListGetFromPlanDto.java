@@ -16,5 +16,5 @@ public class DetailPlanListGetFromPlanDto {
     private double pinY;
     private String memo;
     private String time;
-    private String plan_id;
+//    private Long plan_id;
 }

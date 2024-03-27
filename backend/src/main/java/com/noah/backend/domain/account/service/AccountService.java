@@ -1,23 +1,17 @@
 package com.noah.backend.domain.account.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.noah.backend.domain.account.dto.requestDto.AccountPostDto;
 import com.noah.backend.domain.account.dto.responseDto.AccountInfoDto;
-import com.noah.backend.domain.account.entity.Account;
+import com.noah.backend.domain.account.dto.requestDto.AccountUpdateDto;
 
 import java.util.List;
 
 public interface AccountService {
 
-    List<Account> getMyAccountList(Long memberId);
+    Long createAccount(AccountPostDto accountPostDto);
 
-    AccountInfoDto getAccountInfo(Long accountId);
+    List<AccountInfoDto> getMyAccountList(Long memberId) throws JsonProcessingException;
 
-    Long createAccount(Long memberId, AccountPostDto accountPostDto);
-
-    void deleteAccount(Long accountId);
-
-    Long updateAccount(Long accountId);
-
-
-
+    Long updateAmount(AccountUpdateDto accountUpdateDto);
 }

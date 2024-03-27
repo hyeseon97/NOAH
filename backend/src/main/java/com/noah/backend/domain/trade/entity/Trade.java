@@ -1,15 +1,15 @@
 package com.noah.backend.domain.trade.entity;
 
 import com.noah.backend.domain.account.entity.Account;
+import com.noah.backend.domain.groupaccount.entity.GroupAccount;
 import com.noah.backend.domain.base.BaseEntity;
+import com.noah.backend.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @Entity
-@EntityScan
 @Getter
 @Builder
 @AllArgsConstructor
@@ -24,22 +24,36 @@ public class Trade extends BaseEntity {
     private Long id;
 
     @Column(name = "type")
-    private int type;
+    private int type;        // 거래 유형(M : 입금, D: 출금, A : 전체)
 
     @Column(name = "name")
     private String name;
 
-    @Column(name = "money")
-    private int money;
+    @Column(name = "date")
+    private String date;
 
-    @Column(name = "balance")
-    private int balance;
+    @Column(name = "time")
+    private String time;
 
+    @Column(name = "cost")
+    private int cost;
+
+    @Column(name = "amount")
+    private int amount;
+
+    @Setter
+    @Column(name = "consume_type")
+    private String consumeType;
+
+    @Builder.Default
+    @Setter
     @Column(name = "is_contained")
-    private boolean isContained;
+    private boolean isContained = true;
 
-    @Column(name = "member_id")
-    private Long memberId;
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @ManyToOne
     @JoinColumn(name = "account_id")
