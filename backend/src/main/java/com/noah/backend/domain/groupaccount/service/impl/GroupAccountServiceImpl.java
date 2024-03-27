@@ -34,6 +34,7 @@ import com.noah.backend.global.exception.travel.TravelNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -56,6 +57,7 @@ public class GroupAccountServiceImpl implements GroupAccountService {
     private final BankService bankService;
     private final AccountService accountService;
 
+    @Transactional
     @Override
     public List<GroupAccountInfoDto> getGroupAccountListByMemberId(Long memberId) throws JsonProcessingException {
         // accountId List 받아오기
@@ -155,10 +157,10 @@ public class GroupAccountServiceImpl implements GroupAccountService {
 
     @Transactional
     @Override
-    public void depositIntoGroupAccount(Authentication authentication, DepositReqDto depositReqDto) throws JsonProcessingException {
+    public void depositIntoGroupAccount(String email, DepositReqDto depositReqDto) throws JsonProcessingException {
         /* 돈 보내는 사람 정보 */
-        Long memberId = memberService.searchMember(authentication).getMemberId();
-        Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+
         String userName = member.getName();
         String userKey = member.getUserKey();
 
@@ -193,12 +195,36 @@ public class GroupAccountServiceImpl implements GroupAccountService {
         bankService.bankAccountTransfer(bankAccountTransferReqDto);
 
         // memberTravel의 payment 부분에 최신화를 시켜놓을거임, 기존금액 + 입금액 => 총 납부금액
-        Long memberTravelId = memberTravelRepository.getMemberTravelByTravelIdAndMemberId(travelId, memberId).orElseThrow(MemberTravelNotFoundException::new);
+        Long memberTravelId = memberTravelRepository.getMemberTravelByTravelIdAndMemberId(travelId, member.getId()).orElseThrow(MemberTravelNotFoundException::new);
         MemberTravel memberTravel = memberTravelRepository.findById(memberTravelId).orElseThrow(MemberTravelNotFoundException::new);
         int previous = memberTravel.getPayment_amount();
         int total = previous + amount;
         memberTravel.setPayment_amount(total);
         memberTravelRepository.save(memberTravel);
+    }
+
+    // 자동계좌이체
+    @Scheduled(cron = "0 0 10 ? * *")
+    @Override
+    public void autoTransferGroupAccount() throws JsonProcessingException {
+
+        int todayDate = LocalDate.now().getDayOfMonth();
+        List<MemberTravel> memberTravelList = memberTravelRepository.getAutoTransfer(todayDate).orElse(null);
+
+        if(memberTravelList == null) return;
+
+        for(int i = 0;i<memberTravelList.size();i++){
+
+            Member member = memberTravelList.get(i).getMember();
+
+            DepositReqDto depositReqDto = DepositReqDto.builder()
+                .accountId(memberTravelList.get(i).getAccount().getId())
+                .travelId(memberTravelList.get(i).getTravel().getId())
+                .amount(memberTravelList.get(i).getTravel().getGroupAccount().getPerAmount()).build();
+            depositIntoGroupAccount(member.getEmail(), depositReqDto);
+
+        }
+
     }
 
 }

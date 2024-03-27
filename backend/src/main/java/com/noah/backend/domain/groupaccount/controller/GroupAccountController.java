@@ -114,7 +114,7 @@ public class GroupAccountController {
     @Operation(summary = "모임통장에 입금", description = "모임통장에 입금")
     @PostMapping("/deposit")
     public ResponseEntity<?> depositIntoGroupAccount(@Parameter(hidden = true) Authentication authentication, @RequestBody DepositReqDto depositReqDto) throws JsonProcessingException {
-        groupAccountService.depositIntoGroupAccount(authentication, depositReqDto);
+        groupAccountService.depositIntoGroupAccount(authentication.getName(), depositReqDto);
         return response.success(ResponseCode.DEPOSIT_SUCCESS);
     }
 }

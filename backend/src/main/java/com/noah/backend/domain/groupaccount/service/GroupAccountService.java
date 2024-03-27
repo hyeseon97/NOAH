@@ -24,5 +24,7 @@ public interface GroupAccountService {
 
     List<MemberTravelListGetDto> getGroupAccountMembers(Long travelId);
 
-    void depositIntoGroupAccount(Authentication authentication, DepositReqDto depositReqDto) throws JsonProcessingException;
+    void depositIntoGroupAccount(String email, DepositReqDto depositReqDto) throws JsonProcessingException;
+
+    void autoTransferGroupAccount() throws JsonProcessingException;
 }
