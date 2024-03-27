@@ -42,7 +42,7 @@ public class HttpClientTest {
 //		bankAccountListRun(); //계좌 목록 조회
 //		bankAccountBalanceCheckRun("dldnwlstest11"); //계좌 잔액 조회 //산업은행 0027546213312878
 //		bankAccountBalanceCheckRun("dldnwlstest12"); //계좌 잔액 조회 //기업은행 0047501884450113
-//		bankAccountDepositRun();//계좌 입금
+		bankAccountDepositRun();//계좌 입금
 //		bankAccountWithdrawRun();//계좌 출금
 //		bankAccountTransferRun();//계좌 이체
 //  	bankAccountTransactionHistoryRun(); //계좌 거래 내역 조회
@@ -184,7 +184,7 @@ public class HttpClientTest {
 		requestHeaderDto.setUserKey(bankAccountCreateReqDto.getUserKey());
 		HashMap<String,String> result = objectMapper.convertValue(requestHeaderDto, HashMap.class);
 		String headerMessage = makeHeader(result);
-		HashMap<String,String> bodyHm = selectBank(bankAccountCreateReqDto.getBankType());
+		HashMap<String,Object> bodyHm = selectBank(bankAccountCreateReqDto.getBankType());
 		String bodyMessage = makeBody(bodyHm);
 		String mergeMessage = makeMerge(headerMessage,bodyMessage);
 		try {
@@ -290,7 +290,7 @@ public class HttpClientTest {
 		requestHeaderDto.setUserKey(userKey);
 		HashMap<String,String> result = objectMapper.convertValue(requestHeaderDto, HashMap.class);
 		String headerMessage = makeHeader(result);
-		HashMap<String,String> bodyHm = new HashMap<>();
+		HashMap<String,Object> bodyHm = new HashMap<>();
 		bodyHm.put("bankCode",bankHolderCheckReqDto.getBankCode());
 		bodyHm.put("accountNo",bankHolderCheckReqDto.getAccountNo());
 		String bodyMessage = makeBody(bodyHm);
@@ -361,7 +361,7 @@ public class HttpClientTest {
 		requestHeaderDto.setUserKey(bankAccountBalanceCheckReqDto.getUserKey()); //확인하려는 계좌의 주인의 유저키가 필요
 		HashMap<String,String> result = objectMapper.convertValue(requestHeaderDto, HashMap.class);
 		String headerMessage = makeHeader(result);
-		HashMap<String,String> bodyHm = new HashMap<>();
+		HashMap<String,Object> bodyHm = new HashMap<>();
 		bodyHm.put("bankCode",bankAccountBalanceCheckReqDto.getBankCode());
 		bodyHm.put("accountNo",bankAccountBalanceCheckReqDto.getAccountNo());
 		String bodyMessage = makeBody(bodyHm);
@@ -400,7 +400,7 @@ public class HttpClientTest {
 		String userKey = "06c7432c-09cc-4190-a119-ff5128072c6f";
 		String bankCode = "002";
 		String accountNo = "0027546213312878";
-		String transactionBalance = "10000";
+		int transactionBalance = 10000;
 		String transactionSummary = "이우진 입금합니다";
 		BankAccountDepositReqDto bankAccountDepositReqDto = new BankAccountDepositReqDto();
 		bankAccountDepositReqDto.setUserKey(userKey);
@@ -421,7 +421,7 @@ public class HttpClientTest {
 		requestHeaderDto.setUserKey(bankAccountDepositReqDto.getUserKey()); //확인하려는 계좌의 주인의 유저키가 필요
 		HashMap<String,String> result = objectMapper.convertValue(requestHeaderDto, HashMap.class);
 		String headerMessage = makeHeader(result);
-		HashMap<String,String> bodyHm = new HashMap<>();
+		HashMap<String,Object> bodyHm = new HashMap<>();
 		bodyHm.put("bankCode",bankAccountDepositReqDto.getBankCode()); //은행 코드
 		bodyHm.put("accountNo",bankAccountDepositReqDto.getAccountNo()); //계좌 번호
 		bodyHm.put("transactionBalance",bankAccountDepositReqDto.getTransactionBalance()); //입금 금액
@@ -458,7 +458,7 @@ public class HttpClientTest {
 		String userKey = "06c7432c-09cc-4190-a119-ff5128072c6f";
 		String bankCode = "002";
 		String accountNo = "0027546213312878";
-		String transactionBalance = "5000";
+		int transactionBalance = 5000;
 		String transactionSummary = "이우진 출금합니다";
 		BankAccountWithdrawReqDto bankAccountWithdrawReqDto = new BankAccountWithdrawReqDto();
 		bankAccountWithdrawReqDto.setUserKey(userKey);
@@ -479,7 +479,7 @@ public class HttpClientTest {
 		requestHeaderDto.setUserKey(bankAccountWithdrawReqDto.getUserKey()); //확인하려는 계좌의 주인의 유저키가 필요
 		HashMap<String,String> result = objectMapper.convertValue(requestHeaderDto, HashMap.class);
 		String headerMessage = makeHeader(result);
-		HashMap<String,String> bodyHm = new HashMap<>();
+		HashMap<String,Object> bodyHm = new HashMap<>();
 		bodyHm.put("bankCode",bankAccountWithdrawReqDto.getBankCode()); //은행 코드
 		bodyHm.put("accountNo",bankAccountWithdrawReqDto.getAccountNo()); //계좌 번호
 		bodyHm.put("transactionBalance",bankAccountWithdrawReqDto.getTransactionBalance()); //출금 금액
@@ -516,7 +516,7 @@ public class HttpClientTest {
 		String userKey = "06c7432c-09cc-4190-a119-ff5128072c6f";
 		String depositBankCode = "003";
 		String depositAccountNo = "0032371191906870";
-		String transactionBalance = "10000";
+		int transactionBalance = 10000;
 		String withdrawalBankCode = "002";
 		String withdrawalAccountNo = "0027546213312878";
 		String depositTransactionSummary = "유저이름";
@@ -543,7 +543,7 @@ public class HttpClientTest {
 		requestHeaderDto.setUserKey(bankAccountTransferReqDto.getUserKey()); //확인하려는 계좌의 주인의 유저키가 필요
 		HashMap<String,String> result = objectMapper.convertValue(requestHeaderDto, HashMap.class);
 		String headerMessage = makeHeader(result);
-		HashMap<String,String> bodyHm = new HashMap<>();
+		HashMap<String,Object> bodyHm = new HashMap<>();
 		bodyHm.put("depositBankCode",bankAccountTransferReqDto.getDepositBankCode()); //입금계좌은행코드
 		bodyHm.put("depositAccountNo",bankAccountTransferReqDto.getDepositAccountNo()); //입금계좌번호
 		bodyHm.put("transactionBalance",bankAccountTransferReqDto.getTransactionBalance()); //거래금액
@@ -608,7 +608,7 @@ public class HttpClientTest {
 		requestHeaderDto.setUserKey(transactionHistoryReqDto.getUserKey()); //확인하려는 계좌의 주인의 유저키가 필요
 		HashMap<String,String> result = objectMapper.convertValue(requestHeaderDto, HashMap.class);
 		String headerMessage = makeHeader(result);
-		HashMap<String,String> bodyHm = new HashMap<>();
+		HashMap<String,Object> bodyHm = new HashMap<>();
 		bodyHm.put("bankCode",transactionHistoryReqDto.getBankCode()); //은행코드
 		bodyHm.put("accountNo",transactionHistoryReqDto.getAccountNo()); //계좌번호
 		bodyHm.put("startDate",transactionHistoryReqDto.getStartDate()); //조회시작일자
@@ -669,7 +669,7 @@ public class HttpClientTest {
 	}
 
 	//result를 넣으면 Body를 만들어주는 메소드
-	public static String makeBody(HashMap<String,String> result) throws JsonProcessingException {
+	public static String makeBody(HashMap<String,Object> result) throws JsonProcessingException {
 		return objectMapper.writeValueAsString(result);
 	}
 
@@ -709,8 +709,8 @@ public class HttpClientTest {
 	}
 
 	//은행 정보 제공 메소드 //필요: 프론트엔드에서 유저가 선택한 은행 type
-	public static HashMap<String, String> selectBank(String bankType){
-		HashMap<String,String> returnHm = new HashMap<>();
+	public static HashMap<String, Object> selectBank(String bankType){
+		HashMap<String,Object> returnHm = new HashMap<>();
 		switch (bankType){
 			case "001"://한국은행
 				returnHm.put("accountTypeUniqueNo","001-1-81fe2deafd1943");

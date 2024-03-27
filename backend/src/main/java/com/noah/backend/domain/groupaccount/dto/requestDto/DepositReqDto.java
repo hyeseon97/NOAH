@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class DepositReqDto {
     private Long accountId;
     private Long travelId;
-    private String amount;
+    private int amount;
 }

@@ -127,7 +127,7 @@ public class MemberServiceImpl implements MemberService {
                 .userKey(userKey)
                 .bankCode(typeSsafy)
                 .accountNo(bankAccountCreateResDto.getAccountNumber())
-                .transactionBalance(String.valueOf(money))
+                .transactionBalance(money)
                 .transactionSummary("기존잔액").build();
             bankService.bankAccountDeposit(bankAccountDepositReqDto);
 

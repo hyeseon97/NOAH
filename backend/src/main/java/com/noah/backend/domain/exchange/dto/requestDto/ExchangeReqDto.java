@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class ExchangeReqDto {
     Long travelId;
     String currency;        // 통화
-    String amount;          // 환전금액
+    int amount;          // 환전금액
     int exchangeAmount;  // 외화금액
 }
