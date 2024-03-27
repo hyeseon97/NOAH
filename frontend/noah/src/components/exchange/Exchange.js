@@ -57,7 +57,7 @@ export default function Exchange() {
     fontWeight: 500,
     fontSize: "3.33vw",
     lineHeight: "160%",
-    color: "black",
+    color: "#898989",
 
     width: "50vw",
     height: "8.33vw",

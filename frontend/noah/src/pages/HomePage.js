@@ -5,6 +5,8 @@ import { ReactComponent as My } from "../assets/Icon/My.svg";
 import { useNavigate } from "react-router-dom";
 import Trip from "../components/trip/Trip";
 import Exchange from "./../components/exchange/Exchange";
+import sample1 from "../assets/Image/sample1.jpg";
+import sample2 from "../assets/Image/sample2.png";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -67,6 +69,18 @@ export default function HomePage() {
   const handleTouchStart = (e) => handleSwipeStart(e.touches[0].clientX);
   const handleTouchEnd = (e) => handleSwipeEnd(e.changedTouches[0].clientX);
 
+  function formatTime(date) {
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+
+    // 시간과 분이 10보다 작으면 앞에 '0'을 붙여 두 자리로 만듦
+    const formattedHours = hours < 10 ? `0${hours}` : hours;
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+
+    // '15:36' 형태의 문자열로 결합
+    return `${formattedHours}:${formattedMinutes}`;
+  }
+
   return (
     <>
       <div className={styles.headerContainer}>
@@ -97,6 +111,20 @@ export default function HomePage() {
       </div>
       <div className={styles.exchangeContainer}>
         <Exchange />
+      </div>
+      <div className={styles.paragraphSmall}>
+        {formatTime(new Date())} 환율 기준
+      </div>
+      <div className={styles.reviewHeader}>추천 후기</div>
+      <div className={styles.reviewContainer}>
+        <div className={styles.review}>
+          <img src={sample1} alt="Sample 1" className={styles.reviewImage} />
+          <div className={styles.place}>준규모리현 벚꽃공원</div>
+        </div>
+        <div className={styles.review}>
+          <img src={sample2} alt="Sample 2" className={styles.reviewImage} />
+          <div className={styles.place}>오오건건현 스마트료칸</div>
+        </div>
       </div>
     </>
   );
