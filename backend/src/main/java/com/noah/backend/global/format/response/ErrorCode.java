@@ -16,7 +16,9 @@ public enum ErrorCode {
 
     // 항공(flight)
     REQUIRED_FIELD_FAILED(HttpStatus.BAD_REQUEST, "필수 입력을 모두 입력하지 않았습니다."),
-    EXTERNAL_TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "외부 API 토큰이 만료되었습니다.");
+    EXTERNAL_TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "외부 API 토큰이 만료되었습니다."),
+    AIRPORT_NOT_FOUND_DEP(HttpStatus.NOT_FOUND, "출발 공항을 찾을 수 없습니다."),
+    AIRPORT_NOT_FOUND_DES(HttpStatus.NOT_FOUND, "도착 공항을 찾을 수 없습니다.");
 
     private final HttpStatus status;
     private final String message;

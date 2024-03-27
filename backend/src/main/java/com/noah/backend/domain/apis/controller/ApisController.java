@@ -43,19 +43,41 @@ public class ApisController {
     private final ApiResponse apiResponse;
     private final FlightService flightService;
     private final ForeignCurrencyService foreignCurrencyService;
-    private String accesstoken = "GlwKzrVNzci18GaWU8SClQ71bc8K";
+    private String accesstoken = "zKiPC5FVrFbwt2ChuTBxbVEhtKtZ";
 
 //    @Scheduled(fixedDelay = 1500000)
 //    private void updateAcesstoken() {
 //        accesstoken = "a";
 //    }
 
+    @GetMapping("flight-offers")
+    public ResponseEntity findFlightOffers(FlightOffersDto flightOffersDto) throws IOException, InterruptedException {
+        // test code
+        flightOffersDto = FlightOffersDto.builder()
+            .originLocationCode("ICN")
+            .destinationLocationCode("FUK")
+            .departureDate(LocalDate.of(2024, 5, 12))
+            .adults(3)
+            .build();
+        //
+        JSONObject jsonObject;
+        try {
+            jsonObject = flightService.findFlightOffers(accesstoken, flightOffersDto);
+        }
+        catch (RequiredFilledException e) {
+            e.printStackTrace();
+            return apiResponse.fail(REQUIRED_FIELD_FAILED);
+        }
+        log.info("jsonobject : "+jsonObject);
+        return apiResponse.success(FLIGHT_OFFERS_SUCCESS, jsonObject);
+    }
+
     @GetMapping("/mock/flight-offers")
     public byte[] getMockFlightOffers() throws IOException {
         Resource resource = new FileSystemResource("C:\\Users\\SSAFY\\projectdir\\S10P22B106\\backend\\src\\main\\java\\com\\noah\\backend\\domain\\apis\\mock\\flight-offers.json");
         return Files.readAllBytes(Path.of(resource.getURI()));
     }
-    @GetMapping("flight-offers")
+//    @GetMapping("flight-offers")
     public ResponseEntity getFlightOffers(FlightOffersDto flightOffersDto) throws IOException, InterruptedException {
         // 프론트 dto 임시 제작
         List<String> a = new ArrayList<>();

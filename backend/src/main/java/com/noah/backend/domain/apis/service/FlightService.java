@@ -1,11 +1,15 @@
 package com.noah.backend.domain.apis.service;
 
 import com.noah.backend.domain.apis.dto.AirlineRouteDto;
+import com.noah.backend.domain.apis.dto.AirportDto;
 import com.noah.backend.domain.apis.dto.AirportNearestDto;
 import com.noah.backend.domain.apis.dto.AirportRouteDto;
 import com.noah.backend.domain.apis.dto.FlightOffersDto;
 import com.noah.backend.domain.apis.dto.FlightPriceDto;
+import com.noah.backend.domain.apis.repository.AirportRepository;
+import com.noah.backend.global.exception.flight.AirportNotFoundException;
 import com.noah.backend.global.exception.flight.RequiredFilledException;
+import com.noah.backend.global.format.response.ErrorCode;
 import java.io.IOException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -14,6 +18,7 @@ import java.net.http.HttpResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +26,48 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Slf4j
 public class FlightService {
+    private final AirportRepository airportRepository;
+
+    public JSONObject findFlightOffers(String accessToken, FlightOffersDto dto)
+        throws IOException, InterruptedException {
+        if (dto.getOriginLocationCode() == null
+        || dto.getDestinationLocationCode() == null
+        || dto.getDepartureDate() == null
+        || dto.getAdults() == null) throw  new RequiredFilledException();
+
+        AirportDto location = airportRepository.findByName(dto.getOriginLocationCode())
+            .orElseThrow(() -> new AirportNotFoundException(ErrorCode.AIRPORT_NOT_FOUND_DEP));
+        AirportDto destinationLocation = airportRepository.findByName(dto.getDestinationLocationCode())
+            .orElseThrow(() -> new AirportNotFoundException(ErrorCode.AIRPORT_NOT_FOUND_DES));
+
+        String url = "https://test.api.amadeus.com/v2/shopping/flight-offers"
+            + "?originLocationCode=" + location.getIata()
+            + "&destinationLocationCode=" + destinationLocation.getIata()
+            + "&departureDate=" + dto.getDepartureDate().toString().substring(0, 10)
+            + "&adults=" + dto.getAdults()
+            + "&nonStop=true"
+            + "&currencyCode=KRW"
+            + "&max=20";
+
+        HttpClient httpClient = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(url))
+            .header("accept", "application/vnd.amadeus+json")
+            .header("Authorization", "Bearer "+accessToken)
+            .build();
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+//        return new JSONObject(response.body());
+
+//         json 데이터 조작하는 부분, 나중에 필요하면 수정해서 반영하기
+        JSONObject jsonObject = new JSONObject(response.body());
+        JSONArray jsonArray = jsonObject.getJSONArray("data");
+        int cnt = 0;
+        JSONObject result = new JSONObject();
+        for (Object o : jsonArray) {
+            result.append(cnt++ +"", o);
+        }
+        return result;
+    }
     public JSONObject getFlightOffers(String accessToken, FlightOffersDto dto)
         throws IOException, InterruptedException {
         if (dto.getOriginLocationCode() == null
