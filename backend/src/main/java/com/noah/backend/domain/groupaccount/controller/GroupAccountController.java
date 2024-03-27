@@ -73,8 +73,8 @@ public class GroupAccountController {
     }
 
     @Operation(summary = "모임 단건 통장 조회", description = "모임 통장 단건 조회")
-    @GetMapping("/{group_account_Id}")
-    public ResponseEntity<?> getGroupAccount(@PathVariable(name = "group_account_Id") Long groupAccountId) {
+    @GetMapping("/{groupAccountId}")
+    public ResponseEntity<?> getGroupAccount(@PathVariable(name = "groupAccountId") Long groupAccountId) {
         GroupAccountInfoDto groupAccountInfoDto = groupAccountService.groupAccountInfo(groupAccountId);
         return response.success(ResponseCode.GROUP_ACCOUNT_INFO_FETCHED, groupAccountInfoDto);
     }
@@ -91,7 +91,7 @@ public class GroupAccountController {
     }
 
     @Operation(summary = "모임 통장 내용 수정", description = "목표금액, 납입금, 납부일, 수정")
-    @PutMapping("/{group_account_Id}")
+    @PutMapping()
     public ResponseEntity<?> updateGroupAccount(@Parameter(hidden = true) Authentication authentication,
                                                 @RequestBody GroupAccountUpdateDto groupAccountUpdateDto) {
         Long memberId = memberService.searchMember(authentication).getMemberId();
@@ -99,14 +99,14 @@ public class GroupAccountController {
     }
 
     @Operation(summary = "모임통장에 속해있는 멤버, 납입금 조회", description = "모임통장에 속해있는 멤버, 납입금 조회")
-    @GetMapping("/member/{travel_id}")
-    public ResponseEntity<?> getGroupAccountMembers(@PathVariable(name = "travel_id") Long travelId) {
+    @GetMapping("/member/{travelId}")
+    public ResponseEntity<?> getGroupAccountMembers(@PathVariable(name = "travelId") Long travelId) {
         return response.success(ResponseCode.GROUP_ACCOUNT_MEMBER_LIST_FETCHED, groupAccountService.getGroupAccountMembers(travelId));
     }
 
     @Operation(summary = "모임통장 멤버별 필수 납입금 조회", description = "모임통장 멤버별 필수 납입금 조회")
-    @GetMapping("/totalDue/{travel_id}")
-    public ResponseEntity<?> getTotalPayInfo(@PathVariable(name = "travel_id") Long travelId) {
+    @GetMapping("/totalDue/{travelId}")
+    public ResponseEntity<?> getTotalPayInfo(@PathVariable(name = "travelId") Long travelId) {
         int result = groupAccountService.getTotalPay(travelId);
         return response.success(ResponseCode.GROUP_ACCOUNT_TOTAL_PAY_INFO, result);
     }

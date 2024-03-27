@@ -32,14 +32,6 @@ public class TravelController {
     private final MemberService memberService;
     private final MemberTravelService memberTravelService;
 
-//    @PostMapping()
-//    public ResponseEntity<?> create(Authentication authentication, TravelPostDto travelPostDto){
-//
-//
-//        String email = authentication.getName();
-//        Member member = memberService.findByEmail(email);
-//    }
-
     @Operation(summary = "여행 전체 조회", description = "여행 전체 목록 조회")
     @GetMapping("/allTravel")
     public ResponseEntity<?> getTravelList(){
@@ -68,14 +60,6 @@ public class TravelController {
 
     }
 
-//    @Operation(summary = "여행 생성", description = "여행 생성 기능")
-//    @PostMapping
-//    public ResponseEntity<?> createTravel(@RequestBody TravelPostDto travelPostDto, @RequestParam(value = "memberId") Long memberId){
-//
-//        Long createTravelId = travelService.createTravelTest(travelPostDto, memberId);
-//        return response.success(ResponseCode.TRAVEL_CREATED, createTravelId);
-//    }
-    
     @Operation(summary = "여행 생성", description = "여행 생성 기능")
     @PostMapping
     public ResponseEntity<?> createTravel(@RequestBody TravelPostDto travelPostDto, @Parameter(hidden = true) Authentication authentication){
@@ -83,7 +67,7 @@ public class TravelController {
         Long memberId = memberService.searchMember(authentication).getMemberId();
 
         Long createTravelId = travelService.createTravelTest(travelPostDto, memberId);
-        return ResponseEntity.ok(createTravelId);
+        return response.success(ResponseCode.TRAVEL_CREATED, createTravelId);
     }
 
 
