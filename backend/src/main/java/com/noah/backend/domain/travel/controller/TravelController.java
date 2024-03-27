@@ -48,7 +48,7 @@ public class TravelController {
         return response.success(ResponseCode.TRAVEL_INFO_FETCHED, selectTravel);
     }
 
-    @Operation(summary = "여행 회원 ID 조회", description = "여행 회원 ID 조회 / mamberId 필요")
+    @Operation(summary = "메인페이지에 표시할 나의 여행 리스트 조회", description = "여행별 모임통장, 환율, 추천 조회")
     @GetMapping("/list")
     public ResponseEntity<?> getTravelMember(@Parameter(hidden = true) Authentication authentication){
 
