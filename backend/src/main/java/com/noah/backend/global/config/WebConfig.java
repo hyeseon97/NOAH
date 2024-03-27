@@ -28,6 +28,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .maxAge(3600);
     }
 
+
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(accessTokenArgumentResolver);
