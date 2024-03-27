@@ -56,12 +56,11 @@ public class TradeRepositoryImpl implements TradeRepositoryCustom {
                                 trade.time,
                                 trade.cost,
                                 trade.amount,
-                                trade.member.nickname,
                                 trade.consumeType))
                 .from(trade)
-                .where(trade.account.id.eq(accountId),
+                .where(trade.account.id.eq(accountId)
+                        ,trade.isContained.isTrue()
 //                        trade.date.between(startDate, endDate),
-                        trade.isContained.isTrue()
                 )
                 .orderBy(trade.date.asc(), trade.time.asc())
                 .fetch());
