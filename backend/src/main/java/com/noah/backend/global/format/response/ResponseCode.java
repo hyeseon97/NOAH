@@ -26,6 +26,7 @@ public enum ResponseCode {
     ACCOUNT_INFO_FETCHED(HttpStatus.OK, "계좌정보가 성공적으로 조회되었습니다."),
     ACCOUNT_DELETED(HttpStatus.OK, "계좌가 성공적으로 삭제되었습니다."),
     ACCOUNT_INFO_UPDATED(HttpStatus.OK, "계좌정보가 성공적으로 수정되었습니다."),
+    ACCOUNT_AUTO_SET_SUCCESS(HttpStatus.OK, "자동이체 계좌를 성공적으로 설정했습니다."),
 
     // 항공(flight)
 //    SERVER_ACCESS_SUCCESS(HttpStatus.OK, "서버 통신 성공"),

@@ -2,6 +2,7 @@ package com.noah.backend.domain.account.entity;
 
 import com.noah.backend.domain.base.BaseEntity;
 import com.noah.backend.domain.member.entity.Member;
+import com.noah.backend.domain.memberTravel.entity.MemberTravel;
 import com.noah.backend.domain.trade.entity.Trade;
 import jakarta.persistence.*;
 import lombok.*;
@@ -54,4 +55,7 @@ public class Account extends BaseEntity {
 
     @OneToMany(mappedBy = "account", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<Trade> tradeList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "account", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    private List<MemberTravel> memberTravelList = new ArrayList<>();
 }
