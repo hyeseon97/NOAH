@@ -24,6 +24,10 @@ public class QMemberTravel extends EntityPathBase<MemberTravel> {
 
     public final com.noah.backend.domain.base.QBaseEntity _super = new com.noah.backend.domain.base.QBaseEntity(this);
 
+    public final com.noah.backend.domain.account.entity.QAccount account;
+
+    public final BooleanPath autoTransfer = createBoolean("autoTransfer");
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
@@ -59,6 +63,7 @@ public class QMemberTravel extends EntityPathBase<MemberTravel> {
 
     public QMemberTravel(Class<? extends MemberTravel> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.account = inits.isInitialized("account") ? new com.noah.backend.domain.account.entity.QAccount(forProperty("account"), inits.get("account")) : null;
         this.member = inits.isInitialized("member") ? new com.noah.backend.domain.member.entity.QMember(forProperty("member")) : null;
         this.travel = inits.isInitialized("travel") ? new com.noah.backend.domain.travel.entity.QTravel(forProperty("travel"), inits.get("travel")) : null;
     }
