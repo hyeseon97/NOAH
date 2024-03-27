@@ -1,0 +1,45 @@
+.logoContainer {
+  margin-top: 6.5vh;
+  margin-bottom: 6.5vh;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginFooter {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 11.1vw;
+  margin-top: 4.44vw;
+
+  /* Paragraph/Medium */
+  /* 둘러보기 */
+
+  /* Paragraph/Medium */
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 4.44vw;
+  line-height: 160%;
+  /* identical to box height, or 26px */
+
+  color: #000000;
+}
+
+.agreementCheckbox {
+  margin-top: 10px;
+  margin-bottom: 1vw;
+
+  font-family: "Pretendard";
+  font-style: "normal";
+  line-height: "160%";
+  color: "black";
+  font-size: "3.3vw";
+  margin-left: "6vw";
+}

@@ -25,5 +25,7 @@ public interface GroupAccountService {
 
     List<MemberTravelListGetDto> getGroupAccountMembers(Long travelId);
 
-    void depositIntoGroupAccount(Authentication authentication, DepositReqDto depositReqDto) throws IOException;
+    void depositIntoGroupAccount(String email, DepositReqDto depositReqDto) throws IOException;
+
+    void autoTransferGroupAccount() throws IOException;
 }

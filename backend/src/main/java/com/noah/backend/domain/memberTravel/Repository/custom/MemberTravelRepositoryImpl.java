@@ -11,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.Optional;
 
+import static com.noah.backend.domain.groupaccount.entity.QGroupAccount.groupAccount;
 import static com.noah.backend.domain.memberTravel.entity.QMemberTravel.memberTravel;
+import static com.noah.backend.domain.travel.entity.QTravel.travel;
 
 @RequiredArgsConstructor
 public class MemberTravelRepositoryImpl implements MemberTravelRepositoryCustom {
@@ -55,5 +57,15 @@ public class MemberTravelRepositoryImpl implements MemberTravelRepositoryCustom 
                 .where(memberTravel.member.id.eq(memberId).and(memberTravel.travel.id.eq(travelId)))
                 .fetchOne();
         return Optional.ofNullable(memberTravelId);
+    }
+
+    @Override
+    public Optional<List<MemberTravel>> getAutoTransfer(int todayDate) {
+        return Optional.ofNullable(query.select(memberTravel)
+                                       .from(memberTravel)
+                                       .leftJoin(travel).on(memberTravel.travel.id.eq(travel.id))
+                                       .leftJoin(groupAccount).on(groupAccount.travel.id.eq(travel.id))
+                                       .where(memberTravel.autoTransfer.eq(true).and(groupAccount.paymentDate.eq(todayDate).and(memberTravel.isDeleted.eq(false))))
+                                       .fetch());
     }
 }

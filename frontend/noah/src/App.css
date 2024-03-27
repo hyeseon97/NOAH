@@ -1,0 +1,330 @@
+.App {
+}
+
+/* Colors */
+:root {
+  --white: #ffffff;
+  --black: #000000;
+  --sky: #56ccf2;
+  --sea: #2f80ed;
+  --blue-100: #cce3ff;
+  --blue-200: #99c8ff;
+  --blue-300: #66acff;
+  --blue-400: #3391ff;
+  --blue-500: #0075ff;
+  --blue-600: #005ecc;
+  --blue-700: #004699;
+  --blue-800: #002f66;
+  --blue-900: #001733;
+  --red-100: #f9d1cc;
+  --red-200: #f3a399;
+  --red-300: #ed7566;
+  --red-400: #e74733;
+  --red-500: #e11900;
+  --red-600: #b41400;
+  --red-700: #870f00;
+  --red-800: #5a0a00;
+  --red-900: #2d0500;
+  --yellow-100: #fff2d9;
+  --yellow-200: #ffe6b4;
+  --yellow-300: #ffd98e;
+  --yellow-400: #ffcd69;
+  --yellow-500: #ffc043;
+  --yellow-600: #cc9a36;
+  --yellow-700: #997328;
+  --yellow-800: #664d1b;
+  --yellow-900: #33260d;
+  --green-100: #cde7da;
+  --green-200: #9bcfb6;
+  --green-300: #68b891;
+  --green-400: #36a06d;
+  --green-500: #048848;
+  --green-600: #036d3a;
+  --green-700: #02522b;
+  --green-800: #02361d;
+  --green-900: #011b0e;
+  --grey-100: #f0f0f0;
+  --grey-200: #e1e1e1;
+  --grey-300: #d3d3d3;
+  --grey-400: #c4c4c4;
+  --grey-500: #b5b5b5;
+  --grey-600: #919191;
+  --grey-700: #6d6d6d;
+  --grey-800: #484848;
+  --grey-900: #242424;
+}
+
+/* Spacing */
+:root {
+  --base-spacing: 4px;
+  --spacing-8: calc(var(--base-spacing) * 2);
+  --spacing-12: calc(var(--spacing-8) + var(--base-spacing));
+  --spacing-16: calc(var(--spacing-12) + var(--base-spacing));
+  --spacing-20: calc(var(--spacing-16) + var(--base-spacing));
+  --spacing-24: calc(var(--spacing-20) + var(--base-spacing));
+  --spacing-28: calc(var(--spacing-24) + var(--base-spacing));
+  --spacing-32: calc(var(--spacing-28) + var(--base-spacing));
+  --spacing-36: calc(var(--spacing-32) + var(--base-spacing));
+  --spacing-40: calc(var(--spacing-36) + var(--base-spacing));
+  --spacing-44: calc(var(--spacing-40) + var(--base-spacing));
+  --spacing-48: calc(var(--spacing-44) + var(--base-spacing));
+  --spacing-52: calc(var(--spacing-48) + var(--base-spacing));
+  --spacing-56: calc(var(--spacing-52) + var(--base-spacing));
+  --spacing-60: calc(var(--spacing-56) + var(--base-spacing));
+  --spacing-64: calc(var(--spacing-60) + var(--base-spacing));
+}
+
+/* Line Heights */
+:root {
+  --line-height-140: 140%;
+  --line-height-150: 150%;
+  --line-height-160: 160%;
+}
+
+/* Font Sizes */
+:root {
+  --default-font-size: 16px;
+  --font-size-heading-medium: var(--default-font-size);
+  --font-size-heading-large: calc(var(--default-font-size) * 1.333);
+  --font-size-heading-xl: calc(var(--font-size-heading-large) * 1.333);
+  --font-size-heading-xxl: calc(var(--font-size-heading-xl) * 1.333);
+  --font-size-heading-xxxl: calc(var(--font-size-heading-xxl) * 1.333);
+  --font-size-label-medium: var(--default-font-size);
+  --font-size-label-large: calc(var(--default-font-size) * 1.333);
+  --font-size-label-xl: calc(var(--font-size-label-large) * 1.333);
+  --font-size-label-xxl: calc(var(--font-size-label-xl) * 1.333);
+  --font-size-paragraph-medium: var(--default-font-size);
+  --font-size-paragraph-large: calc(var(--default-font-size) * 1.333);
+  --font-size-paragraph-xl: calc(var(--font-size-paragraph-large) * 1.333);
+}
+
+/* Font Families */
+:root {
+  --font-family-pretendard: "Pretendard", sans-serif;
+}
+
+/* Font Weights */
+:root {
+  --font-weight-bold: 700;
+  --font-weight-semi-bold: 500;
+  --font-weight-regular: 400;
+}
+
+/* Border */
+:root {
+  --border-color-opaque: #c4c4c4;
+  --border-color-transparent: #8989894d;
+}
+
+/* Transparent Colors */
+:root {
+  --positive-transparent: #0488481a;
+  --negative-transparent: #e119001a;
+}
+
+/* Foundation */
+:root {
+  --foundation-primary: var(--sea);
+  --foundation-secondary: var(--sky);
+}
+
+/* Scale */
+:root {
+  --scale: 1.333;
+}
+
+/* Typography - Heading */
+:root {
+  --typography-heading-xxxl: {
+    font-family: var(--font-family-pretendard);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-140);
+    font-size: var(--font-size-heading-xxxl);
+    letter-spacing: var(--letter-spacing-0);
+    paragraph-spacing: var(--paragraph-spacing-0);
+    paragraph-indent: var(--paragraph-indent-0);
+    text-case: var(--text-case-none);
+    text-decoration: var(--text-decoration-none);
+  }
+
+  --typography-heading-xxl: {
+    font-family: var(--font-family-pretendard);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-140);
+    font-size: var(--font-size-heading-xxl);
+    letter-spacing: var(--letter-spacing-0);
+    paragraph-spacing: var(--paragraph-spacing-0);
+    paragraph-indent: var(--paragraph-indent-0);
+    text-case: var(--text-case-none);
+    text-decoration: var(--text-decoration-none);
+  }
+
+  --typography-heading-xl: {
+    font-family: var(--font-family-pretendard);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-140);
+    font-size: var(--font-size-heading-xl);
+    letter-spacing: var(--letter-spacing-0);
+    paragraph-spacing: var(--paragraph-spacing-0);
+    paragraph-indent: var(--paragraph-indent-0);
+    text-case: var(--text-case-none);
+    text-decoration: var(--text-decoration-none);
+  }
+
+  --typography-heading-large: {
+    font-family: var(--font-family-pretendard);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-140);
+    font-size: var(--font-size-heading-large);
+    letter-spacing: var(--letter-spacing-0);
+    paragraph-spacing: var(--paragraph-spacing-0);
+    paragraph-indent: var(--paragraph-indent-0);
+    text-case: var(--text-case-none);
+    text-decoration: var(--text-decoration-none);
+  }
+}
+
+/* Typography - Label */
+:root {
+  --typography-label-medium: {
+    font-family: var(--font-family-pretendard);
+    font-weight: var(--font-weight-semi-bold);
+    line-height: var(--line-height-150);
+    font-size: var(--font-size-label-medium);
+    letter-spacing: var(--letter-spacing-0);
+    paragraph-spacing: var(--paragraph-spacing-0);
+    paragraph-indent: var(--paragraph-indent-0);
+    text-case: var(--text-case-none);
+    text-decoration: var(--text-decoration-none);
+  }
+
+  --typography-label-small: {
+    font-family: var(--font-family-pretendard);
+    font-weight: var(--font-weight-semi-bold);
+    line-height: var(--line-height-150);
+    font-size: var(--font-size-label-small);
+    letter-spacing: var(--letter-spacing-0);
+    paragraph-spacing: var(--paragraph-spacing-0);
+    paragraph-indent: var(--paragraph-indent-0);
+    text-case: var(--text-case-none);
+    text-decoration: var(--text-decoration-none);
+  }
+
+  --typography-label-xxl: {
+    font-family: var(--font-family-pretendard);
+    font-weight: var(--font-weight-semi-bold);
+    line-height: var(--line-height-150);
+    font-size: var(--font-size-label-xxl);
+    letter-spacing: var(--letter-spacing-0);
+    paragraph-spacing: var(--paragraph-spacing-0);
+    paragraph-indent: var(--paragraph-indent-0);
+    text-case: var(--text-case-none);
+    text-decoration: var(--text-decoration-none);
+  }
+
+  --typography-label-xl: {
+    font-family: var(--font-family-pretendard);
+    font-weight: var(--font-weight-semi-bold);
+    line-height: var(--line-height-150);
+    font-size: var(--font-size-label-xl);
+    letter-spacing: var(--letter-spacing-0);
+    paragraph-spacing: var(--paragraph-spacing-0);
+    paragraph-indent: var(--paragraph-indent-0);
+    text-case: var(--text-case-none);
+    text-decoration: var(--text-decoration-none);
+  }
+
+  --typography-label-large: {
+    font-family: var(--font-family-pretendard);
+    font-weight: var(--font-weight-semi-bold);
+    line-height: var(--line-height-150);
+    font-size: var(--font-size-label-large);
+    letter-spacing: var(--letter-spacing-0);
+    paragraph-spacing: var(--paragraph-spacing-0);
+    paragraph-indent: var(--paragraph-indent-0);
+    text-case: var(--text-case-none);
+    text-decoration: var(--text-decoration-none);
+  }
+}
+
+/* Typography - Paragraph */
+:root {
+  --typography-paragraph-medium: {
+    font-family: var(--font-family-pretendard);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-160);
+    font-size: var(--font-size-paragraph-medium);
+    letter-spacing: var(--letter-spacing-0);
+    paragraph-spacing: var(--paragraph-spacing-0);
+    paragraph-indent: var(--paragraph-indent-0);
+    text-case: var(--text-case-none);
+    text-decoration: var(--text-decoration-none);
+  }
+
+  --typography-paragraph-small: {
+    font-family: var(--font-family-pretendard);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-160);
+    font-size: var(--font-size-paragraph-small);
+    letter-spacing: var(--letter-spacing-0);
+    paragraph-spacing: var(--paragraph-spacing-0);
+    paragraph-indent: var(--paragraph-indent-0);
+    text-case: var(--text-case-none);
+    text-decoration: var(--text-decoration-none);
+  }
+
+  --typography-paragraph-xl: {
+    font-family: var(--font-family-pretendard);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-160);
+    font-size: var(--font-size-paragraph-xl);
+    letter-spacing: var(--letter-spacing-0);
+    paragraph-spacing: var(--paragraph-spacing-0);
+    paragraph-indent: var(--paragraph-indent-0);
+    text-case: var(--text-case-none);
+    text-decoration: var(--text-decoration-none);
+  }
+
+  --typography-paragraph-large: {
+    font-family: var(--font-family-pretendard);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-160);
+    font-size: var(--font-size-paragraph-large);
+  }
+}
+
+/* Typography - Font Family */
+:root {
+  --font-family-pretendard: "Pretendard";
+}
+
+/* Typography - Font Weights */
+:root {
+  --font-weight-bold: "Bold";
+  --font-weight-semi-bold: "SemiBold";
+  --font-weight-regular: "Regular";
+}
+
+/* Line Heights */
+:root {
+  --line-height-140: 140%;
+  --line-height-150: 150%;
+  --line-height-160: 160%;
+}
+
+/* Font Sizes */
+:root {
+  --font-size-heading-xxxl: var(--heading-xl);
+  --font-size-heading-xxl: var(--heading-xxl);
+  --font-size-heading-xl: var(--heading-xl);
+  --font-size-heading-large: var(--heading-large);
+  --font-size-label-medium: var(--label-medium);
+  --font-size-label-small: var(--label-small);
+  --font-size-label-xxl: var(--label-xxl);
+  --font-size-label-xl: var(--label-xl);
+  --font-size-label-large: var(--label-large);
+  --font-size-paragraph-medium: var(--paragraph-medium);
+  --font-size-paragraph-small: var(--paragraph-small);
+  --font-size-paragraph-xl: var(--paragraph-xl);
+  --font-size-paragraph-large: var(--paragraph-large);
+}
