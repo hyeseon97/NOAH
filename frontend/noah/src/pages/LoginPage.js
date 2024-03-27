@@ -1,3 +1,4 @@
+import { login } from "../api/member/member";
 import Button from "../components/common/Button";
 import Input from "../components/common/Input";
 import Logo from "../components/common/Logo";
@@ -24,6 +25,7 @@ export default function LoginPage() {
   //formData 전송
   const handleLoginClick = () => {
     /* 로그인 API 작성 + 유효성 검사 */
+    login(formData);
     /* 로그인 실패 시 */
     setLoginFailedMessage("아이디와 비밀번호를 다시 확인해주세요.");
 
