@@ -1,5 +1,6 @@
 package com.noah.backend.domain.memberTravel.Service;
 
+import com.noah.backend.domain.account.dto.requestDto.AutoTransferPostDto;
 import com.noah.backend.domain.memberTravel.dto.Request.MemberTravelInviteDto;
 import com.noah.backend.domain.memberTravel.dto.Request.MemberTravelPostDto;
 import com.noah.backend.domain.memberTravel.dto.Request.MemberTravelUpdateDto;
@@ -14,4 +15,7 @@ public interface MemberTravelService {
 
     public void deleteResistMember(Long memberTravelId);
 
+    void setAutoTransfer(String email, AutoTransferPostDto autoTransferPostDto);
+
+    void deleteAutoTransfer(String email, Long travelId);
 }

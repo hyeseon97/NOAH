@@ -1,5 +1,6 @@
 package com.noah.backend.domain.memberTravel.entity;
 
+import com.noah.backend.domain.account.entity.Account;
 import com.noah.backend.domain.base.BaseEntity;
 import com.noah.backend.domain.member.entity.Member;
 import com.noah.backend.domain.travel.entity.Travel;
@@ -27,6 +28,10 @@ public class MemberTravel extends BaseEntity {
 	private int payment_amount;
 
 	@Setter
+	@Column(name = "auto_transfer")
+	private boolean autoTransfer = false;
+
+	@Setter
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
 	private Member member;
@@ -34,5 +39,10 @@ public class MemberTravel extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "travel_id")
 	private Travel travel;
+
+	@Setter
+	@ManyToOne(fetch =  FetchType.LAZY)
+	@JoinColumn(name = "account_id", nullable = true)
+	private Account account;
 	
 }

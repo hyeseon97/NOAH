@@ -45,7 +45,7 @@ public class NotificationController {
     }
 
     @Operation(summary = "여행 초대 알림 수락", description = "여행 초대 알림 수락")
-    @PostMapping("/accept/{notificationId}")
+    @GetMapping("/accept/{notificationId}")
     public ResponseEntity<?> inviteAccept(@Parameter(hidden = true) Authentication authentication,
                                           @PathVariable(name = "notificationId") Long notificationId) {
         Long travelId = notificationService.inviteAccept(authentication.getName(), notificationId);
@@ -53,7 +53,7 @@ public class NotificationController {
     }
 
     @Operation(summary = "여행 초대 알림 거절", description = "여행 초대 알림 거절")
-    @PostMapping("/refuse/{notificationId}")
+    @GetMapping("/refuse/{notificationId}")
     public ResponseEntity<?> inviteRefuse(@Parameter(hidden = true) Authentication authentication,
                                           @PathVariable(name = "notificationId") Long notificationId) {
         notificationService.inviteRefuse(authentication.getName(), notificationId);
