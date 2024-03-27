@@ -23,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Tag(name = "모임통장 컨트롤러", description = "Group Account Controller API")
@@ -40,7 +41,7 @@ public class GroupAccountController {
     @Operation(summary = "모임 통장 생성", description = "은행 계좌 생성 -> 우리 계좌 생성 -> 모임 통장 생성")
     @PostMapping
     public ResponseEntity<?> createGroupAccount(@Parameter(hidden = true) Authentication authentication,
-                                                @RequestBody GroupAccountRequestDto groupAccountRequestDto) throws JsonProcessingException {
+                                                @RequestBody GroupAccountRequestDto groupAccountRequestDto) throws IOException {
 
         BankAccountCreateReqDto bankAccountCreateReqDto = BankAccountCreateReqDto.builder()
                 .userKey(memberService.searchMember(authentication).getUserKey())
@@ -81,7 +82,7 @@ public class GroupAccountController {
 
     @Operation(summary = "사용자가 속해있는 모임통장 전체조회", description = "사용자가 속해있는 모임통장 전체 조회")
     @GetMapping
-    public ResponseEntity<?> getMyGroupAccountList(@Parameter(hidden = true) Authentication authentication) throws JsonProcessingException {
+    public ResponseEntity<?> getMyGroupAccountList(@Parameter(hidden = true) Authentication authentication) throws IOException {
         Long memberId = memberService.searchMember(authentication).getMemberId();
         List<GroupAccountInfoDto> result = groupAccountService.getGroupAccountListByMemberId(memberId);
         if (result.isEmpty()) {
@@ -113,7 +114,7 @@ public class GroupAccountController {
 
     @Operation(summary = "모임통장에 입금", description = "모임통장에 입금")
     @PostMapping("/deposit")
-    public ResponseEntity<?> depositIntoGroupAccount(@Parameter(hidden = true) Authentication authentication, @RequestBody DepositReqDto depositReqDto) throws JsonProcessingException {
+    public ResponseEntity<?> depositIntoGroupAccount(@Parameter(hidden = true) Authentication authentication, @RequestBody DepositReqDto depositReqDto) throws IOException {
         groupAccountService.depositIntoGroupAccount(authentication.getName(), depositReqDto);
         return response.success(ResponseCode.DEPOSIT_SUCCESS);
     }

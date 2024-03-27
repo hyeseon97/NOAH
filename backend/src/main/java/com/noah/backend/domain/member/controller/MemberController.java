@@ -31,6 +31,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+
 @Tag(name = "Member 컨트롤러", description = "Member Controller API")
 @RestController
 @RequiredArgsConstructor
@@ -51,7 +53,7 @@ public class MemberController {
     @Operation(summary = "일반 회원가입", description = "일반 회원가입")
     @PostMapping
     public ResponseEntity<?> signup(@Valid @RequestBody SignupRequestDto requestDto,
-                                    BindingResult bindingResult) throws JsonProcessingException {
+                                    BindingResult bindingResult) throws IOException {
 
         if (bindingResult.hasErrors()) {
             return response.fail(bindingResult);

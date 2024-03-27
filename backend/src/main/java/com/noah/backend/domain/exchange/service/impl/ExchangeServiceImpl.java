@@ -27,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Map;
 
 @Slf4j
@@ -42,7 +43,7 @@ public class ExchangeServiceImpl implements ExchangeService {
     private final MemberRepository memberRepository;
 
     @Override
-    public Long createExchange(ExchangeReqDto exchangeReqDto) throws JsonProcessingException {
+    public Long createExchange(ExchangeReqDto exchangeReqDto) throws IOException {
         Travel travel = travelRepository.findById(exchangeReqDto.getTravelId()).orElseThrow(TravelNotFoundException::new);
         GroupAccount groupAccount = groupAccountRepository.findById(travel.getGroupAccount().getId()).orElseThrow(GroupAccountNotFoundException::new);
         Account account = accountRepository.findById(groupAccount.getAccount().getId()).orElseThrow(AccountNotFoundException::new);
@@ -65,7 +66,7 @@ public class ExchangeServiceImpl implements ExchangeService {
                 .bankCode(bankCode)
                 .accountNo(account.getAccountNumber())
                 .transactionBalance(amount)
-                .transactionSummary(travel.getTitle() + "여행의 모임통장에서 " + amount + "의 금액을 " + currencyName + " 로 환전합니다.")
+                .transactionSummary("E" + currencyName + "M:" + amount)
                 .build();
         bankService.bankAccountWithdraw(bankAccountWithdrawReqDto);
 

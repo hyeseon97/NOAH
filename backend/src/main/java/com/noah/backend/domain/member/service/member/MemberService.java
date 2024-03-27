@@ -9,9 +9,11 @@ import com.noah.backend.domain.member.dto.responseDto.MemberInfoDto;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 
+import java.io.IOException;
+
 public interface MemberService {
 
-    Long create(SignupRequestDto requestDto) throws JsonProcessingException;
+    Long create(SignupRequestDto requestDto) throws IOException;
 
     boolean checkNicknameDuplication(String nickname);
 

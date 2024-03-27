@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @Tag(name = "Exchange 컨트롤러", description = "Exchange Controller API")
 @RestController
 @RequiredArgsConstructor
@@ -24,7 +26,7 @@ public class ExchangeController {
 
     @Operation(summary = "환전", description = "모임통장의 계좌 출금, 환전 생성")
     @PostMapping
-    public ResponseEntity<?> exchangeGroupAccount(@RequestBody ExchangeReqDto exchangeReqDto) throws JsonProcessingException {
+    public ResponseEntity<?> exchangeGroupAccount(@RequestBody ExchangeReqDto exchangeReqDto) throws IOException {
         return response.success(ResponseCode.EXCHANGE_SUCCESS, exchangeService.createExchange(exchangeReqDto));
     }
 

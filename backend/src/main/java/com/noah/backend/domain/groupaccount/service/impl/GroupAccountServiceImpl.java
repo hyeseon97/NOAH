@@ -38,6 +38,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -59,7 +60,7 @@ public class GroupAccountServiceImpl implements GroupAccountService {
 
     @Transactional
     @Override
-    public List<GroupAccountInfoDto> getGroupAccountListByMemberId(Long memberId) throws JsonProcessingException {
+    public List<GroupAccountInfoDto> getGroupAccountListByMemberId(Long memberId) throws IOException {
         // accountId List 받아오기
         List<Long> accountIds = groupAccountRepository.getGroupAccountIdsByMemberId(memberId).orElseThrow(GroupAccountNotFoundException::new);
         for (Long accountId : accountIds) {
@@ -157,7 +158,7 @@ public class GroupAccountServiceImpl implements GroupAccountService {
 
     @Transactional
     @Override
-    public void depositIntoGroupAccount(String email, DepositReqDto depositReqDto) throws JsonProcessingException {
+    public void depositIntoGroupAccount(String email, DepositReqDto depositReqDto) throws IOException {
         /* 돈 보내는 사람 정보 */
         Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
 
@@ -184,13 +185,13 @@ public class GroupAccountServiceImpl implements GroupAccountService {
         // Bank서비스에 맞게 dto 생성
         BankAccountTransferReqDto bankAccountTransferReqDto = BankAccountTransferReqDto.builder()
                 .userKey(userKey)
-                .depositBankCode(depositBankCode)
-                .depositAccountNo(account.getAccountNumber())
+                .depositBankCode(withDrawBankCode)
+                .depositAccountNo(groupAccountInfoDto.getAccountNumber())
                 .transactionBalance(amount)
-                .withdrawalBankCode(withDrawBankCode)
-                .withdrawalAccountNo(groupAccountInfoDto.getAccountNumber())
-                .depositTransactionSummary(userName + "님이 " + amount + "원을 입금하셨습니다.")
-                .withdrawalTransactionSummary(userName + "님이 " + amount + "원을 입금하셨습니다.")
+                .withdrawalBankCode(depositBankCode)
+                .withdrawalAccountNo(account.getAccountNumber())
+                .depositTransactionSummary("D:"+ userName + "/"+ "B" + amount)
+                .withdrawalTransactionSummary("W:" + userName + "/"+"B" + amount)
                 .build();
         bankService.bankAccountTransfer(bankAccountTransferReqDto);
 
@@ -206,7 +207,7 @@ public class GroupAccountServiceImpl implements GroupAccountService {
     // 자동계좌이체
     @Scheduled(cron = "0 0 10 ? * *")
     @Override
-    public void autoTransferGroupAccount() throws JsonProcessingException {
+    public void autoTransferGroupAccount() throws IOException {
 
         int todayDate = LocalDate.now().getDayOfMonth();
         List<MemberTravel> memberTravelList = memberTravelRepository.getAutoTransfer(todayDate).orElse(null);

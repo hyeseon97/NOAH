@@ -21,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -52,7 +53,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Transactional
     @Override
-    public List<AccountInfoDto> getMyAccountList(Long memberId) throws JsonProcessingException {
+    public List<AccountInfoDto> getMyAccountList(Long memberId) throws IOException {
         List<AccountInfoDto> accountInfoDtoList = accountRepository.getMyAccountByMemberId(memberId).orElseThrow(AccountNotFoundException::new);
 
         /* 잔액이 보이는 시점에서 항상 최신화를 해야될 것 같음 */
