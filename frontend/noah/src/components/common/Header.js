@@ -2,7 +2,7 @@ import { ReactComponent as Arrow } from "../../assets/Icon/Arrow.svg";
 import { ReactComponent as Cancel } from "../../assets/Icon/Cancel.svg";
 import { ReactComponent as Filter } from "../../assets/Icon/Filter.svg";
 
-export default function Header({ LeftIcon, Title, RightIcon }) {
+export default function Header({ LeftIcon, Title, RightIcon, onClick }) {
   const headerBorderStyle = {
     width: "100vw",
     height: "16.67vw",
@@ -41,9 +41,11 @@ export default function Header({ LeftIcon, Title, RightIcon }) {
     width: "83.3vw",
   };
 
-  const handleLeftIconClick = () => {
+  const handleDefaultClick = () => {
     window.history.back();
   };
+
+  const handleLeftIconClick = onClick || handleDefaultClick;
 
   return (
     <>

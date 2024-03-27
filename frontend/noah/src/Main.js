@@ -31,7 +31,7 @@ export default function Main() {
           <Route path="login" element={<LoginPage />} />
           <Route path="signup" element={<SignUpPage />} />
           <Route path="home" element={<HomePage />} />
-          <Route path="transfer" element={<TransferPage />} />
+          <Route path="transfer/:tripid" element={<TransferPage />} />
           <Route path="tripcreate" element={<TripCreatePage />} />
           <Route path="trip/:tripid">
             <Route index element={<TripPage />} />

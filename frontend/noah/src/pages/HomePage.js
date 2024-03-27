@@ -10,7 +10,7 @@ import sample2 from "../assets/Image/sample2.png";
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const trips = [{}, {}, {}]; // 여행 데이터 저장
+  const trips = [{ id: 1 }, { id: 2 }, { id: 3 }]; // 여행 데이터 저장
 
   const handleNotificationClick = () => {
     navigate("/notification");
@@ -104,7 +104,11 @@ export default function HomePage() {
       >
         <div style={{ marginLeft: "5vw" }}></div>
         {trips.map((trip, index) => (
-          <Trip fromHome={true} onClick={() => handleTripClick(index)} /> // index 가 아니라 여행 id 전달하면 된다
+          <Trip
+            fromHome={true}
+            onClick={() => handleTripClick(index)}
+            tripid={trip.id}
+          /> // index 가 아니라 여행 id 전달하면 된다
         ))}
         <Trip isLast={true} />
         <div style={{ marginRight: "5vw" }}></div>
