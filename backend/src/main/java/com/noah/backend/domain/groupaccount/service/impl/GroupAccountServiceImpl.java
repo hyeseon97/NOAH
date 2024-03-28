@@ -205,7 +205,7 @@ public class GroupAccountServiceImpl implements GroupAccountService {
     }
 
     // 자동계좌이체
-    @Scheduled(cron = "0 0 10 ? * *")
+    @Scheduled(cron = "${schedule.auto_pay}")
     @Override
     public void autoTransferGroupAccount() throws IOException {
 

@@ -13,7 +13,9 @@ import com.noah.backend.global.exception.member.RefreshTokenNotFoundException;
 import com.noah.backend.global.exception.member.UnauthorizedAccessException;
 import com.noah.backend.global.exception.groupaccount.GroupAccountNotFoundException;
 import com.noah.backend.global.exception.member.MemberNotFoundException;
+import com.noah.backend.global.exception.notification.FirebaseTokenNotExistException;
 import com.noah.backend.global.exception.notification.NotificationNotFoundException;
+import com.noah.backend.global.exception.notification.NotificationSendFailedException;
 import com.noah.backend.global.exception.suggest.LowerThanPriceNotExists;
 import com.noah.backend.global.exception.suggest.SuggestNotExists;
 import com.noah.backend.global.exception.trade.TradeNotFoundException;
@@ -125,6 +127,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(NotificationNotFoundException.class)
     protected ResponseEntity<?> handle(NotificationNotFoundException e){
         log.error("NotificationNotFoundException = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+
+    @ExceptionHandler(FirebaseTokenNotExistException.class)
+    protected ResponseEntity<?> handle(FirebaseTokenNotExistException e){
+        log.error("FirebaseTokenNotExistException = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+
+    @ExceptionHandler(NotificationSendFailedException.class)
+    protected ResponseEntity<?> handle(NotificationSendFailedException e){
+        log.error("NotificationSendFailedException = {}", e.getErrorCode().getMessage());
         return response.error(e.getErrorCode());
     }
 

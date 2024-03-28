@@ -107,6 +107,8 @@ public enum ErrorCode {
 
     /* 알림(Notification) */
     NOTIFICATION_NOT_FOUND(HttpStatus.NOT_FOUND, "알림을 찾을 수 없습니다."),
+    NOTIFICATION_SEND_FAILED(HttpStatus.NOT_FOUND, "푸시알림 전송에 실패했습니다."),
+    FIREBASE_TOKEN_NOT_EXIST(HttpStatus.NOT_FOUND, "파이어베이스 토큰이 존재하지 않습니다."),
 
     /* 은행(Bank) */
     API_KEY_NOT_AVAILIABLE(HttpStatus.BAD_REQUEST, "API_KEY가 유효하지 않습니다."),

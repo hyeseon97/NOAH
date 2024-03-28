@@ -109,13 +109,14 @@ public enum ResponseCode {
     NOTIFICATION_LIST_FETCHED(HttpStatus.OK, "알림 리스트를 성공적으로 조회했습니다."),
     INVITE_ACCEPT(HttpStatus.OK, "여행 초대를 수락했습니다."),
     INVITE_REFUSE(HttpStatus.OK, "여행 초대를 거절했습니다."),
+    NOTIFICATION_SEND_SUCCESS(HttpStatus.OK, "알람이 성공적으로 보내졌습니다."),
 
     /* 댓글(Comment) */
     TICKET_CREATED(HttpStatus.OK, "티켓이 성공적으로 생성되었습니다."),
     TICKET_FETCHED(HttpStatus.OK, "티켓 정보가 성공적으로 조회되었습니다."),
     TICKET_UPDATED(HttpStatus.OK, "티켓이 성공적으로 수정되었습니다."),
     TICKET_DELETED(HttpStatus.OK, "티켓이 성공적으로 삭제되었습니다.")
-    
+
     ;
 
 
