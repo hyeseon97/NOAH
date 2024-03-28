@@ -5,9 +5,11 @@ import Logo from "../components/common/Logo";
 import styles from "./LoginPage.module.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useUserStore from "../store/useUserStore";
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const { setUser } = useUserStore();
   const [loginFailedMessage, setLoginFailedMessage] = useState(""); // 로그인 실패시 메시지 변경 "아이디와 비밀번호를 다시 확인해주세요."
   const [formData, setFormData] = useState({
     email: "",
@@ -27,12 +29,22 @@ export default function LoginPage() {
     console.log(formData);
     /* 로그인 API 작성 + 유효성 검사 */
     try {
-      await login(formData);
-      navigate("/home");
-      // 전역 상태 지정 코드
+      const res = await login(formData);
+      if (res.status === "SUCCESS") {
+        localStorage.setItem("accessToken", res.data.token);
+        await setUser({
+          email: res.data.memberInfo.email,
+          memberId: res.data.memberInfo.memberId,
+          nickname: res.data.memberInfo.nickname,
+          name: res.data.memberInfo.name,
+        });
+        navigate("/home");
+        // 전역 상태 지정 코드
+      } else {
+        setLoginFailedMessage("입력 정보를 확인해주세요.");
+      }
     } catch (e) {
-      /* 로그인 실패 시 */
-      setLoginFailedMessage("아이디와 비밀번호를 다시 확인해주세요.");
+      navigate("/error");
     }
   };
 

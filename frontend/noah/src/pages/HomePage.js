@@ -1,5 +1,5 @@
 import styles from "./HomePage.module.css";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ReactComponent as Notification } from "../assets/Icon/Notification.svg";
 import { ReactComponent as My } from "../assets/Icon/My.svg";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +7,7 @@ import Trip from "../components/trip/Trip";
 import Exchange from "./../components/exchange/Exchange";
 import sample1 from "../assets/Image/sample1.jpg";
 import sample2 from "../assets/Image/sample2.png";
+import { getMyTravel } from "../api/travel/travel";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -80,6 +81,13 @@ export default function HomePage() {
     // '15:36' 형태의 문자열로 결합
     return `${formattedHours}:${formattedMinutes}`;
   }
+
+  useEffect(() => {
+    // (async () => {
+    //   const res = await getMyTravel();
+    //   console.log(res);
+    // })();
+  }, []);
 
   return (
     <>
