@@ -10,7 +10,7 @@ import {
   checkNickname,
   emailVerify,
   signup,
-} from "../api/member/member";
+} from "../api/member/Member";
 
 export default function SignUpPage() {
   const navigate = useNavigate();
@@ -25,6 +25,7 @@ export default function SignUpPage() {
     email: "",
     password: "",
     authNum: "",
+    name: "",
     nickname: "",
   });
 
@@ -84,6 +85,8 @@ export default function SignUpPage() {
       return;
     }
     /* 회원가입 API 작성 */
+    delete formData.authNum;
+    console.log(formData);
     const res = await signup(formData);
     if (res.status === "SUCCESS") {
       navigate("/login");
@@ -135,6 +138,7 @@ export default function SignUpPage() {
                 onChange={handleChange}
                 value={formData.nickname}
                 name="nickname"
+                disabled={isNickNameVerified}
               ></Input>
             </>
           )}
@@ -143,10 +147,17 @@ export default function SignUpPage() {
             <>
               <Input
                 inputType={"password"}
-                placeholderText={"비밀번호"}
+                placeholderText={"비밀번호 (영어, 숫자 포함 3~20자)"}
                 onChange={handleChange}
                 value={formData.password}
                 name="password"
+              ></Input>
+              <Input
+                inputType={"text"}
+                placeholderText={"이름(실명)"}
+                onChange={handleChange}
+                value={formData.name}
+                name="name"
               ></Input>
             </>
           )}
