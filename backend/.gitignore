@@ -37,5 +37,6 @@ out/
 .vscode/
 
 /src/main/resources/application-*.yml
+/src/main/resources/firebase/noah-511a6-firebase-adminsdk-axl07-5b624e81fd.json
 
 /src/main/generated
