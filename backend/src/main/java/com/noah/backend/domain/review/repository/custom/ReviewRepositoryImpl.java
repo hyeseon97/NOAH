@@ -6,12 +6,17 @@ import com.noah.backend.domain.image.dto.requestDto.ImageGetDto;
 import com.noah.backend.domain.review.dto.responseDto.ReviewGetDto;
 import com.noah.backend.domain.review.dto.responseDto.ReviewListGetDto;
 import com.noah.backend.domain.review.entity.Review;
+import com.noah.backend.domain.suggest.dto.responseDto.SuggestListResDto;
+import com.noah.backend.global.exception.suggest.SuggestNotExists;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import static com.noah.backend.domain.comment.entity.QComment.comment;
@@ -78,6 +83,26 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom{
             reviewDto.setImageList(imageDtos);
         }
         return Optional.ofNullable(reviewDto);
+    }
+
+    //랜덤한 리뷰 아이디를 제공
+    @Override
+    public Optional<Integer> getRandomSuggestId() {
+        Optional<Integer> reviewCount =
+                Optional.ofNullable(query.select(review.count().intValue())
+                        .from(review)
+                        .fetchOne());
+        return reviewCount;
+    }
+
+    //인당 환산값보다 낮은 리뷰 아이디를 제공
+    @Override
+    public Optional<List<Long>> getSuggestId(int priceOfPerson) {
+
+        return Optional.ofNullable(query.select(review.id)
+                .from(review)
+                .where(review.expense.divide(review.people).loe(priceOfPerson))
+                .fetch());
     }
 
 }

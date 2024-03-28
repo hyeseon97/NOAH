@@ -14,6 +14,8 @@ import com.noah.backend.global.exception.member.UnauthorizedAccessException;
 import com.noah.backend.global.exception.groupaccount.GroupAccountNotFoundException;
 import com.noah.backend.global.exception.member.MemberNotFoundException;
 import com.noah.backend.global.exception.notification.NotificationNotFoundException;
+import com.noah.backend.global.exception.suggest.LowerThanPriceNotExists;
+import com.noah.backend.global.exception.suggest.SuggestNotExists;
 import com.noah.backend.global.exception.trade.TradeNotFoundException;
 import com.noah.backend.global.exception.travel.TravelMemberNotFoundException;
 import com.noah.backend.global.exception.travel.TravelNotFoundException;
@@ -175,4 +177,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return response.error(e.getErrorCode());
     }
 
+    /* 제안 */
+    @ExceptionHandler(SuggestNotExists.class)
+    protected ResponseEntity<?> handle(SuggestNotExists e){
+        log.error("SuggestNotExists = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+
+    @ExceptionHandler(LowerThanPriceNotExists.class)
+    protected ResponseEntity<?> handle(LowerThanPriceNotExists e){
+        log.error("LowerThanPriceNotExists = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
 }

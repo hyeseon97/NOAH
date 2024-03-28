@@ -117,7 +117,11 @@ public enum ErrorCode {
     TRANSACTION_BALANCE_LACK(HttpStatus.BAD_REQUEST, " 계좌 잔액이 부족하여 거래가 실패했습니다. "),
     EXCEEDED_TRANSFER_LIMIT_ONCE(HttpStatus.BAD_REQUEST, " 이체 가능 한도 초과(1회)."),
     EXCEEDED_TRANSFER_LIMIT_ONEDAY(HttpStatus.BAD_REQUEST, " 이체 가능 한도 초과(1일)."),
-    TRANSACTION_SUMMARY_NOT_AVAILIABLE(HttpStatus.BAD_REQUEST, " 거래요약내용 길이가 초과되었습니다.");
+    TRANSACTION_SUMMARY_NOT_AVAILIABLE(HttpStatus.BAD_REQUEST, " 거래요약내용 길이가 초과되었습니다."),
+
+    /* 제안(suggest) */
+    SUGGEST_NOT_EXISTS(HttpStatus.BAD_REQUEST, "리뷰가 존재하지 않습니다."),
+    LOWER_THAN_PRICE_NOT_EXISTS(HttpStatus.BAD_REQUEST, "인당 가격보다 낮은 리뷰가 존재하지 않습니다.");
     private final HttpStatus status;
     private final String message;
 

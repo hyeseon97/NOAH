@@ -68,4 +68,14 @@ public class MemberTravelRepositoryImpl implements MemberTravelRepositoryCustom 
                                        .where(memberTravel.autoTransfer.eq(true).and(groupAccount.paymentDate.eq(todayDate).and(memberTravel.isDeleted.eq(false))))
                                        .fetch());
     }
+
+    @Override
+    public Optional<Integer> totalPeople(Long travelId) {
+        return Optional.ofNullable(query.select(memberTravel.count().intValue())
+                .from(memberTravel)
+                .where(memberTravel.travel.id.eq(travelId))
+                .fetchOne());
+    }
+
+
 }
