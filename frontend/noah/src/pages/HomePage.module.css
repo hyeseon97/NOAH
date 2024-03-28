@@ -64,7 +64,7 @@
   line-height: 150%;
   color: #000000;
   margin-left: 8.87vw;
-  margin-top: 12.2vw;
+  margin-top: 3.2vw;
   margin-bottom: 1.11vw;
 }
 
@@ -76,7 +76,8 @@
 }
 
 .review {
-  width: 50vw;
+  width: 40vw;
+  cursor: pointer;
 }
 
 .reviewImage {
