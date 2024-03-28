@@ -1,9 +1,8 @@
 package com.noah.backend.domain.review.repository.custom;
 
-import com.noah.backend.domain.plan.dto.responseDto.PlanGetDto;
-import com.noah.backend.domain.plan.dto.responseDto.PlanListGetFromTravelDto;
 import com.noah.backend.domain.review.dto.responseDto.ReviewGetDto;
 import com.noah.backend.domain.review.dto.responseDto.ReviewListGetDto;
+import com.noah.backend.domain.suggest.dto.responseDto.SuggestListResDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,5 +13,9 @@ public interface ReviewRepositoryCustom {
 
     Optional<ReviewGetDto> getReviewSelect(Long ReviewId);
 
+    //랜덤한 리뷰 아이디를 제공
+    Optional<Integer> getRandomSuggestId();
 
+    //인당 환산값보다 낮은 리뷰 아이디를 제공
+    Optional<List<Long>> getSuggestId(int priceOfPerson);
 }

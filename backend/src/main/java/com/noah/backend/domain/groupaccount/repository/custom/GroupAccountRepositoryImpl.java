@@ -97,4 +97,22 @@ public class GroupAccountRepositoryImpl implements GroupAccountRepositoryCustom 
         return Optional.ofNullable(accountIds);
     }
 
+    @Override
+    public Optional<Integer> findBalance(Long travelId) {
+        return Optional.ofNullable(query.select(account.amount)
+                .from(groupAccount)
+                .leftJoin(account).on(account.id.eq(groupAccount.account.id))
+                .where(groupAccount.travel.id.eq(travelId))
+                .fetchOne());
+    }
+
+    @Override
+    public Optional<Integer> findTargetAmount(Long travelId) {
+        return Optional.ofNullable(query.select(groupAccount.targetAmount)
+                .from(groupAccount)
+                .where(groupAccount.id.eq(travelId))
+                .fetchOne());
+    }
+
+
 }
