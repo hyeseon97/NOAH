@@ -32,16 +32,8 @@ public class TravelController {
     private final MemberService memberService;
     private final MemberTravelService memberTravelService;
 
-//    @PostMapping()
-//    public ResponseEntity<?> create(Authentication authentication, TravelPostDto travelPostDto){
-//
-//
-//        String email = authentication.getName();
-//        Member member = memberService.findByEmail(email);
-//    }
-
     @Operation(summary = "여행 전체 조회", description = "여행 전체 목록 조회")
-    @GetMapping("/list")
+    @GetMapping("/allTravel")
     public ResponseEntity<?> getTravelList(){
         List<TravelGetListDto> travelList = travelService.getTravelList();
 
@@ -56,23 +48,27 @@ public class TravelController {
         return response.success(ResponseCode.TRAVEL_INFO_FETCHED, selectTravel);
     }
 
+    @Operation(summary = "메인페이지에 표시할 나의 여행 리스트 조회", description = "여행별 모임통장, 환율, 추천 조회")
+    @GetMapping("/list")
+    public ResponseEntity<?> getTravelMember(@Parameter(hidden = true) Authentication authentication){
+
+        Long memberId = memberService.searchMember(authentication).getMemberId();
+
+        List<TravelGetListDto> travelList = travelService.getTravelMemberId(memberId);
+
+        return response.success(ResponseCode.TRAVEL_INFO_FETCHED, travelList);
+
+    }
+
     @Operation(summary = "여행 생성", description = "여행 생성 기능")
     @PostMapping
-    public ResponseEntity<?> createTravel(@RequestBody TravelPostDto travelPostDto, @RequestParam(value = "memberId") Long memberId){
+    public ResponseEntity<?> createTravel(@RequestBody TravelPostDto travelPostDto, @Parameter(hidden = true) Authentication authentication){
+
+        Long memberId = memberService.searchMember(authentication).getMemberId();
 
         Long createTravelId = travelService.createTravelTest(travelPostDto, memberId);
         return response.success(ResponseCode.TRAVEL_CREATED, createTravelId);
     }
-    
-//    @Operation(summary = "여행 생성", description = "여행 생성 기능")
-//    @PostMapping
-//    public ResponseEntity<?> createTravel(@RequestBody TravelPostDto travelPostDto, @Parameter Authentication authentication){
-//
-//        Long memberId = memberService.searchMember(authentication).getMemberId();
-//
-//        Long createTravelId = travelService.createTravelTest(travelPostDto, memberId);
-//        return ResponseEntity.ok(createTravelId);
-//    }
 
 
     @Operation(summary = "여행 정보 수정", description = "여행 정보 수정 기능 / travelId 필요")

@@ -55,7 +55,7 @@ public class ExchangeServiceImpl implements ExchangeService {
                 "국민은행", "004"
         );
         String bankCode = bankCodeMap.get(account.getBankName());
-        String amount = exchangeReqDto.getAmount();
+        int amount = exchangeReqDto.getAmount();
         String currencyName = exchangeReqDto.getCurrency();
 
 

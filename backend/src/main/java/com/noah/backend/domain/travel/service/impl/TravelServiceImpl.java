@@ -51,6 +51,11 @@ public class TravelServiceImpl implements TravelService {
     }
 
     @Override
+    public List<TravelGetListDto> getTravelMemberId(Long memberId) {
+        return travelRepository.getTravelListToMember(memberId).orElseThrow(TravelNotFoundException::new);
+    }
+
+    @Override
     public Long createTravel(TravelPostDto travelDto) {
         Travel travel = Travel.builder()
                 .title(travelDto.getTitle())
