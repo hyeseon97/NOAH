@@ -7,7 +7,7 @@ import Trip from "../components/trip/Trip";
 import Exchange from "./../components/exchange/Exchange";
 import sample1 from "../assets/Image/sample1.jpg";
 import sample2 from "../assets/Image/sample2.png";
-import { getMyTravel } from "../api/travel/travel";
+import { getMyTravel } from "../api/travel/Travel";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -86,6 +86,7 @@ export default function HomePage() {
     (async () => {
       try {
         const res = await getMyTravel();
+        console.log(res);
       } catch (e) {
         console.log(e);
       }
