@@ -5,12 +5,15 @@ import MyAccount from "./../components/common/MyAccount";
 import styles from "./TransferPage.module.css";
 import Button from "../components/common/Button";
 import { ReactComponent as TransferArrow } from "./../assets/Icon/TransferArrow.svg";
+import { getAccount } from "../api/account/Account";
 
 export default function TransferPage() {
   const [seq, setSeq] = useState(0); // 페이지 관리를 위해
   const [accountNumber, setAccountNumber] = useState(""); // 내 계좌번호 기억
   const [amount, setAmount] = useState(0); // 입금 금액
   const navigate = useNavigate();
+
+  const [accounts, setAccounts] = useState([]);
 
   // Header의 LeftIcon 클릭 이벤트 핸들러
   const handleLeftIconClick = () => {
@@ -30,6 +33,18 @@ export default function TransferPage() {
     // 최종 송금 코드 작성
   };
 
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await getAccount();
+        console.log(res);
+        setAccounts(res.data);
+      } catch (e) {
+        console.log(e);
+      }
+    })();
+  }, []);
+
   return (
     <>
       {seq === 0 && (
@@ -39,18 +54,17 @@ export default function TransferPage() {
             Title="내 계좌"
             onClick={handleLeftIconClick}
           />
-          <MyAccount
-            type="1"
-            accountNumber="17412929801013"
-            sum="1364300"
-            onClick={() => handleAccountClick(17412929801013)}
-          />
-          <MyAccount
-            type="2"
-            accountNumber="17412929801013"
-            sum="14300"
-            onClick={() => handleAccountClick(17412929801013)}
-          />
+          {accounts
+            .filter((account) => account.type !== "공동계좌") // 공동계좌만 불러옴
+            .map((account) => (
+              <MyAccount
+                key={account.accountId} // 고유 key 값으로 accountId 사용
+                type={account.bankName} // 조건에 따른 type 결정
+                accountNumber={account.accountNumber}
+                sum={account.amount}
+                onClick={() => handleAccountClick(account.accountNumber)}
+              />
+            ))}
         </>
       )}
       {seq === 1 && (

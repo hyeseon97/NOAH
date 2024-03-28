@@ -1,9 +1,9 @@
 export default function MyAccount({ type, accountNumber, sum, onClick }) {
   const typeMapping = {
-    0: "한국",
-    1: "기업",
-    2: "산업",
-    3: "국민",
+    한국은행: "한국",
+    기업은행: "기업",
+    산업은행: "산업",
+    국민은행: "국민",
   };
 
   const myAccountStyle = {
