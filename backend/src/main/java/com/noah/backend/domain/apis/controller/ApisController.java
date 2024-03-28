@@ -52,7 +52,7 @@ public class ApisController {
     private final ForeignCurrencyService foreignCurrencyService;
     private String accesstoken = "ApDniM6GfG8sUwO32AAqc224zWYF";
 
-    @Scheduled(fixedDelay = 1500000)
+//    @Scheduled(fixedDelay = 1500000)
     private void updateAcesstoken() throws IOException, InterruptedException {
         String clientId = "OGMc8pKdyLwOtE5AvQNVQ7SpwWJmYyCi";
         String clientSecret = "KGhPd2Qsy8sG1gs9";
@@ -66,6 +66,7 @@ public class ApisController {
             .POST(BodyPublishers.ofString(requestBody))
             .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+        System.out.println(response);
         JSONObject jsonObject = new JSONObject(response.toString());
         accesstoken = jsonObject.getString("access_token");
     }
