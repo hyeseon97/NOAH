@@ -8,10 +8,11 @@ import Exchange from "./../components/exchange/Exchange";
 import sample1 from "../assets/Image/sample1.jpg";
 import sample2 from "../assets/Image/sample2.png";
 import { getMyTravel } from "../api/travel/Travel";
+import { getAllGroupAccount } from "../api/groupaccount/GroupAccount";
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const trips = [{ id: 1 }, { id: 2 }, { id: 3 }]; // 여행 데이터 저장
+  const [trips, setTrips] = useState([]); // 여행 데이터 저장
 
   const handleNotificationClick = () => {
     navigate("/notification");
@@ -83,14 +84,16 @@ export default function HomePage() {
   }
 
   useEffect(() => {
-    (async () => {
+    const fetchGroupAccounts = async () => {
       try {
-        const res = await getMyTravel();
-        console.log(res);
-      } catch (e) {
-        console.log(e);
+        const response = await getAllGroupAccount();
+        setTrips(response.data); // API로부터 받아온 여행 데이터를 상태에 저장
+      } catch (error) {
+        console.error("여행 데이터를 불러오는 중 오류 발생:", error);
       }
-    })();
+    };
+
+    fetchGroupAccounts();
   }, []);
 
   return (
@@ -117,11 +120,15 @@ export default function HomePage() {
         <div style={{ marginLeft: "5vw" }}></div>
         {trips.map((trip, index) => (
           <Trip
-            fromHome={true}
-            onClick={() => handleTripClick(index)}
-            tripid={trip.id}
             key={index}
-          /> // index 가 아니라 여행 id 전달하면 된다
+            onClick={() => navigate(`/trip/${trip.travelId}`)}
+            title={trip.title}
+            bankName={trip.bankName}
+            accountNumber={trip.accountNumber}
+            amount={trip.amount}
+            targetAmount={trip.targetAmount}
+            fromHome={true}
+          />
         ))}
         <Trip isLast={true} />
         <div style={{ marginRight: "5vw" }}></div>

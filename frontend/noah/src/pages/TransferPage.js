@@ -6,10 +6,13 @@ import styles from "./TransferPage.module.css";
 import Button from "../components/common/Button";
 import { ReactComponent as TransferArrow } from "./../assets/Icon/TransferArrow.svg";
 import { getAccount } from "../api/account/Account";
+import { depositGroupAccount } from "../api/groupaccount/GroupAccount";
 
 export default function TransferPage() {
   const [seq, setSeq] = useState(0); // 페이지 관리를 위해
-  const [accountNumber, setAccountNumber] = useState(""); // 내 계좌번호 기억
+  // const [accountNumber, setAccountNumber] = useState(""); // 내 계좌번호 기억
+  const [accountId, setAccountId] = useState(null);
+  const [travelId, setTravelId] = useState(null);
   const [amount, setAmount] = useState(0); // 입금 금액
   const navigate = useNavigate();
 
@@ -24,13 +27,30 @@ export default function TransferPage() {
     }
   };
 
-  const handleAccountClick = (accountNumber) => {
+  const handleAccountClick = (accountId) => {
     setSeq(1);
-    setAccountNumber(accountNumber);
+    setAccountId(accountId);
   };
 
-  const handleTransfer = () => {
+  const handleTransfer = async () => {
     // 최종 송금 코드 작성
+    if (!accountId || !travelId || !amount) {
+      console.error("필수 정보가 누락되었습니다.");
+      return;
+    }
+
+    const object = {
+      accountId,
+      travelId,
+      amount,
+    };
+
+    try {
+      const response = await depositGroupAccount(object);
+      console.log("송금 성공", response);
+    } catch (error) {
+      console.log("송금 실패", error);
+    }
   };
 
   useEffect(() => {
@@ -62,7 +82,7 @@ export default function TransferPage() {
                 type={account.bankName} // 조건에 따른 type 결정
                 accountNumber={account.accountNumber}
                 sum={account.amount}
-                onClick={() => handleAccountClick(account.accountNumber)}
+                onClick={() => handleAccountClick(account.accountId)}
               />
             ))}
         </>
