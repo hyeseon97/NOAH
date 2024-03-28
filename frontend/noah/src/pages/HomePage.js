@@ -83,10 +83,10 @@ export default function HomePage() {
   }
 
   useEffect(() => {
-    // (async () => {
-    //   const res = await getMyTravel();
-    //   console.log(res);
-    // })();
+    (async () => {
+      const res = await getMyTravel();
+      console.log(res);
+    })();
   }, []);
 
   return (
@@ -116,6 +116,7 @@ export default function HomePage() {
             fromHome={true}
             onClick={() => handleTripClick(index)}
             tripid={trip.id}
+            key={index}
           /> // index 가 아니라 여행 id 전달하면 된다
         ))}
         <Trip isLast={true} />
