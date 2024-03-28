@@ -4,7 +4,7 @@ import com.noah.backend.domain.member.service.member.MemberService;
 import com.noah.backend.domain.memberTravel.Service.MemberTravelService;
 import com.noah.backend.domain.memberTravel.dto.Request.MemberTravelInviteDto;
 import com.noah.backend.domain.travel.dto.requestDto.TravelGetDto;
-import com.noah.backend.domain.travel.dto.requestDto.TravelGetListDto;
+import com.noah.backend.domain.travel.dto.responseDto.TravelGetListDto;
 import com.noah.backend.domain.travel.dto.responseDto.TravelPostDto;
 import com.noah.backend.domain.travel.dto.responseDto.TravelUpdateDto;
 import com.noah.backend.domain.travel.service.TravelService;
