@@ -6,6 +6,7 @@ import com.noah.backend.domain.apis.dto.AirportNearestDto;
 import com.noah.backend.domain.apis.dto.AirportRouteDto;
 import com.noah.backend.domain.apis.dto.FlightOffersDto;
 import com.noah.backend.domain.apis.dto.FlightPriceDto;
+import com.noah.backend.domain.apis.entity.Airport;
 import com.noah.backend.domain.apis.repository.AirportRepository;
 import com.noah.backend.global.exception.flight.AirportNotFoundException;
 import com.noah.backend.global.exception.flight.RequiredFilledException;
@@ -35,9 +36,9 @@ public class FlightService {
         || dto.getDepartureDate() == null
         || dto.getAdults() == null) throw  new RequiredFilledException();
 
-        AirportDto location = airportRepository.findByName(dto.getOriginLocationCode())
+        Airport location = airportRepository.findByName(dto.getOriginLocationCode())
             .orElseThrow(() -> new AirportNotFoundException(ErrorCode.AIRPORT_NOT_FOUND_DEP));
-        AirportDto destinationLocation = airportRepository.findByName(dto.getDestinationLocationCode())
+        Airport destinationLocation = airportRepository.findByName(dto.getDestinationLocationCode())
             .orElseThrow(() -> new AirportNotFoundException(ErrorCode.AIRPORT_NOT_FOUND_DES));
 
         String url = "https://test.api.amadeus.com/v2/shopping/flight-offers"
