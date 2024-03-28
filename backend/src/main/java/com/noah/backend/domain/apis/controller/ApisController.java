@@ -20,6 +20,12 @@ import com.noah.backend.domain.apis.service.ForeignCurrencyService;
 import com.noah.backend.global.exception.flight.RequiredFilledException;
 import com.noah.backend.global.format.code.ApiResponse;
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
@@ -31,6 +37,7 @@ import org.json.JSONObject;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,19 +50,54 @@ public class ApisController {
     private final ApiResponse apiResponse;
     private final FlightService flightService;
     private final ForeignCurrencyService foreignCurrencyService;
-    private String accesstoken = "GlwKzrVNzci18GaWU8SClQ71bc8K";
+    private String accesstoken = "ApDniM6GfG8sUwO32AAqc224zWYF";
 
-//    @Scheduled(fixedDelay = 1500000)
-//    private void updateAcesstoken() {
-//        accesstoken = "a";
-//    }
+    @Scheduled(fixedDelay = 1500000)
+    private void updateAcesstoken() throws IOException, InterruptedException {
+        String clientId = "OGMc8pKdyLwOtE5AvQNVQ7SpwWJmYyCi";
+        String clientSecret = "KGhPd2Qsy8sG1gs9";
+
+        String url = "https://test.api.amadeus.com/v1/security/oauth2/token";
+        String requestBody = "grant_type=client_credentials&client_id="+clientId+"&client_secret="+clientSecret;
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(url))
+            .header("Content-Type", "application/x-www-form-urlencoded")
+            .POST(BodyPublishers.ofString(requestBody))
+            .build();
+        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+        JSONObject jsonObject = new JSONObject(response.toString());
+        accesstoken = jsonObject.getString("access_token");
+    }
+
+    @GetMapping("flight-offers")
+    public ResponseEntity findFlightOffers(FlightOffersDto flightOffersDto) throws IOException, InterruptedException {
+        // test code
+        flightOffersDto = FlightOffersDto.builder()
+            .originLocationCode("인천")
+            .destinationLocationCode("후쿠")
+            .departureDate(LocalDate.of(2024, 5, 12))
+            .adults(3)
+            .build();
+        //
+        JSONObject jsonObject;
+        try {
+            jsonObject = flightService.findFlightOffers(accesstoken, flightOffersDto);
+        }
+        catch (RequiredFilledException e) {
+            e.printStackTrace();
+            return apiResponse.fail(REQUIRED_FIELD_FAILED);
+        }
+        log.info("jsonobject : "+jsonObject);
+        return apiResponse.success(FLIGHT_OFFERS_SUCCESS, jsonObject);
+    }
 
     @GetMapping("/mock/flight-offers")
     public byte[] getMockFlightOffers() throws IOException {
         Resource resource = new FileSystemResource("C:\\Users\\SSAFY\\projectdir\\S10P22B106\\backend\\src\\main\\java\\com\\noah\\backend\\domain\\apis\\mock\\flight-offers.json");
         return Files.readAllBytes(Path.of(resource.getURI()));
     }
-    @GetMapping("flight-offers")
+//    @GetMapping("flight-offers")
     public ResponseEntity getFlightOffers(FlightOffersDto flightOffersDto) throws IOException, InterruptedException {
         // 프론트 dto 임시 제작
         List<String> a = new ArrayList<>();
