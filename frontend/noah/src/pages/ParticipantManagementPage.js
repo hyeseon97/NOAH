@@ -1,7 +1,8 @@
+import Header from "./../components/common/Header";
 export default function ParticipantManagementPage() {
   return (
     <>
-      <h1>인원관리 페이지</h1>
+      <Header LeftIcon="Arrow" Title="인원관리" />
     </>
   );
 }
