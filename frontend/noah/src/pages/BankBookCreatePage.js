@@ -1,7 +1,9 @@
+import Header from "../components/common/Header";
+
 export default function BankBookCreatePage() {
   return (
     <>
-      <h1>모임 통장 생성 페이지</h1>
+      <Header LeftIcon="Arrow" Title="모임 통장 생성" />
     </>
   );
 }

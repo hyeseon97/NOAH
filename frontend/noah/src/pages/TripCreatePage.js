@@ -1,7 +1,9 @@
+import Header from "../components/common/Header";
+
 export default function TripCreatePage() {
   return (
     <>
-      <h1>여행 생성페이지</h1>
+      <Header LeftIcon="Cancel" Title="여행 생성" />
     </>
   );
 }

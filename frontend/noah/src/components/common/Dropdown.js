@@ -18,6 +18,7 @@ function Dropdown({ selectedCurrency, setSelectedCurrency }) {
     lineHeight: "160%",
     color: "black",
     textAlign: "center",
+    cursor: "pointer",
   };
 
   return (

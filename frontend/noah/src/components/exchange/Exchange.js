@@ -1,7 +1,7 @@
 import Stick from "../common/Stick";
-import Dropdown from "./../common/Dropdown";
+import Dropdown from "../common/Dropdown";
 import { useState, useEffect } from "react";
-export default function Transfer() {
+export default function Exchange() {
   const borderStyle = {
     border: "0.277vw solid #E1E1E1",
     backdropFilter: "blur(0.277vw)",
@@ -57,7 +57,7 @@ export default function Transfer() {
     fontWeight: 500,
     fontSize: "3.33vw",
     lineHeight: "160%",
-    color: "black",
+    color: "#898989",
 
     width: "50vw",
     height: "8.33vw",
