@@ -23,16 +23,17 @@ export default function LoginPage() {
   }
 
   //formData 전송
-  const handleLoginClick = () => {
+  const handleLoginClick = async () => {
+    console.log(formData);
     /* 로그인 API 작성 + 유효성 검사 */
-    login(formData);
-    /* 로그인 실패 시 */
-    setLoginFailedMessage("아이디와 비밀번호를 다시 확인해주세요.");
-
-    /* 로그인 성공 시 */
-    // 전역 상태 지정 코드
-
-    //navigate("/home");
+    try {
+      await login(formData);
+      navigate("/home");
+      // 전역 상태 지정 코드
+    } catch (e) {
+      /* 로그인 실패 시 */
+      setLoginFailedMessage("아이디와 비밀번호를 다시 확인해주세요.");
+    }
   };
 
   const handleSignupPageRedirect = () => {
