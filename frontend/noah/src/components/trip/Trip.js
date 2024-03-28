@@ -63,11 +63,16 @@ const paragraphSmall = {
   textAlign: "center",
 };
 
-export default function Trip({ onClick, isLast = false, fromHome = false }) {
+export default function Trip({
+  onClick,
+  isLast = false,
+  fromHome = false,
+  tripid,
+}) {
   const navigate = useNavigate();
   const handleAccountClick = (e) => {
     e.stopPropagation();
-    navigate("/transfer");
+    navigate(`/transfer/${tripid}`);
   };
   const accountStyle = fromHome
     ? {

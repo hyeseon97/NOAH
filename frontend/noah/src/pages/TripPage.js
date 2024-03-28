@@ -1,7 +1,8 @@
+import Header from "./../components/common/Header";
 export default function TripPage() {
   return (
     <>
-      <h1>여행 페이지</h1>
+      <Header LeftIcon="Cancel" Title="여행이름" />
     </>
   );
 }

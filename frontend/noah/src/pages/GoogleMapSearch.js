@@ -226,10 +226,10 @@ export default function GoogleMapSearch() {
             ))}
         </div>
 
-        <div>
+        {/* <div>
           {photos &&
             photos.map((photo, index) => <Photo key={index} photo={photo} />)}
-        </div>
+        </div> */}
         {/* {outPlace.photos[1].getUrl()} */}
         <img src="" alt="" />
         <div>test</div>
