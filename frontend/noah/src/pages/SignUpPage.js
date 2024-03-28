@@ -5,6 +5,12 @@ import styles from "./LoginPage.module.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import App from "./../App";
+import {
+  checkEmailCode,
+  checkNickname,
+  emailVerify,
+  signup,
+} from "../api/member/member";
 
 export default function SignUpPage() {
   const navigate = useNavigate();
@@ -18,7 +24,7 @@ export default function SignUpPage() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    code: "",
+    authNum: "",
     nickname: "",
   });
 
@@ -30,8 +36,9 @@ export default function SignUpPage() {
     }));
   }
 
-  const handleButtonClick = () => {
+  const handleButtonClick = async () => {
     if (!isEmailVerifying && !isEmailVerified) {
+      emailVerify({ email: formData.email });
       setIsEmailVerifying(true);
       setButtonText("인증번호 확인");
       return;
@@ -40,26 +47,35 @@ export default function SignUpPage() {
     if (!isEmailVerified && !isNickNameVerified) {
       // 인증 확인 시도
       // 실패시
-      //setSignUpFailedMessage("인증 번호가 올바르지 않습니다.");
-
-      // 성공시
-      setIsEmailVerified(true);
-      setIsEmailVerifying(false);
-      setSignUpFailedMessage("");
-      setButtonText("닉네임 중복 검사");
+      const res = await checkEmailCode({
+        email: formData.email,
+        authNum: formData.authNum,
+      });
+      if (res.status === "SUCCESS") {
+        // 성공시
+        setIsEmailVerified(true);
+        setIsEmailVerifying(false);
+        setSignUpFailedMessage("");
+        setButtonText("닉네임 중복 검사");
+      } else {
+        setSignUpFailedMessage("인증 번호가 올바르지 않습니다.");
+      }
 
       return;
     }
 
     if (isEmailVerified && !isNickNameVerified) {
       // 닉네임 중복검사 실시
-      // 실패시
-      // setSignUpFailedMessage("중복된 닉네임입니다.");
-
-      // 성공시
-      setButtonText("회원가입");
-      setSignUpFailedMessage("");
-      setIsNickNameVerified(true);
+      const res = await checkNickname({ nickname: formData.nickname });
+      if (res.message === "사용 가능한 닉네임입니다") {
+        // 성공시
+        setButtonText("회원가입");
+        setSignUpFailedMessage("");
+        setIsNickNameVerified(true);
+      } else {
+        // 실패시
+        setSignUpFailedMessage("중복된 닉네임입니다.");
+      }
 
       return;
     }
@@ -68,12 +84,13 @@ export default function SignUpPage() {
       return;
     }
     /* 회원가입 API 작성 */
-    /* 회원가입 실패 시 */
-    setSignUpFailedMessage("입력 정보를 다시 확인해주세요.");
-
-    /* 회원가입 성공 시 */
-    // 전역 상태 지정 코드
-    //navigate("/login");
+    const res = await signup(formData);
+    if (res.status === "SUCCESS") {
+      navigate("/login");
+    } else {
+      /* 회원가입 실패 시 */
+      setSignUpFailedMessage("입력 정보를 다시 확인해주세요.");
+    }
   };
 
   const handleLoginPageRedirect = () => {
@@ -97,6 +114,7 @@ export default function SignUpPage() {
             onChange={handleChange}
             value={formData.email}
             name="email"
+            disabled={isEmailVerifying || isEmailVerified}
           ></Input>
           {isEmailVerifying && (
             <>
@@ -104,8 +122,8 @@ export default function SignUpPage() {
                 inputType={"text"}
                 placeholderText={"인증번호"}
                 onChange={handleChange}
-                value={formData.code}
-                name="code"
+                value={formData.authNum}
+                name="authNum"
               ></Input>
             </>
           )}

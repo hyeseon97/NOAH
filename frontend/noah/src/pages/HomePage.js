@@ -84,8 +84,11 @@ export default function HomePage() {
 
   useEffect(() => {
     (async () => {
-      const res = await getMyTravel();
-      console.log(res);
+      try {
+        const res = await getMyTravel();
+      } catch (e) {
+        console.log(e);
+      }
     })();
   }, []);
 
