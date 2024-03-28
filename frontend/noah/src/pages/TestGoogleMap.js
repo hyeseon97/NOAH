@@ -6,11 +6,11 @@ import "slick-carousel/slick/slick-theme.css";
 import Header from "./../components/common/Header";
 
 const containerStyle = {
-  // width: "400px",
-  // height: "400px",
-  width: "100vh",
-  height: "65vh",
-  // margin: "10px",
+  width: "400px",
+  height: "400px",
+  // width: "100vh",
+  // height: "50vh",
+  margin: "10px",
   backgroundColor: "transparent",
 };
 
@@ -24,40 +24,17 @@ const reviewStyle = {
 
 const listSearch = {
   backgroundColor: "coral",
-  // margin: "10px",
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "center",
-  alignItems: "center",
-};
-
-const buttonStyle = {
-  width: "300px",
-  height: "70px",
+  margin: "10px",
 };
 
 const listResult = {
   backgroundColor: "pink",
-  // margin: "10px",
+  margin: "10px",
 };
 
 const center = {
   lat: 37.5665,
   lng: 126.978,
-};
-
-const placeOrTicket = {
-  height: "11vh",
-  backgroundColor: "red",
-};
-
-const searchPlace = {
-  height: "11vh",
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "center",
-  alignItems: "center",
-  backgroundColor: "green",
 };
 
 const Review = ({ review }) => {
@@ -90,8 +67,6 @@ const Review = ({ review }) => {
 
 //   return <img src={imageUrl} alt="장소 사진" style={{ margin: "10px" }} />;
 // };
-
-
 
 const PhotoSlider = ({ photos }) => {
   const settings = {
@@ -126,10 +101,6 @@ const PhotoSlider = ({ photos }) => {
 };
 
 export default function GoogleMapSearch() {
-  const onMapLoad = React.useCallback((map) => {
-    console.log("Google Map API loaded and map object:", map);
-  }, []);
-  
   const [markers, setMarkers] = useState([]);
   const [search, setSearch] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -138,60 +109,13 @@ export default function GoogleMapSearch() {
   const [outPlace, setOutPlace] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [photos, setPhotos] = useState([]);
-  const [showList, setShowList] = useState(false);
-  const searchResultsRef = useRef(null); // 상세 정보 창에 대한 ref
-  const toggleButtonRef = useRef(null); // 토글 버튼에 대한 ref
-  // const onLoad = (map) => {
-  //   mapRef.current = map;
-  // };
 
-  const toggleShowList = () => {
-    setShowList(!showList);
-    console.log(showList);
+  const onLoad = (map) => {
+    mapRef.current = map;
   };
 
-  // 검색어 입력 시 호출되는 함수
-  const handleSearchChange = (e) => {
-    const value = e.target.value;
-    setSearch(value);
-    if (value.length > 0) {
-      setShowList(true); // 검색어가 있을 때 검색 결과창을 표시
-    }
-  };
-
-  // const onUnmount = () => {
-  //   mapRef.current = null;
-  // };
-
-  useEffect(() => {
-    // 클릭 이벤트 리스너를 document에 추가
-    const handleClickOutside = (event) => {
-      if (
-        searchResultsRef.current &&
-        !searchResultsRef.current.contains(event.target) &&
-        toggleButtonRef.current &&
-        !toggleButtonRef.current.contains(event.target)
-      ) {
-        setShowList(false); // 상세 정보 창 외부 클릭 시 숨김
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      // 컴포넌트 언마운트 시 이벤트 리스너 제거
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [searchResultsRef, toggleButtonRef]);
-
-  // 검색 결과 및 상세 정보를 보여주는 영역을 제어하는 스타일 추가
-  const searchResultsStyle = {
-    position: "absolute", // 절대 위치 지정
-    bottom: 0, // 하단에 위치
-    width: "100%", // 너비는 전체 차지
-    height: "30vh", // 높이는 30vh
-    backgroundColor: "#fff", // 배경색 지정
-    overflowY: "scroll", // 내용이 많을 경우 스크롤
-    display: showList ? "block" : "none", // showList 상태에 따라 보여주기/숨기기
+  const onUnmount = () => {
+    mapRef.current = null;
   };
 
   useEffect(() => {
@@ -271,15 +195,9 @@ export default function GoogleMapSearch() {
   }, [mapRef.current]);
 
   const myStyle = {
-    display: "none",
+    display: "flex",
     flexDirection: "column",
     alignItems: "center",
-  };
-
-  const searchList = {
-    backgroundColor: "orange",
-
-    height: "5vh",
   };
 
   const handleMapLoad = (map) => {
@@ -288,83 +206,72 @@ export default function GoogleMapSearch() {
   };
 
   return (
-    <>
+    <div className="test" style={myStyle}>
       <Header LeftIcon="Arrow" Title="장소 검색" />
-      <div style={placeOrTicket} onClick={() => setShowList(false)} ></div>
-      <div style={searchPlace} onClick={() => setShowList(false)}>
-        <input
-          style={buttonStyle}
-          value={search}
-          onChange={handleSearchChange}
-          placeholder="장소 검색..."
-        />
-        <button onClick={getCurrentLocation}>현재 위치 가져오기</button>
-      </div>
-      <LoadScript googleMapsApiKey={googleMapApiKey} libraries={["places"]}>
+      <LoadScript
+        googleMapsApiKey={googleMapApiKey}
+        // callback={console.debug}
+        libraries={["places"]}
+        onLoad={() => console.log("Google Maps API loaded successfully.")}
+      >
         <GoogleMap
           mapContainerStyle={containerStyle}
           center={center}
           zoom={10}
-          onLoad={onMapLoad}
-          onUnmount={() => (mapRef.current = null)}
+          onLoad={handleMapLoad}
+          onUnmount={onUnmount}
         >
           {markers.map((marker, i) => (
             <Marker key={i} position={marker} />
           ))}
         </GoogleMap>
       </LoadScript>
-      <div
-        style={{
-          ...searchPlace,
-          cursor: "pointer",
-          backgroundColor: showList ? "yellow" : "orange", // 토글 버튼 색상 변경
-        }}
-        onClick={toggleShowList}
-      >
-        {showList ? "상세 정보 숨기기" : "상세 정보 보기"}
+      <div style={listSearch}>
+        <button onClick={getCurrentLocation}>현재 위치 가져오기</button>
+        <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="장소 검색..."
+        />
+        <ul>
+          {suggestions.map((suggestion) => (
+            <li
+              key={suggestion.place_id}
+              onClick={(event) => handleSelect(suggestion.place_id, event)}
+            >
+              {suggestion.description}
+            </li>
+          ))}
+        </ul>
       </div>
-      {showList && (
-        <div style={searchResultsStyle}>
-          <div style={listSearch}>
-            {suggestions.length > 0 && (
-              <ul>
-                {suggestions.map((suggestion) => (
-                  <li
-                    key={suggestion.place_id}
-                    onClick={(event) =>
-                      handleSelect(suggestion.place_id, event)
-                    }
-                  >
-                    {suggestion.description}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-          {outPlace && (
-            <div style={listResult}>
-              {outPlace.formatted_address}
-              <br />
-              {outPlace.geometry?.location.lat()}
-              <br />
-              {outPlace.geometry?.location.lng()}
-              <br />
-              {outPlace.name}
-              <br />
-              {outPlace.rating}
-              <br />
-              <div>
-                {reviews.map((review, index) => (
-                  <Review key={index} review={review} />
-                ))}
-              </div>
-              <div style={reviewStyle}>
-                {photos.length > 0 && <PhotoSlider photos={photos} />}
-              </div>
-            </div>
-          )}
+      <div style={listResult}>
+        {outPlace.formatted_address}
+        <br />
+        <br />
+        {outPlace.geometry?.location.lat()}
+        <br />
+        {outPlace.geometry?.location.lng()}
+        <br />
+        {outPlace.name}
+        <br />
+        {outPlace.rating}
+        <br />
+        <div>
+          {reviews &&
+            reviews.map((review, index) => (
+              <Review key={index} review={review} />
+            ))}
         </div>
-      )}
-    </>
+
+        {/* <div>
+          {photos &&
+            photos.map((photo, index) => <Photo key={index} photo={photo} />)}
+        </div> */}
+        {/* {outPlace.photos[1].getUrl()} */}
+        <div style={reviewStyle}>
+          {photos.length > 0 && <PhotoSlider photos={photos} />}
+        </div>
+      </div>
+    </div>
   );
 }
