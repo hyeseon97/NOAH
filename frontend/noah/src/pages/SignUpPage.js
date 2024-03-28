@@ -10,7 +10,7 @@ import {
   checkNickname,
   emailVerify,
   signup,
-} from "../api/member/member";
+} from "../api/member/Member";
 
 export default function SignUpPage() {
   const navigate = useNavigate();

@@ -34,52 +34,52 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
 
         security
-            .httpBasic(basic -> basic.disable())
-            .csrf(csrf -> csrf.disable())
-            .cors(cors -> cors.disable())
+                .httpBasic(basic -> basic.disable())
+                .csrf(csrf -> csrf.disable())
+//                .cors(cors -> cors.disable())
         ;
 
         security
-            .authorizeHttpRequests((authorize ->
-            {
-                authorize.requestMatchers(
-                    "/api-docs/**",
-                    "/v2/api-docs/**",
-                    "/v3/api-docs/**",
-                    "/webjars/**",
-                    "/swagger/**",
-                    "/swagger-ui/**",
-                    "/swagger-config/**",
-                    "/swagger-resources/**",
-                    "/api/v1/member",
-                    "/api/v1/member/social",
-                    "/api/v1/member/login/**",
-                    "/api/v1/member/nickname/**",
-                    "/api/v1/member/email/**",
-                    "/api/v1/member/password-reset",
-                    "/ws/**",
-                    "/pub/**",
-                    "/sub/**"
-                ).permitAll();
-                authorize.anyRequest().authenticated();
-            }))
+                .authorizeHttpRequests((authorize ->
+                {
+                    authorize.requestMatchers(
+                            "/api-docs/**",
+                            "/v2/api-docs/**",
+                            "/v3/api-docs/**",
+                            "/webjars/**",
+                            "/swagger/**",
+                            "/swagger-ui/**",
+                            "/swagger-config/**",
+                            "/swagger-resources/**",
+                            "/api/v1/member",
+                            "/api/v1/member/social",
+                            "/api/v1/member/login/**",
+                            "/api/v1/member/nickname/**",
+                            "/api/v1/member/email/**",
+                            "/api/v1/member/password-reset",
+                            "/ws/**",
+                            "/pub/**",
+                            "/sub/**"
+                    ).permitAll();
+                    authorize.anyRequest().authenticated();
+                }))
         ;
 
         security
-            .sessionManagement(sessionManager -> {
-                sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-            })
+                .sessionManagement(sessionManager -> {
+                    sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                })
         ;
 
         security
-            .addFilterBefore(emailVerificationFilter,
-                             UsernamePasswordAuthenticationFilter.class)
-            .addFilterBefore(tokenRefreshRequestFilter,
-                             UsernamePasswordAuthenticationFilter.class)
-            .addFilterBefore(jwtAuthenticationFilter,
-                             UsernamePasswordAuthenticationFilter.class)
-            .addFilterBefore(tokenExceptionFilter,
-                             UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(emailVerificationFilter,
+                        UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(tokenRefreshRequestFilter,
+                        UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter,
+                        UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(tokenExceptionFilter,
+                        UsernamePasswordAuthenticationFilter.class)
         ;
 
         security.exceptionHandling(handlingConfigurer -> {
