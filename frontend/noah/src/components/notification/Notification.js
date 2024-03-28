@@ -117,6 +117,7 @@ export default function Notification() {
         //onMouseMove={handleMouseMove}
         //onMouseUp={handleMouseUp}
         onTouchStart={handleTouchStart}
+        ㅇ
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >

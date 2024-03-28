@@ -129,6 +129,10 @@ export default function HomePage() {
           <img src={sample2} alt="Sample 2" className={styles.reviewImage} />
           <div className={styles.place}>오오건건현 스마트료칸</div>
         </div>
+        <div className={styles.review}>
+          <img src={sample1} alt="Sample 1" className={styles.reviewImage} />
+          <div className={styles.place}>준규모리현 벚꽃공원</div>
+        </div>
       </div>
     </>
   );
