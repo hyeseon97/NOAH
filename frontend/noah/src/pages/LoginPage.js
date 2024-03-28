@@ -1,4 +1,4 @@
-import { login } from "../api/member/member";
+import { login } from "../api/member/Member";
 import Button from "../components/common/Button";
 import Input from "../components/common/Input";
 import Logo from "../components/common/Logo";
