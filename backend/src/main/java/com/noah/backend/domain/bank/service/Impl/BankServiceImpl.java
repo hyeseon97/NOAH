@@ -621,7 +621,6 @@ public static String makeHeader(HashMap<String,String> result) throws JsonProces
 	//계좌 거래 내역 조회에서 REC 추출
 	public static ArrayList<TransactionHistoryResDto> RECextractionTransactionHistory(ArrayList<HashMap<String,String>> REC){
 		ArrayList<TransactionHistoryResDto> list = new ArrayList<>();
-		System.out.println("우진");
 		for(int i=0; i<REC.size(); i++){
 			TransactionHistoryResDto transactionHistoryResDto = new TransactionHistoryResDto();
 			transactionHistoryResDto.setType(Integer.parseInt((String)REC.get(i).get("transactionType"))); //타입
