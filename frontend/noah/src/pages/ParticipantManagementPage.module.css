@@ -16,7 +16,7 @@
     line-height: 150%;
     color: #000000;
 }
-.paragraphSmall{
+.paragraphSmallGrey{
     font-family: "Pretendard";
     font-style: normal;
     font-weight: 500;
@@ -31,4 +31,25 @@
     width: 100vw;
     height: 0px;
     border: 0.277vw solid rgba(137, 137, 137, 0.3);
+}
+.inviteBox{
+    padding-top: 8.89vw;
+    height: 27.78vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.paragraphSmall{
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 3.33vw;
+    line-height: 160%;
+    width: 100vw;
+    text-align: center;
+    color: #000000;
+}
+.icon{
+    height: 6.67vw;
+    width: 6.67vw;
 }
