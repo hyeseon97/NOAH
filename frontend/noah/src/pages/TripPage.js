@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import styles from "./TripPage.module.css";
 
-import { ReactComponent as Image } from "./../assets/Icon/Image.svg";
+import { ReactComponent as Change } from "./../assets/Icon/Change.svg";
 import { ReactComponent as QR } from "./../assets/Icon/QR.svg";
 import { ReactComponent as Pig } from "./../assets/Icon/Pig.svg";
 import { ReactComponent as Person } from "./../assets/Icon/Person.svg";
@@ -72,7 +72,7 @@ export default function TripPage() {
 
         <div>
           <div>
-            <Image />
+            <Change />
           </div>
           <div>환전</div>
         </div>
