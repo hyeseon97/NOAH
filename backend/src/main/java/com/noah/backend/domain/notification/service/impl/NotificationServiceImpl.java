@@ -37,13 +37,6 @@ public class NotificationServiceImpl implements NotificationService {
     private final MemberTravelRepository memberTravelRepository;
     private final FirebaseMessaging firebaseMessaging;
 
-    @Transactional
-    @Override
-    public void saveToken(String email, String token) {
-        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
-        member.setNotificationToken(token);
-    }
-
     @Override
     public List<NotificationGetDto> getNotification(String email) {
         Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
