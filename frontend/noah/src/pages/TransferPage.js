@@ -15,7 +15,7 @@ export default function TransferPage() {
   const { travelId } = useParams();
   const [amount, setAmount] = useState(0); // 입금 금액
   const navigate = useNavigate();
-
+  const [warningText, setWarningText] = useState("");
   const [accounts, setAccounts] = useState([]);
 
   // Header의 LeftIcon 클릭 이벤트 핸들러
@@ -51,7 +51,9 @@ export default function TransferPage() {
     try {
       const response = await depositGroupAccount(object);
       console.log("송금 성공", response);
+      navigate("/home");
     } catch (error) {
+      setWarningText("잔액이 부족합니다.");
       console.log("송금 실패", error);
     }
   };
@@ -221,7 +223,7 @@ export default function TransferPage() {
             </div>
           </div>
           <div onClick={handleTransfer}>
-            <Button buttonText="송금" warningText="계좌에 잔액이 부족합니다." />
+            <Button buttonText="송금" {...warningText} />
           </div>
         </>
       )}
