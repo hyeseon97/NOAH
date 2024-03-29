@@ -9,6 +9,7 @@ import sample1 from "../assets/Image/sample1.jpg";
 import sample2 from "../assets/Image/sample2.png";
 import { getMyTravel } from "../api/travel/Travel";
 import { getAllGroupAccount } from "../api/groupaccount/GroupAccount";
+import showToast from "../components/common/Toast";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -87,7 +88,9 @@ export default function HomePage() {
     const fetchGroupAccounts = async () => {
       try {
         const response = await getAllGroupAccount();
-        setTrips(response.data); // API로부터 받아온 여행 데이터를 상태에 저장
+        if (response.data === null) setTrips([]);
+        else setTrips(response.data); // API로부터 받아온 여행 데이터를 상태에 저장
+        console.log(response);
       } catch (error) {
         console.error("여행 데이터를 불러오는 중 오류 발생:", error);
       }
