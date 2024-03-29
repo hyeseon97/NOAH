@@ -8,7 +8,6 @@ import HomePage from "./pages/HomePage";
 import TransferPage from "./pages/TransferPage";
 import TripCreatePage from "./pages/TripCreatePage";
 import TripPage from "./pages/TripPage";
-import BankBookCreatePage from "./pages/BankBookCreatePage";
 import GoalPage from "./pages/GoalPage";
 import NotificationPage from "./pages/NotificationPage";
 import ParticipantManagementPage from "./pages/ParticipantManagementPage";
@@ -37,7 +36,6 @@ export default function Main() {
           <Route path="tripcreate" element={<TripCreatePage />} />
           <Route path="trip/:tripid">
             <Route index element={<TripPage />} />
-            <Route path="bankbookcreate" element={<BankBookCreatePage />} />
             <Route path="goal" element={<GoalPage />} />
             <Route
               path="participantmanageMent"
