@@ -4,15 +4,26 @@ import { ReactComponent as History } from "./../assets/Icon/History.svg";
 import { ReactComponent as Auto } from "./../assets/Icon/Auto.svg";
 import { ReactComponent as Logout } from "./../assets/Icon/Logout.svg";
 import { ReactComponent as Account } from "./../assets/Icon/Account.svg";
+import { ReactComponent as Noah } from "./../assets/Icon/Noah.svg";
 
 export default function MyPage() {
   return (
     <>
       <Header LeftIcon="Cancel" Title="마이페이지" />
-      <div className={styles.infoContainer}>
-        <div className={styles.labelLarge}>큐티핸섬준규</div>
-        <div className={styles.labelMedium}>강준규</div>
-        <div className={styles.labelSmall}>2024-03-01 가입</div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          marginTop: "3vw",
+          marginBottom: "2vw",
+        }}
+      >
+        <div className={styles.infoContainer}>
+          <div className={styles.labelLarge}>큐티핸섬준규</div>
+          <div className={styles.labelMedium}>강준규</div>
+          <div className={styles.labelSmall}>2024-03-01 가입</div>
+        </div>
+        <Noah style={{ width: "44vw", height: "44vw", marginLeft: "10vw" }} />
       </div>
       <div className={styles.menuContainer}>
         <History className={styles.icon} />

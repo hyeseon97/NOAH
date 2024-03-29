@@ -201,6 +201,8 @@ export default function Notification({ isInvitation, onDelete }) {
         style={button}
         onClick={() => {
           closeModal();
+          // 초대 수락 요청 보내기
+          onDelete(); // 수락해도 알람 삭제
           showToast("초대를 수락하셨습니다.");
         }}
       >

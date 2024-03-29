@@ -22,7 +22,9 @@ export default function ParticipantManagementPage() {
             <div className={styles.paragraphSmallGrey}>강준규</div>
           </div>
           <div className={styles.memberBoxRight}>
-            <div className={styles.paragraphSmallGrey}>2024-03-19 14:28:56</div>
+            <div className={styles.paragraphSmallGrey}>
+              가입날짜: 2024-03-19
+            </div>
           </div>
         </div>
         <div className={styles.line}></div>
