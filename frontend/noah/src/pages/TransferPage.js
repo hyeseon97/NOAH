@@ -79,6 +79,10 @@ export default function TransferPage() {
     })();
   }, []);
 
+  useEffect(() => {
+    setWarningText("");
+  }, [seq]);
+
   return (
     <>
       {seq === 0 && (
