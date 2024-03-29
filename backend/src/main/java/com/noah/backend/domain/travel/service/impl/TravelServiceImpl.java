@@ -5,16 +5,18 @@ import com.noah.backend.domain.member.entity.Member;
 import com.noah.backend.domain.member.repository.MemberRepository;
 import com.noah.backend.domain.memberTravel.Repository.MemberTravelRepository;
 import com.noah.backend.domain.memberTravel.entity.MemberTravel;
+import com.noah.backend.domain.plan.dto.responseDto.SimplePlan;
 import com.noah.backend.domain.plan.repository.PlanRepository;
 import com.noah.backend.domain.review.repository.ReviewRepository;
 import com.noah.backend.domain.ticket.repository.TicketRepository;
-import com.noah.backend.domain.travel.dto.requestDto.TravelGetDto;
-import com.noah.backend.domain.travel.dto.responseDto.TravelGetListDto;
-import com.noah.backend.domain.travel.dto.responseDto.TravelPostDto;
-import com.noah.backend.domain.travel.dto.responseDto.TravelUpdateDto;
+import com.noah.backend.domain.travel.dto.responseDto.TravelGetDto;
+import com.noah.backend.domain.travel.dto.requestDto.TravelGetListDto;
+import com.noah.backend.domain.travel.dto.requestDto.TravelPostDto;
+import com.noah.backend.domain.travel.dto.requestDto.TravelUpdateDto;
 import com.noah.backend.domain.travel.entity.Travel;
 import com.noah.backend.domain.travel.repository.TravelRepository;
 import com.noah.backend.domain.travel.service.TravelService;
+import com.noah.backend.global.exception.membertravel.MemberTravelAccessException;
 import com.noah.backend.global.exception.travel.TravelNotFoundException;
 import com.noah.backend.global.exception.travelmember.MemberTravelNotFound;
 import lombok.RequiredArgsConstructor;
@@ -44,14 +46,27 @@ public class TravelServiceImpl implements TravelService {
     }
 
     @Override
-    public TravelGetDto getTravelSelect(Long travelId) {
-        return travelRepository.getTravelSelect(travelId).orElseThrow(TravelNotFoundException::new);
+    public TravelGetDto getTravelSelect(String email, Long travelId) {
+
+        /* 접근권한 */
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberTravelNotFound::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), travelId).orElseThrow(
+            MemberTravelAccessException::new);
+        /* ------ */
+
+        TravelGetDto travelGetDto = travelRepository.getTravelSelect(travelId).orElseThrow(TravelNotFoundException::new);
+        List<SimplePlan> simplePlanList = planRepository.getSimplePlan(travelGetDto.getPlanId()).orElse(null);
+        return travelGetDto;
     }
 
-    @Override
-    public List<TravelGetListDto> getTravelMemberId(Long memberId) {
-        return travelRepository.getTravelListToMember(memberId).orElseThrow(TravelNotFoundException::new);
-    }
+//    @Override
+//    public List<TravelGetListDto> getTravelMemberId(String email) {
+//
+//        Member member = memberRepository.findByEmail(email).orElseThrow(MemberTravelNotFound::new);
+//
+//        List<TravelGetListDto> travelList =
+//        return travelRepository.getTravelListToMember(memberId).orElseThrow(TravelNotFoundException::new);
+//    }
 
     @Override
     public Long createTravel(TravelPostDto travelDto) {

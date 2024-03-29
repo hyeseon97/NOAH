@@ -10,9 +10,9 @@ import java.util.List;
 
 public interface PlanService {
 
-    List<PlanListGetFromTravelDto> getPlanList(Long travelId);
+    List<PlanListGetFromTravelDto> getPlanList(String email, Long travelId);
 
-    PlanGetDto getPlanSelect(Long PlanId);
+    PlanGetDto getPlanSelect(String email, Long PlanId);
 
     Long createPlan(PlanPostDto planDto);
 

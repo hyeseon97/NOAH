@@ -3,10 +3,11 @@ package com.noah.backend.domain.travel.controller;
 import com.noah.backend.domain.member.service.member.MemberService;
 import com.noah.backend.domain.memberTravel.Service.MemberTravelService;
 import com.noah.backend.domain.memberTravel.dto.Request.MemberTravelInviteDto;
-import com.noah.backend.domain.travel.dto.requestDto.TravelGetDto;
-import com.noah.backend.domain.travel.dto.responseDto.TravelGetListDto;
-import com.noah.backend.domain.travel.dto.responseDto.TravelPostDto;
-import com.noah.backend.domain.travel.dto.responseDto.TravelUpdateDto;
+import com.noah.backend.domain.travel.dto.responseDto.TravelGetDto;
+import com.noah.backend.domain.travel.dto.responseDto.TravelGetDtoJun;
+import com.noah.backend.domain.travel.dto.requestDto.TravelGetListDto;
+import com.noah.backend.domain.travel.dto.requestDto.TravelPostDto;
+import com.noah.backend.domain.travel.dto.requestDto.TravelUpdateDto;
 import com.noah.backend.domain.travel.service.TravelService;
 import com.noah.backend.global.format.code.ApiResponse;
 import com.noah.backend.global.format.response.ResponseCode;
@@ -40,25 +41,22 @@ public class TravelController {
         return response.success(ResponseCode.TRAVEL_INFO_FETCHED, travelList);
     }
 
-    @Operation(summary = "여행 선택 조회", description = "여행 선택 상세 조회 / travelID 필요")
+    @Operation(summary = "여행 선택 조회", description = "목표금액 그래프, 날짜별 대표 장소 출력하는 페이지 요청용")
     @GetMapping("{travelId}")
-    public ResponseEntity<?> getTravelSelect(@PathVariable(value = "travelId") Long travelId){
-        TravelGetDto selectTravel = travelService.getTravelSelect(travelId);
-
+    public ResponseEntity<?> getTravelSelect(@Parameter(hidden = true) Authentication authentication, @PathVariable(value = "travelId") Long travelId){
+        TravelGetDto selectTravel = travelService.getTravelSelect(authentication.getName(), travelId);
         return response.success(ResponseCode.TRAVEL_INFO_FETCHED, selectTravel);
     }
 
-    @Operation(summary = "메인페이지에 표시할 나의 여행 리스트 조회", description = "여행별 모임통장, 환율, 추천 조회")
-    @GetMapping("/list")
-    public ResponseEntity<?> getTravelMember(@Parameter(hidden = true) Authentication authentication){
-
-        Long memberId = memberService.searchMember(authentication).getMemberId();
-
-        List<TravelGetListDto> travelList = travelService.getTravelMemberId(memberId);
-
-        return response.success(ResponseCode.TRAVEL_INFO_FETCHED, travelList);
-
-    }
+//    @Operation(summary = "메인페이지에 표시할 나의 여행 리스트 조회", description = "여행별 모임통장, 환율, 추천 조회")
+//    @GetMapping()
+//    public ResponseEntity<?> getTravelMember(@Parameter(hidden = true) Authentication authentication){
+//
+//        List<TravelGetListDto> travelList = travelService.getTravelMemberId(authentication.getName());
+//
+//        return response.success(ResponseCode.TRAVEL_INFO_FETCHED, travelList);
+//
+//    }
 
     @Operation(summary = "여행 생성", description = "여행 생성 기능")
     @PostMapping

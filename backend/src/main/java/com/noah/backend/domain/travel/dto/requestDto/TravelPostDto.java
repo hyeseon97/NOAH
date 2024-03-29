@@ -1,4 +1,4 @@
-package com.noah.backend.domain.travel.dto.responseDto;
+package com.noah.backend.domain.travel.dto.requestDto;
 
 import com.noah.backend.domain.groupaccount.entity.GroupAccount;
 import com.noah.backend.domain.memberTravel.entity.MemberTravel;
@@ -15,13 +15,15 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TravelUpdateDto {
+public class TravelPostDto {
 //    private Long id;
     private String title;
-    private boolean isEnded;
+//    private boolean isEnded;
 //    private List<MemberTravel> memberTrabelList;
 //    private List<Notification> notificationList;
-//    private GroupAccount groupAccount;
+//    private Account account;
 //    private Plan plan;
+//    private Long account_id;
+//    private Long plan_id;
 //    private List<Ticket> ticketList;
 }

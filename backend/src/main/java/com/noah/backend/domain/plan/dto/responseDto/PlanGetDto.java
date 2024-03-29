@@ -1,9 +1,9 @@
 package com.noah.backend.domain.plan.dto.responseDto;
 
-import com.noah.backend.domain.datailPlan.dto.responseDto.DetailPlanListGetFromPlanDto;
+import com.noah.backend.domain.datailPlan.dto.responseDto.DetailPlanDto;
+import com.noah.backend.domain.datailPlan.dto.responseDto.DetailPlanListDto;
 import lombok.*;
 
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
@@ -13,25 +13,20 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PlanGetDto {
 
-    private Long plan_id;
-    private Date start_date;
-    private Date end_date;
-    
-    //얘 왜 자꾸 바꾸라는거냐 대체
-    private Boolean travel_start;
-    @Setter
+    private Long planId;
+    private Date startDate;
+    private Date endDate;
+    private Boolean travelStart;
     private String country;
-    // 테스트 용이니까 후에 travelDto로 수정하자
-//    @Setter
-//    private Long travel_id;
-    @Setter
-    private List<DetailPlanListGetFromPlanDto> detailPlanList;
 
-    public PlanGetDto(Long plan_id, Date start_date, Date end_date, boolean travel_start, String country) {
-        this.plan_id = plan_id;
-        this.start_date = start_date;
-        this.end_date = end_date;
-        this.travel_start = travel_start;
+    @Setter
+    private List<DetailPlanDto> detailPlanList;
+
+    public PlanGetDto(Long planId, Date startDate, Date endDate, boolean travelStart, String country) {
+        this.planId = planId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.travelStart = travelStart;
         this.country = country;
 
     }

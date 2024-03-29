@@ -25,5 +25,4 @@ public interface MemberService {
 
     MemberSearchDto searchMember(Authentication authentication);
 
-    MemberInfoDto searchMember(String email);
 }

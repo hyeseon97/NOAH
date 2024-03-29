@@ -18,4 +18,6 @@ public interface MemberTravelService {
     void setAutoTransfer(String email, AutoTransferPostDto autoTransferPostDto);
 
     void deleteAutoTransfer(String email, Long travelId);
+
+    boolean memberAccessTravel(Long memberId, Long travelId);
 }

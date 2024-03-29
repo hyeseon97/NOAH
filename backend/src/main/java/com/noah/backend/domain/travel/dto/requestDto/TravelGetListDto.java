@@ -1,4 +1,4 @@
-package com.noah.backend.domain.travel.dto.responseDto;
+package com.noah.backend.domain.travel.dto.requestDto;
 
 import com.noah.backend.domain.groupaccount.entity.GroupAccount;
 import com.noah.backend.domain.memberTravel.entity.MemberTravel;
@@ -22,9 +22,11 @@ public class TravelGetListDto {
     private String travelTitle;
 
     private Long groupAccountId;
-    private Long groupAccountNumber;
-    private int groupAccountAmount;
     private int groupAccountTargetAmount;
+
+    private Long accountId;
+    private Long accountNumber;
+    private int accountBalance;
 
     private String currency;
     private int exchangeRate;

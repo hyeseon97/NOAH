@@ -1,14 +1,8 @@
-package com.noah.backend.domain.travel.dto.requestDto;
+package com.noah.backend.domain.travel.dto.responseDto;
 
-import com.noah.backend.domain.groupaccount.entity.GroupAccount;
-import com.noah.backend.domain.memberTravel.dto.Response.MemberTravelListGetDto;
 import com.noah.backend.domain.memberTravel.dto.Response.MemberTravelListGetFromTravelDto;
-import com.noah.backend.domain.memberTravel.entity.MemberTravel;
-import com.noah.backend.domain.notification.entity.Notification;
 import com.noah.backend.domain.plan.dto.responseDto.PlanGetDto;
-import com.noah.backend.domain.plan.entity.Plan;
 import com.noah.backend.domain.ticket.dto.responseDto.TicketListGetFromTravelDto;
-import com.noah.backend.domain.ticket.entity.Ticket;
 import lombok.*;
 
 import java.util.List;
@@ -17,11 +11,10 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TravelGetDto {
-//    private Long id;
-    @Setter
+public class TravelGetDtoJun {
+
+    private Long travelId;
     private String title;
-    @Setter
     private boolean isEnded;
 //    @Setter
 //    private GroupAccount account;
@@ -38,7 +31,7 @@ public class TravelGetDto {
     private List<TicketListGetFromTravelDto> ticketList;
 
 
-    public TravelGetDto(String title, Boolean isEnded) { // Boolean으로 변경
+    public TravelGetDtoJun(String title, Boolean isEnded) { // Boolean으로 변경
         this.title = title;
         this.isEnded = isEnded;
     }

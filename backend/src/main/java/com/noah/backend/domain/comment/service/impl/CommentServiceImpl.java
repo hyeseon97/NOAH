@@ -13,6 +13,8 @@ import com.noah.backend.domain.review.repository.ReviewRepository;
 import com.noah.backend.domain.ticket.repository.TicketRepository;
 import com.noah.backend.global.exception.comment.CommentNotFound;
 import com.noah.backend.global.exception.member.MemberNotFoundException;
+import com.noah.backend.global.exception.review.ReviewPermissionDenied;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -24,10 +26,6 @@ import java.util.List;
 @Service
 public class CommentServiceImpl implements CommentService {
 
-    private final TicketRepository ticketRepository;
-//    private final PlanRepository planRepository;
-    private final DetailPlanRepository detailPlanRepository;
-    private final ReviewRepository reviewRepository;
     private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
 
@@ -38,79 +36,17 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(CommentNotFound::new);
     }
 
+    @Transactional
     @Override
-    public CommentGetDto getCommentSelect(Long commentId) {
-        return commentRepository.getCommentSelect(commentId)
-                .orElseThrow(CommentNotFound::new);
+    public Long updateComment(String email, CommentUpdateDto commentDto) {
+
+        Member writer = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        Comment comment = commentRepository.findCommentByMemberIdAndTravelId(writer.getId(), commentDto.getReviewId()).orElseThrow(
+            ReviewPermissionDenied::new);
+
+        comment.setContent(commentDto.getContent());
+
+        return comment.getId();
     }
 
-//    @Override
-//    public Long createComment(CommentPostDto commentDto) {
-//
-//        Member foundMember = memberRepository.findById(commentDto.getMemberId())
-//                .orElseThrow(() -> new EntityNotFoundException("Member not found with id: " + commentDto.getMemberId()));
-//        Review foundReview = reviewRepository.findById(commentDto.getReviewId())
-//                .orElseThrow(() -> new EntityNotFoundException("Review not found with id: " + commentDto.getReviewId()));
-//
-//        Comment comment = Comment.builder()
-//                .content(commentDto.getContent())
-//                .member(foundMember)
-//                .review(foundReview)
-//                .build();
-//
-//        return commentRepository.save(comment).getId();
-//    }
-
-    @Override
-    public Long updateCommentTest(Long commentId, CommentUpdateDto commentDto) {
-        Comment currentComment = commentRepository.findById(commentId)
-                .orElseThrow(CommentNotFound::new);
-        //이건 따로 값을 받아야할지도 모른다.
-        Member writer = memberRepository.findById(commentDto.getMember_id())
-                .orElseThrow(MemberNotFoundException::new);
-
-        currentComment.setContent(commentDto.getContent());
-        currentComment.setMember(writer);
-
-//        commentRepository.save(currentComment);
-
-
-        return currentComment.getId();
-    }
-
-    @Override
-    public Long updateCommentTestToMemberId(Long commentId, Long memberId, CommentUpdateDto commentDto) {
-        Comment currentComment = commentRepository.findById(commentId)
-                .orElseThrow(CommentNotFound::new);
-        //이건 따로 값을 받아야할지도 모른다.
-        Member writer = memberRepository.findById(memberId)
-                .orElseThrow(MemberNotFoundException::new);
-
-        currentComment.setContent(commentDto.getContent());
-        currentComment.setMember(writer);
-
-//        commentRepository.save(currentComment);
-
-
-        return currentComment.getId();
-    }
-
-
-
-    //사실 이건 매칭만 되어있다면 memberId를 따로 보낼 필요가 없으니 content만 바꾸면 되는 건가?
-    // 이건 물어보고 하자
-    @Override
-    public Long updateComment(Long commentId, CommentUpdateDto commentDto) {
-        Comment currentComment = commentRepository.findById(commentId)
-                .orElseThrow(CommentNotFound::new);
-        currentComment.setContent(commentDto.getContent());
-        commentRepository.save(currentComment);
-
-        return currentComment.getId();
-    }
-
-    @Override
-    public void deleteReview(Long commentId) {
-        commentRepository.deleteById(commentId);
-    }
 }

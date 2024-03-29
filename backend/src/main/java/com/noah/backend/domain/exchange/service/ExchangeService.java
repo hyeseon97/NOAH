@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public interface ExchangeService {
 
-    Long createExchange(ExchangeReqDto exchangeReqDto) throws IOException;
+    Long createExchange(String email, ExchangeReqDto exchangeReqDto) throws IOException;
 
-    ExchangeInfoDto getExchangeInfo(Long travelId);
+    ExchangeInfoDto getExchangeInfo(String email, Long travelId);
 }
