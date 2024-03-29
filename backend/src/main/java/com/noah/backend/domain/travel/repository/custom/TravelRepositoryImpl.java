@@ -1,12 +1,12 @@
 package com.noah.backend.domain.travel.repository.custom;
 
 
-import com.noah.backend.domain.datailPlan.dto.responseDto.DetailPlanListGetFromPlanDto;
+import com.noah.backend.domain.datailPlan.dto.responseDto.DetailPlanListDto;
 import com.noah.backend.domain.memberTravel.dto.Response.MemberTravelListGetFromTravelDto;
 import com.noah.backend.domain.plan.dto.responseDto.PlanGetDto;
 import com.noah.backend.domain.ticket.dto.responseDto.TicketListGetFromTravelDto;
-import com.noah.backend.domain.travel.dto.requestDto.TravelGetDto;
-import com.noah.backend.domain.travel.dto.responseDto.TravelGetListDto;
+import com.noah.backend.domain.travel.dto.responseDto.TravelGetDto;
+import com.noah.backend.domain.travel.dto.requestDto.TravelGetListDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -129,15 +129,15 @@ public class TravelRepositoryImpl implements TravelRepositoryCustom{
                     .where(plan.travel.id.eq(travelId))
                     .fetchOne();
             if(planGetDto != null){
-                List<DetailPlanListGetFromPlanDto> detailDtos = query
-                        .select(Projections.constructor(DetailPlanListGetFromPlanDto.class,
-                                detailPlan.day,
-                                detailPlan.sequence,
-                                detailPlan.place,
-                                detailPlan.pinX,
-                                detailPlan.pinY,
-                                detailPlan.memo,
-                                detailPlan.time
+                List<DetailPlanListDto> detailDtos = query
+                        .select(Projections.constructor(DetailPlanListDto.class,
+                                                        detailPlan.day,
+                                                        detailPlan.sequence,
+                                                        detailPlan.place,
+                                                        detailPlan.pinX,
+                                                        detailPlan.pinY,
+                                                        detailPlan.memo,
+                                                        detailPlan.time
                                 ))
                         .from(detailPlan)
                         .leftJoin(plan)

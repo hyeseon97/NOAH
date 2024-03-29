@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface PlanRepositoryCustom {
     Optional<List<PlanListGetFromTravelDto>> getPlanList(Long travelId);
 
-    Optional<PlanGetDto> getPlanSelect(Long PlanId);
+    Optional<PlanGetDto> getPlanSelect(Long travelId);
 
 }

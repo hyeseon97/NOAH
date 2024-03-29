@@ -1,7 +1,7 @@
 package com.noah.backend.domain.travel.repository.custom;
 
-import com.noah.backend.domain.travel.dto.requestDto.TravelGetDto;
-import com.noah.backend.domain.travel.dto.responseDto.TravelGetListDto;
+import com.noah.backend.domain.travel.dto.responseDto.TravelGetDto;
+import com.noah.backend.domain.travel.dto.requestDto.TravelGetListDto;
 
 import java.util.List;
 import java.util.Optional;

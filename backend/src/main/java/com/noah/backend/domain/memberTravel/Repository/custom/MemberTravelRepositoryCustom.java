@@ -19,4 +19,6 @@ public interface MemberTravelRepositoryCustom {
     Optional<List<MemberTravel>> getAutoTransfer(int todayDate);
 
 	Optional<Integer> totalPeople(Long travelId);
+
+    Optional<MemberTravel> findByTravelIdAndMemberId(Long memberId, Long travelId);
 }

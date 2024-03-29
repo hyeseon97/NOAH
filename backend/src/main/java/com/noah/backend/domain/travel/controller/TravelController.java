@@ -3,10 +3,10 @@ package com.noah.backend.domain.travel.controller;
 import com.noah.backend.domain.member.service.member.MemberService;
 import com.noah.backend.domain.memberTravel.Service.MemberTravelService;
 import com.noah.backend.domain.memberTravel.dto.Request.MemberTravelInviteDto;
-import com.noah.backend.domain.travel.dto.requestDto.TravelGetDto;
-import com.noah.backend.domain.travel.dto.responseDto.TravelGetListDto;
-import com.noah.backend.domain.travel.dto.responseDto.TravelPostDto;
-import com.noah.backend.domain.travel.dto.responseDto.TravelUpdateDto;
+import com.noah.backend.domain.travel.dto.responseDto.TravelGetDto;
+import com.noah.backend.domain.travel.dto.requestDto.TravelGetListDto;
+import com.noah.backend.domain.travel.dto.requestDto.TravelPostDto;
+import com.noah.backend.domain.travel.dto.requestDto.TravelUpdateDto;
 import com.noah.backend.domain.travel.service.TravelService;
 import com.noah.backend.global.format.code.ApiResponse;
 import com.noah.backend.global.format.response.ResponseCode;
@@ -42,9 +42,8 @@ public class TravelController {
 
     @Operation(summary = "여행 선택 조회", description = "여행 선택 상세 조회 / travelID 필요")
     @GetMapping("{travelId}")
-    public ResponseEntity<?> getTravelSelect(@PathVariable(value = "travelId") Long travelId){
-        TravelGetDto selectTravel = travelService.getTravelSelect(travelId);
-
+    public ResponseEntity<?> getTravelSelect(@Parameter(hidden = true) Authentication authentication, @PathVariable(value = "travelId") Long travelId){
+        TravelGetDto selectTravel = travelService.getTravelSelect(authentication.getName(), travelId);
         return response.success(ResponseCode.TRAVEL_INFO_FETCHED, selectTravel);
     }
 

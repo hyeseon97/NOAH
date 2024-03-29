@@ -13,6 +13,8 @@ import com.noah.backend.domain.groupaccount.dto.requestDto.GroupAccountUpdateDto
 import com.noah.backend.domain.groupaccount.dto.responseDto.GroupAccountInfoDto;
 import com.noah.backend.domain.groupaccount.service.GroupAccountService;
 import com.noah.backend.domain.member.service.member.MemberService;
+import com.noah.backend.domain.memberTravel.Service.MemberTravelService;
+import com.noah.backend.domain.memberTravel.entity.MemberTravel;
 import com.noah.backend.global.format.code.ApiResponse;
 import com.noah.backend.global.format.response.ResponseCode;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,11 +39,19 @@ public class GroupAccountController {
     private final AccountService accountService;
     private final BankService bankService;
     private final MemberService memberService;
+    private final MemberTravelService memberTravelService;
 
     @Operation(summary = "모임 통장 생성", description = "은행 계좌 생성 -> 우리 계좌 생성 -> 모임 통장 생성")
     @PostMapping
     public ResponseEntity<?> createGroupAccount(@Parameter(hidden = true) Authentication authentication,
                                                 @RequestBody GroupAccountRequestDto groupAccountRequestDto) throws IOException {
+
+        Long memberId = memberService.searchMember(authentication).getMemberId();
+        Long travelId = groupAccountRequestDto.getTravelId();
+
+        /* 접근권한 */
+        memberTravelService.memberAccessTravel(memberId, travelId);
+        /* ------ */
 
         BankAccountCreateReqDto bankAccountCreateReqDto = BankAccountCreateReqDto.builder()
                 .userKey(memberService.searchMember(authentication).getUserKey())
@@ -53,9 +63,6 @@ public class GroupAccountController {
         BankAccountCreateResDto bankAccountCreateResDto = bankService.bankAccountCreate(bankAccountCreateReqDto);
 
         /* NOAH 서비스용 계좌 생성 */
-        Long memberId = memberService.searchMember(authentication).getMemberId();
-        Long travelId = bankAccountCreateReqDto.getTravelId();
-
         AccountPostDto accountPostDto = AccountPostDto.builder()
                 .accountNumber(bankAccountCreateResDto.getAccountNumber())
                 .bankName(bankAccountCreateResDto.getBankName())
@@ -75,8 +82,8 @@ public class GroupAccountController {
 
     @Operation(summary = "모임 단건 통장 조회", description = "모임 통장 단건 조회")
     @GetMapping("/{groupAccountId}")
-    public ResponseEntity<?> getGroupAccount(@PathVariable(name = "groupAccountId") Long groupAccountId) {
-        GroupAccountInfoDto groupAccountInfoDto = groupAccountService.groupAccountInfo(groupAccountId);
+    public ResponseEntity<?> getGroupAccount(@Parameter(hidden = true) Authentication authentication, @PathVariable(name = "groupAccountId") Long groupAccountId) {
+        GroupAccountInfoDto groupAccountInfoDto = groupAccountService.groupAccountInfo(authentication.getName(), groupAccountId);
         return response.success(ResponseCode.GROUP_ACCOUNT_INFO_FETCHED, groupAccountInfoDto);
     }
 
@@ -101,14 +108,14 @@ public class GroupAccountController {
 
     @Operation(summary = "모임통장에 속해있는 멤버, 납입금 조회", description = "모임통장에 속해있는 멤버, 납입금 조회")
     @GetMapping("/member/{travelId}")
-    public ResponseEntity<?> getGroupAccountMembers(@PathVariable(name = "travelId") Long travelId) {
-        return response.success(ResponseCode.GROUP_ACCOUNT_MEMBER_LIST_FETCHED, groupAccountService.getGroupAccountMembers(travelId));
+    public ResponseEntity<?> getGroupAccountMembers(@Parameter(hidden = true) Authentication authentication, @PathVariable(name = "travelId") Long travelId) {
+        return response.success(ResponseCode.GROUP_ACCOUNT_MEMBER_LIST_FETCHED, groupAccountService.getGroupAccountMembers(authentication.getName(), travelId));
     }
 
     @Operation(summary = "모임통장 멤버별 필수 납입금 조회", description = "모임통장 멤버별 필수 납입금 조회")
     @GetMapping("/totalDue/{travelId}")
-    public ResponseEntity<?> getTotalPayInfo(@PathVariable(name = "travelId") Long travelId) {
-        int result = groupAccountService.getTotalPay(travelId);
+    public ResponseEntity<?> getTotalPayInfo(@Parameter(hidden = true) Authentication authentication, @PathVariable(name = "travelId") Long travelId) {
+        int result = groupAccountService.getTotalPay(authentication.getName(), travelId);
         return response.success(ResponseCode.GROUP_ACCOUNT_TOTAL_PAY_INFO, result);
     }
 

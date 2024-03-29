@@ -1,20 +1,19 @@
 package com.noah.backend.domain.datailPlan.dto.responseDto;
 
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class DetailPlanListGetFromPlanDto {
-    private int day;
-    private int sequence;
-    private String place;
-    private double pinX;
-    private double pinY;
-    private String memo;
-    private String time;
-//    private Long plan_id;
+public class DetailPlanListDto {
+
+    private Long planId;
+    List<DetailPlanDto> detailPlanList;
+
 }

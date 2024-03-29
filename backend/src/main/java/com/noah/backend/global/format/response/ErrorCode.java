@@ -101,6 +101,7 @@ public enum ErrorCode {
 
     /*멤버여행(TravelMember)*/
     MEMBERTRAVEL_NOT_FOUND(HttpStatus.NOT_FOUND, "멤버여행을 찾을 수 없습니다."),
+    MEMBERTRAVEL_ACCESS_DENIED(HttpStatus.BAD_REQUEST, "여행에 접근할 수 없습니다."),
     MEMBERTRAVEL_PERMISSION_DENIED(HttpStatus.FORBIDDEN, "멤버여행 정보 수정 권한이 없습니다."),
     MEMBERTRAVEL_UPDATE_FAILED(HttpStatus.BAD_REQUEST, "멤버여행 정보 업데이트에 실패했습니다."),
     MEMBERTRAVEL_DELETE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "멤버여행 삭제에 실패했습니다."),
@@ -109,6 +110,7 @@ public enum ErrorCode {
     NOTIFICATION_NOT_FOUND(HttpStatus.NOT_FOUND, "알림을 찾을 수 없습니다."),
     NOTIFICATION_SEND_FAILED(HttpStatus.NOT_FOUND, "푸시알림 전송에 실패했습니다."),
     FIREBASE_TOKEN_NOT_EXIST(HttpStatus.NOT_FOUND, "파이어베이스 토큰이 존재하지 않습니다."),
+    NOTIFICATION_ACCESS_DENIED(HttpStatus.BAD_REQUEST, "알림에 접근할 수 없습니다."),
 
     /* 은행(Bank) */
     API_KEY_NOT_AVAILIABLE(HttpStatus.BAD_REQUEST, "API_KEY가 유효하지 않습니다."),
