@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Header from "./../components/common/Header";
 import { useState, useEffect } from "react";
 import MyAccount from "./../components/common/MyAccount";
@@ -7,16 +7,21 @@ import Button from "../components/common/Button";
 import { ReactComponent as TransferArrow } from "./../assets/Icon/TransferArrow.svg";
 import { getAccount } from "../api/account/Account";
 import { depositGroupAccount } from "../api/groupaccount/GroupAccount";
+import showToast from "../components/common/Toast";
 
 export default function TransferPage() {
+  const location = useLocation();
   const [seq, setSeq] = useState(0); // 페이지 관리를 위해
   // const [accountNumber, setAccountNumber] = useState(""); // 내 계좌번호 기억
-  const [accountId, setAccountId] = useState(null);
   const { travelId } = useParams();
   const [amount, setAmount] = useState(0); // 입금 금액
   const navigate = useNavigate();
   const [warningText, setWarningText] = useState("");
   const [accounts, setAccounts] = useState([]);
+  const [accountId, setAccountId] = useState(null);
+  const [selectAccount, setSelectAccount] = useState([]);
+
+  const { title, bankName, accountNumber } = location.state || {};
 
   // Header의 LeftIcon 클릭 이벤트 핸들러
   const handleLeftIconClick = () => {
@@ -27,17 +32,15 @@ export default function TransferPage() {
     }
   };
 
-  const handleAccountClick = (accountId) => {
+  const handleAccountClick = (account) => {
     setSeq(1);
-    setAccountId(accountId);
+    setAccountId(account.accountId);
+    setSelectAccount(account);
   };
 
   const handleTransfer = async () => {
     // 최종 송금 코드 작성
     if (!accountId || !travelId || !amount) {
-      console.log("accountId", accountId);
-      console.log("travelId", travelId);
-      console.log("amount", amount);
       console.error("필수 정보가 누락되었습니다.");
       return;
     }
@@ -50,10 +53,16 @@ export default function TransferPage() {
 
     try {
       const response = await depositGroupAccount(object);
-      console.log("송금 성공", response);
-      navigate("/home");
+      console.log(response);
+      if (response.status === "ERROR") {
+        setWarningText("잔액이 부족합니다.");
+        console.log("잔액부족");
+      } else {
+        console.log("송금 성공", response);
+        showToast("입금이 성공적으로 완료되었습니다.");
+        navigate("/home");
+      }
     } catch (error) {
-      setWarningText("잔액이 부족합니다.");
       console.log("송금 실패", error);
     }
   };
@@ -87,7 +96,7 @@ export default function TransferPage() {
                 type={account.bankName} // 조건에 따른 type 결정
                 accountNumber={account.accountNumber}
                 sum={account.amount}
-                onClick={() => handleAccountClick(account.accountId)}
+                onClick={() => handleAccountClick(account)}
               />
             ))}
         </>
@@ -197,14 +206,18 @@ export default function TransferPage() {
           <div className={styles.informationContainer}>
             <div className={styles.accountBorder}>
               <div className={styles.labelLarge}>내 계좌</div>
-              <div className={styles.paragraphMedium}>한국 172398712398</div>
+              <div className={styles.paragraphMedium}>
+                {selectAccount.bankName} {selectAccount.accountNumber}
+              </div>
             </div>
             <div style={{ margin: "2.22vw 0" }}>
               <TransferArrow style={{ width: "6.67vw", height: "6.67vw" }} />
             </div>
             <div className={styles.accountBorder}>
-              <div className={styles.labelLarge}>B106 여행가자</div>
-              <div className={styles.paragraphMedium}>한국 172398712398</div>
+              <div className={styles.labelLarge}>{title}</div>
+              <div className={styles.paragraphMedium}>
+                {bankName} {accountNumber}
+              </div>
             </div>
           </div>
           <div style={{ marginRight: "7vw" }}>
@@ -223,7 +236,7 @@ export default function TransferPage() {
             </div>
           </div>
           <div onClick={handleTransfer}>
-            <Button buttonText="송금" {...warningText} />
+            <Button buttonText="송금" warningText={warningText} />
           </div>
         </>
       )}
