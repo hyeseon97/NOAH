@@ -22,8 +22,10 @@ public class LoginRequestDto {
     private String email;
 
     @NotBlank(message = "비밀번호를 입력해 주세요.")
-    @Size(min = 3, max = 20, message = "비밀번호는 3자 이상 20자 이하이어야 합니다.")
+    @Size(min = 5, message = "비밀번호는 3자 이상 20자 이하이어야 합니다.")
     @Schema(description = "비밀번호", example = "noah12")
     private String password;
+
+    private String firebaseToken;
 
 }

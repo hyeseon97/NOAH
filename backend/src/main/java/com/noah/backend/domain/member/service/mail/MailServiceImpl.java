@@ -47,12 +47,6 @@ public class MailServiceImpl implements MailService {
     @Override
     public String sendEmailVerification(String receiver) {
 
-        /* 이메일 중복 검증 */
-        Member alreadyExist = memberRepository.findByEmail(receiver).orElse(null);
-        if(alreadyExist != null){
-            throw new DuplicateEmailException();
-        }
-
         int authCode = generateAuthCode();
         System.out.println("메일로 보내는 인증코드 : " + authCode);
         String content = createMailContent(authCode);
