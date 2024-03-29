@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ReactComponent as Cancel } from "../../assets/Icon/Cancel.svg";
 import { ReactComponent as Ship } from "../../assets/Icon/Ship.svg";
+import showToast from "../common/Toast";
 
 export default function Notification({ isInvitation, onDelete }) {
   const [startX, setStartX] = useState(0); // 스와이프 시작 X 좌표
@@ -156,7 +157,7 @@ export default function Notification({ isInvitation, onDelete }) {
     setIsModalVisible(false);
   };
 
-  const Modal = () => (
+  const Modal = ({ onDelete }) => (
     <div
       style={{
         position: "fixed",
@@ -196,9 +197,21 @@ export default function Notification({ isInvitation, onDelete }) {
       <div style={{ ...paragraphSmall, textAlign: "center" }}>
         목표금액: 1,000,000원
       </div>
-      <div style={button}>탑승</div>
+      <div
+        style={button}
+        onClick={() => {
+          closeModal();
+          showToast("초대를 수락하셨습니다.");
+        }}
+      >
+        탑승
+      </div>
       <div
         style={{ ...paragraphSmall, textAlign: "center", cursor: "pointer" }}
+        onClick={() => {
+          closeModal();
+          onDelete();
+        }}
       >
         거절
       </div>
@@ -240,7 +253,7 @@ export default function Notification({ isInvitation, onDelete }) {
         </div>
       </div>
       <div style={line}></div>
-      {isInvitation && isModalVisible && <Modal />}
+      {isInvitation && isModalVisible && <Modal onDelete={onDelete} />}
     </>
   );
 }
