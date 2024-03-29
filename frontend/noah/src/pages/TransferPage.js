@@ -7,6 +7,7 @@ import Button from "../components/common/Button";
 import { ReactComponent as TransferArrow } from "./../assets/Icon/TransferArrow.svg";
 import { getAccount } from "../api/account/Account";
 import { depositGroupAccount } from "../api/groupaccount/GroupAccount";
+import showToast from "../components/common/Toast";
 
 export default function TransferPage() {
   const location = useLocation();
@@ -53,6 +54,7 @@ export default function TransferPage() {
     try {
       const response = await depositGroupAccount(object);
       console.log("송금 성공", response);
+      showToast("입금이 성공적으로 완료되었습니다.");
       navigate("/home");
     } catch (error) {
       setWarningText("잔액이 부족합니다.");
