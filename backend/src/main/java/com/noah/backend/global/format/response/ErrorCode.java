@@ -50,6 +50,8 @@ public enum ErrorCode {
     // 항공(flight)
     REQUIRED_FIELD_FAILED(HttpStatus.BAD_REQUEST, "필수 입력을 모두 입력하지 않았습니다."),
     EXTERNAL_TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "외부 API 토큰이 만료되었습니다."),
+    AIRPORT_NOT_FOUND_DEP(HttpStatus.NOT_FOUND, "출발 공항을 찾을 수 없습니다."),
+    AIRPORT_NOT_FOUND_DES(HttpStatus.NOT_FOUND, "도착 공항을 찾을 수 없습니다."),
 
     /* 여행(Travel) */
     TRAVEL_NOT_FOUND(HttpStatus.NOT_FOUND, "여행을 찾을 수 없습니다."),
@@ -104,8 +106,24 @@ public enum ErrorCode {
     MEMBERTRAVEL_DELETE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "멤버여행 삭제에 실패했습니다."),
 
     /* 알림(Notification) */
-    NOTIFICATION_NOT_FOUND(HttpStatus.NOT_FOUND, "알림을 찾을 수 없습니다.");
+    NOTIFICATION_NOT_FOUND(HttpStatus.NOT_FOUND, "알림을 찾을 수 없습니다."),
+    NOTIFICATION_SEND_FAILED(HttpStatus.NOT_FOUND, "푸시알림 전송에 실패했습니다."),
+    FIREBASE_TOKEN_NOT_EXIST(HttpStatus.NOT_FOUND, "파이어베이스 토큰이 존재하지 않습니다."),
 
+    /* 은행(Bank) */
+    API_KEY_NOT_AVAILIABLE(HttpStatus.BAD_REQUEST, "API_KEY가 유효하지 않습니다."),
+    USER_KEY_NOT_AVAILIABLE(HttpStatus.BAD_REQUEST, "USER_KEY가 유효하지 않습니다."),
+    BANK_CODE_NOT_AVAILIABLE(HttpStatus.BAD_REQUEST, "은행코드가 유효하지 않습니다."),
+    BANK_ACCOUNT_NUMBER_NOT_AVAILIABLE(HttpStatus.BAD_REQUEST, " 계좌번호가 유효하지 않습니다."),
+    TRANSACTION_BALANCE_NOT_AVAILIABLE(HttpStatus.BAD_REQUEST, " 거래금액이 유효하지 않습니다."),
+    TRANSACTION_BALANCE_LACK(HttpStatus.BAD_REQUEST, " 계좌 잔액이 부족하여 거래가 실패했습니다. "),
+    EXCEEDED_TRANSFER_LIMIT_ONCE(HttpStatus.BAD_REQUEST, " 이체 가능 한도 초과(1회)."),
+    EXCEEDED_TRANSFER_LIMIT_ONEDAY(HttpStatus.BAD_REQUEST, " 이체 가능 한도 초과(1일)."),
+    TRANSACTION_SUMMARY_NOT_AVAILIABLE(HttpStatus.BAD_REQUEST, " 거래요약내용 길이가 초과되었습니다."),
+
+    /* 제안(suggest) */
+    SUGGEST_NOT_EXISTS(HttpStatus.BAD_REQUEST, "리뷰가 존재하지 않습니다."),
+    LOWER_THAN_PRICE_NOT_EXISTS(HttpStatus.BAD_REQUEST, "인당 가격보다 낮은 리뷰가 존재하지 않습니다.");
     private final HttpStatus status;
     private final String message;
 

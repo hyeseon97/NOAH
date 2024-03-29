@@ -29,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -69,7 +70,7 @@ public class TradeServiceImpl implements TradeService {
 
     @Transactional
     @Override
-    public List<TradeGetResDto> getTradeList(Long travelId) throws JsonProcessingException {
+    public List<TradeGetResDto> getTradeList(Long travelId) throws IOException {
         Travel travel = travelRepository.findById(travelId).orElseThrow(TravelNotFoundException::new);
         Account account = accountRepository.findById(travel.getGroupAccount().getAccount().getId()).orElseThrow(AccountNotFoundException::new);
 
@@ -86,16 +87,18 @@ public class TradeServiceImpl implements TradeService {
         if (account.getEndDate() == null) {
             account.setEndDate(endDate);
             fetchAndSaveTradeHistory(account, createdDate, endDate);
-            return tradeRepository.getTradeList(account.getId()).orElseThrow(TradeNotFoundException::new);
+            List<TradeGetResDto> result = tradeRepository.getTradeList(account.getId()).orElseThrow(TradeNotFoundException::new);
+            return result;
         } else {
             String startDate = account.getEndDate();
             fetchAndSaveTradeHistory(account, startDate, endDate);
-            return tradeRepository.getTradeList(account.getId()).orElseThrow(TradeNotFoundException::new);
+            List<TradeGetResDto> result = tradeRepository.getTradeList(account.getId()).orElseThrow(TradeNotFoundException::new);
+            return result;
         }
     }
 
     /* 은행에서 가져오고 저장하는 메서드 */
-    private void fetchAndSaveTradeHistory(Account account, String startDate, String endDate) throws JsonProcessingException {
+    private void fetchAndSaveTradeHistory(Account account, String startDate, String endDate) throws IOException {
         /* 은행 코드 */
         Map<String, String> bankCodeMap = Map.of(
                 "한국은행", "001",
@@ -116,10 +119,12 @@ public class TradeServiceImpl implements TradeService {
                 .orderByType("ASC")
                 .build();
 
+
         /* 은행에서 가져온 내역 */
         List<TransactionHistoryResDto> bankTradeHistory = bankService.transactionHistory(transactionHistoryReqDto);
         /* 만약에 은행에서도 거래내역이 조회가 안되면 종료 */
         if (bankTradeHistory == null) {
+            System.out.println("조회안됨");
             return;
         }
 

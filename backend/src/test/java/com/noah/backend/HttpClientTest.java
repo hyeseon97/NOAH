@@ -9,6 +9,7 @@ import com.noah.backend.domain.bank.dto.requestDto.*;
 import com.noah.backend.domain.bank.dto.responseDto.*;
 import com.noah.backend.domain.admin.dto.requestDto.AdminKeyRequestDto;
 import com.noah.backend.domain.member.dto.requestDto.UserKeyRequestDto;
+import com.noah.backend.global.exception.bank.*;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
@@ -17,7 +18,9 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -400,7 +403,7 @@ public class HttpClientTest {
 		String userKey = "06c7432c-09cc-4190-a119-ff5128072c6f";
 		String bankCode = "002";
 		String accountNo = "0027546213312878";
-		int transactionBalance = 10000;
+		int transactionBalance = -10000;
 		String transactionSummary = "이우진 입금합니다";
 		BankAccountDepositReqDto bankAccountDepositReqDto = new BankAccountDepositReqDto();
 		bankAccountDepositReqDto.setUserKey(userKey);
@@ -446,7 +449,7 @@ public class HttpClientTest {
 				System.out.println("계좌 입금 제대로되는지 확인");
 				System.out.println("처리 결과 : " + (String)REC.get("responseMessage"));
 			} else {
-				System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+				errorCheck(response);
 			}
 		} catch (Exception e){
 			System.err.println(e.toString());
@@ -505,7 +508,7 @@ public class HttpClientTest {
 				System.out.println("계좌 출금 제대로되는지 확인");
 				System.out.println("처리 결과 : " + (String)REC.get("responseMessage"));
 			} else {
-				System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+				errorCheck(response);
 			}
 		} catch (Exception e){
 			System.err.println(e.toString());
@@ -572,7 +575,7 @@ public class HttpClientTest {
 				System.out.println("계좌 이체 제대로되는지 확인");
 				System.out.println("처리 결과 : " + (String)REC.get("responseMessage"));
 			} else {
-				System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+				errorCheck(response);
 			}
 		} catch (Exception e){
 			System.err.println(e.toString());
@@ -836,5 +839,33 @@ public class HttpClientTest {
 			System.out.println(result.get(key));
 		}
 		System.out.println(result);
+	}
+
+	public static void errorCheck(HttpResponse response) throws IOException {
+		System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+		String responseString = EntityUtils.toString(response.getEntity());
+		Gson gson = new Gson();
+		Map<String, Object> responseMap = gson.fromJson(responseString, Map.class);
+		System.out.println(responseMap.get("responseCode"));
+		String errorCode = (String) responseMap.get("responseCode");
+		if(errorCode.equals("H1008")){
+			throw new H1008Exception();
+		}else if(errorCode.equals("H1009")){
+			throw new H1009Exception();
+		}else if(errorCode.equals("A1001")){
+			throw new A1001Exception();
+		}else if(errorCode.equals("A1003")){
+			throw new A1003Exception();
+		}else if(errorCode.equals("A1011")){
+			throw new A1011Exception();
+		}else if(errorCode.equals("A1014")){
+			throw new A1014Exception();
+		}else if(errorCode.equals("A1016")){
+			throw new A1016Exception();
+		}else if(errorCode.equals("A1017")){
+			throw new A1017Exception();
+		}else if(errorCode.equals("A1018")){
+			throw new A1018Exception();
+		}
 	}
 }

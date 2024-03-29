@@ -1,0 +1,40 @@
+{
+  "short_name": "NOAH",
+  "name": "NOAH",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "noah64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "noah128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "noah192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "noah256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "noah512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

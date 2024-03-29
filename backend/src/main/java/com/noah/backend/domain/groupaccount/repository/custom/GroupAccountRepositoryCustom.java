@@ -13,4 +13,8 @@ public interface GroupAccountRepositoryCustom {
     Optional<List<GroupAccountInfoDto>> getGroupAccountListByMemberId(Long memberId);
 
     Optional<List<Long>> getGroupAccountIdsByMemberId(Long memberId);
+
+	Optional<Integer> findBalance(Long travelId);
+
+	Optional<Integer> findTargetAmount(Long travelId);
 }
