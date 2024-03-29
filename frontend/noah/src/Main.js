@@ -20,6 +20,8 @@ import MyPage from "./pages/MyPage";
 import TravelHistoryPage from "./pages/TravelHistoryPage";
 import AutomaticWithdrawalSettingPage from "./pages/AutomaticWithdrawalSettingPage";
 import ErrorPage from "./pages/ErrorPage";
+import GoogleMapSearch from "./pages/GoogleMapSearch";
+import TestGoogleMap from "./pages/TestGoogleMap";
 
 export default function Main() {
   return (
@@ -49,6 +51,8 @@ export default function Main() {
             <Route path="planningcreate" element={<PlanningCreatePage />} />
             <Route path="planning" element={<PlanningPage />} />
           </Route>
+          <Route path="googlemap" element={<GoogleMapSearch />} />
+          <Route path="testgooglemap" element={<TestGoogleMap />} />
           <Route path="notification" element={<NotificationPage />} />
           <Route path="mypage" element={<MyPage />} />
           <Route path="travelhistory" element={<TravelHistoryPage />} />
