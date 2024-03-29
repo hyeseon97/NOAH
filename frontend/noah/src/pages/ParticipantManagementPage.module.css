@@ -1,0 +1,34 @@
+.memberBox{
+    height: 27.78vw;
+    padding-left: 8.89vw;
+    padding-right: 3.33vw;
+    display: flex;
+    justify-content: space-between;
+}
+.memberBoxLeft{
+    margin-top: 4.94vw;
+}
+.labelLarge{
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 5.92vw;
+    line-height: 150%;
+    color: #000000;
+}
+.paragraphSmall{
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 3.33vw;
+    line-height: 160%;
+    color: #898989;
+}
+.memberBoxRight{
+    margin-top: 8.89vw;
+}
+.line{
+    width: 100vw;
+    height: 0px;
+    border: 0.277vw solid rgba(137, 137, 137, 0.3);
+}
