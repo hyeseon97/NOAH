@@ -53,11 +53,16 @@ export default function TransferPage() {
 
     try {
       const response = await depositGroupAccount(object);
-      console.log("송금 성공", response);
-      showToast("입금이 성공적으로 완료되었습니다.");
-      navigate("/home");
+      console.log(response);
+      if (response.status === "ERROR") {
+        setWarningText("잔액이 부족합니다.");
+        console.log("잔액부족");
+      } else {
+        console.log("송금 성공", response);
+        showToast("입금이 성공적으로 완료되었습니다.");
+        navigate("/home");
+      }
     } catch (error) {
-      setWarningText("잔액이 부족합니다.");
       console.log("송금 실패", error);
     }
   };
@@ -231,7 +236,7 @@ export default function TransferPage() {
             </div>
           </div>
           <div onClick={handleTransfer}>
-            <Button buttonText="송금" {...warningText} />
+            <Button buttonText="송금" warningText={warningText} />
           </div>
         </>
       )}

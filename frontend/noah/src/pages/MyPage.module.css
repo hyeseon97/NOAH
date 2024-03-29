@@ -27,7 +27,22 @@
     font-Size: 3.35vw;
     line-Height: 150%;
     color: #898989;
-};
-.menuConatiner{
-
+}
+.menuContainer{
+    margin-left: 5.56vw;
+    margin-right: 5.56vw;
+    height: 17.78vw;
+    display: flex;
+    align-items: center;
+    padding-left: 5.28vw;
+    gap: 6.67vw;
+    border-bottom: 1px solid;
+    border-color: #898989;    
+}
+.icon{
+    height: 5vw;
+    width: 5vw;
+}
+.bottom{
+    height: 42.78vw;
 }
