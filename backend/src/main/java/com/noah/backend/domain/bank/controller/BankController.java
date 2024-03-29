@@ -5,8 +5,10 @@ import com.noah.backend.domain.bank.dto.requestDto.*;
 import com.noah.backend.domain.bank.dto.responseDto.BankAccountBalanceCheckResDto;
 import com.noah.backend.domain.bank.dto.responseDto.BankAccountListResDto;
 import com.noah.backend.domain.bank.service.BankService;
+import com.noah.backend.domain.csv.OpenCsvTest;
 import com.noah.backend.global.format.code.ApiResponse;
 import com.noah.backend.global.format.response.ResponseCode;
+import com.opencsv.exceptions.CsvValidationException;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 @RestController
@@ -25,11 +28,13 @@ public class BankController {//계좌 입금, 계좌 출금, 계좌 이체 기�
 
 	private final ApiResponse response;
 	private  final BankService bankService;
+	private  final OpenCsvTest openCsvTest;
 	//계좌 목록 조회
 	@PostMapping("/bankAccountList")
 	@Operation(summary = "계좌 목록 조회", description = "계좌 목록 조회")
-	public ResponseEntity<?> bankAccountList(@RequestBody BankAccountListReqDto bankAccountListReqDto) throws IOException {
+	public ResponseEntity<?> bankAccountList(@RequestBody BankAccountListReqDto bankAccountListReqDto) throws IOException, CsvValidationException, ParseException {
 		ArrayList<BankAccountListResDto> bankAccountList= bankService.bankAccountList(bankAccountListReqDto);
+//		openCsvTest.readCsvAndSaveReviews();
 		return response.success(ResponseCode.BANK_DEPOSIT_SUCCESS,bankAccountList);
 	}
 
