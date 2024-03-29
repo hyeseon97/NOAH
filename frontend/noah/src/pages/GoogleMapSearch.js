@@ -136,18 +136,79 @@ export default function GoogleMapSearch() {
   const searchResultsRef = useRef(null); // 상세 정보 창에 대한 ref
   const toggleButtonRef = useRef(null); // 토글 버튼에 대한 ref
   const libraries = ["places"];
+  const [center, setCenter] = useState({ lat: 37.5665, lng: 126.978 });
 
   const onLoad = (map) => {
     mapRef.current = map;
     getCurrentLocation();
   };
+  
 
-  // const apiKey = "AIzaSyDQuG0EPBRz632DtyOLTtopsQ97Uun8ybM"; // 여기에 실제 API 키를 입력해주세요.
-  // const center = "Seoul";
-  // const zoom = 10;
-  // const size = "400x350";
-  // const mapType = "roadmap";
-  // const markersw = "color:blue%7Clabel:S%7C37.5665,126.9780";
+  const [size, setSize] = useState(getSize());
+
+  function getSize() {
+    const widthVW = window.innerWidth * 0.8; // 뷰포트의 80%
+    const heightVH = window.innerHeight * 0.4; // 뷰포트의 40%
+    return `${Math.round(widthVW)}x${Math.round(heightVH)}`;
+  }
+
+  const apiKey = "AIzaSyDQuG0EPBRz632DtyOLTtopsQ97Uun8ybM"; // 여기에 실제 API 키를 입력해주세요.
+  // const center = `${outPlace.geometry.location.lat()},${outPlace.geometry.location.lng()}`;
+
+  const zoom = 14;
+  const widthVW = window.innerWidth * 1; // 뷰포트의 80%
+  const heightVH = window.innerHeight * 0.5; // 뷰포트의 40%
+  // const size = `${Math.round(widthVW)}x${Math.round(heightVH)}`;
+  const mapType = "roadMap";
+  const markersw = "color:blue%7Clabel:S%7C37.5665,126.9780";
+  const [mapUrl, setMapUrl] = useState("");
+
+  useEffect(() => {
+    if (outPlace && outPlace.geometry && outPlace.geometry.location) {
+      setCenter({
+        lat: outPlace.geometry.location.lat(),
+        lng: outPlace.geometry.location.lng(),
+      });
+      setMarkers([
+        {
+          // 새 마커 위치를 설정
+          lat: outPlace.geometry.location.lat(),
+          lng: outPlace.geometry.location.lng(),
+        },
+      ]);
+    }
+  }, [outPlace]);
+
+  // useEffect(() => {
+  //   if (outPlace && outPlace.geometry && outPlace.geometry.location) {
+  //     const lat = outPlace.geometry.location.lat();
+  //     const lng = outPlace.geometry.location.lng();
+  //     setCenter({ lat, lng });
+  //     setMarkers([{ lat, lng }]);
+  //     const newMapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=${zoom}&size=${size}&maptype=${mapType}&markers=color:blue%7Clabel:S%7C${lat},${lng}&key=${apiKey}`;
+  //     setMapUrl(newMapUrl);
+  //   }
+  // }, [outPlace]);
+
+  useEffect(() => {
+    if (outPlace?.geometry?.location) {
+      const lat = outPlace.geometry.location.lat();
+      const lng = outPlace.geometry.location.lng();
+      const newMapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=${zoom}&size=${widthVW}x${heightVH}&maptype=${mapType}&markers=color:blue%7Clabel:S%7C${lat},${lng}&key=${apiKey}`;
+      setMapUrl(newMapUrl);
+    }
+  }, [outPlace, widthVW, heightVH, zoom, mapType, apiKey]);
+
+  useEffect(() => {
+    function handleResize() {
+      setSize(getSize());
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   // const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${center}&zoom=${zoom}&size=${size}&maptype=${mapType}&markers=${markersw}&key=${apiKey}`;
 
@@ -225,10 +286,10 @@ export default function GoogleMapSearch() {
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      if(mapRef.current){
+      if (mapRef.current) {
         getCurrentLocation(); // 컴포넌트가 마운트될 때 사용자의 현재 위치를 가져옵니다.
       }
-    }, 1000)
+    }, 1000);
     // console.log(googleMapApiKey);
     return () => clearTimeout(timeoutId);
   }, []);
@@ -313,7 +374,7 @@ export default function GoogleMapSearch() {
       </div>
       <LoadScript googleMapsApiKey={googleMapApiKey} libraries={["places"]}>
         <GoogleMap
-          mapContainerStyle={containerStyle}
+          // mapContainerStyle={containerStyle}
           center={center}
           zoom={10}
           onLoad={onLoad}
@@ -324,7 +385,7 @@ export default function GoogleMapSearch() {
           ))}
         </GoogleMap>
       </LoadScript>
-      {/* <img src={mapUrl} alt="Static Map" /> */}
+      <img key={mapUrl} src={mapUrl} alt="Static Map" />
 
       <div
         style={{
