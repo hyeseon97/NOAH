@@ -5,14 +5,11 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Header from "./../components/common/Header";
 
-const containerStyle = {
-  // width: "300px",
-  // height: "200px",
-  width: "100vw",
-  height: "65vh",
-  // margin: "10px",
-  backgroundColor: "transparent",
-};
+// const containerStyle = {
+//   width: "100vw",
+//   height: "65vh",
+//   backgroundColor: "transparent",
+// };
 
 const reviewStyle = {
   width: "400px",
@@ -85,12 +82,6 @@ const Review = ({ review }) => {
   );
 };
 
-// const Photo = ({ photo }) => {
-//   const imageUrl = photo.getUrl({ maxWidth: 200 }); // maxWidth를 지정하여 이미지 크기 조절
-
-//   return <img src={imageUrl} alt="장소 사진" style={{ margin: "10px" }} />;
-// };
-
 const PhotoSlider = ({ photos }) => {
   const settings = {
     dots: false, // 슬라이더 하단에 점 표시 여부
@@ -142,7 +133,6 @@ export default function GoogleMapSearch() {
     mapRef.current = map;
     getCurrentLocation();
   };
-  
 
   const [size, setSize] = useState(getSize());
 
@@ -163,21 +153,21 @@ export default function GoogleMapSearch() {
   const markersw = "color:blue%7Clabel:S%7C37.5665,126.9780";
   const [mapUrl, setMapUrl] = useState("");
 
-  useEffect(() => {
-    if (outPlace && outPlace.geometry && outPlace.geometry.location) {
-      setCenter({
-        lat: outPlace.geometry.location.lat(),
-        lng: outPlace.geometry.location.lng(),
-      });
-      setMarkers([
-        {
-          // 새 마커 위치를 설정
-          lat: outPlace.geometry.location.lat(),
-          lng: outPlace.geometry.location.lng(),
-        },
-      ]);
-    }
-  }, [outPlace]);
+  // useEffect(() => {
+  //   if (outPlace && outPlace.geometry && outPlace.geometry.location) {
+  //     setCenter({
+  //       lat: outPlace.geometry.location.lat(),
+  //       lng: outPlace.geometry.location.lng(),
+  //     });
+  //     setMarkers([
+  //       {
+  //         // 새 마커 위치를 설정
+  //         lat: outPlace.geometry.location.lat(),
+  //         lng: outPlace.geometry.location.lng(),
+  //       },
+  //     ]);
+  //   }
+  // }, [outPlace]);
 
   // useEffect(() => {
   //   if (outPlace && outPlace.geometry && outPlace.geometry.location) {
@@ -210,8 +200,6 @@ export default function GoogleMapSearch() {
     };
   }, []);
 
-  // const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${center}&zoom=${zoom}&size=${size}&maptype=${mapType}&markers=${markersw}&key=${apiKey}`;
-
   const toggleShowList = () => {
     setShowList(!showList);
     console.log(showList);
@@ -225,10 +213,6 @@ export default function GoogleMapSearch() {
       setShowList(true); // 검색어가 있을 때 검색 결과창을 표시
     }
   };
-
-  // const onUnmount = () => {
-  //   mapRef.current = null;
-  // };
 
   useEffect(() => {
     // 클릭 이벤트 리스너를 document에 추가
@@ -255,7 +239,7 @@ export default function GoogleMapSearch() {
     position: "absolute", // 절대 위치 지정
     bottom: 0, // 하단에 위치
     width: "100%", // 너비는 전체 차지
-    height: "30vh", // 높이는 30vh
+    height: "66vh", // 높이는 70vh
     backgroundColor: "#fff", // 배경색 지정
     overflowY: "scroll", // 내용이 많을 경우 스크롤
     display: showList ? "block" : "none", // showList 상태에 따라 보여주기/숨기기
@@ -370,7 +354,7 @@ export default function GoogleMapSearch() {
           onChange={handleSearchChange}
           placeholder="장소 검색..."
         />
-        <button onClick={getCurrentLocation}>현재 위치 가져오기</button>
+        {/* <button onClick={getCurrentLocation}>현재 위치 가져오기</button> */}
       </div>
       <LoadScript googleMapsApiKey={googleMapApiKey} libraries={["places"]}>
         <GoogleMap
@@ -385,7 +369,6 @@ export default function GoogleMapSearch() {
           ))}
         </GoogleMap>
       </LoadScript>
-      <img key={mapUrl} src={mapUrl} alt="Static Map" />
 
       <div
         style={{
@@ -417,6 +400,8 @@ export default function GoogleMapSearch() {
           </div>
           {outPlace && (
             <div style={listResult}>
+              <img key={mapUrl} src={mapUrl} alt="Static Map" />
+
               {outPlace.formatted_address}
               <br />
               {outPlace.geometry?.location.lat()}
