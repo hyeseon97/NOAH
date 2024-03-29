@@ -23,8 +23,8 @@ public class SignupRequestDto {
     @Schema(description = "이메일", example = "noah@naver.com")
     private String email;
 
-    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d).+$",
-             message = "비밀번호는 알파벳, 숫자 각가 1개이상 포함하고 3~20자 이내여야 합니다. (특수문자 가능)")
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d!@\\$%^&]{5,}$",
+             message = "비밀번호는 알파벳, 숫자 각가 1개이상 포함하고 5자 이상이어야 합니다. (특수문자 ! @ $ % ^ & 만 가능)")
     @Schema(description = "비밀번호", example = "noah12")
     private String password;
 
