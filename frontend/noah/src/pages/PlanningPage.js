@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Header from "./../components/common/Header";
 
+import {
+  getDetailPlan,
+  getDetailPlanList,
+  updateDetailPlan,
+  deleteDetailPlan,
+  createDetailPlan
+} from "../api/detailplan/DetailPlan";
+
 // const imgStyle = {
 //   width: "90px",
 //   height: "90px",

@@ -5,6 +5,14 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Header from "./../components/common/Header";
 
+import {
+  getDetailPlan,
+  getDetailPlanList,
+  updateDetailPlan,
+  deleteDetailPlan,
+  createDetailPlan
+} from "../api/detailplan/DetailPlan";
+
 // const containerStyle = {
 //   width: "100vw",
 //   height: "65vh",
