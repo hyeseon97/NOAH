@@ -233,6 +233,7 @@ export default function GoogleMapSearch() {
       const lat = outPlace.geometry.location.lat();
       const lng = outPlace.geometry.location.lng();
       const newMapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=${zoom}&size=${widthVW}x${heightVH}&maptype=${mapType}&markers=color:blue%7Clabel:S%7C${lat},${lng}&key=${apiKey}`;
+      console.log(newMapUrl)
       setMapUrl(newMapUrl);
     }
   }, [outPlace, widthVW, heightVH, zoom, mapType, apiKey]);

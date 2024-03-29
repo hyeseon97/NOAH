@@ -33,11 +33,45 @@ import {
 const headStyle = {
   height: "50px",
   margin: "10px",
+  marginTop: "15px",
+  marginBottom: "15px",
   display: "flex",
   flexDirection: "row",
   justifyContent: "space-between",
   alignItems: "beetween",
   // backgroundColor: "coral",
+};
+
+const bigFont = {
+  fontFamily: "Pretendard",
+  fontStyle: "normal",
+  fontWeight: "700",
+  fontSize: "5.2vw",
+  lineHeight: "140%",
+};
+
+const middleFont = {
+  fontFamily: "Pretendard",
+  fontStyle: "normal",
+  fontWeight: "700",
+  fontSize: "4.6vw",
+  lineHeight: "140%",
+};
+
+const smallFont = {
+  fontFamily: "Pretendard",
+  fontStyle: "normal",
+  fontWeight: "500",
+  fontSize: "3.9vw",
+  lineHeight: "140%",
+};
+
+const smallBoldFont = {
+  fontFamily: "Pretendard",
+  fontStyle: "normal",
+  fontWeight: "700",
+  fontSize: "3.9vw",
+  lineHeight: "140%",
 };
 
 const midStyle = {
@@ -205,8 +239,8 @@ export default function PlanningPage() {
       <Header LeftIcon="Arrow" Title="계획" />
       <div style={headStyle}>
         <div>
-          <div>{plan.title}</div>
-          <div>
+          <div style={bigFont}>{plan.title}</div>
+          <div style={middleFont}>
             {plan.start_date} ~ {plan.end_date}
           </div>
         </div>
@@ -215,10 +249,10 @@ export default function PlanningPage() {
       <div style={midStyle}>
         <Next style={privousButton} />
         <div>
-          <div>
+          <div style={smallFont}>
             {day.detailday} {day.detailweekday}
           </div>
-          <div>DAY {day.sqday}</div>
+          <div style={bigFont}>DAY {day.sqday}</div>
         </div>
         <Next style={nextButton} />
       </div>
@@ -226,23 +260,23 @@ export default function PlanningPage() {
         <div>
           <div style={planeBoxStyle}>
             <div style={planeInfo}>
-              <div>{plane.a_airport}</div>
+              <div style={middleFont}>{plane.a_airport}</div>
 
-              <div>{getTimeFromString(plane.arrival)}</div>
+              <div style={smallFont}>{getTimeFromString(plane.arrival)}</div>
             </div>
             <SmallPlane style={smallPlaneStyle} />
             <div style={planeInfo}>
-              <div>{plane.d_airport}</div>
-              <div>{getTimeFromString(plane.departure)}</div>
+              <div style={middleFont}>{plane.d_airport}</div>
+              <div style={smallFont}>{getTimeFromString(plane.departure)}</div>
             </div>
           </div>
           {detailPlans.map((detailPlan, index) => (
             <div key={index} style={boxStyle}>
               <img src={detailPlan.url} style={imgStyle} />
               <div style={placeInfoStyle}>
-                <p>{detailPlan.place}</p>
-                <p>{detailPlan.city}</p>
-                <p>{detailPlan.rate}</p>
+                <div style={smallBoldFont}>{detailPlan.place}</div>
+                <div style={smallFont}>{detailPlan.city}</div>
+                <div style={smallFont}>사용자 평점 {detailPlan.rate}</div>
               </div>
               <TrashCan style={trashCanButton} />
             </div>
@@ -250,7 +284,7 @@ export default function PlanningPage() {
         </div>
         <div style={addDetailPlanStyle}>
           <Plus />
-          <div>새로운 계획 추가</div>
+          <div style={middleFont}>새로운 계획 추가</div>
         </div>
       </div>
     </>
