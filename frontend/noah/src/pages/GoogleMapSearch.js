@@ -6,9 +6,9 @@ import "slick-carousel/slick/slick-theme.css";
 import Header from "./../components/common/Header";
 
 const containerStyle = {
-  // width: "400px",
-  // height: "400px",
-  width: "100vh",
+  // width: "300px",
+  // height: "200px",
+  width: "100vw",
   height: "65vh",
   // margin: "10px",
   backgroundColor: "transparent",
@@ -32,7 +32,7 @@ const listSearch = {
 };
 
 const buttonStyle = {
-  width: "300px",
+  width: "200px",
   height: "70px",
 };
 
@@ -47,12 +47,12 @@ const center = {
 };
 
 const placeOrTicket = {
-  height: "11vh",
+  height: "8vh",
   backgroundColor: "red",
 };
 
 const searchPlace = {
-  height: "11vh",
+  height: "8vh",
   display: "flex",
   flexDirection: "row",
   justifyContent: "center",
@@ -91,8 +91,6 @@ const Review = ({ review }) => {
 //   return <img src={imageUrl} alt="장소 사진" style={{ margin: "10px" }} />;
 // };
 
-
-
 const PhotoSlider = ({ photos }) => {
   const settings = {
     dots: false, // 슬라이더 하단에 점 표시 여부
@@ -126,10 +124,6 @@ const PhotoSlider = ({ photos }) => {
 };
 
 export default function GoogleMapSearch() {
-  const onMapLoad = React.useCallback((map) => {
-    console.log("Google Map API loaded and map object:", map);
-  }, []);
-  
   const [markers, setMarkers] = useState([]);
   const [search, setSearch] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -141,9 +135,21 @@ export default function GoogleMapSearch() {
   const [showList, setShowList] = useState(false);
   const searchResultsRef = useRef(null); // 상세 정보 창에 대한 ref
   const toggleButtonRef = useRef(null); // 토글 버튼에 대한 ref
-  // const onLoad = (map) => {
-  //   mapRef.current = map;
-  // };
+  const libraries = ["places"];
+
+  const onLoad = (map) => {
+    mapRef.current = map;
+    getCurrentLocation();
+  };
+
+  // const apiKey = "AIzaSyDQuG0EPBRz632DtyOLTtopsQ97Uun8ybM"; // 여기에 실제 API 키를 입력해주세요.
+  // const center = "Seoul";
+  // const zoom = 10;
+  // const size = "400x350";
+  // const mapType = "roadmap";
+  // const markersw = "color:blue%7Clabel:S%7C37.5665,126.9780";
+
+  // const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${center}&zoom=${zoom}&size=${size}&maptype=${mapType}&markers=${markersw}&key=${apiKey}`;
 
   const toggleShowList = () => {
     setShowList(!showList);
@@ -218,8 +224,13 @@ export default function GoogleMapSearch() {
   }, [search]);
 
   useEffect(() => {
-    // getCurrentLocation(); // 컴포넌트가 마운트될 때 사용자의 현재 위치를 가져옵니다.
-    console.log(googleMapApiKey);
+    const timeoutId = setTimeout(() => {
+      if(mapRef.current){
+        getCurrentLocation(); // 컴포넌트가 마운트될 때 사용자의 현재 위치를 가져옵니다.
+      }
+    }, 1000)
+    // console.log(googleMapApiKey);
+    return () => clearTimeout(timeoutId);
   }, []);
 
   const handleSelect = (placeId, event) => {
@@ -265,8 +276,8 @@ export default function GoogleMapSearch() {
 
   useEffect(() => {
     if (mapRef.current) {
-      // window.google.maps.event.trigger(mapRef.current, "resize");
-      // getCurrentLocation();
+      window.google.maps.event.trigger(mapRef.current, "resize");
+      getCurrentLocation();
     }
   }, [mapRef.current]);
 
@@ -290,7 +301,7 @@ export default function GoogleMapSearch() {
   return (
     <>
       <Header LeftIcon="Arrow" Title="장소 검색" />
-      <div style={placeOrTicket} onClick={() => setShowList(false)} ></div>
+      <div style={placeOrTicket} onClick={() => setShowList(false)}></div>
       <div style={searchPlace} onClick={() => setShowList(false)}>
         <input
           style={buttonStyle}
@@ -305,7 +316,7 @@ export default function GoogleMapSearch() {
           mapContainerStyle={containerStyle}
           center={center}
           zoom={10}
-          onLoad={onMapLoad}
+          onLoad={onLoad}
           onUnmount={() => (mapRef.current = null)}
         >
           {markers.map((marker, i) => (
@@ -313,6 +324,8 @@ export default function GoogleMapSearch() {
           ))}
         </GoogleMap>
       </LoadScript>
+      {/* <img src={mapUrl} alt="Static Map" /> */}
+
       <div
         style={{
           ...searchPlace,
