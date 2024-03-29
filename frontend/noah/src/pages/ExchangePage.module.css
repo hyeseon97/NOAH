@@ -1,0 +1,40 @@
+.ExchangeContainer{
+    padding-left: 8.06vw;
+    padding-right: 8.06vw;
+}
+.ExchangeContainerTop{
+    margin-top: 14.17vw;
+    margin-bottom: 12.5vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.labelXL{
+    font-Family: "Pretendard";
+    font-Style: normal;
+    font-Weight: 600;
+    font-Size: 7.90vw;
+    line-Height: 150%;
+    text-Align: center;
+    color: #000000;
+}
+.paragraphSmall{
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 3.33vw;
+    line-height: 160%;
+    color: #898989;
+    width: 100vw;
+    text-align: center;
+}
+.paragraphSmallExchange{
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 3.33vw;
+    line-height: 160%;
+    color: #898989;
+    text-align: right;
+    margin: 1vw;
+}
