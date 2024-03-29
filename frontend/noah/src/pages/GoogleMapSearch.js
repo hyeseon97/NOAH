@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Header from "./../components/common/Header";
+import { ReactComponent as Mark } from "./../assets/Icon/Mark.svg";
 
 import {
   getDetailPlan,
@@ -28,21 +29,32 @@ const reviewStyle = {
 };
 
 const listSearch = {
-  backgroundColor: "coral",
+  // backgroundColor: "coral",
   // margin: "10px",
   display: "flex",
   flexDirection: "row",
   justifyContent: "center",
   alignItems: "center",
+  textAlign: "center",
+  width: "90vw",
+  fontFamily: "Pretendard",
+  fontStyle: "normal",
+  fontWeight: "700",
+  fontSize: "3.4vw",
+  lineHeight: "200%",
 };
 
 const buttonStyle = {
-  width: "90vw",
-  height: "10vh",
+  width: "60vw",
+  height: "8vh",
+  border: "none",
+  marginLeft: "20px",
 };
 
 const listResult = {
-  backgroundColor: "pink",
+  // backgroundColor: "pink",
+  // display: "flex",
+  // flexDirection: "row"
   // height: "100px"
   // margin: "10px",
 };
@@ -52,9 +64,25 @@ const center = {
   lng: 126.978,
 };
 
+const toggleStyle = {
+  cursor: "pointer",
+  position: "absolute",
+  bottom: "0px",
+  backgroundColor: "gray",
+  width: "100vw",
+  alignItems: "center",
+  textAlign: "center",
+};
+
 const placeOrTicket = {
   height: "8vh",
-  backgroundColor: "red",
+  // backgroundColor: "red",
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-evenly",
+  marginLeft: "20px",
+  marginRight: "20px",
+  alignItems: "center",
 };
 
 const searchPlace = {
@@ -63,7 +91,10 @@ const searchPlace = {
   flexDirection: "row",
   justifyContent: "center",
   alignItems: "center",
-  backgroundColor: "green",
+  border: "1px solid gray",
+  borderRadius: "5px",
+  margin: "10px",
+  // backgroundColor: "green",
 };
 
 const Review = ({ review }) => {
@@ -233,7 +264,7 @@ export default function GoogleMapSearch() {
       const lat = outPlace.geometry.location.lat();
       const lng = outPlace.geometry.location.lng();
       const newMapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=${zoom}&size=${widthVW}x${heightVH}&maptype=${mapType}&markers=color:blue%7Clabel:S%7C${lat},${lng}&key=${apiKey}`;
-      console.log(newMapUrl)
+      console.log(newMapUrl);
       setMapUrl(newMapUrl);
     }
   }, [outPlace, widthVW, heightVH, zoom, mapType, apiKey]);
@@ -306,12 +337,15 @@ export default function GoogleMapSearch() {
   // 검색 결과 및 상세 정보를 보여주는 영역을 제어하는 스타일 추가
   const searchResultsStyle = {
     position: "absolute", // 절대 위치 지정
+    // display: "flex",
     bottom: 0, // 하단에 위치
     width: "100%", // 너비는 전체 차지
     height: "71vh", // 높이는 70vh
     backgroundColor: "#fff", // 배경색 지정
     overflowY: "scroll", // 내용이 많을 경우 스크롤
     display: showList ? "block" : "none", // showList 상태에 따라 보여주기/숨기기
+    alignItems: "center",
+    textAlign: "center",
   };
 
   useEffect(() => {
@@ -416,8 +450,12 @@ export default function GoogleMapSearch() {
   return (
     <>
       <Header LeftIcon="Arrow" Title="장소 검색" />
-      <div style={placeOrTicket} onClick={() => setShowList(false)}></div>
+      <div style={placeOrTicket} onClick={() => setShowList(false)}>
+        <div>장소</div>
+        <div>항공권</div>
+      </div>
       <div style={searchPlace} onClick={() => setShowList(false)}>
+        <Mark />
         <input
           style={buttonStyle}
           value={search}
@@ -441,10 +479,10 @@ export default function GoogleMapSearch() {
       </LoadScript>
 
       <div
-        style={{
-          cursor: "pointer",
-          backgroundColor: detailToggle ? "yellow" : "orange", // 토글 버튼 색상 변경
-        }}
+        style={
+          toggleStyle
+          // 토글 버튼 색상 변경
+        }
         onClick={changeDetailToggle}
       >
         {detailToggle ? "상세 정보 숨기기" : "상세 정보 보기"}
