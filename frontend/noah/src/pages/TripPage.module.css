@@ -1,0 +1,25 @@
+.detailParagraph {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 3.33vw;
+  line-height: 160%;
+  color: #898989;
+  text-decoration: underline;
+}
+
+.planBorder {
+  border: 0.277vw solid #e1e1e1;
+  backdrop-filter: blur(0.277vw);
+  border-radius: 2.77vw;
+  width: 83vw;
+  height: 50vw;
+  cursor: pointer;
+}
+
+.blackLine {
+}
+
+.menuContainer {
+  display: flex;
+}
