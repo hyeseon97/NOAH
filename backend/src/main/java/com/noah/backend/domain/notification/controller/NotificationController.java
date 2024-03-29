@@ -60,6 +60,4 @@ public class NotificationController {
         return response.success(ResponseCode.INVITE_REFUSE);
     }
 
-
-
 }

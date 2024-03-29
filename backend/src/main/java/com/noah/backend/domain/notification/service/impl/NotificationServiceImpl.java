@@ -1,5 +1,8 @@
 package com.noah.backend.domain.notification.service.impl;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingException;
+import com.google.firebase.messaging.Message;
 import com.noah.backend.domain.member.entity.Member;
 import com.noah.backend.domain.member.repository.MemberRepository;
 import com.noah.backend.domain.memberTravel.Repository.MemberTravelRepository;
@@ -12,13 +15,12 @@ import com.noah.backend.domain.travel.entity.Travel;
 import com.noah.backend.domain.travel.repository.TravelRepository;
 import com.noah.backend.global.exception.member.MemberNotFoundException;
 import com.noah.backend.global.exception.notification.NotificationNotFoundException;
+import com.noah.backend.global.exception.notification.NotificationSendFailedException;
 import com.noah.backend.global.exception.travel.TravelMemberNotFoundException;
 import com.noah.backend.global.exception.travel.TravelNotFoundException;
 import java.time.LocalDate;
 import java.util.List;
-import javax.management.NotificationFilter;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -33,6 +35,7 @@ public class NotificationServiceImpl implements NotificationService {
     private final MemberRepository memberRepository;
     private final TravelRepository travelRepository;
     private final MemberTravelRepository memberTravelRepository;
+    private final FirebaseMessaging firebaseMessaging;
 
     @Transactional
     @Override
@@ -49,7 +52,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Transactional
-    @Scheduled(cron = "${schedule.cron}")
+    @Scheduled(cron = "${schedule.notify_pay}")
     @Override
     public void paymentNotify() {
         System.out.println("납입일 알림을 보낼 시간");
@@ -82,6 +85,11 @@ public class NotificationServiceImpl implements NotificationService {
                 notificationRepository.save(notification);
 
                 // 파이어베이스로 푸쉬알림
+                String title = "NOAH";
+                String body = "[ " + travel.getTitle() + " ] 여행의 납입일 입니다.";
+                if(!sendNotificationByToken(member.getNotificationToken(), title, body)) {
+                    throw new NotificationSendFailedException();
+                }
 
             }
         }
@@ -117,5 +125,29 @@ public class NotificationServiceImpl implements NotificationService {
 
     }
 
+    // 파이어베이스로 푸시알림
+    // 알림을 보낼 사용자의 파이어베이스토큰 - token
+    // 푸시알림의 제목이랑 내용 - title, body
+    @Override
+    public boolean sendNotificationByToken(String token, String title, String body) {
+
+        com.google.firebase.messaging.Notification notification = com.google.firebase.messaging.Notification.builder()
+                                                                                                            .setTitle(title)
+                                                                                                            .setBody(body).build();
+
+
+        Message message = Message.builder()
+                                 .setToken(token)
+                                 .setNotification(notification)
+                                 .build();
+
+        try {
+            firebaseMessaging.send(message);
+            return true;
+        } catch (FirebaseMessagingException e) {
+            return false;
+        }
+
+    }
 
 }

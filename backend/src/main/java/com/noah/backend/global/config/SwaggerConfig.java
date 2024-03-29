@@ -132,6 +132,15 @@ public class SwaggerConfig {
 
     }
 
+    @Bean
+    public GroupedOpenApi suggestReview() {
+        return GroupedOpenApi.builder()
+                .group("제안")
+                .pathsToMatch("/api/v1/Suggest/**")
+                .build();
+
+    }
+
 //    @Bean
 //    public GroupedOpenApi flightGroup() {
 //        return GroupedOpenApi.builder()

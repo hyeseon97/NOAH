@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Tag(name = "Account 컨트롤러", description = "Account Controller API")
@@ -44,7 +45,7 @@ public class AccountController {
 
     @Operation(summary = "멤버별 계좌 조회", description = "멤버별 계좌 조회")
     @GetMapping("/my")
-    public ResponseEntity<?> getMyAccountList(@Parameter(hidden = true) Authentication authentication) throws JsonProcessingException {
+    public ResponseEntity<?> getMyAccountList(@Parameter(hidden = true) Authentication authentication) throws IOException {
         Long memberId = memberService.searchMember(authentication).getMemberId();
         List<AccountInfoDto> accountInfoList = accountService.getMyAccountList(memberId);
         if (accountInfoList.isEmpty()) {

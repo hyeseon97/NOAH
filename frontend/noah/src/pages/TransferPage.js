@@ -1,16 +1,22 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from "./../components/common/Header";
 import { useState, useEffect } from "react";
 import MyAccount from "./../components/common/MyAccount";
 import styles from "./TransferPage.module.css";
 import Button from "../components/common/Button";
 import { ReactComponent as TransferArrow } from "./../assets/Icon/TransferArrow.svg";
+import { getAccount } from "../api/account/Account";
+import { depositGroupAccount } from "../api/groupaccount/GroupAccount";
 
 export default function TransferPage() {
   const [seq, setSeq] = useState(0); // 페이지 관리를 위해
-  const [accountNumber, setAccountNumber] = useState(""); // 내 계좌번호 기억
+  // const [accountNumber, setAccountNumber] = useState(""); // 내 계좌번호 기억
+  const [accountId, setAccountId] = useState(null);
+  const { travelId } = useParams();
   const [amount, setAmount] = useState(0); // 입금 금액
   const navigate = useNavigate();
+  const [warningText, setWarningText] = useState("");
+  const [accounts, setAccounts] = useState([]);
 
   // Header의 LeftIcon 클릭 이벤트 핸들러
   const handleLeftIconClick = () => {
@@ -21,14 +27,48 @@ export default function TransferPage() {
     }
   };
 
-  const handleAccountClick = (accountNumber) => {
+  const handleAccountClick = (accountId) => {
     setSeq(1);
-    setAccountNumber(accountNumber);
+    setAccountId(accountId);
   };
 
-  const handleTransfer = () => {
+  const handleTransfer = async () => {
     // 최종 송금 코드 작성
+    if (!accountId || !travelId || !amount) {
+      console.log("accountId", accountId);
+      console.log("travelId", travelId);
+      console.log("amount", amount);
+      console.error("필수 정보가 누락되었습니다.");
+      return;
+    }
+
+    const object = {
+      accountId,
+      travelId,
+      amount,
+    };
+
+    try {
+      const response = await depositGroupAccount(object);
+      console.log("송금 성공", response);
+      navigate("/home");
+    } catch (error) {
+      setWarningText("잔액이 부족합니다.");
+      console.log("송금 실패", error);
+    }
   };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await getAccount();
+        console.log(res);
+        setAccounts(res.data);
+      } catch (e) {
+        console.log(e);
+      }
+    })();
+  }, []);
 
   return (
     <>
@@ -39,18 +79,17 @@ export default function TransferPage() {
             Title="내 계좌"
             onClick={handleLeftIconClick}
           />
-          <MyAccount
-            type="1"
-            accountNumber="17412929801013"
-            sum="1364300"
-            onClick={() => handleAccountClick(17412929801013)}
-          />
-          <MyAccount
-            type="2"
-            accountNumber="17412929801013"
-            sum="14300"
-            onClick={() => handleAccountClick(17412929801013)}
-          />
+          {accounts
+            .filter((account) => account.type !== "공동계좌") // 공동계좌만 불러옴
+            .map((account) => (
+              <MyAccount
+                key={account.accountId} // 고유 key 값으로 accountId 사용
+                type={account.bankName} // 조건에 따른 type 결정
+                accountNumber={account.accountNumber}
+                sum={account.amount}
+                onClick={() => handleAccountClick(account.accountId)}
+              />
+            ))}
         </>
       )}
       {seq === 1 && (
@@ -184,7 +223,7 @@ export default function TransferPage() {
             </div>
           </div>
           <div onClick={handleTransfer}>
-            <Button buttonText="송금" warningText="계좌에 잔액이 부족합니다." />
+            <Button buttonText="송금" {...warningText} />
           </div>
         </>
       )}

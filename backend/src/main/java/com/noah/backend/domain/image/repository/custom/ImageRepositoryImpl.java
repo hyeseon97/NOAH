@@ -2,6 +2,7 @@ package com.noah.backend.domain.image.repository.custom;
 
 import com.noah.backend.domain.image.dto.requestDto.ImageGetDto;
 import com.noah.backend.domain.image.dto.requestDto.ImageListGetDto;
+import com.noah.backend.domain.image.entity.Image;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -36,5 +37,13 @@ public class ImageRepositoryImpl implements ImageRepositoryCustom {
                 ,image.url))
                 .from(image).where(image.id.eq(imageId)).fetchOne();
         return Optional.ofNullable(imageSelect);
+    }
+
+    @Override
+    public Optional<List<Long>> findImageOfReview(Long reviewId) {
+        return Optional.ofNullable(query.select(image.id)
+                .from(image)
+                .where(image.review.id.eq(reviewId))
+                .fetch());
     }
 }

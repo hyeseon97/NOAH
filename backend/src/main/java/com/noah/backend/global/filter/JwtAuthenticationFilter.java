@@ -49,7 +49,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
 
         log.info("URI: {} {}", request.getMethod(), request.getRequestURI());
-        
+
 
         /* 토큰 필터 패스: 정의된 URL 패턴에 맞는 경우 토큰 검사를 건너뜁니다. */
         if (shouldFilter(request.getRequestURI())) {

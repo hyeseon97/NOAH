@@ -6,12 +6,13 @@ import com.noah.backend.domain.trade.dto.requestDto.TradeGetReqDto;
 import com.noah.backend.domain.trade.dto.requestDto.TradePostReqDto;
 import com.noah.backend.domain.trade.dto.responseDto.TradeGetResDto;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface TradeService {
     void createTrade(TradePostReqDto tradePostReqDto);
 
-    List<TradeGetResDto> getTradeList(Long travelId) throws JsonProcessingException;
+    List<TradeGetResDto> getTradeList(Long travelId) throws IOException;
 
     List<TradeGetResDto> getTradeListByMemberAndConsumeType(Long travelId, List<Long> memberIds, List<String> consumeTypes);
 

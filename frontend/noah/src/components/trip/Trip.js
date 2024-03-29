@@ -67,12 +67,18 @@ export default function Trip({
   onClick,
   isLast = false,
   fromHome = false,
-  tripid,
+  groupAccountId,
+  travelId,
+  title,
+  bankName,
+  accountNumber,
+  amount,
+  targetAmount,
 }) {
   const navigate = useNavigate();
   const handleAccountClick = (e) => {
     e.stopPropagation();
-    navigate(`/transfer/${tripid}`);
+    navigate(`/transfer/${travelId}`);
   };
   const accountStyle = fromHome
     ? {
@@ -91,15 +97,13 @@ export default function Trip({
         </div>
       ) : (
         <div style={borderStyle} onClick={onClick}>
-          <div style={{ ...labelMedium, marginTop: "3.33vw" }}>
-            B106 여행가자
-          </div>
+          <div style={{ ...labelMedium, marginTop: "3.33vw" }}>{title}</div>
           {fromHome && (
             <div
               style={{ ...paragraphSmall, ...accountStyle }}
               onClick={handleAccountClick}
             >
-              기업 178298390192 입금
+              {bankName} {accountNumber} 입금
             </div>
           )}
           {!fromHome && (
@@ -107,13 +111,15 @@ export default function Trip({
               style={{ ...paragraphSmall, color: "#898989" }}
               onClick={handleAccountClick}
             >
-              기업 178298390192
+              {bankName} {accountNumber}
             </div>
           )}
           <div style={{ ...labelXL, marginTop: "5vw", marginBottom: "6vw" }}>
-            650,000원
+            {new Intl.NumberFormat("ko-KR").format(amount)}원
           </div>
-          <div style={paragraphSmall}>목표금액: 1,000,000원</div>
+          <div style={paragraphSmall}>
+            목표금액: {new Intl.NumberFormat("ko-KR").format(targetAmount)}원
+          </div>
         </div>
       )}
     </>

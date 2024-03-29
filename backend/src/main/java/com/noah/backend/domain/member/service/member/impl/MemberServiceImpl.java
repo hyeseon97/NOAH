@@ -30,6 +30,8 @@ import com.noah.backend.global.jwt.repository.RefreshTokenRepository;
 import com.noah.backend.global.jwt.service.TokenService;
 import com.noah.backend.global.util.CookieUtil;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
 import java.util.concurrent.ThreadLocalRandom;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -56,7 +58,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     @Override
-    public Long create(SignupRequestDto requestDto) throws JsonProcessingException {
+    public Long create(SignupRequestDto requestDto) throws IOException {
         // 회원가입
 
         /* 싸피 금융망으로 UserKey 발급 */
