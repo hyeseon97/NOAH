@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { ReactComponent as Cancel } from "../../assets/Icon/Cancel.svg";
+import { ReactComponent as Ship } from "../../assets/Icon/Ship.svg";
 
-export default function Notification() {
+export default function Notification({ isInvitation, onDelete }) {
   const [startX, setStartX] = useState(0); // 스와이프 시작 X 좌표
   const [isSwiping, setIsSwiping] = useState(false); // 스와이핑 중인지 여부
   const [translateX, setTranslateX] = useState(0); // 변환(이동) X 좌표
@@ -37,7 +39,7 @@ export default function Notification() {
       }
     } else {
       e.stopPropagation();
-      console.log("터치");
+      handleClick();
     }
     setIsSwiping(false);
   };
@@ -91,6 +93,35 @@ export default function Notification() {
     background: "#f6f6f6",
   };
 
+  const title = {
+    //labelXL
+    fontFamily: "Pretendard",
+    fontStyle: "normal",
+    fontWeight: "600",
+    fontSize: "7.90vw",
+    lineHeight: "150%",
+    textAlign: "center",
+    color: "#000000",
+  };
+
+  const button = {
+    textAlign: "center",
+
+    fontFamily: "Pretendard",
+    fontSize: "4.44vw",
+    fontWeight: "normal",
+    lineHeight: "150%",
+    color: "white",
+    backgroundColor: "black",
+    width: "70vw",
+    height: "7.77vw",
+    margin: "5vw auto 1vw auto",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
+  };
+
   const labelSmall = {
     fontFamily: "Pretendard",
     fontStyle: "normal",
@@ -108,6 +139,71 @@ export default function Notification() {
     lineHeight: "160%",
     color: "#898989",
   };
+
+  const [isModalVisible, setIsModalVisible] = useState(false); // 모달 보이기/숨기기 상태
+  // 기존 코드...
+
+  const [isDeleteClicked, setIsDeleteClicked] = useState(false);
+  // 클릭 이벤트에서 모달 상태 변경
+  const handleClick = () => {
+    if (!isDeleteClicked) {
+      setIsModalVisible(true); // 모달을 보이게 설정
+    }
+  };
+
+  // 모달을 닫는 함수
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
+
+  const Modal = () => (
+    <div
+      style={{
+        position: "fixed",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        background: "white",
+        zIndex: 100,
+        width: "88.8vw",
+        height: "83.3vw",
+        borderRadius: "2.77vw",
+        border: "0.277vw solid #E1E1E1",
+        backdropFilter: "blur(0.277vw)",
+      }}
+    >
+      {/* 모달 내용 */}
+      <div onClick={closeModal}>
+        <Cancel
+          style={{
+            width: "6.67vw",
+            height: "6.67vw",
+            marginTop: "4.44vw",
+            marginLeft: "3.33vw",
+            cursor: "pointer",
+          }}
+        />
+      </div>
+      <Ship
+        style={{
+          width: "26.67vw",
+          height: "26.67vw",
+          marginTop: "4.44vw",
+          marginLeft: "31.11vw",
+        }}
+      />
+      <div style={title}>B106여행가자</div>
+      <div style={{ ...paragraphSmall, textAlign: "center" }}>
+        목표금액: 1,000,000원
+      </div>
+      <div style={button}>탑승</div>
+      <div
+        style={{ ...paragraphSmall, textAlign: "center", cursor: "pointer" }}
+      >
+        거절
+      </div>
+    </div>
+  );
 
   return (
     <>
@@ -129,11 +225,22 @@ export default function Notification() {
           </div>
           <div style={paragraphSmall}>2024.03.08 14:57:32</div>
         </div>
-        <div style={deleteButton} onClick={() => console.log("삭제")}>
+        <div
+          style={deleteButton}
+          onClick={(e) => {
+            e.stopPropagation();
+
+            setTimeout(() => {
+              onDelete();
+              setTimeout(() => setIsDeleteClicked(true), 0);
+            }, 0);
+          }}
+        >
           삭제
         </div>
       </div>
       <div style={line}></div>
+      {isInvitation && isModalVisible && <Modal />}
     </>
   );
 }
