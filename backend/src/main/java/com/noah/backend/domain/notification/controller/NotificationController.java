@@ -29,14 +29,6 @@ public class NotificationController {
     private final ApiResponse response;
     private final NotificationService notificationService;
 
-    @Operation(summary = "파이어베이스 토큰 저장", description = "알림을 위한 파이어베이스 토큰 저장")
-    @PostMapping("/token")
-    public ResponseEntity<?> saveToken(@Parameter(hidden = true) Authentication authentication,
-                                       @RequestBody SaveTokenDto saveTokenDto) {
-        notificationService.saveToken(authentication.getName(), saveTokenDto.getToken());
-        return response.success(ResponseCode.NOTIFICATION_TOKEN_SAVED);
-    }
-
     @Operation(summary = "알림 조회", description = "나에게 온 알림 리스트 조회")
     @GetMapping
     public ResponseEntity<?> getNotification(@Parameter(hidden = true) Authentication authentication){

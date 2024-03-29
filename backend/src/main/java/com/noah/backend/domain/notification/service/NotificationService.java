@@ -6,8 +6,6 @@ import java.util.List;
 
 public interface NotificationService {
 
-    void saveToken(String email, String token);
-
     List<NotificationGetDto> getNotification(String email);
 
     void paymentNotify();

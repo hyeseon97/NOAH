@@ -20,6 +20,7 @@ import com.noah.backend.domain.member.dto.responseDto.MemberSearchDto;
 import com.noah.backend.domain.member.entity.Member;
 import com.noah.backend.domain.member.repository.MemberRepository;
 import com.noah.backend.domain.member.service.member.MemberService;
+import com.noah.backend.global.exception.member.DuplicateEmailException;
 import com.noah.backend.global.exception.member.EmailNotFoundException;
 import com.noah.backend.global.exception.member.InvalidLoginAttemptException;
 import com.noah.backend.global.exception.member.MemberNotFoundException;
@@ -60,6 +61,12 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Long create(SignupRequestDto requestDto) throws IOException {
         // 회원가입
+
+        /* 이메일 중복 검증 */
+        Member alreadyExist = memberRepository.findByEmail(requestDto.getEmail()).orElse(null);
+        if(alreadyExist != null){
+            throw new DuplicateEmailException();
+        }
 
         /* 싸피 금융망으로 UserKey 발급 */
         MemberCreateReqDto memberCreateReqDto = MemberCreateReqDto.builder()
@@ -181,6 +188,9 @@ public class MemberServiceImpl implements MemberService {
         tokenService.saveToken(tokenInfo);
         // refresh 토큰 쿠키에 넣기
         cookieUtil.addCookie("RefreshToken", tokenInfo.getRefreshToken(), tokenProvider.getREFRESH_TOKEN_TIME(), response);
+
+        // 파이어베이스 토큰 저장
+        member.setNotificationToken(requestDto.getFirebaseToken());
 
         // 로그인 응답
         return LoginResponseDto.builder()
