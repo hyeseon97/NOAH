@@ -68,7 +68,7 @@ export default function Trip({
   isLast = false,
   fromHome = false,
   groupAccountId,
-  tripid,
+  travelId,
   title,
   bankName,
   accountNumber,
@@ -78,7 +78,7 @@ export default function Trip({
   const navigate = useNavigate();
   const handleAccountClick = (e) => {
     e.stopPropagation();
-    navigate(`/transfer/${tripid}`);
+    navigate(`/transfer/${travelId}`);
   };
   const accountStyle = fromHome
     ? {

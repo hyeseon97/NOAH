@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from "./../components/common/Header";
 import { useState, useEffect } from "react";
 import MyAccount from "./../components/common/MyAccount";
@@ -12,7 +12,7 @@ export default function TransferPage() {
   const [seq, setSeq] = useState(0); // 페이지 관리를 위해
   // const [accountNumber, setAccountNumber] = useState(""); // 내 계좌번호 기억
   const [accountId, setAccountId] = useState(null);
-  const [travelId, setTravelId] = useState(null);
+  const { travelId } = useParams();
   const [amount, setAmount] = useState(0); // 입금 금액
   const navigate = useNavigate();
 
@@ -35,6 +35,9 @@ export default function TransferPage() {
   const handleTransfer = async () => {
     // 최종 송금 코드 작성
     if (!accountId || !travelId || !amount) {
+      console.log("accountId", accountId);
+      console.log("travelId", travelId);
+      console.log("amount", amount);
       console.error("필수 정보가 누락되었습니다.");
       return;
     }

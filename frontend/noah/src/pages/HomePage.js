@@ -128,6 +128,7 @@ export default function HomePage() {
             amount={trip.amount}
             targetAmount={trip.targetAmount}
             fromHome={true}
+            travelId={trip.travelId}
           />
         ))}
         <Trip isLast={true} />
