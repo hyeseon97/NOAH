@@ -21,21 +21,19 @@ public class TravelGetDto {
 
     private Long groupAccountId;
     private int targetAmount;
-    private int usedAmount;
 
     private Long accountId;
 
     private Long planId;
     private List<SimplePlan> simplePlanList;
 
-    public TravelGetDto(Long travelId, String title, boolean isEnded, Long groupAccountId, int targetAmount, int usedAmount,
+    public TravelGetDto(Long travelId, String title, boolean isEnded, Long groupAccountId, int targetAmount,
                         Long accountId, Long planId) {
         this.travelId = travelId;
         this.title = title;
         this.isEnded = isEnded;
         this.groupAccountId = groupAccountId;
         this.targetAmount = targetAmount;
-        this.usedAmount = usedAmount;
         this.accountId = accountId;
         this.planId = planId;
     }

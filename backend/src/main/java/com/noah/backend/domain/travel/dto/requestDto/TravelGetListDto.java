@@ -22,9 +22,11 @@ public class TravelGetListDto {
     private String travelTitle;
 
     private Long groupAccountId;
-    private Long groupAccountNumber;
-    private int groupAccountAmount;
     private int groupAccountTargetAmount;
+
+    private Long accountId;
+    private Long accountNumber;
+    private int accountBalance;
 
     private String currency;
     private int exchangeRate;

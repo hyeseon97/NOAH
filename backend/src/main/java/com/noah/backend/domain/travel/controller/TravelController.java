@@ -48,17 +48,15 @@ public class TravelController {
         return response.success(ResponseCode.TRAVEL_INFO_FETCHED, selectTravel);
     }
 
-    @Operation(summary = "메인페이지에 표시할 나의 여행 리스트 조회", description = "여행별 모임통장, 환율, 추천 조회")
-    @GetMapping("/list")
-    public ResponseEntity<?> getTravelMember(@Parameter(hidden = true) Authentication authentication){
-
-        Long memberId = memberService.searchMember(authentication).getMemberId();
-
-        List<TravelGetListDto> travelList = travelService.getTravelMemberId(memberId);
-
-        return response.success(ResponseCode.TRAVEL_INFO_FETCHED, travelList);
-
-    }
+//    @Operation(summary = "메인페이지에 표시할 나의 여행 리스트 조회", description = "여행별 모임통장, 환율, 추천 조회")
+//    @GetMapping()
+//    public ResponseEntity<?> getTravelMember(@Parameter(hidden = true) Authentication authentication){
+//
+//        List<TravelGetListDto> travelList = travelService.getTravelMemberId(authentication.getName());
+//
+//        return response.success(ResponseCode.TRAVEL_INFO_FETCHED, travelList);
+//
+//    }
 
     @Operation(summary = "여행 생성", description = "여행 생성 기능")
     @PostMapping

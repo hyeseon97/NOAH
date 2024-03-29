@@ -14,7 +14,7 @@ public interface TravelService {
 
     TravelGetDto getTravelSelect(String email, Long travelId);
 
-    List<TravelGetListDto> getTravelMemberId(Long memberId);
+//    List<TravelGetListDto> getTravelMemberId(String email);
 
     Long createTravel(TravelPostDto travelDto);
 

@@ -10,7 +10,6 @@ import com.noah.backend.domain.plan.repository.PlanRepository;
 import com.noah.backend.domain.review.repository.ReviewRepository;
 import com.noah.backend.domain.ticket.repository.TicketRepository;
 import com.noah.backend.domain.travel.dto.responseDto.TravelGetDto;
-import com.noah.backend.domain.travel.dto.responseDto.TravelGetDtoJun;
 import com.noah.backend.domain.travel.dto.requestDto.TravelGetListDto;
 import com.noah.backend.domain.travel.dto.requestDto.TravelPostDto;
 import com.noah.backend.domain.travel.dto.requestDto.TravelUpdateDto;
@@ -20,7 +19,6 @@ import com.noah.backend.domain.travel.service.TravelService;
 import com.noah.backend.global.exception.membertravel.MemberTravelAccessException;
 import com.noah.backend.global.exception.travel.TravelNotFoundException;
 import com.noah.backend.global.exception.travelmember.MemberTravelNotFound;
-import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -56,15 +54,19 @@ public class TravelServiceImpl implements TravelService {
             MemberTravelAccessException::new);
         /* ------ */
 
-        TravelGetDto travelGetDto = travelRepository.getTravel(travelId).orElseThrow(TravelNotFoundException::new);
+        TravelGetDto travelGetDto = travelRepository.getTravelSelect(travelId).orElseThrow(TravelNotFoundException::new);
         List<SimplePlan> simplePlanList = planRepository.getSimplePlan(travelGetDto.getPlanId()).orElse(null);
         return travelGetDto;
     }
 
-    @Override
-    public List<TravelGetListDto> getTravelMemberId(Long memberId) {
-        return travelRepository.getTravelListToMember(memberId).orElseThrow(TravelNotFoundException::new);
-    }
+//    @Override
+//    public List<TravelGetListDto> getTravelMemberId(String email) {
+//
+//        Member member = memberRepository.findByEmail(email).orElseThrow(MemberTravelNotFound::new);
+//
+//        List<TravelGetListDto> travelList =
+//        return travelRepository.getTravelListToMember(memberId).orElseThrow(TravelNotFoundException::new);
+//    }
 
     @Override
     public Long createTravel(TravelPostDto travelDto) {

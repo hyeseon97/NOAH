@@ -176,8 +176,8 @@ public class TravelRepositoryImpl implements TravelRepositoryCustom{
     }
 
     @Override
-    public Optional<TravelGetDto> getTravel(Long travelId) {
-        return Optional.ofNullable(query.select(Projections.constructor(TravelGetDto.class, travel.id, travel.title, travel.isEnded, groupAccount.id, groupAccount.targetAmount, groupAccount.usedAmount, groupAccount.account.id, plan.id))
+    public Optional<TravelGetDto> getTravelSelect(Long travelId) {
+        return Optional.ofNullable(query.select(Projections.constructor(TravelGetDto.class, travel.id, travel.title, travel.isEnded, groupAccount.id, groupAccount.targetAmount, groupAccount.account.id, plan.id))
                                        .from(travel)
                                        .leftJoin(groupAccount).on(groupAccount.travel.id.eq(travel.id))
                                        .leftJoin(plan).on(plan.travel.id.eq(travel.id))
