@@ -27,6 +27,10 @@ yarn-error.log*
 *.Zone.Identifier
 *Zone.Identifier
 
+### 노드서버 ###
+data-source.ts
+data-source.js
+
 ### 백엔드 ###
 
 HELP.md
@@ -71,3 +75,6 @@ out/
 /src/main/resources/firebase/noah-511a6-firebase-adminsdk-axl07-5b624e81fd.json
 
 /src/main/generated
+
+
+

@@ -20,6 +20,7 @@ getToken(messaging, {
     if (currentToken) {
       // Send the token to your server and update the UI if necessary
       // ...
+      localStorage.setItem("firebaseToken", currentToken);
       console.log(currentToken);
     } else {
       // Show permission request UI
