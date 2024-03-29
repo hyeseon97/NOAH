@@ -4,6 +4,7 @@ import com.noah.backend.domain.datailPlan.dto.responseDto.DetailPlanDto;
 import com.noah.backend.domain.datailPlan.dto.responseDto.DetailPlanListDto;
 import com.noah.backend.domain.plan.dto.responseDto.PlanGetDto;
 import com.noah.backend.domain.plan.dto.responseDto.PlanListGetFromTravelDto;
+import com.noah.backend.domain.plan.dto.responseDto.SimplePlan;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -69,5 +70,15 @@ public class PlanRepositoryImpl implements PlanRepositoryCustom {
             planDto.setDetailPlanList(detailDtos);
         }
         return Optional.ofNullable(planDto);
+    }
+
+    @Override
+    public Optional<List<SimplePlan>> getSimplePlan(Long planId) {
+        return Optional.ofNullable(query.select(Projections.constructor(SimplePlan.class, detailPlan.day, detailPlan.place))
+                                       .from(plan)
+                                       .leftJoin(detailPlan).on(detailPlan.plan.id.eq(planId))
+                                       .where(plan.id.eq(planId).and(detailPlan.sequence.eq(1)))
+                                       .orderBy(detailPlan.day.asc())
+                                       .fetch());
     }
 }

@@ -4,6 +4,7 @@ import com.noah.backend.domain.member.service.member.MemberService;
 import com.noah.backend.domain.memberTravel.Service.MemberTravelService;
 import com.noah.backend.domain.memberTravel.dto.Request.MemberTravelInviteDto;
 import com.noah.backend.domain.travel.dto.responseDto.TravelGetDto;
+import com.noah.backend.domain.travel.dto.responseDto.TravelGetDtoJun;
 import com.noah.backend.domain.travel.dto.requestDto.TravelGetListDto;
 import com.noah.backend.domain.travel.dto.requestDto.TravelPostDto;
 import com.noah.backend.domain.travel.dto.requestDto.TravelUpdateDto;
@@ -40,7 +41,7 @@ public class TravelController {
         return response.success(ResponseCode.TRAVEL_INFO_FETCHED, travelList);
     }
 
-    @Operation(summary = "여행 선택 조회", description = "여행 선택 상세 조회 / travelID 필요")
+    @Operation(summary = "여행 선택 조회", description = "목표금액 그래프, 날짜별 대표 장소 출력하는 페이지 요청용")
     @GetMapping("{travelId}")
     public ResponseEntity<?> getTravelSelect(@Parameter(hidden = true) Authentication authentication, @PathVariable(value = "travelId") Long travelId){
         TravelGetDto selectTravel = travelService.getTravelSelect(authentication.getName(), travelId);
