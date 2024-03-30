@@ -1,6 +1,7 @@
 .ExchangeContainer{
     padding-left: 8.06vw;
     padding-right: 8.06vw;
+    margin-bottom: 15.28vw;
 }
 .ExchangeContainerTop{
     margin-top: 14.17vw;
@@ -18,7 +19,7 @@
     text-Align: center;
     color: #000000;
 }
-.paragraphSmall{
+.paragraphSmallTop{
     font-family: "Pretendard";
     font-style: normal;
     font-weight: 500;
@@ -28,7 +29,23 @@
     width: 100vw;
     text-align: center;
 }
-.paragraphSmallExchange{
+.paragraphSmallBlack{
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 3.33vw;
+    line-height: 160%;
+    color: #000000;
+}
+.paragraphSmallGrey{
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 3vw;
+    line-height: 160%;
+    color: #898989;
+}
+.paragraphSmallExchangeRight{
     font-family: "Pretendard";
     font-style: normal;
     font-weight: 500;
@@ -38,3 +55,72 @@
     text-align: right;
     margin: 1vw;
 }
+.notificationContainer{
+    margin-top: 9.17vw;
+}
+.notificationContainerTop{
+    display: flex;
+    justify-content: space-between;
+}
+.labelMedium{
+    font-Family: "Pretendard";
+    font-Style: normal;
+    font-Weight: 600;
+    font-Size: 4.45vw;
+    line-Height: 150%;
+    color: #000000;
+}
+.notificationBox{
+    border: 0.277vw solid #E1E1E1;
+    backdrop-Filter: blur(0.277vw);
+    border-Radius: 2.77vw;
+    width: 83vw;
+    padding-left: 3vw;
+    padding-right: 3vw;
+    padding-top: 2vw;
+    padding-bottom: 2vw;
+    height: 18.5vw;
+    display: flex;
+    justify-Content: space-between;
+}
+.paragraphSmall{
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 3.33vw;
+    line-height: 160%;
+    color: #000000;
+}
+.paragraphSmallExchangeLeft{
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 3.33vw;
+    line-height: 160%;
+    color: #898989;
+    text-align: left;
+}
+.boxRight{
+    display: flex;
+    gap: 4.44vw;
+}
+.setRate{
+    margin-top: 1vw;
+}
+.headingLarge{
+    font-Family: "Pretendard";
+    font-Style: normal;
+    font-Weight: 700;
+    font-Size: 5.7vw;
+    line-Height: 140%;
+}
+.labelSmallBlue{
+    display: flex;
+    font-Family: "Pretendard";
+    font-Style: normal;
+    font-Weight: 600;
+    font-Size: 3.35vw;
+    line-Height: 150%;
+    align-items: center;
+    color: #0075FF;
+};
