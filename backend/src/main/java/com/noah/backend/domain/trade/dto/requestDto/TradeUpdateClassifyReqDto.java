@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TradeUpdateClassifyReqDto {
+    private Long tradeId;
     private Long memberId;
     private String consumeType;
 }

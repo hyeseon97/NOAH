@@ -9,9 +9,11 @@ import com.noah.backend.domain.trade.service.TradeService;
 import com.noah.backend.global.format.code.ApiResponse;
 import com.noah.backend.global.format.response.ResponseCode;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -34,10 +36,10 @@ public class TradeController {
     }
 
     @Operation(summary = "거래내역 전체 조회", description = "전체 거래 내역 조회")
-    @GetMapping("/{travel_id}")
-    public ResponseEntity<?> getTradeList(@PathVariable(name = "travel_id") Long travelId) throws IOException {
+    @GetMapping("/{travelId}")
+    public ResponseEntity<?> getTradeList(@Parameter(hidden = true) Authentication authentication, @PathVariable(name = "travelId") Long travelId) throws IOException {
 
-        List<TradeGetResDto> result = tradeService.getTradeList(travelId);
+        List<TradeGetResDto> result = tradeService.getTradeList(authentication.getName(), travelId);
         if (result.isEmpty()) {
             return response.success(ResponseCode.TRADE_LIST_NOT_FOUND, null);
         }
@@ -46,11 +48,12 @@ public class TradeController {
 
 
     @Operation(summary = "거래내역 분류 조회", description = "거래내역 분류 조회, member, consumeType으로 조회, 여러개 해야되서 List로")
-    @GetMapping("/classify/{travel_id}")
-    public ResponseEntity<?> getTradeListByMemberAndConsumeType(@PathVariable(name = "travel_id") Long travelId,
+    @GetMapping("/classify/{travelId}")
+    public ResponseEntity<?> getTradeListByMemberAndConsumeType(@Parameter(hidden = true) Authentication authentication,
+                                                                @PathVariable(name = "travelId") Long travelId,
                                                                 @RequestParam(required = false) List<Long> memberIds,
                                                                 @RequestParam(required = false) List<String> consumeTypes) {
-        List<TradeGetResDto> result = tradeService.getTradeListByMemberAndConsumeType(travelId, memberIds, consumeTypes);
+        List<TradeGetResDto> result = tradeService.getTradeListByMemberAndConsumeType(authentication.getName(), travelId, memberIds, consumeTypes);
         if (result.isEmpty()) {
             return response.success(ResponseCode.TRADE_LIST_NOT_FOUND, null);
         }
@@ -58,9 +61,10 @@ public class TradeController {
     }
 
     @Operation(summary = "숨김된 거래내역 조회", description = "숨김 된 거래내역 조회")
-    @GetMapping("/hide/{travel_id}")
-    public ResponseEntity<?> getHideTradeList(@PathVariable(name = "travel_id") Long travelId) {
-        List<TradeGetResDto> result = tradeService.getHideTradeList(travelId);
+    @GetMapping("/hide/{travelId}")
+    public ResponseEntity<?> getHideTradeList(@Parameter(hidden = true) Authentication authentication,
+                                              @PathVariable(name = "travelId") Long travelId) {
+        List<TradeGetResDto> result = tradeService.getHideTradeList(authentication.getName(), travelId);
         if (result.isEmpty()) {
             return response.success(ResponseCode.TRADE_LIST_NOT_FOUND, null);
         }
@@ -68,16 +72,17 @@ public class TradeController {
     }
 
     @Operation(summary = "거래내역 수정 분류용", description = "거래내역 수정, 사용자 설정, 소비 분류 설정")
-    @PutMapping("/{trade_id}")
-    public ResponseEntity<?> updateTradeClassify(@PathVariable(name = "trade_id") Long tradeId,
+    @PutMapping()
+    public ResponseEntity<?> updateTradeClassify(@Parameter(hidden = true) Authentication authentication,
                                                  @RequestBody TradeUpdateClassifyReqDto tradeClassifyUpdateReqDto) {
-        return response.success(ResponseCode.TRADE_UPDATED, tradeService.updateTradeClassify(tradeId, tradeClassifyUpdateReqDto));
+        return response.success(ResponseCode.TRADE_UPDATED, tradeService.updateTradeClassify(authentication.getName(), tradeClassifyUpdateReqDto));
     }
 
     @Operation(summary = "거래내역 수정 삭제용", description = "거래내역 포함 여부, true이면 false, false 이면 true로")
-    @PutMapping("/remove/{trade_id}")
-    public ResponseEntity<?> updateTradeContain(@PathVariable(name = "trade_id") Long tradeId) {
-        return response.success(ResponseCode.TRADE_UPDATED, tradeService.updateTradeContain(tradeId));
+    @PutMapping("/remove/{tradeId}")
+    public ResponseEntity<?> updateTradeContain(@Parameter(hidden = true) Authentication authentication,
+                                                @PathVariable(name = "tradeId") Long tradeId) {
+        return response.success(ResponseCode.TRADE_UPDATED, tradeService.updateTradeContain(authentication.getName(), tradeId));
     }
 
     // 거래내역 시점 조회 시 사용
