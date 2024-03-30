@@ -88,8 +88,8 @@ public class TravelController {
 
     @Operation(summary = "여행 멤버 초대 요청", description = "여행에 멤버 초대 요청 보내기")
     @PostMapping("/invite")
-    public ResponseEntity<?> invite(@RequestBody MemberTravelInviteDto memberTravelInviteDto){
-        Long memberTravelId = memberTravelService.inviteMember(memberTravelInviteDto);
+    public ResponseEntity<?> invite(@Parameter(hidden = true) Authentication authentication, @RequestBody MemberTravelInviteDto memberTravelInviteDto){
+        Long memberTravelId = memberTravelService.inviteMember(authentication.getName(), memberTravelInviteDto);
         return response.success(ResponseCode.TRAVEL_INVITE_SUCCESS, memberTravelId);
     }
 

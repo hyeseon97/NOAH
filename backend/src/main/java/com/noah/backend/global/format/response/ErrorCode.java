@@ -105,6 +105,8 @@ public enum ErrorCode {
     MEMBERTRAVEL_PERMISSION_DENIED(HttpStatus.FORBIDDEN, "멤버여행 정보 수정 권한이 없습니다."),
     MEMBERTRAVEL_UPDATE_FAILED(HttpStatus.BAD_REQUEST, "멤버여행 정보 업데이트에 실패했습니다."),
     MEMBERTRAVEL_DELETE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "멤버여행 삭제에 실패했습니다."),
+    MEMBERTRAVEL_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "여행에 이미 가입된 회원입니다."),
+    MEMBERTRAVEL_ALREADY_INVITED(HttpStatus.BAD_REQUEST, "여행에 이미 초대된 회원입니다."),
 
     /* 알림(Notification) */
     NOTIFICATION_NOT_FOUND(HttpStatus.NOT_FOUND, "알림을 찾을 수 없습니다."),
