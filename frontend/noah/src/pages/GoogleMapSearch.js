@@ -4,6 +4,15 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Header from "./../components/common/Header";
+import { ReactComponent as Mark } from "./../assets/Icon/Mark.svg";
+
+import {
+  getDetailPlan,
+  getDetailPlanList,
+  updateDetailPlan,
+  deleteDetailPlan,
+  createDetailPlan,
+} from "../api/detailplan/DetailPlan";
 
 // const containerStyle = {
 //   width: "100vw",
@@ -20,21 +29,33 @@ const reviewStyle = {
 };
 
 const listSearch = {
-  backgroundColor: "coral",
+  // backgroundColor: "coral",
   // margin: "10px",
   display: "flex",
   flexDirection: "row",
   justifyContent: "center",
   alignItems: "center",
+  textAlign: "center",
+  width: "90vw",
+  fontFamily: "Pretendard",
+  fontStyle: "normal",
+  fontWeight: "700",
+  fontSize: "3.4vw",
+  lineHeight: "200%",
 };
 
 const buttonStyle = {
-  width: "200px",
-  height: "70px",
+  width: "60vw",
+  height: "8vh",
+  border: "none",
+  marginLeft: "20px",
 };
 
 const listResult = {
-  backgroundColor: "pink",
+  // backgroundColor: "pink",
+  // display: "flex",
+  // flexDirection: "row"
+  // height: "100px"
   // margin: "10px",
 };
 
@@ -43,9 +64,25 @@ const center = {
   lng: 126.978,
 };
 
+const toggleStyle = {
+  cursor: "pointer",
+  position: "absolute",
+  bottom: "0px",
+  backgroundColor: "gray",
+  width: "100vw",
+  alignItems: "center",
+  textAlign: "center",
+};
+
 const placeOrTicket = {
   height: "8vh",
-  backgroundColor: "red",
+  // backgroundColor: "red",
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-evenly",
+  marginLeft: "20px",
+  marginRight: "20px",
+  alignItems: "center",
 };
 
 const searchPlace = {
@@ -54,7 +91,10 @@ const searchPlace = {
   flexDirection: "row",
   justifyContent: "center",
   alignItems: "center",
-  backgroundColor: "green",
+  border: "1px solid gray",
+  borderRadius: "5px",
+  margin: "10px",
+  // backgroundColor: "green",
 };
 
 const Review = ({ review }) => {
@@ -69,16 +109,45 @@ const Review = ({ review }) => {
   // 리뷰 텍스트가 20글자를 초과하는 경우에만 "더 보기" / "접기" 기능 활성화
   const showToggle = review.text.length > 20;
 
+  const [selectedReview, setSelectedReview] = useState(null);
+
+  const handleSelectReview = (review) => {
+    setSelectedReview(review);
+  };
+
+  // 뒤로 가기 버튼 핸들러
+  const handleBack = () => {
+    setSelectedReview(null); // 선택된 리뷰를 null로 설정하여 리스트로 돌아감
+  };
+
   return (
-    <div
-      key={review.id}
-      onClick={toggleExpand}
-      style={{ cursor: "pointer", backgroundColor: "blue" }}
-    >
-      {review.author_name} / {review.rating} /
-      {isExpanded ? review.text : `${review.text.substring(0, 20)}...`}
-      {showToggle && <span>{isExpanded ? " 접기" : " 더 보기"}</span>}
-    </div>
+    <>
+      <div
+        key={review.id}
+        onClick={toggleExpand}
+        style={{ cursor: "pointer", backgroundColor: "blue" }}
+      >
+        {review.author_name} / {review.rating} /{review.text.substring(0, 20)}
+        {/* {showToggle && <span>{isExpanded ? " 접기" : " 더 보기"}</span>} */}
+      </div>
+
+      {/* <div>
+        {selectedReview ? (
+          // 선택된 리뷰의 상세 정보와 뒤로 가기 버튼을 렌더링
+          <>
+            <Review review={selectedReview} />
+            <button onClick={handleBack}>뒤로 가기</button>
+          </>
+        ) : (
+          // 리뷰 리스트 렌더링
+          reviewsData.map((review) => (
+            <div key={review.id} onClick={() => handleSelectReview(review)}>
+              {review.author_name}
+            </div>
+          ))
+        )}
+      </div> */}
+    </>
   );
 };
 
@@ -128,10 +197,20 @@ export default function GoogleMapSearch() {
   const toggleButtonRef = useRef(null); // 토글 버튼에 대한 ref
   const libraries = ["places"];
   const [center, setCenter] = useState({ lat: 37.5665, lng: 126.978 });
+  const [infoToggle, setInpoToggle] = useState(false);
+  const [detailToggle, setDetailToggle] = useState(false);
 
   const onLoad = (map) => {
     mapRef.current = map;
     getCurrentLocation();
+  };
+
+  const changeInfoToggle = () => {
+    setInpoToggle(!infoToggle);
+  };
+
+  const changeDetailToggle = () => {
+    setDetailToggle(!detailToggle);
   };
 
   const [size, setSize] = useState(getSize());
@@ -185,6 +264,7 @@ export default function GoogleMapSearch() {
       const lat = outPlace.geometry.location.lat();
       const lng = outPlace.geometry.location.lng();
       const newMapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=${zoom}&size=${widthVW}x${heightVH}&maptype=${mapType}&markers=color:blue%7Clabel:S%7C${lat},${lng}&key=${apiKey}`;
+      console.log(newMapUrl);
       setMapUrl(newMapUrl);
     }
   }, [outPlace, widthVW, heightVH, zoom, mapType, apiKey]);
@@ -205,14 +285,32 @@ export default function GoogleMapSearch() {
     console.log(showList);
   };
 
-  // 검색어 입력 시 호출되는 함수
   const handleSearchChange = (e) => {
     const value = e.target.value;
     setSearch(value);
     if (value.length > 0) {
       setShowList(true); // 검색어가 있을 때 검색 결과창을 표시
     }
+    setSuggestions([]);
+    setOutPlace([]);
+    setReviews([]);
+    setPhotos([]);
+    setMapUrl("");
+    setDetailToggle(false);
   };
+
+  // 검색어 입력 시 호출되는 함수
+  // useEffect(() => {
+  //   const handleSearchChange = (e) => {
+  //     const value = e.target.value;
+  //     setSearch(value);
+  //     if (value.length > 0) {
+  //       setShowList(true); // 검색어가 있을 때 검색 결과창을 표시
+  //     }
+  //     setSuggestions([]);
+  //     setOutPlace([]);
+  //   };
+  // }, [search])
 
   useEffect(() => {
     // 클릭 이벤트 리스너를 document에 추가
@@ -224,6 +322,8 @@ export default function GoogleMapSearch() {
         !toggleButtonRef.current.contains(event.target)
       ) {
         setShowList(false); // 상세 정보 창 외부 클릭 시 숨김
+        setSuggestions([]);
+        setOutPlace([]);
       }
     };
 
@@ -237,12 +337,15 @@ export default function GoogleMapSearch() {
   // 검색 결과 및 상세 정보를 보여주는 영역을 제어하는 스타일 추가
   const searchResultsStyle = {
     position: "absolute", // 절대 위치 지정
+    // display: "flex",
     bottom: 0, // 하단에 위치
     width: "100%", // 너비는 전체 차지
-    height: "66vh", // 높이는 70vh
+    height: "71vh", // 높이는 70vh
     backgroundColor: "#fff", // 배경색 지정
     overflowY: "scroll", // 내용이 많을 경우 스크롤
     display: showList ? "block" : "none", // showList 상태에 따라 보여주기/숨기기
+    alignItems: "center",
+    textAlign: "center",
   };
 
   useEffect(() => {
@@ -293,6 +396,7 @@ export default function GoogleMapSearch() {
         setOutPlace(place);
         setReviews(place.reviews);
         setPhotos(place.photos || []);
+        setSuggestions([]);
       }
     });
   };
@@ -346,8 +450,12 @@ export default function GoogleMapSearch() {
   return (
     <>
       <Header LeftIcon="Arrow" Title="장소 검색" />
-      <div style={placeOrTicket} onClick={() => setShowList(false)}></div>
+      <div style={placeOrTicket} onClick={() => setShowList(false)}>
+        <div>장소</div>
+        <div>항공권</div>
+      </div>
       <div style={searchPlace} onClick={() => setShowList(false)}>
+        <Mark />
         <input
           style={buttonStyle}
           value={search}
@@ -371,19 +479,18 @@ export default function GoogleMapSearch() {
       </LoadScript>
 
       <div
-        style={{
-          ...searchPlace,
-          cursor: "pointer",
-          backgroundColor: showList ? "yellow" : "orange", // 토글 버튼 색상 변경
-        }}
-        onClick={toggleShowList}
+        style={
+          toggleStyle
+          // 토글 버튼 색상 변경
+        }
+        onClick={changeDetailToggle}
       >
-        {showList ? "상세 정보 숨기기" : "상세 정보 보기"}
+        {detailToggle ? "상세 정보 숨기기" : "상세 정보 보기"}
       </div>
-      {showList && (
+      {showList && search.length != 0 && (
         <div style={searchResultsStyle}>
           <div style={listSearch}>
-            {suggestions.length > 0 && (
+            {suggestions && suggestions.length > 0 && (
               <ul>
                 {suggestions.map((suggestion) => (
                   <li
@@ -398,10 +505,16 @@ export default function GoogleMapSearch() {
               </ul>
             )}
           </div>
+          {mapUrl != "" && (
+            <img
+              key={mapUrl}
+              src={mapUrl}
+              alt="Static Map"
+              onClick={changeInfoToggle}
+            />
+          )}
           {outPlace && (
-            <div style={listResult}>
-              <img key={mapUrl} src={mapUrl} alt="Static Map" />
-
+            <div style={listResult} onClick={changeDetailToggle}>
               {outPlace.formatted_address}
               <br />
               {outPlace.geometry?.location.lat()}
@@ -412,14 +525,20 @@ export default function GoogleMapSearch() {
               <br />
               {outPlace.rating}
               <br />
-              <div>
-                {reviews.map((review, index) => (
-                  <Review key={index} review={review} />
-                ))}
-              </div>
-              <div style={reviewStyle}>
-                {photos.length > 0 && <PhotoSlider photos={photos} />}
-              </div>
+              {detailToggle && (
+                <div>
+                  {reviews &&
+                    reviews.length > 0 &&
+                    reviews.map((review, index) => (
+                      <Review key={index} review={review} />
+                    ))}
+                  <div style={reviewStyle}>
+                    {photos && photos.length > 0 && (
+                      <PhotoSlider photos={photos} />
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>

@@ -5,6 +5,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Header from "./../components/common/Header";
 
+
+
 const containerStyle = {
   width: "400px",
   height: "400px",
