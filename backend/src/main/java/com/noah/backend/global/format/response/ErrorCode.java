@@ -75,6 +75,7 @@ public enum ErrorCode {
     PLAN_PERMISSION_DENIED (HttpStatus.FORBIDDEN, "계획 수정 권한이 없습니다."),
     PLAN_UPDATE_FAILED (HttpStatus.BAD_REQUEST, "계획 업데이트에 실패했습니다."),
     PLAN_DELETE_FAILED (HttpStatus.INTERNAL_SERVER_ERROR, "계획 삭제에 실패했습니다."),
+    PLAN_ACCESS_DENIED(HttpStatus.BAD_REQUEST, "여행계획을 수정할 수 없습니다."),
 
     /*세부계획(DetailPlan)*/
     DETAILPLAN_NOT_FOUNT(HttpStatus.NOT_FOUND,"세부계획을 찾을 수 없습니다."),

@@ -45,15 +45,15 @@ public class PlanController {
 
     @Operation(summary = "계획 작성", description = "계획 작성 / TravelId 필요")
     @PostMapping
-    public ResponseEntity<?> createPlan( @RequestBody PlanPostDto planDto){
-        Long createPlanId = planService.createPlan(planDto);
+    public ResponseEntity<?> createPlan(@Parameter(hidden = true) Authentication authentication, @RequestBody PlanPostDto planDto){
+        Long createPlanId = planService.createPlan(authentication.getName(), planDto);
         return response.success(ResponseCode.PLAN_CREATED, createPlanId);
     }
 
     @Operation(summary = "계획 수정", description = "계획 수정 / planId 필요")
-    @PutMapping("/update/{planId}")
-    public ResponseEntity<?> updatePlan(@PathVariable(value = "planId") Long planId, @RequestBody PlanUpdateDto planDto){
-        Long updatePlan = planService.updatePlan(planId, planDto);
+    @PutMapping()
+    public ResponseEntity<?> updatePlan(@Parameter(hidden = true) Authentication authentication, @RequestBody PlanUpdateDto planDto){
+        Long updatePlan = planService.updatePlan(authentication.getName(), planDto);
 
         return response.success(ResponseCode.PLAN_INFO_UPDATED, updatePlan);
     }
