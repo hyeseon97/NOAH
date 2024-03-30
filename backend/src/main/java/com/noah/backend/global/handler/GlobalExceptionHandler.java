@@ -20,6 +20,7 @@ import com.noah.backend.global.exception.notification.FirebaseTokenNotExistExcep
 import com.noah.backend.global.exception.notification.NotificationAccessException;
 import com.noah.backend.global.exception.notification.NotificationNotFoundException;
 import com.noah.backend.global.exception.notification.NotificationSendFailedException;
+import com.noah.backend.global.exception.plan.PlanAccessException;
 import com.noah.backend.global.exception.suggest.LowerThanPriceNotExists;
 import com.noah.backend.global.exception.suggest.SuggestNotExists;
 import com.noah.backend.global.exception.trade.TradeAccessException;
@@ -237,6 +238,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(MemberTravelAlreadyExistException.class)
     protected ResponseEntity<?> handle(MemberTravelAlreadyExistException e){
         log.error("MemberTravelAlreadyExistException = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+
+    /* 계획 */
+    @ExceptionHandler(PlanAccessException.class)
+    protected ResponseEntity<?> handle(PlanAccessException e){
+        log.error("PlanAccessException = {}", e.getErrorCode().getMessage());
         return response.error(e.getErrorCode());
     }
 
