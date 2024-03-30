@@ -14,6 +14,9 @@ import lombok.Setter;
 public class SimplePlan {
 
     private int day;
+    private int sequence;
     private String place;
+    private Long imageId;
+    private String imageUrl;
     
 }

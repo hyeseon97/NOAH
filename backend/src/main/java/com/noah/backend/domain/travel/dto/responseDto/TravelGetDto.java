@@ -1,6 +1,7 @@
 package com.noah.backend.domain.travel.dto.responseDto;
 
 import com.noah.backend.domain.plan.dto.responseDto.SimplePlan;
+import java.util.Date;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,24 +18,16 @@ public class TravelGetDto {
 
     private Long travelId;
     private String title;
-    private boolean isEnded;
 
     private Long groupAccountId;
     private int targetAmount;
 
     private Long accountId;
+    private int accountAmount;
 
     private Long planId;
-    private List<SimplePlan> simplePlanList;
+    private Date startDate;
+    private Date endDate;
+    private String country;
 
-    public TravelGetDto(Long travelId, String title, boolean isEnded, Long groupAccountId, int targetAmount,
-                        Long accountId, Long planId) {
-        this.travelId = travelId;
-        this.title = title;
-        this.isEnded = isEnded;
-        this.groupAccountId = groupAccountId;
-        this.targetAmount = targetAmount;
-        this.accountId = accountId;
-        this.planId = planId;
-    }
 }
