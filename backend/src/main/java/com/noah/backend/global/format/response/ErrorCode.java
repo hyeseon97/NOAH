@@ -38,6 +38,7 @@ public enum ErrorCode {
 
     /* 거래내역(Trade) */
     TRADE_NOT_FOUND(HttpStatus.NOT_FOUND, "거래내역을 찾을 수 없습니다."),
+    TRADE_ACCESS_DENIED(HttpStatus.BAD_REQUEST, "거래내역을 수정할 수 없습니다."),
 
     /* 환전 */
     EXCHANGE_NOT_FOUND(HttpStatus.NOT_FOUND, "환전내용을 찾을 수 없습니다."),

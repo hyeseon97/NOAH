@@ -16,4 +16,6 @@ public class TradeGetResDto {
     int cost;
     int amount;
     String consumeType;
+    Long memberId;
+    String memberName;
 }

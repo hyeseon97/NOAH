@@ -12,13 +12,13 @@ import java.util.List;
 public interface TradeService {
     void createTrade(TradePostReqDto tradePostReqDto);
 
-    List<TradeGetResDto> getTradeList(Long travelId) throws IOException;
+    List<TradeGetResDto> getTradeList(String email, Long travelId) throws IOException;
 
-    List<TradeGetResDto> getTradeListByMemberAndConsumeType(Long travelId, List<Long> memberIds, List<String> consumeTypes);
+    List<TradeGetResDto> getTradeListByMemberAndConsumeType(String email, Long travelId, List<Long> memberIds, List<String> consumeTypes);
 
-    Long updateTradeClassify(Long tradeId, TradeUpdateClassifyReqDto tradeUpdateClassifyReqDto);
+    Long updateTradeClassify(String email, TradeUpdateClassifyReqDto tradeUpdateClassifyReqDto);
 
-    Long updateTradeContain(Long tradeId);
+    Long updateTradeContain(String email, Long tradeId);
 
-    List<TradeGetResDto> getHideTradeList(Long travelId);
+    List<TradeGetResDto> getHideTradeList(String email, Long travelId);
 }
