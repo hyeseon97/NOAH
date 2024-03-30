@@ -123,13 +123,6 @@ public class MemberController {
         return response.success(ResponseCode.LOGOUT_SUCCESS, memberService.logout(authentication.getName(), servletResponse));
     }
 
-    @Operation(summary = "이메일로 회원 찾기", description = "여행에 멤버 초대 시 회원 찾기에 사용")
-    @GetMapping("{email}")
-    public ResponseEntity<?> searchMember(@PathVariable(name = "email") String email){
-        MemberInfoDto member = memberService.searchMember(email);
-        return response.success(ResponseCode.MEMBER_FETCHED, member);
-    }
-
     @GetMapping("/test")
     public ResponseEntity<?> test(@Parameter(hidden = true) Authentication authentication){
         // authentication.getName() 하면 로그인한 사용자의 이메일이 나옴

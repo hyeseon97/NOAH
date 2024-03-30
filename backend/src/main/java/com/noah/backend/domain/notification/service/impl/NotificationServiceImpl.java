@@ -14,6 +14,7 @@ import com.noah.backend.domain.notification.service.NotificationService;
 import com.noah.backend.domain.travel.entity.Travel;
 import com.noah.backend.domain.travel.repository.TravelRepository;
 import com.noah.backend.global.exception.member.MemberNotFoundException;
+import com.noah.backend.global.exception.notification.NotificationAccessException;
 import com.noah.backend.global.exception.notification.NotificationNotFoundException;
 import com.noah.backend.global.exception.notification.NotificationSendFailedException;
 import com.noah.backend.global.exception.travel.TravelMemberNotFoundException;
@@ -91,11 +92,20 @@ public class NotificationServiceImpl implements NotificationService {
     @Transactional
     @Override
     public Long inviteAccept(String email, Long notificationId) {
+
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+
         // 알림 아이디로 알림 찾아와서 여행 아이디 구하기
         Notification notification = notificationRepository.findById(notificationId).orElseThrow(NotificationNotFoundException::new);
 
+        /* 접근권한 */
+        if(!notification.getReceiver().getId().equals(member.getId())){
+            throw new NotificationAccessException();
+        }
+        /* ------ */
+
+
         // 멤버랑 여행 엔티티 가져와서 멤버트래블 만들고 저장하기
-        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
         Travel travel = travelRepository.findById(notification.getTravelId()).orElseThrow(TravelNotFoundException::new);
         MemberTravel memberTravel = MemberTravel.builder()
             .member(member)
@@ -114,6 +124,14 @@ public class NotificationServiceImpl implements NotificationService {
     public void inviteRefuse(String email, Long notificationId) {
         // 알림 아이디로 알림 엔티티 찾아와서 삭제하기
         Notification notification = notificationRepository.findById(notificationId).orElseThrow(NotificationNotFoundException::new);
+
+        /* 접근권한 */
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        if(!notification.getReceiver().getId().equals(member.getId())){
+            throw new NotificationAccessException();
+        }
+        /* ------ */
+
         notificationRepository.delete(notification);
 
     }

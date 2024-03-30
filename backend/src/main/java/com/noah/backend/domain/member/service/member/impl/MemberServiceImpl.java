@@ -243,14 +243,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberInfoDto searchMember(String email) {
-        // 여행에 회원 초대할 때 회원 검색
-
-        MemberInfoDto member = memberRepository.searchMember(email).orElseThrow(MemberNotFoundException::new);
-        return member;
-    }
-
-    @Override
     public String test(String email) {
         Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
         return member.getNickname();

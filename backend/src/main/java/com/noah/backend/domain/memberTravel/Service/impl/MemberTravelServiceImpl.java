@@ -18,6 +18,9 @@ import com.noah.backend.domain.travel.entity.Travel;
 import com.noah.backend.domain.travel.repository.TravelRepository;
 import com.noah.backend.global.exception.account.AccountNotFoundException;
 import com.noah.backend.global.exception.member.MemberNotFoundException;
+import com.noah.backend.global.exception.membertravel.MemberTravelAccessException;
+import com.noah.backend.global.exception.membertravel.MemberTravelAlreadyExistException;
+import com.noah.backend.global.exception.membertravel.MemberTravelAlreadyInvitedException;
 import com.noah.backend.global.exception.notification.NotificationSendFailedException;
 import com.noah.backend.global.exception.membertravel.MemberTravelNotFoundException;
 import com.noah.backend.global.exception.travel.TravelMemberNotFoundException;
@@ -34,7 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberTravelServiceImpl implements MemberTravelService {
 
     private final NotificationService notificationService;
-    private final MemberRepository memberReopsitory;
+    private final MemberRepository memberRepository;
     private final TravelRepository travelRepository;
     private final MemberTravelRepository memberTravelRepository;
     private final NotificationRepository notificationRepository;
@@ -44,7 +47,7 @@ public class MemberTravelServiceImpl implements MemberTravelService {
     public Long createMemberTravel(MemberTravelPostDto memberTravelPostDto) {
 
         Travel travel = travelRepository.findById(memberTravelPostDto.getTravel_id()).orElseThrow(TravelNotFoundException::new);
-        Member member = memberReopsitory.findById(memberTravelPostDto.getMember_id()).orElseThrow(MemberTravelNotFound::new);
+        Member member = memberRepository.findById(memberTravelPostDto.getMember_id()).orElseThrow(MemberTravelNotFound::new);
 
         MemberTravel memberTravel =  MemberTravel.builder()
                 .payment_amount(memberTravelPostDto.getPayment_amount())
@@ -70,17 +73,35 @@ public class MemberTravelServiceImpl implements MemberTravelService {
 
     @Transactional
     @Override
-    public Long inviteMember(MemberTravelInviteDto memberTravelInviteDto) {
+    public Long inviteMember(String email, MemberTravelInviteDto memberTravelInviteDto) {
+
+        /* 접근권한 */
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        MemberTravel mt =  memberTravelRepository.findByTravelIdAndMemberId(member.getId(), memberTravelInviteDto.getTravelId()).orElseThrow(MemberTravelAccessException::new);
+        /* ------ */
+
+        Member receiver = memberRepository.findByEmail(memberTravelInviteDto.getEmail()).orElseThrow(MemberNotFoundException::new);
+
+        // 여행에 이미 초대되어있는지 확인
+        Notification notify = notificationRepository.findInviteNotification(receiver.getId(), memberTravelInviteDto.getTravelId()).orElse(null);
+        if(notify != null){
+            throw new MemberTravelAlreadyInvitedException();
+        }
+
+        // 여행에 이미 가입되어있는지 확인
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(receiver.getId(), memberTravelInviteDto.getTravelId()).orElse(null);
+        if(memberTravel != null){
+            throw new MemberTravelAlreadyExistException();
+        }
 
         // 초대 요청을 보내기 = 알림 보내기
         // 멤버트래블 테이블에 데이터를 저장하는건 요청 받은 사람이 수락하면 저장할 것임
-        Member receiver = memberReopsitory.findById(memberTravelInviteDto.getMember_id()).orElseThrow(MemberNotFoundException::new);
-        Travel travel = travelRepository.findById(memberTravelInviteDto.getTravel_id()).orElseThrow(TravelMemberNotFoundException::new);
+        Travel travel = travelRepository.findById(memberTravelInviteDto.getTravelId()).orElseThrow(TravelMemberNotFoundException::new);
 
         Notification notification = Notification.builder()
             .receiver(receiver)
             .type(1)
-            .travelId(memberTravelInviteDto.getTravel_id())
+            .travelId(memberTravelInviteDto.getTravelId())
             .travelTitle(travel.getTitle())
             .build();
 
@@ -107,9 +128,9 @@ public class MemberTravelServiceImpl implements MemberTravelService {
     @Override
     public void setAutoTransfer(String email, AutoTransferPostDto autoTransferPostDto) {
 
-        Member member = memberReopsitory.findByEmail(email).orElseThrow(MemberNotFoundException::new);
-        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(autoTransferPostDto.getTravelId(), member.getId()).orElseThrow(
-            MemberTravelNotFoundException::new);
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), autoTransferPostDto.getTravelId()).orElseThrow(
+            MemberTravelAccessException::new);
 
         Account account = accountRepository.findById(autoTransferPostDto.getAccountId()).orElseThrow(AccountNotFoundException::new);
 
@@ -122,11 +143,18 @@ public class MemberTravelServiceImpl implements MemberTravelService {
     @Override
     public void deleteAutoTransfer(String email, Long travelId) {
 
-        Member member = memberReopsitory.findByEmail(email).orElseThrow(MemberNotFoundException::new);
-        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(travelId, member.getId()).orElseThrow(
-            MemberTravelNotFoundException::new);
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), travelId).orElseThrow(
+            MemberTravelAccessException::new);
 
         memberTravel.setAccount(null);
 
+    }
+
+    @Override
+    public boolean memberAccessTravel(Long memberId, Long travelId) {
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(travelId, memberId).orElse(null);
+        if(memberTravel == null) throw new MemberTravelAccessException();
+        return true;
     }
 }

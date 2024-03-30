@@ -1,6 +1,11 @@
 package com.noah.backend.domain.plan.service.impl;
 
 import com.noah.backend.domain.datailPlan.repository.DetailPlanRepository;
+import com.noah.backend.domain.groupaccount.entity.GroupAccount;
+import com.noah.backend.domain.member.entity.Member;
+import com.noah.backend.domain.member.repository.MemberRepository;
+import com.noah.backend.domain.memberTravel.Repository.MemberTravelRepository;
+import com.noah.backend.domain.memberTravel.entity.MemberTravel;
 import com.noah.backend.domain.plan.dto.requestDto.PlanPostDto;
 import com.noah.backend.domain.plan.dto.requestDto.PlanUpdateDto;
 import com.noah.backend.domain.plan.dto.responseDto.PlanGetDto;
@@ -12,6 +17,9 @@ import com.noah.backend.domain.review.repository.ReviewRepository;
 import com.noah.backend.domain.ticket.repository.TicketRepository;
 import com.noah.backend.domain.travel.entity.Travel;
 import com.noah.backend.domain.travel.repository.TravelRepository;
+import com.noah.backend.global.exception.groupaccount.GroupAccountNotFoundException;
+import com.noah.backend.global.exception.member.MemberNotFoundException;
+import com.noah.backend.global.exception.membertravel.MemberTravelAccessException;
 import com.noah.backend.global.exception.plan.PlanNotFound;
 import com.noah.backend.global.exception.plan.PlanUpdateFailed;
 import com.noah.backend.global.exception.travel.TravelNotFoundException;
@@ -31,15 +39,33 @@ public class PlanServiceImpl implements PlanService {
     private final DetailPlanRepository detailPlanRepository;
     private final ReviewRepository reviewRepository;
     private final TravelRepository travelRepository;
+    private final MemberRepository memberRepository;
+    private final MemberTravelRepository memberTravelRepository;
 
     @Override
-    public List<PlanListGetFromTravelDto> getPlanList(Long travelId) {
+    public List<PlanListGetFromTravelDto> getPlanList(String email, Long travelId) {
+
+        /* 접근권한 */
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), travelId).orElseThrow(
+            MemberTravelAccessException::new);
+        /* ------ */
+
         return planRepository.getPlanList(travelId).orElseThrow(PlanNotFound::new);
     }
 
     @Override
-    public PlanGetDto getPlanSelect(Long planId) {
-        return planRepository.getPlanSelect(planId).orElseThrow(PlanNotFound::new);
+    public PlanGetDto getPlanSelect(String email, Long travelId) {
+
+        /* 접근권한 */
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), travelId).orElseThrow(
+            MemberTravelAccessException::new);
+        /* ------ */
+
+        PlanGetDto planGetDto = planRepository.getPlanSelect(travelId).orElseThrow(PlanNotFound::new);
+
+        return planGetDto;
     }
 
     @Override

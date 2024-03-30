@@ -4,10 +4,10 @@ import com.noah.backend.global.format.response.ErrorCode;
 import lombok.Getter;
 
 @Getter
-public class MemberTravelNotFoundException extends RuntimeException {
+public class MemberTravelAlreadyInvitedException extends RuntimeException {
     private final ErrorCode errorCode;
 
-    public MemberTravelNotFoundException() {
-        this.errorCode = ErrorCode.MEMBERTRAVEL_NOT_FOUND;
+    public MemberTravelAlreadyInvitedException() {
+        this.errorCode = ErrorCode.MEMBERTRAVEL_ALREADY_INVITED;
     }
 }

@@ -8,9 +8,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CommentUpdateDto {
 
-    @Setter
+    private Long reviewId;
     private String content;
-    @Setter
-    private Long member_id;
 
 }

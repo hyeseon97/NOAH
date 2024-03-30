@@ -8,9 +8,11 @@ import com.noah.backend.domain.plan.service.PlanService;
 import com.noah.backend.global.format.code.ApiResponse;
 import com.noah.backend.global.format.response.ResponseCode;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,15 +28,15 @@ public class PlanController {
 
     @Operation(summary = "계획 목록 조회", description = "계획 정보 목록 조회 / travelId 필요")
     @GetMapping("/list")
-    public ResponseEntity<?> getPlanList(@RequestParam(value = "travelId") Long travelId) {
-        List<PlanListGetFromTravelDto> planList = planService.getPlanList(travelId);
+    public ResponseEntity<?> getPlanList(@Parameter(hidden = true) Authentication authentication, @RequestParam(value = "travelId") Long travelId) {
+        List<PlanListGetFromTravelDto> planList = planService.getPlanList(authentication.getName(), travelId);
         return response.success(ResponseCode.PLAN_INFO_FETCHED, planList);
     }
 
-    @Operation(summary = "계획 상세 조회", description = "계획 정보 상세 조회 / planId 필요")
-    @GetMapping("/{planId}")
-    public ResponseEntity<?> getPlanSelect(@PathVariable(value = "planId") Long planId){
-        PlanGetDto selectPlan = planService.getPlanSelect(planId);
+    @Operation(summary = "계획 조회", description = "계획 정보 조회 / travelId 필요")
+    @GetMapping("/{travelId}")
+    public ResponseEntity<?> getPlanSelect(@Parameter(hidden = true) Authentication authentication, @PathVariable(value = "travelId") Long planId){
+        PlanGetDto selectPlan = planService.getPlanSelect(authentication.getName(), planId);
         if (selectPlan == null) {
             return ResponseEntity.notFound().build();
         }

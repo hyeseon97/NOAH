@@ -1,6 +1,5 @@
 package com.noah.backend.domain.ticket.dto.responseDto;
 
-import com.noah.backend.domain.travel.dto.requestDto.TravelGetDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
