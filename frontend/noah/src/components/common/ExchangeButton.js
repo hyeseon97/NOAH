@@ -8,7 +8,7 @@ export default function Button({ buttonText, warningText }) {
     textAlign: "center",
     color: "white",
     backgroundColor: "black",
-    width: "81vw",
+    width: "83vw",
     height: "10vw",
     margin: "0 auto",
     display: "flex",

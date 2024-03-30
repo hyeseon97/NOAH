@@ -2,6 +2,7 @@ import Exchange from "../components/exchange/Exchange";
 import Header from "./../components/common/Header";
 import styles from "./ExchangePage.module.css";
 import ExchangeButton from "../components/common/ExchangeButton";
+import DropdownSmall from "../components/common/DropdownSmall";
 export default function ExchangePage() {
   function formatTime(date) {
     const hours = date.getHours();
@@ -20,16 +21,37 @@ export default function ExchangePage() {
       <div className={styles.ExchangeContainer}>
         <div className={styles.ExchangeContainerTop}>
           <div className={styles.labelXL}>$1300</div>
-          <div className={styles.paragraphSmall}>현재까지 환전한 금액</div>
+          <div className={styles.paragraphSmallTop}>현재까지 환전한 금액</div>
         </div>
         <Exchange />
-        <div className={styles.paragraphSmallExchange}>
+        <div className={styles.paragraphSmallExchangeRight}>
           {formatTime(new Date())} 환율 기준
         </div>
         <ExchangeButton
           buttonText="환전"
           warningText="계좌에 잔액이 부족합니다."
         />
+        <div className={styles.notificationContainer}>
+          <div className={styles.notificationContainerTop}>
+            <div className={styles.labelMedium}>환전알림</div>
+            <DropdownSmall />
+          </div>
+          <div className={styles.notificationBox}>
+            <div className={styles.boxLeft}>
+              <div className={styles.paragraphSmallExchangeLeft}>
+                {formatTime(new Date())} 환율 기준
+              </div>
+              <div className={styles.paragraphSmall}>1145.70</div>
+            </div>
+            <div className={styles.boxRight}>
+              <div className={styles.setRate}>
+                <div className={styles.headingLarge}>1100</div>
+                <div className={styles.paragraphSmallGrey}>이하일때 알림</div>
+              </div>
+              <div className={styles.labelSmallBlue}> 설정</div>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
