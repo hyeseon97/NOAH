@@ -1,6 +1,6 @@
 import DoughnutChart from "../components/common/DoughnutChart";
 import Header from "./../components/common/Header";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import styles from "./TripPage.module.css";
 
@@ -11,16 +11,17 @@ import { ReactComponent as Person } from "./../assets/Icon/Person.svg";
 import { ReactComponent as Plan } from "./../assets/Icon/Plan.svg";
 export default function TripPage() {
   const navigate = useNavigate();
+  const { travelId } = useParams();
   const handleLeftIconClick = () => {
     navigate("/home");
   };
   const [percent, setPercent] = useState(85);
   const handleDetailClick = () => {
-    navigate(`/trip/3/goal`); // 3은 tripId
+    navigate(`/trip/3/goal`); // 3은 travelId
   };
 
   const handlePlanningClick = () => {
-    navigate(`/trip/3/planning`); // 3은 tripId
+    navigate(`/trip/3/planning`); // 3은 travelId
   };
 
   const handleMenuClick = (menu) => {
@@ -37,10 +38,14 @@ export default function TripPage() {
       return;
     }
     if (menu === "인원관리") {
-      navigate("/trip/3/participantmanagement");
+      navigate(`/trip/${travelId}/participantmanagement`);
       return;
     }
   };
+
+  useEffect(() => {
+    console.log(travelId);
+  }, []);
 
   return (
     <>

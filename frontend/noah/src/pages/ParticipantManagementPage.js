@@ -3,10 +3,16 @@ import styles from "./ParticipantManagementPage.module.css";
 import { ReactComponent as Plus } from "./../assets/Icon/Plus.svg";
 import { useEffect, useState } from "react";
 import InviteModal from "../components/common/InviteModal";
+import { useParams } from "react-router-dom";
 export default function ParticipantManagementPage() {
+  const { travelId } = useParams();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const openModal = () => setIsModalVisible(true);
   const closeModal = () => setIsModalVisible(false);
+
+  useEffect(() => {
+    console.log(travelId);
+  }, []);
 
   return (
     <>
@@ -34,6 +40,7 @@ export default function ParticipantManagementPage() {
         onDelete={() => {}}
         isVisible={isModalVisible}
         closeModal={closeModal}
+        travelId={travelId}
       />
       <div className={styles.line}></div>
     </>
