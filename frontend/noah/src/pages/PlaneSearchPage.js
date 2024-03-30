@@ -15,19 +15,38 @@ const wholeStyle = {
 const upperStyle = {
   display: "flex",
   flexDirection: "row",
-  justifyContent: "space-evenly",
+  justifyContent: "space-between",
+  margin: "10px",
+  fontFamily: "Pretendard",
+  fontStyle: "normal",
+  fontWeight: "700",
+  fontSize: "3.4vw",
+  lineHeight: "200%",
 };
 
 const middleStyle = {
   display: "flex",
   flexDirection: "row",
   justifyContent: "space-evenly",
+  margin: "0px",
+  fontFamily: "Pretendard",
+  fontStyle: "normal",
+  fontWeight: "700",
+  fontSize: "4.0vw",
+  lineHeight: "200%",
 };
 
 const lowerStyle = {
   display: "flex",
   flexDirection: "column",
   textAlign: "center",
+  color: "blue",
+  marginTop: "10px",
+  fontFamily: "Pretendard",
+  fontStyle: "normal",
+  fontWeight: "700",
+  fontSize: "4.4vw",
+  lineHeight: "200%",
 };
 
 const wholeBox = {
@@ -44,19 +63,39 @@ const boxLeft = {
   display: "flex",
   flexDirection: "row",
   margin: "15px",
+  fontFamily: "Pretendard",
+  fontStyle: "normal",
+  fontWeight: "700",
+  fontSize: "3.4vw",
+  lineHeight: "200%",
 };
 
 const inputStyle = {
   border: "none",
+  fontFamily: "Pretendard",
+  fontStyle: "normal",
+  fontWeight: "700",
+  fontSize: "4.0vw",
+  lineHeight: "200%",
 };
 const boxRight = {
   marginRight: "10px",
+  fontFamily: "Pretendard",
+  fontStyle: "normal",
+  fontWeight: "700",
+  fontSize: "3.8vw",
+  lineHeight: "200%",
 };
 
 const lowerButtonStyle = {
   display: "flex",
   justifyContent: "center",
   marginBottom: "20px",
+  fontFamily: "Pretendard",
+  fontStyle: "normal",
+  fontWeight: "700",
+  fontSize: "3.4vw",
+  lineHeight: "200%",
 };
 
 const buttonStyle = {
@@ -67,6 +106,11 @@ const buttonStyle = {
   border: "none",
   backgroundColor: "black",
   color: "white",
+  fontFamily: "Pretendard",
+  fontStyle: "normal",
+  fontWeight: "550",
+  fontSize: "4.8vw",
+  lineHeight: "200%",
 };
 
 const placeOrTicket = {
@@ -79,6 +123,16 @@ const placeOrTicket = {
   marginRight: "20px",
   alignItems: "center",
 };
+
+const resultList = {
+    // margin: "10px",
+    marginLeft: "20px",
+    fontFamily: "Pretendard",
+    fontStyle: "normal",
+    fontWeight: "550",
+    fontSize: "3.8vw",
+    lineHeight: "200%",
+}
 
 export default function PlaneSearchPage() {
   const [planeList, setPlaneList] = useState([
@@ -153,6 +207,8 @@ export default function PlaneSearchPage() {
     setBoarderDate("");
   };
 
+  const selectPlane = () => {};
+
   return (
     <>
       <Header LeftIcon="Arrow" Title="항공권 검색" />
@@ -203,7 +259,9 @@ export default function PlaneSearchPage() {
       <div style={lowerButtonStyle}>
         <button style={buttonStyle}>검색</button>
       </div>
-      <div onClick={postPlaneDate}>검색결과</div>
+      <div style={resultList} onClick={postPlaneDate}>
+        검색결과
+      </div>
 
       {planeList.map((plane, index) => (
         <div key={index} style={wholeStyle}>
@@ -227,7 +285,9 @@ export default function PlaneSearchPage() {
               <div>{plane.d_time} 도착</div>
             </div>
           </div>
-          <div style={lowerStyle}>항공권 선택</div>
+          <div style={lowerStyle} onClick={selectPlane}>
+            항공권 선택
+          </div>
         </div>
       ))}
     </>
