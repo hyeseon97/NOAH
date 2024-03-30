@@ -14,6 +14,8 @@ import com.noah.backend.global.exception.member.UnauthorizedAccessException;
 import com.noah.backend.global.exception.groupaccount.GroupAccountNotFoundException;
 import com.noah.backend.global.exception.member.MemberNotFoundException;
 import com.noah.backend.global.exception.membertravel.MemberTravelAccessException;
+import com.noah.backend.global.exception.membertravel.MemberTravelAlreadyExistException;
+import com.noah.backend.global.exception.membertravel.MemberTravelAlreadyInvitedException;
 import com.noah.backend.global.exception.notification.FirebaseTokenNotExistException;
 import com.noah.backend.global.exception.notification.NotificationAccessException;
 import com.noah.backend.global.exception.notification.NotificationNotFoundException;
@@ -216,6 +218,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(MemberTravelAccessException.class)
     protected ResponseEntity<?> handle(MemberTravelAccessException e){
         log.error("MemberTravelAccessException = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+
+    @ExceptionHandler(MemberTravelAlreadyInvitedException.class)
+    protected ResponseEntity<?> handle(MemberTravelAlreadyInvitedException e){
+        log.error("MemberTravelAlreadyInvitedException = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+
+    @ExceptionHandler(MemberTravelAlreadyExistException.class)
+    protected ResponseEntity<?> handle(MemberTravelAlreadyExistException e){
+        log.error("MemberTravelAlreadyExistException = {}", e.getErrorCode().getMessage());
         return response.error(e.getErrorCode());
     }
 
