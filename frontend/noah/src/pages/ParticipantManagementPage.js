@@ -1,15 +1,12 @@
 import Header from "./../components/common/Header";
 import styles from "./ParticipantManagementPage.module.css";
 import { ReactComponent as Plus } from "./../assets/Icon/Plus.svg";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import InviteModal from "../components/common/InviteModal";
 export default function ParticipantManagementPage() {
-  useEffect(() => {
-    AOS.init({
-      duration: 200,
-    });
-  });
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const openModal = () => setIsModalVisible(true);
+  const closeModal = () => setIsModalVisible(false);
 
   return (
     <>
@@ -29,10 +26,15 @@ export default function ParticipantManagementPage() {
         </div>
         <div className={styles.line}></div>
       </div>
-      <div className={styles.inviteBox}>
+      <div className={styles.inviteBox} onClick={openModal}>
         <Plus className={styles.icon} />
         <div className={styles.paragraphSmall}>새로운 멤버를 추가</div>
       </div>
+      <InviteModal
+        onDelete={() => {}}
+        isVisible={isModalVisible}
+        closeModal={closeModal}
+      />
       <div className={styles.line}></div>
     </>
   );
