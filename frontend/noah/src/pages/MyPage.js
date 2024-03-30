@@ -20,8 +20,8 @@ export default function MyPage() {
       >
         <div className={styles.infoContainer}>
           <div className={styles.labelLarge}>큐티핸섬준규</div>
-          <div className={styles.labelMedium}>강준규</div>
-          <div className={styles.labelSmall}>2024-03-01 가입</div>
+          <div className={styles.labelMedium}>wnsrb933@naver.com</div>
+          <div className={styles.labelSmall}>강준규</div>
         </div>
         <Noah style={{ width: "44vw", height: "44vw", marginLeft: "10vw" }} />
       </div>
