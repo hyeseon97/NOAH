@@ -17,23 +17,19 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TravelGetListDto {
+//    private Long id;
+    //    private Long id;
+    private String title;
+    private boolean isEnded;
+//    private List<MemberTravel> memberTravelList;
+//    private List<Notification> notificationList;
+//    private List<Ticket> ticketList;
+//    private Account account;
+//    private Plan plan;
 
-    private Long travelId;
-    private String travelTitle;
-
-    private Long groupAccountId;
-    private int groupAccountTargetAmount;
-
-    private Long accountId;
-    private Long accountNumber;
-    private int accountBalance;
-
-    private String currency;
-    private int exchangeRate;
-    private LocalDateTime createdAt;
-
-    private Long reviewId;
-    private String country;
-    private int expense;
+    private Long account_id;
+    private Long groupAccount_id;
+    private Long plan_id;
 
 }
+

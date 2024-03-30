@@ -25,29 +25,29 @@ import static com.noah.backend.domain.travel.entity.QTravel.travel;
 import static com.querydsl.core.types.Projections.constructor;
 
 @RequiredArgsConstructor
-public class TravelRepositoryImpl implements TravelRepositoryCustom{
+public class TravelRepositoryImpl implements TravelRepositoryCustom {
 
     private final JPAQueryFactory query;
 
     @Override
     public Optional<List<TravelGetListDto>> getTravelList() {
         List<TravelGetListDto> travelDtos = query
-                .select(constructor(TravelGetListDto.class,
+            .select(constructor(TravelGetListDto.class,
 //                        travel.id,
-                        travel.title,
-                        travel.isEnded
+                                travel.title,
+                                travel.isEnded
 //                        travel.memberTravelList,
 //                        travel.notificationList,
 //                        travel.groupAccount.id,
 //                        travel.plan.id
 //                        travel.ticketList
-                        ))
+            ))
 //                .leftJoin(notification)
 //                .on(travel.id.eq(notification.travel.id))
 //                .leftJoin(memberTravel).on(travel.id.eq(memberTravel.travel.id))
 //                .leftJoin(ticket).on(travel.id.eq(ticket.travel.id))
-                .from(travel)
-                .fetch();
+            .from(travel)
+            .fetch();
 
         return Optional.ofNullable(travelDtos);
     }
@@ -55,24 +55,24 @@ public class TravelRepositoryImpl implements TravelRepositoryCustom{
     @Override
     public Optional<List<TravelGetListDto>> getTravelListToMember(Long memberId) {
         List<TravelGetListDto> travelDtos = query
-                .select(constructor(TravelGetListDto.class,
+            .select(constructor(TravelGetListDto.class,
 //                        travel.id,
-                        travel.title,
-                        travel.isEnded
+                                travel.title,
+                                travel.isEnded
 //                        travel.memberTravelList,
 //                        travel.notificationList,
 //                        travel.groupAccount.id,
 //                        travel.plan.id
 //                        travel.ticketList
-                ))
+            ))
 //                .leftJoin(notification)
 //                .on(travel.id.eq(notification.travel.id))
 //                .leftJoin(memberTravel).on(travel.id.eq(memberTravel.travel.id))
 //                .leftJoin(ticket).on(travel.id.eq(ticket.travel.id))
-                .from(travel)
-                .join(travel.memberTravelList, memberTravel)
-                .where(memberTravel.member.id.eq(memberId))
-                .fetch();
+            .from(travel)
+            .join(travel.memberTravelList, memberTravel)
+            .where(memberTravel.member.id.eq(memberId))
+            .fetch();
 
         return Optional.ofNullable(travelDtos);
     }
@@ -169,20 +169,24 @@ public class TravelRepositoryImpl implements TravelRepositoryCustom{
     @Override
     public Optional<List<Long>> findTravelPaymentDateIsToday(int todayDate) {
         return Optional.ofNullable(query.select(travel.id)
-                                       .from(travel)
-                                       .leftJoin(groupAccount).on(groupAccount.travel.id.eq(travel.id))
-                                       .where(groupAccount.paymentDate.eq(todayDate).and(travel.isDeleted.eq(false)))
-                                       .fetch());
+                                        .from(travel)
+                                        .leftJoin(groupAccount).on(groupAccount.travel.id.eq(travel.id))
+                                        .where(groupAccount.paymentDate.eq(todayDate).and(travel.isDeleted.eq(false)))
+                                        .fetch());
     }
 
     @Override
     public Optional<TravelGetDto> getTravelSelect(Long travelId) {
-        return Optional.ofNullable(query.select(Projections.constructor(TravelGetDto.class, travel.id, travel.title, travel.isEnded, groupAccount.id, groupAccount.targetAmount, groupAccount.account.id, plan.id))
-                                       .from(travel)
-                                       .leftJoin(groupAccount).on(groupAccount.travel.id.eq(travel.id))
-                                       .leftJoin(plan).on(plan.travel.id.eq(travel.id))
-                                       .where(travel.id.eq(travelId))
-                                       .fetchOne());
+        return Optional.ofNullable(query.select(
+                                            Projections.constructor(TravelGetDto.class, travel.id, travel.title, groupAccount.id,
+                                                                    groupAccount.targetAmount, account.id, account.amount, plan.id, plan.startDate, plan.endDate,
+                                                                    plan.country))
+                                        .from(travel)
+                                        .leftJoin(groupAccount).on(groupAccount.travel.id.eq(travel.id))
+                                        .leftJoin(account).on(groupAccount.account.id.eq(account.id))
+                                        .leftJoin(plan).on(plan.travel.id.eq(travel.id))
+                                        .where(travel.id.eq(travelId).and(travel.isDeleted.eq(false)))
+                                        .fetchOne());
     }
 
 }
