@@ -11,7 +11,5 @@ public interface MemberRepositoryCustom {
 
     boolean isNicknameDuplicate(String email);
 
-    Optional<MemberInfoDto> searchMember(String email);
-
     Optional<List<Long>> findByTravelId(Long travelId);
 }

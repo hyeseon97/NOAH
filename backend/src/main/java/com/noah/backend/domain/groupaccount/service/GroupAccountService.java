@@ -17,13 +17,13 @@ public interface GroupAccountService {
 
     Long createGroupAccount(GroupAccountPostDto groupAccountPostDto);
 
-    GroupAccountInfoDto groupAccountInfo(Long groupAccountId);
+    GroupAccountInfoDto groupAccountInfo(String email, Long groupAccountId);
 
     Long updateGroupAccount(Long memberId, GroupAccountUpdateDto groupAccountUpdateDto);
 
-    int getTotalPay(Long travelId);
+    int getTotalPay(String email, Long travelId);
 
-    List<MemberTravelListGetDto> getGroupAccountMembers(Long travelId);
+    List<MemberTravelListGetDto> getGroupAccountMembers(String email, Long travelId);
 
     void depositIntoGroupAccount(String email, DepositReqDto depositReqDto) throws IOException;
 

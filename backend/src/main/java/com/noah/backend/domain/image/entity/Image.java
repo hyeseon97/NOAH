@@ -1,6 +1,7 @@
 package com.noah.backend.domain.image.entity;
 
 import com.noah.backend.domain.base.BaseEntity;
+import com.noah.backend.domain.datailPlan.entity.DetailPlan;
 import com.noah.backend.domain.review.entity.Review;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,11 +22,15 @@ public class Image extends BaseEntity {
     @Column(name = "image_id")
     private Long id;
 
-    @Column(name = "original_url")
+    @Column(name = "url")
     private String url;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "review_id")
+    @JoinColumn(name = "review_id", nullable = true)
     private Review review;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "detail_plan_id", nullable = true)
+    private DetailPlan detailPlan;
 
 }

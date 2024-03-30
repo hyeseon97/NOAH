@@ -14,6 +14,8 @@ import com.noah.backend.domain.groupaccount.entity.GroupAccount;
 import com.noah.backend.domain.groupaccount.repository.GroupAccountRepository;
 import com.noah.backend.domain.member.entity.Member;
 import com.noah.backend.domain.member.repository.MemberRepository;
+import com.noah.backend.domain.memberTravel.Repository.MemberTravelRepository;
+import com.noah.backend.domain.memberTravel.entity.MemberTravel;
 import com.noah.backend.domain.travel.entity.Travel;
 import com.noah.backend.domain.travel.repository.TravelRepository;
 import com.noah.backend.global.exception.account.AccountNotFoundException;
@@ -22,7 +24,9 @@ import com.noah.backend.global.exception.exchange.ExchangeFailedException;
 import com.noah.backend.global.exception.exchange.ExchangeNotFoundException;
 import com.noah.backend.global.exception.groupaccount.GroupAccountNotFoundException;
 import com.noah.backend.global.exception.member.MemberNotFoundException;
+import com.noah.backend.global.exception.membertravel.MemberTravelAccessException;
 import com.noah.backend.global.exception.travel.TravelNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -32,6 +36,7 @@ import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class ExchangeServiceImpl implements ExchangeService {
 
@@ -41,13 +46,20 @@ public class ExchangeServiceImpl implements ExchangeService {
     private final GroupAccountRepository groupAccountRepository;
     private final AccountRepository accountRepository;
     private final MemberRepository memberRepository;
+    private final MemberTravelRepository memberTravelRepository;
 
     @Override
-    public Long createExchange(ExchangeReqDto exchangeReqDto) throws IOException {
+    public Long createExchange(String email, ExchangeReqDto exchangeReqDto) throws IOException {
         Travel travel = travelRepository.findById(exchangeReqDto.getTravelId()).orElseThrow(TravelNotFoundException::new);
         GroupAccount groupAccount = groupAccountRepository.findById(travel.getGroupAccount().getId()).orElseThrow(GroupAccountNotFoundException::new);
         Account account = accountRepository.findById(groupAccount.getAccount().getId()).orElseThrow(AccountNotFoundException::new);
         Member member = memberRepository.findById(account.getMember().getId()).orElseThrow(MemberNotFoundException::new);
+
+        /* 접근권한 */
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), travel.getId()).orElseThrow(
+            MemberTravelAccessException::new);
+        /* ------ */
+
 
         Map<String, String> bankCodeMap = Map.of(
                 "한국은행", "001",
@@ -122,7 +134,14 @@ public class ExchangeServiceImpl implements ExchangeService {
     }
 
     @Override
-    public ExchangeInfoDto getExchangeInfo(Long travelId) {
+    public ExchangeInfoDto getExchangeInfo(String email, Long travelId) {
+
+        /* 접근권한 */
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), travelId).orElseThrow(
+            MemberTravelAccessException::new);
+        /* ------ */
+
         Long exchangeId = exchangeRepository.getExchangeIdByTravelId(travelId);
         if (exchangeId == null) {
             return null;

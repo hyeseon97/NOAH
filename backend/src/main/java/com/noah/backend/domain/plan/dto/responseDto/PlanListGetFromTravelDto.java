@@ -1,10 +1,8 @@
 package com.noah.backend.domain.plan.dto.responseDto;
 
-import com.noah.backend.domain.datailPlan.dto.responseDto.DetailPlanListGetFromPlanDto;
 import lombok.*;
 
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Builder

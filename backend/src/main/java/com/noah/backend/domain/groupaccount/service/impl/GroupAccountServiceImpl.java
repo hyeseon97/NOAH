@@ -28,6 +28,7 @@ import com.noah.backend.global.exception.account.AccountNotFoundException;
 import com.noah.backend.global.exception.groupaccount.GroupAccountAccessDeniedException;
 import com.noah.backend.global.exception.groupaccount.GroupAccountNotFoundException;
 import com.noah.backend.global.exception.member.MemberNotFoundException;
+import com.noah.backend.global.exception.membertravel.MemberTravelAccessException;
 import com.noah.backend.global.exception.membertravel.MemberTravelNotFoundException;
 import com.noah.backend.global.exception.travel.TravelMemberNotFoundException;
 import com.noah.backend.global.exception.travel.TravelNotFoundException;
@@ -102,7 +103,14 @@ public class GroupAccountServiceImpl implements GroupAccountService {
     }
 
     @Override
-    public GroupAccountInfoDto groupAccountInfo(Long groupAccountId) {
+    public GroupAccountInfoDto groupAccountInfo(String email, Long groupAccountId) {
+
+        /* 접근권한 */
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        GroupAccount groupAccount = groupAccountRepository.findById(groupAccountId).orElseThrow(GroupAccountNotFoundException::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), groupAccount.getTravel().getId()).orElseThrow(
+            MemberTravelAccessException::new);
+        /* ------ */
 
         GroupAccountInfoDto groupAccountInfoDto = groupAccountRepository.getGroupAccountInfo(groupAccountId).orElseThrow(GroupAccountNotFoundException::new);
 
@@ -133,7 +141,14 @@ public class GroupAccountServiceImpl implements GroupAccountService {
     }
 
     @Override
-    public int getTotalPay(Long travelId) {
+    public int getTotalPay(String email, Long travelId) {
+
+        /* 접근권한 */
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), travelId).orElseThrow(
+            MemberTravelAccessException::new);
+        /* ------ */
+
         Travel travel = travelRepository.findById(travelId).orElseThrow(TravelNotFoundException::new);
         GroupAccount groupAccount = groupAccountRepository.findById(travel.getGroupAccount().getId()).orElseThrow(GroupAccountNotFoundException::new);
         LocalDate today = LocalDate.now();
@@ -151,7 +166,14 @@ public class GroupAccountServiceImpl implements GroupAccountService {
     }
 
     @Override
-    public List<MemberTravelListGetDto> getGroupAccountMembers(Long travelId) {
+    public List<MemberTravelListGetDto> getGroupAccountMembers(String email, Long travelId) {
+
+        /* 접근권한 */
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), travelId).orElseThrow(
+            MemberTravelAccessException::new);
+        /* ------ */
+
         List<MemberTravelListGetDto> result = memberTravelRepository.findByTravelId(travelId).orElseThrow(TravelMemberNotFoundException::new);
         return result;
     }
@@ -159,9 +181,14 @@ public class GroupAccountServiceImpl implements GroupAccountService {
     @Transactional
     @Override
     public void depositIntoGroupAccount(String email, DepositReqDto depositReqDto) throws IOException {
-        /* 돈 보내는 사람 정보 */
-        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
 
+        /* 접근권한 */
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), depositReqDto.getTravelId()).orElseThrow(
+            MemberTravelAccessException::new);
+        /* ------ */
+
+        /* 돈 보내는 사람 정보 */
         String userName = member.getName();
         String userKey = member.getUserKey();
 
@@ -196,8 +223,6 @@ public class GroupAccountServiceImpl implements GroupAccountService {
         bankService.bankAccountTransfer(bankAccountTransferReqDto);
 
         // memberTravel의 payment 부분에 최신화를 시켜놓을거임, 기존금액 + 입금액 => 총 납부금액
-        Long memberTravelId = memberTravelRepository.getMemberTravelByTravelIdAndMemberId(travelId, member.getId()).orElseThrow(MemberTravelNotFoundException::new);
-        MemberTravel memberTravel = memberTravelRepository.findById(memberTravelId).orElseThrow(MemberTravelNotFoundException::new);
         int previous = memberTravel.getPayment_amount();
         int total = previous + amount;
         memberTravel.setPayment_amount(total);

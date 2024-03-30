@@ -13,7 +13,11 @@ import com.noah.backend.global.exception.member.RefreshTokenNotFoundException;
 import com.noah.backend.global.exception.member.UnauthorizedAccessException;
 import com.noah.backend.global.exception.groupaccount.GroupAccountNotFoundException;
 import com.noah.backend.global.exception.member.MemberNotFoundException;
+import com.noah.backend.global.exception.membertravel.MemberTravelAccessException;
+import com.noah.backend.global.exception.membertravel.MemberTravelAlreadyExistException;
+import com.noah.backend.global.exception.membertravel.MemberTravelAlreadyInvitedException;
 import com.noah.backend.global.exception.notification.FirebaseTokenNotExistException;
+import com.noah.backend.global.exception.notification.NotificationAccessException;
 import com.noah.backend.global.exception.notification.NotificationNotFoundException;
 import com.noah.backend.global.exception.notification.NotificationSendFailedException;
 import com.noah.backend.global.exception.suggest.LowerThanPriceNotExists;
@@ -142,6 +146,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return response.error(e.getErrorCode());
     }
 
+    @ExceptionHandler(NotificationAccessException.class)
+    protected ResponseEntity<?> handle(NotificationAccessException e){
+        log.error("NotificationAccessException = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+
     /* 은행 */
     @ExceptionHandler(A1001Exception.class)
     protected ResponseEntity<?> handle(A1001Exception e){
@@ -203,4 +213,24 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("LowerThanPriceNotExists = {}", e.getErrorCode().getMessage());
         return response.error(e.getErrorCode());
     }
+
+    /* 멤버여행 */
+    @ExceptionHandler(MemberTravelAccessException.class)
+    protected ResponseEntity<?> handle(MemberTravelAccessException e){
+        log.error("MemberTravelAccessException = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+
+    @ExceptionHandler(MemberTravelAlreadyInvitedException.class)
+    protected ResponseEntity<?> handle(MemberTravelAlreadyInvitedException e){
+        log.error("MemberTravelAlreadyInvitedException = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+
+    @ExceptionHandler(MemberTravelAlreadyExistException.class)
+    protected ResponseEntity<?> handle(MemberTravelAlreadyExistException e){
+        log.error("MemberTravelAlreadyExistException = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+
 }

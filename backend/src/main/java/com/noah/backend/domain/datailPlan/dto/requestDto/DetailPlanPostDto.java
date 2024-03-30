@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DetailPlanPostDto {
+
+    private Long planId;
     private int day;
     private int sequence;
     private String place;
@@ -16,5 +18,5 @@ public class DetailPlanPostDto {
     private double pinY;
     private String memo;
     private String time;
-//    private String plan_id;
+
 }
