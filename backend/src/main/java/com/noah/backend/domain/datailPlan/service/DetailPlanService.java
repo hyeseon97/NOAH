@@ -1,25 +1,17 @@
 package com.noah.backend.domain.datailPlan.service;
 
 import com.noah.backend.domain.datailPlan.dto.requestDto.DetailPlanPostDto;
-import com.noah.backend.domain.datailPlan.dto.requestDto.DetailPlanUpdateDto;
-import com.noah.backend.domain.datailPlan.dto.responseDto.DetailPlanGetDto;
-import com.noah.backend.domain.datailPlan.dto.responseDto.DetailPlanListGetFromPlanDto;
-import com.noah.backend.domain.datailPlan.entity.DetailPlan;
-
-import java.util.List;
+import com.noah.backend.domain.datailPlan.dto.responseDto.DetailPlanListDto;
 
 public interface DetailPlanService {
-    //DTO 수정 필요
-    List<DetailPlanListGetFromPlanDto> getDetailPlanList(Long PlanId);
+
+    DetailPlanListDto getDetailPlanList(String email, Long planId);
+
+    Long createDetailPlan(String email, DetailPlanPostDto detailPlan);
 
     //DTO 수정 필요
-    DetailPlanGetDto getDetailPlanSelect(Long DetailPlanId);
+    Long updateDetailPlan(String email, DetailPlanListDto detailPlanDto);
 
-    Long createDetailPlan(Long travelId, DetailPlanPostDto detailPlan);
-
-    //DTO 수정 필요
-    Long updateDetailPlan(Long detailPlanId, DetailPlanUpdateDto detailPlan);
-
-    void deleteDetailPlan(Long detailId);
+    void deleteDetailPlan(String email, Long detailId);
 
 }

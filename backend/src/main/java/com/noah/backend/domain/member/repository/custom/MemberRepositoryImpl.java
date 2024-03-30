@@ -32,14 +32,6 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
     }
 
     @Override
-    public Optional<MemberInfoDto> searchMember(String email) {
-        return Optional.ofNullable(query.select(Projections.constructor(MemberInfoDto.class, member.id, member.email, member.name, member.nickname))
-                                       .from(member)
-                                       .where(member.email.eq(email))
-                                       .fetchOne());
-    }
-
-    @Override
     public Optional<List<Long>> findByTravelId(Long travelId) {
         return Optional.ofNullable(query.select(member.id)
                                        .from(member)

@@ -78,7 +78,13 @@ export default function Trip({
   const navigate = useNavigate();
   const handleAccountClick = (e) => {
     e.stopPropagation();
-    navigate(`/transfer/${travelId}`);
+    navigate(`/transfer/${travelId}`, {
+      state: {
+        title,
+        bankName,
+        accountNumber,
+      },
+    });
   };
   const accountStyle = fromHome
     ? {

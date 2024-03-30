@@ -8,7 +8,6 @@ import HomePage from "./pages/HomePage";
 import TransferPage from "./pages/TransferPage";
 import TripCreatePage from "./pages/TripCreatePage";
 import TripPage from "./pages/TripPage";
-import BankBookCreatePage from "./pages/BankBookCreatePage";
 import GoalPage from "./pages/GoalPage";
 import NotificationPage from "./pages/NotificationPage";
 import ParticipantManagementPage from "./pages/ParticipantManagementPage";
@@ -22,6 +21,7 @@ import AutomaticWithdrawalSettingPage from "./pages/AutomaticWithdrawalSettingPa
 import ErrorPage from "./pages/ErrorPage";
 import GoogleMapSearch from "./pages/GoogleMapSearch";
 import TestGoogleMap from "./pages/TestGoogleMap";
+import PaymentPage from "./pages/PaymentPage";
 
 export default function Main() {
   return (
@@ -37,10 +37,9 @@ export default function Main() {
           <Route path="tripcreate" element={<TripCreatePage />} />
           <Route path="trip/:tripid">
             <Route index element={<TripPage />} />
-            <Route path="bankbookcreate" element={<BankBookCreatePage />} />
             <Route path="goal" element={<GoalPage />} />
             <Route
-              path="participantmanageMent"
+              path="participantmanagement"
               element={<ParticipantManagementPage />}
             />
             <Route path="exchange" element={<ExchangePage />} />
@@ -48,6 +47,7 @@ export default function Main() {
               path="spendingmanagement"
               element={<SpendingManagemnetPage />}
             />
+            <Route path="payment" element={<PaymentPage />} />
             <Route path="planningcreate" element={<PlanningCreatePage />} />
             <Route path="planning" element={<PlanningPage />} />
           </Route>

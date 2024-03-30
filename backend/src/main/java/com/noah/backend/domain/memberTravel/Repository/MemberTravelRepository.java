@@ -7,5 +7,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemberTravelRepository extends JpaRepository<MemberTravel, Long> , MemberTravelRepositoryCustom {
 
-    Optional<MemberTravel> findByTravelIdAndMemberId(Long travelId, Long memberId);
 }

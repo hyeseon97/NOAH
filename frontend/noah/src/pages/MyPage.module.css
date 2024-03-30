@@ -1,0 +1,48 @@
+.infoContainer{
+    margin-top: 13.33vw;
+    margin-left: 8.89vw;
+    margin-bottom: 12.78vw;
+}
+
+.labelLarge{
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 5.92vw;
+    line-height: 150%;
+    color: #000000;
+}
+.labelMedium{
+    font-Family: "Pretendard";
+    font-Style: normal;
+    font-Weight: 600;
+    font-Size: 4.45vw;
+    line-Height: 150%;
+    color: #898989;
+}
+.labelSmall{
+    font-Family: "Pretendard";
+    font-Style: normal;
+    font-Weight: 600;
+    font-Size: 3.35vw;
+    line-Height: 150%;
+    color: #898989;
+}
+.menuContainer{
+    margin-left: 5.56vw;
+    margin-right: 5.56vw;
+    height: 17.78vw;
+    display: flex;
+    align-items: center;
+    padding-left: 5.28vw;
+    gap: 6.67vw;
+    border-bottom: 1px solid;
+    border-color: #898989;    
+}
+.icon{
+    height: 5vw;
+    width: 5vw;
+}
+.bottom{
+    height: 42.78vw;
+}

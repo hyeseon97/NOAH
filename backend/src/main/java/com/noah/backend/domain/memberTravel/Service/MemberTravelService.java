@@ -11,11 +11,13 @@ public interface MemberTravelService {
 
     public Long updateMemberTravel(Long memberTravelId, MemberTravelUpdateDto memberTravelUpdateDto);
 
-    public Long inviteMember(MemberTravelInviteDto memberTravelInviteDto);
+    public Long inviteMember(String email, MemberTravelInviteDto memberTravelInviteDto);
 
     public void deleteResistMember(Long memberTravelId);
 
     void setAutoTransfer(String email, AutoTransferPostDto autoTransferPostDto);
 
     void deleteAutoTransfer(String email, Long travelId);
+
+    boolean memberAccessTravel(Long memberId, Long travelId);
 }

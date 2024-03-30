@@ -9,3 +9,12 @@ export async function getMyTravel() {
     throw error;
   }
 }
+
+export async function createTravel(object) {
+  try {
+    const response = await axiosAPI.post(commonUrl, object);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}

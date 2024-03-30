@@ -83,11 +83,11 @@ public class AccountServiceImpl implements AccountService {
         return accountInfoDtoList;
     }
 
+    @Transactional
     @Override
     public Long updateAmount(AccountUpdateDto accountUpdateDto) {
         Account account = accountRepository.findById(accountUpdateDto.getAccountId()).orElseThrow(AccountNotFoundException::new);
         account.setAmount(accountUpdateDto.getAmount());
-        accountRepository.save(account);
         return account.getId();
     }
 }

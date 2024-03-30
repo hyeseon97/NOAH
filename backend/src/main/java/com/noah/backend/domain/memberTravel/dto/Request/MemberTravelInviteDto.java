@@ -9,8 +9,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberTravelInviteDto {
 
-    private Long member_id;
-
-    private Long travel_id;
+    private String email;
+    private Long travelId;
 
 }
