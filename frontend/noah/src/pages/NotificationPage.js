@@ -1,10 +1,30 @@
+import Notification from "../components/notification/Notification";
+import Header from "./../components/common/Header";
+import { useState, useEffect } from "react";
 export default function NotificationPage() {
+  const [notifications, setNotifications] = useState([
+    { isInvitation: true },
+    { isInvitation: true },
+    { isInvitation: true },
+    { isInvitation: false },
+  ]);
+
+  const handleDelete = (index) => {
+    setNotifications((currentNotifications) =>
+      currentNotifications.filter((_, i) => i !== index)
+    );
+  };
+
   return (
     <>
-      <h1>
-        알림 페이지 but 풀 모달 형식으로 제작 고려중..너는 페이지가 아니라 url로
-        빼야 할 거 같은데..?
-      </h1>
+      <Header LeftIcon="Cancel" Title="알림" />
+      {notifications.map((notification, index) => (
+        <Notification
+          key={index}
+          isInvitation={notification.isInvitation}
+          onDelete={() => handleDelete(index)}
+        />
+      ))}
     </>
   );
 }

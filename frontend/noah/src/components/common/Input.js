@@ -4,6 +4,7 @@ export default function Input({
   value,
   onChange,
   name,
+  disabled,
 }) {
   const inputStyle = {
     width: "88vw",
@@ -27,6 +28,7 @@ export default function Input({
         value={value}
         onChange={onChange}
         style={inputStyle}
+        disabled={disabled}
       />
     </>
   );

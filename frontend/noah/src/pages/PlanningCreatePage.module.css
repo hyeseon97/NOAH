@@ -1,0 +1,52 @@
+.planningCreateContainer{
+    margin-top: 4.44vw;
+    padding-left: 5.55vw;
+    padding-right: 5.55vw;
+}
+.iconBox{
+    display: flex;
+    justify-content: center;
+}
+.icon{
+    width: 35.55vw;
+    height: 35.55vw;
+    margin-top: 15.28vw;
+    margin-bottom: 15.28vw;
+}
+.labelMedium{
+    font-Family: "Pretendard";
+    font-Style: normal;
+    font-Weight: 600;
+    font-Size: 4.45vw;
+    line-Height: 150%;
+    color: #000000;
+}
+.setBox{
+    border: 0.277vw solid #E1E1E1;
+    backdrop-Filter: blur(0.277vw);
+    border-Radius: 2.77vw;
+    width: 88.89vw;
+    height: 14.44vw;
+    display: flex;
+    align-items: center;
+    margin-bottom: 4.44vw;
+}
+.smallIcon{
+    width: 6.67vw;
+    height: 6.67vw;
+    margin-left: 3.33vw;
+    margin-right: 3.33vw;
+}
+.inputBox{
+    border: 0;
+    font-Family: "Pretendard";
+    font-Style: normal;
+    font-Weight: 600;
+    font-Size: 4.45vw;
+    line-Height: 150%;
+    color: #000000;
+}
+.buttonBox{
+    margin-top: 25vw;
+    margin-bottom: 7.5vw;
+}

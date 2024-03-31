@@ -1,25 +1,38 @@
 import styles from "./HomePage.module.css";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ReactComponent as Notification } from "../assets/Icon/Notification.svg";
 import { ReactComponent as My } from "../assets/Icon/My.svg";
 import { useNavigate } from "react-router-dom";
 import Trip from "../components/trip/Trip";
+import Exchange from "./../components/exchange/Exchange";
+import sample1 from "../assets/Image/sample1.jpg";
+import sample2 from "../assets/Image/sample2.png";
+import { getAllGroupAccount } from "../api/groupaccount/GroupAccount";
+import showToast from "../components/common/Toast";
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const trips = [{}, {}, {}]; // 여행 데이터 저장
+  const [trips, setTrips] = useState([]); // 여행 데이터 저장
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleNotificationClick = () => {
+    if (localStorage.getItem("accessToken") === null) {
+      showToast("로그인 후 이용해보세요.");
+      navigate("/login");
+      return;
+    }
+
     navigate("/notification");
   };
 
   const handleMyClick = () => {
+    console.log(localStorage.getItem("accessToken"));
+    if (localStorage.getItem("accessToken") === null) {
+      showToast("로그인 후 이용해보세요.");
+      navigate("/login");
+      return;
+    }
     navigate("/mypage");
-  };
-
-  const handleTripClick = (index) => {
-    console.log(`Trip ${index} 클릭됨`);
-    navigate(`/trip/${index}`);
   };
 
   /* Trip 컴포넌트 스와이프 */
@@ -66,6 +79,36 @@ export default function HomePage() {
   const handleTouchStart = (e) => handleSwipeStart(e.touches[0].clientX);
   const handleTouchEnd = (e) => handleSwipeEnd(e.changedTouches[0].clientX);
 
+  function formatTime(date) {
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+
+    // 시간과 분이 10보다 작으면 앞에 '0'을 붙여 두 자리로 만듦
+    const formattedHours = hours < 10 ? `0${hours}` : hours;
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+
+    // '15:36' 형태의 문자열로 결합
+    return `${formattedHours}:${formattedMinutes}`;
+  }
+
+  useEffect(() => {
+    setIsLoading(true);
+    const fetchGroupAccounts = async () => {
+      try {
+        const response = await getAllGroupAccount();
+        console.log(response);
+        if (response.data === null) setTrips([]);
+        else setTrips(response.data); // API로부터 받아온 여행 데이터를 상태에 저장
+      } catch (error) {
+        setTrips([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchGroupAccounts();
+  }, []);
+
   return (
     <>
       <div className={styles.headerContainer}>
@@ -88,11 +131,49 @@ export default function HomePage() {
         onTouchEnd={handleTouchEnd}
       >
         <div style={{ marginLeft: "5vw" }}></div>
+        {isLoading && (
+          <>
+            <Trip isLoading={true} />
+          </>
+        )}
+
         {trips.map((trip, index) => (
-          <Trip fromHome={true} onClick={() => handleTripClick(index)} /> // index 가 아니라 여행 id 전달하면 된다
+          <Trip
+            key={index}
+            onClick={() => navigate(`/trip/${trip.travelId}`)}
+            title={trip.title}
+            bankName={trip.bankName}
+            accountNumber={trip.accountNumber}
+            amount={trip.amount}
+            targetAmount={trip.targetAmount}
+            fromHome={true}
+            travelId={trip.travelId}
+          />
         ))}
         <Trip isLast={true} />
         <div style={{ marginRight: "5vw" }}></div>
+      </div>
+
+      <div className={styles.exchangeContainer}>
+        <Exchange />
+      </div>
+      <div className={styles.paragraphSmall}>
+        {formatTime(new Date())} 환율 기준
+      </div>
+      <div className={styles.reviewHeader}>추천 후기</div>
+      <div className={styles.reviewContainer}>
+        <div className={styles.review}>
+          <img src={sample1} alt="Sample 1" className={styles.reviewImage} />
+          <div className={styles.place}>준규모리현 벚꽃공원</div>
+        </div>
+        <div className={styles.review}>
+          <img src={sample2} alt="Sample 2" className={styles.reviewImage} />
+          <div className={styles.place}>오오건건현 스마트료칸</div>
+        </div>
+        <div className={styles.review}>
+          <img src={sample1} alt="Sample 1" className={styles.reviewImage} />
+          <div className={styles.place}>준규모리현 벚꽃공원</div>
+        </div>
       </div>
     </>
   );

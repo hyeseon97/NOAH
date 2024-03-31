@@ -328,3 +328,6 @@
   --font-size-paragraph-xl: var(--paragraph-xl);
   --font-size-paragraph-large: var(--paragraph-large);
 }
+
+@import "~slick-carousel/slick/slick.css"; 
+@import "~slick-carousel/slick/slick-theme.css";
