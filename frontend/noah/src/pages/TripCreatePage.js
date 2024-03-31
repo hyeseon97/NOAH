@@ -6,6 +6,7 @@ import { ReactComponent as Airplane } from "./../assets/Icon/Airplane.svg";
 import { ReactComponent as Bank } from "./../assets/Icon/Bank.svg";
 import styles from "./TripCreatePage.module.css";
 import { useState } from "react";
+import showToast from "./../components/common/Toast";
 
 export default function TripCreatePage() {
   const navigate = useNavigate();
@@ -19,7 +20,11 @@ export default function TripCreatePage() {
 
   const handleTripNameChange = (e) => {
     const value = e.target.value;
-    if (value.length > 30) return;
+    if (value.length > 20) {
+      showToast("최대 20자 까지 가능합니다.");
+      return;
+    }
+
     setTripName(value);
   };
   const handleLeftIconClick = () => {

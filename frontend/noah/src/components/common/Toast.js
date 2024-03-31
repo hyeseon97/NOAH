@@ -1,6 +1,8 @@
 import toast from "react-hot-toast";
 
 export default function showToast(string) {
+  toast.remove();
+
   toast(`${string}`, {
     style: {
       border: "0.277vw solid #E1E1E1",

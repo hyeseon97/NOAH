@@ -46,7 +46,7 @@ export default function TripPage() {
     <>
       <Header
         LeftIcon="Cancel"
-        Title="여행이름"
+        Title="여행이름몇자까지가능해요하하이십자이십자"
         onClick={handleLeftIconClick}
       />
       <div style={{ marginTop: "6.67vw", cursor: "pointer" }}>
