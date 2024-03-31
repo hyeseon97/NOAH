@@ -3,6 +3,7 @@ package com.noah.backend.domain.image.repository.custom;
 import com.noah.backend.domain.image.dto.requestDto.ImageGetDto;
 import com.noah.backend.domain.image.dto.requestDto.ImageListGetDto;
 import com.noah.backend.domain.image.entity.Image;
+import com.noah.backend.domain.suggest.dto.requestDto.SuggestImageGetDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -40,8 +41,16 @@ public class ImageRepositoryImpl implements ImageRepositoryCustom {
     }
 
     @Override
-    public Optional<List<Long>> findImageOfReview(Long reviewId) {
-        return Optional.ofNullable(query.select(image.id)
+    public Optional<List<SuggestImageGetDto>> findImageOfReview(Long reviewId) {
+        return Optional.ofNullable(query.select(Projections.constructor(SuggestImageGetDto.class,image.id,image.url))
+                .from(image)
+                .where(image.review.id.eq(reviewId))
+                .fetch());
+    }
+
+    @Override
+    public Optional<List<SuggestImageGetDto>> getImageList(Long reviewId) {
+        return Optional.ofNullable(query.select(Projections.constructor(SuggestImageGetDto.class,image.id,image.url))
                 .from(image)
                 .where(image.review.id.eq(reviewId))
                 .fetch());

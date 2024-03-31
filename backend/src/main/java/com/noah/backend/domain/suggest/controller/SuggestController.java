@@ -1,9 +1,5 @@
 package com.noah.backend.domain.suggest.controller;
 
-import com.noah.backend.domain.review.controller.ReviewController;
-import com.noah.backend.domain.review.dto.responseDto.ReviewListGetDto;
-import com.noah.backend.domain.review.service.ReviewService;
-import com.noah.backend.domain.suggest.dto.requestDto.SuggestListReqDto;
 import com.noah.backend.domain.suggest.dto.responseDto.SuggestListResDto;
 import com.noah.backend.domain.suggest.service.SuggestService;
 import com.noah.backend.global.format.code.ApiResponse;
@@ -33,7 +29,6 @@ public class SuggestController {
 	@Operation(summary = "여행 추천 목록 조회", description = "여행 추천 목록 조회")
 	@GetMapping("/{travelId}")
 	public ResponseEntity<?> getSuggestList(@PathVariable(name = "travelId") Long travelId) {
-		System.out.println("테스트");
 		List<SuggestListResDto> suggestList = suggestService.getSuggestList(travelId);
 		return response.success(ResponseCode.REVIEW_FETCHED, suggestList);
 	}
