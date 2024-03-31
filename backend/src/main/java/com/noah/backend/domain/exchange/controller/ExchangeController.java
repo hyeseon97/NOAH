@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.rpc.context.AttributeContext.Auth;
 import com.noah.backend.domain.exchange.dto.requestDto.ExchangeReqDto;
 import com.noah.backend.domain.exchange.dto.responseDto.ExchangeInfoDto;
+import com.noah.backend.domain.exchange.dto.responseDto.ExchangeRateGetDto;
 import com.noah.backend.domain.exchange.service.ExchangeService;
 import com.noah.backend.global.format.code.ApiResponse;
 import com.noah.backend.global.format.response.ResponseCode;
@@ -41,6 +42,13 @@ public class ExchangeController {
             return response.success(ResponseCode.EXCHANGE_NOT_FOUND, null);
         }
         return response.success(ResponseCode.EXCHANGE_INFO_FETCHED, result);
+    }
+
+    @Operation(summary = "환율 조회", description = "환율 조회")
+    @GetMapping("/rate")
+    public ResponseEntity<?> getExchangeRateList(){
+        ExchangeRateGetDto result = exchangeService.getExchangeRate();
+        return response.success(ResponseCode.EXCHANGE_RATE_INFO_FETCHED, result);
     }
 
 }

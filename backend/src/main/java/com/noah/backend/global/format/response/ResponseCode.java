@@ -56,6 +56,7 @@ public enum ResponseCode {
     /* 환전 */
     EXCHANGE_SUCCESS(HttpStatus.OK, "환전이 성공적으로 완료되었습니다."),
     EXCHANGE_INFO_FETCHED(HttpStatus.OK, "환전 내역이 성공적으로 조회되었습니다."),
+    EXCHANGE_RATE_INFO_FETCHED(HttpStatus.OK, "환율이 성공적으로 조회되었습니다."),
     EXCHANGE_NOT_FOUND(HttpStatus.OK, "환전내역이 없습니다."),
 
     /* 은행 (Bank) */

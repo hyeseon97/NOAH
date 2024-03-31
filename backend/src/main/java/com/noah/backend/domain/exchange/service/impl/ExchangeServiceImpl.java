@@ -3,10 +3,13 @@ package com.noah.backend.domain.exchange.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.noah.backend.domain.account.entity.Account;
 import com.noah.backend.domain.account.repository.AccountRepository;
+import com.noah.backend.domain.apis.dto.CurrencyDto;
+import com.noah.backend.domain.apis.service.ForeignCurrencyService;
 import com.noah.backend.domain.bank.dto.requestDto.BankAccountWithdrawReqDto;
 import com.noah.backend.domain.bank.service.BankService;
 import com.noah.backend.domain.exchange.dto.requestDto.ExchangeReqDto;
 import com.noah.backend.domain.exchange.dto.responseDto.ExchangeInfoDto;
+import com.noah.backend.domain.exchange.dto.responseDto.ExchangeRateGetDto;
 import com.noah.backend.domain.exchange.entity.Exchange;
 import com.noah.backend.domain.exchange.repository.ExchangeRepository;
 import com.noah.backend.domain.exchange.service.ExchangeService;
@@ -27,6 +30,7 @@ import com.noah.backend.global.exception.member.MemberNotFoundException;
 import com.noah.backend.global.exception.membertravel.MemberTravelAccessException;
 import com.noah.backend.global.exception.travel.TravelNotFoundException;
 import jakarta.transaction.Transactional;
+import java.util.Currency;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -47,6 +51,7 @@ public class ExchangeServiceImpl implements ExchangeService {
     private final AccountRepository accountRepository;
     private final MemberRepository memberRepository;
     private final MemberTravelRepository memberTravelRepository;
+    private final ForeignCurrencyService foreignCurrencyService;
 
     @Override
     public Long createExchange(String email, ExchangeReqDto exchangeReqDto) throws IOException {
@@ -85,16 +90,16 @@ public class ExchangeServiceImpl implements ExchangeService {
         int currencyCode;
 
         switch (currencyName) {
-            case "달러":
+            case "USD":
                 currencyCode = 0;
                 break;
-            case "엔화":
+            case "JPY":
                 currencyCode = 1;
                 break;
-            case "위안화":
+            case "CNY":
                 currencyCode = 2;
                 break;
-            case "유로":
+            case "EUR":
                 currencyCode = 3;
                 break;
             default:
@@ -152,16 +157,16 @@ public class ExchangeServiceImpl implements ExchangeService {
 
             switch (currencyCode) {
                 case 0:
-                    currencyName = "달러";
+                    currencyName = "USD";
                     break;
                 case 1:
-                    currencyName = "엔화";
+                    currencyName = "JPY";
                     break;
                 case 2:
-                    currencyName = "위안화";
+                    currencyName = "CNY";
                     break;
                 case 3:
-                    currencyName = "유로";
+                    currencyName = "EUR";
                     break;
                 default:
                     throw new ExchangeCurrencyNotAcceptableException();
@@ -175,5 +180,19 @@ public class ExchangeServiceImpl implements ExchangeService {
 
             return exchangeInfoDto;
         }
+    }
+
+    @Override
+    public ExchangeRateGetDto getExchangeRate() {
+
+        CurrencyDto currencyDto = foreignCurrencyService.getExchangeRate();
+        ExchangeRateGetDto exchangeRateGetDto = ExchangeRateGetDto
+            .builder()
+            .USD(currencyDto.getBuyDollar())
+            .JPY(currencyDto.getBuyYen())
+            .CNY(currencyDto.getBuyYuan())
+            .EUR(currencyDto.getBuyEuro()).build();
+
+        return exchangeRateGetDto;
     }
 }

@@ -122,21 +122,21 @@ public class NotificationServiceImpl implements NotificationService {
             String body = null;
 
             if(t.getCurrency()==0){
-                notification.setCurrency("달러");
+                notification.setCurrency("USD");
                 notification.setExchangeRate(currency.getBuyDollar());
-                body = "[ " + t.getTravelTitle() + " ] 여행의 목표 환율에 도달했습니다.  달러환율:" + currency.getBuyDollar();
+                body = "[ " + t.getTravelTitle() + " ] 여행의 목표 환율에 도달했습니다.  USD:" + currency.getBuyDollar();
             } else if(t.getCurrency()==1){
-                notification.setCurrency("엔화");
+                notification.setCurrency("JPY");
                 notification.setExchangeRate(currency.getBuyYen());
-                body = "[ " + t.getTravelTitle() + " ] 여행의 목표 환율에 도달했습니다.  엔화환율:" + currency.getBuyYen();
+                body = "[ " + t.getTravelTitle() + " ] 여행의 목표 환율에 도달했습니다.  JPY:" + currency.getBuyYen();
             } else if(t.getCurrency()==2){
-                notification.setCurrency("위안화");
+                notification.setCurrency("CNY");
                 notification.setExchangeRate(currency.getBuyYuan());
-                body = "[ " + t.getTravelTitle() + " ] 여행의 목표 환율에 도달했습니다.  위안화환율:" + currency.getBuyYuan();
+                body = "[ " + t.getTravelTitle() + " ] 여행의 목표 환율에 도달했습니다.  CNY:" + currency.getBuyYuan();
             } else if(t.getCurrency()==3){
-                notification.setCurrency("유로");
+                notification.setCurrency("EUR");
                 notification.setExchangeRate(currency.getBuyEuro());
-                body = "[ " + t.getTravelTitle() + " ] 여행의 목표 환율에 도달했습니다.  유로환율:" + currency.getBuyEuro();
+                body = "[ " + t.getTravelTitle() + " ] 여행의 목표 환율에 도달했습니다.  EUR:" + currency.getBuyEuro();
             }
 
             notificationRepository.save(notification);

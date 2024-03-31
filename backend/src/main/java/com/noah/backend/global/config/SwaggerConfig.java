@@ -150,6 +150,15 @@ public class SwaggerConfig {
 
     }
 
+    @Bean
+    public GroupedOpenApi exchangeGroup() {
+        return GroupedOpenApi.builder()
+                             .group("환전환율")
+                             .pathsToMatch("/api/v1/exchange/**")
+                             .build();
+
+    }
+
 //    @Bean
 //    public GroupedOpenApi flightGroup() {
 //        return GroupedOpenApi.builder()
