@@ -1,34 +1,33 @@
 package com.noah.backend.domain.bank.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.noah.backend.domain.bank.dto.requestDto.*;
 import com.noah.backend.domain.bank.dto.responseDto.BankAccountBalanceCheckResDto;
 import com.noah.backend.domain.bank.dto.responseDto.BankAccountListResDto;
 import com.noah.backend.domain.bank.service.BankService;
+import com.noah.backend.domain.csv.service.impl.CsvServiceImpl;
 import com.noah.backend.global.format.code.ApiResponse;
 import com.noah.backend.global.format.response.ResponseCode;
+import com.opencsv.exceptions.CsvValidationException;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 @RestController
-@CrossOrigin("*")
 @RequiredArgsConstructor
-@Slf4j
 @RequestMapping("/api/v1/bank")
 public class BankController {//계좌 입금, 계좌 출금, 계좌 이체 기능 구현
 
 	private final ApiResponse response;
-	private  final BankService bankService;
+	private final BankService bankService;
 	//계좌 목록 조회
 	@PostMapping("/bankAccountList")
 	@Operation(summary = "계좌 목록 조회", description = "계좌 목록 조회")
-	public ResponseEntity<?> bankAccountList(@RequestBody BankAccountListReqDto bankAccountListReqDto) throws IOException {
+	public ResponseEntity<?> bankAccountList(@RequestBody BankAccountListReqDto bankAccountListReqDto) throws IOException, CsvValidationException, ParseException {
 		ArrayList<BankAccountListResDto> bankAccountList= bankService.bankAccountList(bankAccountListReqDto);
 		return response.success(ResponseCode.BANK_DEPOSIT_SUCCESS,bankAccountList);
 	}

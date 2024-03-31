@@ -129,7 +129,10 @@ public enum ErrorCode {
 
     /* 제안(suggest) */
     SUGGEST_NOT_EXISTS(HttpStatus.BAD_REQUEST, "리뷰가 존재하지 않습니다."),
-    LOWER_THAN_PRICE_NOT_EXISTS(HttpStatus.BAD_REQUEST, "인당 가격보다 낮은 리뷰가 존재하지 않습니다.");
+    LOWER_THAN_PRICE_NOT_EXISTS(HttpStatus.BAD_REQUEST, "인당 가격보다 낮은 리뷰가 존재하지 않습니다."),
+
+    /* 더미데이터 생성(csv) */
+    DUMMYDATA_CREATE_FAILED(HttpStatus.BAD_REQUEST, "더미데이터 생성에 실패하였습니다");
     private final HttpStatus status;
     private final String message;
 

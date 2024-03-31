@@ -102,6 +102,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom{
         return Optional.ofNullable(query.select(review.id)
                 .from(review)
                 .where(review.expense.divide(review.people).loe(priceOfPerson))
+                        .orderBy(review.expense.divide(review.people).desc())
                 .fetch());
     }
 

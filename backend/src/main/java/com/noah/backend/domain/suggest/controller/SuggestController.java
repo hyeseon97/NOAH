@@ -14,10 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,9 +31,10 @@ public class SuggestController {
 
 	//여행 썸네일은 메소드만 만들었습니다.
 	@Operation(summary = "여행 추천 목록 조회", description = "여행 추천 목록 조회")
-	@GetMapping("/list")
-	public ResponseEntity<?> getSuggestList(@RequestBody SuggestListReqDto suggestListReqDto) {
-		List<SuggestListResDto> suggestList = suggestService.getSuggestList(suggestListReqDto);
+	@GetMapping("/{travelId}")
+	public ResponseEntity<?> getSuggestList(@PathVariable(name = "travelId") Long travelId) {
+		System.out.println("테스트");
+		List<SuggestListResDto> suggestList = suggestService.getSuggestList(travelId);
 		return response.success(ResponseCode.REVIEW_FETCHED, suggestList);
 	}
 }
