@@ -18,4 +18,6 @@ public interface TradeRepositoryCustom {
     Optional<List<TradeGetResDto>> getHideTradeList(Long accountId);
 
     void isAccessTrade(Long memberId, Long tradeId);
+
+    Optional<Integer> getTotalExpense(Long travelId);
 }

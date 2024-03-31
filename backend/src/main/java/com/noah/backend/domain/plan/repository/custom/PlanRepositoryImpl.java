@@ -5,6 +5,7 @@ import com.noah.backend.domain.datailPlan.dto.responseDto.DetailPlanListDto;
 import com.noah.backend.domain.plan.dto.responseDto.PlanGetDto;
 import com.noah.backend.domain.plan.dto.responseDto.PlanListGetFromTravelDto;
 import com.noah.backend.domain.plan.dto.responseDto.SimplePlan;
+import com.noah.backend.domain.plan.entity.Plan;
 import com.noah.backend.global.exception.plan.PlanAccessException;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -97,5 +98,13 @@ public class PlanRepositoryImpl implements PlanRepositoryCustom {
                                 .where(memberTravel.member.id.eq(memberId).and(plan.id.eq(planId)))
                                 .fetch())
             .orElseThrow(PlanAccessException::new);
+    }
+
+    @Override
+    public Optional<Plan> findByTravelId(Long travelId) {
+        return Optional.ofNullable(query.select(plan)
+                                       .from(plan)
+                                       .where(plan.travel.id.eq(travelId))
+                                       .fetchOne());
     }
 }

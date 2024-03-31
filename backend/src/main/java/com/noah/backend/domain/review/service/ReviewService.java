@@ -15,13 +15,11 @@ public interface ReviewService {
 
     ReviewGetDto getReviewSelect(Long ReviewId);
 
-    Long createReview(ReviewPostDto review);
+    Long createReview(String email, ReviewPostDto reviewPostDto);
 
-    @Transactional
-    Long createReviewTest(ReviewPostDto reviewDto, Long memberId);
+//    Long createReviewTest(ReviewPostDto reviewDto, Long memberId);
 
-    @Transactional
-    Long createReviewTest2(ReviewPostDto reviewDto, Long travelId);
+//    Long createReviewTest2(ReviewPostDto reviewDto, Long travelId);
 
     Long updateReview(Long reviewId, ReviewUpdateDto review);
 
