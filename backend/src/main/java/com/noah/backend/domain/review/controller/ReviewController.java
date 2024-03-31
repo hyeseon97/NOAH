@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,12 +48,19 @@ public class ReviewController {
     }
 
     // 리뷰 생성
-    @Operation(summary = "리뷰 생성", description = "리뷰 생성")
+    @Operation(summary = "후기 등록", description = "후기 등록 버튼에 사용")
     @PostMapping
-    public ResponseEntity<?> createReview(@RequestBody ReviewPostDto reviewCreateDto, @RequestParam(value = "travelId") Long travelId) {
+    public ResponseEntity<?> createReview(@Parameter(hidden = true) Authentication authentication, @RequestBody ReviewPostDto reviewCreateDto, @RequestParam(value = "travelId") Long travelId) {
         Long createdReviewId = reviewService.createReviewTest2(reviewCreateDto, travelId);
         return response.success(ResponseCode.REVIEW_CREATED, createdReviewId);
     }
+
+//    @Operation(summary = "리뷰 생성", description = "리뷰 생성")
+//    @PostMapping
+//    public ResponseEntity<?> createReview(@RequestBody ReviewPostDto reviewCreateDto, @RequestParam(value = "travelId") Long travelId) {
+//        Long createdReviewId = reviewService.createReviewTest2(reviewCreateDto, travelId);
+//        return response.success(ResponseCode.REVIEW_CREATED, createdReviewId);
+//    }
 
     // 리뷰 수정
     @Operation(summary = "리뷰 수정", description = "리뷰 수정")

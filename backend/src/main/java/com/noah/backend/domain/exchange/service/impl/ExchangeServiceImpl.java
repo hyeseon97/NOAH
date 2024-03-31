@@ -126,7 +126,6 @@ public class ExchangeServiceImpl implements ExchangeService {
             int currentAmount = exchangeReqDto.getExchangeAmount();
             int total = previousAmount + currentAmount;
             exchange.setExchangeAmount(total);
-            exchangeRepository.save(exchange);
 
             return exchange.getId();
         }
