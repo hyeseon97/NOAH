@@ -17,24 +17,24 @@ export default function TripPage() {
   };
   const [percent, setPercent] = useState(85);
   const handleDetailClick = () => {
-    navigate(`/trip/3/goal`); // 3은 travelId
+    navigate(`/trip/${travelId}/goal`); // 3은 travelId
   };
 
   const handlePlanningClick = () => {
-    navigate(`/trip/3/planning`); // 3은 travelId
+    navigate(`/trip/${travelId}/planning`); // 3은 travelId
   };
 
   const handleMenuClick = (menu) => {
     if (menu === "결제") {
-      navigate("/trip/3/payment");
+      navigate(`/trip/${travelId}/payment`);
       return;
     }
     if (menu === "환전") {
-      navigate("/trip/3/exchange");
+      navigate(`/trip/${travelId}/exchange`);
       return;
     }
     if (menu === "소비관리") {
-      navigate("/trip/3/spendingmanagement");
+      navigate(`/trip/${travelId}/spendingmanagement`);
       return;
     }
     if (menu === "인원관리") {

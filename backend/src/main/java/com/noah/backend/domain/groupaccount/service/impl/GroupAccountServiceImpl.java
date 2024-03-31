@@ -116,6 +116,21 @@ public class GroupAccountServiceImpl implements GroupAccountService {
 
         return groupAccountInfoDto;
     }
+    @Override
+    public GroupAccountInfoDto groupAccountInfoByTravelId(String email, Long travelId) {
+
+        /* 접근권한 */
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        Travel travel = travelRepository.findById(travelId).orElseThrow(TravelNotFoundException::new);
+        GroupAccount groupAccount = groupAccountRepository.findById(travel.getGroupAccount().getId()).orElseThrow(GroupAccountNotFoundException::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), groupAccount.getTravel().getId()).orElseThrow(
+            MemberTravelAccessException::new);
+        /* ------ */
+
+        GroupAccountInfoDto groupAccountInfoDto = groupAccountRepository.getGroupAccountInfoByTravelId(travelId).orElseThrow(GroupAccountNotFoundException::new);
+
+        return groupAccountInfoDto;
+    }
 
     @Override
     public Long updateGroupAccount(Long memberId, GroupAccountUpdateDto groupAccountUpdateDto) {

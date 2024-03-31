@@ -43,9 +43,9 @@ export async function depositGroupAccount(object) {
 }
 
 /* 모임 통장 단건 조회 */
-export async function getGroupAccount(groupAccountId) {
+export async function getGroupAccount(travelId) {
   try {
-    const response = await axiosAPI.get(commonUrl + `/${groupAccountId}`);
+    const response = await axiosAPI.get(commonUrl + `/${travelId}`);
     return response.data;
   } catch (error) {
     throw error;

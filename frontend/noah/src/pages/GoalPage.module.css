@@ -44,7 +44,7 @@
 }
 .amount{
     display: flex;
-    width: 30vw;
+    width: 35vw;
     justify-content: space-between;
     align-items: center;
     gap: 1vw;

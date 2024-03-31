@@ -3,8 +3,41 @@ import styles from "./GoalPage.module.css";
 import { ReactComponent as Edit } from "./../assets/Icon/Edit.svg";
 import { ReactComponent as GreyPeople } from "./../assets/Icon/GreyPeople.svg";
 import { ReactComponent as BluePeople } from "./../assets/Icon/BluePeople.svg";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { getGroupAccount } from "../api/groupaccount/GroupAccount";
+import showToast from "../components/common/Toast";
 
 export default function GoalPage() {
+  const { travelId } = useParams();
+  const [groupAccountInfo, setGroupAccountInfo] = useState([]);
+  const [date, setDate] = useState("");
+
+  function formatDate(dateString) {
+    const pattern = /(\d{4})(\d{2})(\d{2})/;
+    return dateString.replace(pattern, "$1-$2-$3");
+  }
+
+  useEffect(() => {
+    const fetchGroupAccounts = async () => {
+      try {
+        const response = await getGroupAccount(travelId);
+        console.log(response);
+        if (response.status === "SUCCESS") {
+          if (response.data !== null) {
+            console.log("모임통장이 성공적으로 조회되었습니다.");
+            setGroupAccountInfo(response.data);
+            const dateString = String(response.data.targetDate);
+            setDate(formatDate(dateString));
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchGroupAccounts();
+  }, []);
+
   return (
     <>
       <Header LeftIcon="Arrow" Title="여행 이름" />
@@ -15,7 +48,12 @@ export default function GoalPage() {
             <div className={styles.labelSmall}>목표금액</div>
             <div className={styles.amount}>
               <Edit className={styles.icon} />
-              <div className={styles.labelMedium}>9,000,000</div>
+              <div className={styles.labelMedium}>
+                {new Intl.NumberFormat("ko-KR").format(
+                  groupAccountInfo.targetAmount
+                )}{" "}
+                원
+              </div>
             </div>
             <div className={styles.line}></div>
           </div>
@@ -23,7 +61,7 @@ export default function GoalPage() {
             <div className={styles.labelSmall}>목표기간</div>
             <div className={styles.amount}>
               <Edit className={styles.icon} />
-              <div className={styles.labelMedium}>2024-03-22</div>
+              <div className={styles.labelMedium}>{date} 일</div>
             </div>
             <div className={styles.line}></div>
           </div>
@@ -31,7 +69,12 @@ export default function GoalPage() {
             <div className={styles.labelSmall}>월별 납입금액</div>
             <div className={styles.amount}>
               <Edit className={styles.icon} />
-              <div className={styles.labelMedium}>300,000</div>
+              <div className={styles.labelMedium}>
+                {new Intl.NumberFormat("ko-KR").format(
+                  groupAccountInfo.perAmount
+                )}{" "}
+                원
+              </div>
             </div>
             <div className={styles.line}></div>
           </div>
@@ -39,7 +82,9 @@ export default function GoalPage() {
             <div className={styles.labelSmall}>납입날짜</div>
             <div className={styles.amount}>
               <Edit className={styles.icon} />
-              <div className={styles.labelMedium}>15일</div>
+              <div className={styles.labelMedium}>
+                {groupAccountInfo.paymentDate}일
+              </div>
             </div>
           </div>
         </div>
