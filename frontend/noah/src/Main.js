@@ -53,7 +53,7 @@ export default function Main() {
             <Route path="planning" element={<PlanningPage />} />
           </Route>
           <Route path="googlemap" element={<GoogleMapSearch />} />
-          <Route path="planeSearch" element={<PlaneSearchPage />}/>
+          <Route path="planeSearch" element={<PlaneSearchPage />} />
           <Route path="testgooglemap" element={<TestGoogleMap />} />
           <Route path="notification" element={<NotificationPage />} />
           <Route path="mypage" element={<MyPage />} />
