@@ -96,3 +96,13 @@
     line-height: 160%;
     color: #000000;
 }
+.inputBox{
+    border: 0;
+    font-Family: "Pretendard";
+    font-Style: normal;
+    font-Weight: 600;
+    font-Size: 4.45vw;
+    line-Height: 150%;
+    color: #000000;
+    text-align: right;
+}
