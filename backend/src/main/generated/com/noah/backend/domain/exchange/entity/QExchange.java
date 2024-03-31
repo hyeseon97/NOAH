@@ -31,6 +31,8 @@ public class QExchange extends EntityPathBase<Exchange> {
 
     public final NumberPath<Integer> exchangeAmount = createNumber("exchangeAmount", Integer.class);
 
+    public final NumberPath<Double> exchangeRate = createNumber("exchangeRate", Double.class);
+
     public final com.noah.backend.domain.groupaccount.entity.QGroupAccount groupAccount;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);

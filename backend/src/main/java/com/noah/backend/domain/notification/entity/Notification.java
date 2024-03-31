@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -36,5 +37,13 @@ public class Notification extends BaseEntity {
 
 	@Column(name = "travel_title")
 	private String travelTitle;
+
+	@Setter
+	@Column(name = "currency")
+	private String currency;
+
+	@Setter
+	@Column(name = "exchange_rate")
+	private Double exchangeRate;
 
 }
