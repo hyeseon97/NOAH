@@ -9,6 +9,7 @@ import com.noah.backend.domain.plan.dto.responseDto.SimplePlan;
 import com.noah.backend.domain.plan.repository.PlanRepository;
 import com.noah.backend.domain.review.repository.ReviewRepository;
 import com.noah.backend.domain.ticket.repository.TicketRepository;
+import com.noah.backend.domain.travel.dto.responseDto.MyTravelGetDto;
 import com.noah.backend.domain.travel.dto.responseDto.TravelGetDto;
 import com.noah.backend.domain.travel.dto.requestDto.TravelGetListDto;
 import com.noah.backend.domain.travel.dto.requestDto.TravelPostDto;
@@ -167,5 +168,20 @@ public class TravelServiceImpl implements TravelService {
         /* ------ */
 
         travelRepository.deleteById(travelId);
+    }
+
+    @Override
+    public List<MyTravelGetDto> getTravelAll(String email) {
+
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberTravelNotFound::new);
+        List<MyTravelGetDto> list = travelRepository.getTravelAll(member.getId()).orElse(null);
+        for(int i=0; i<list.size(); i++){
+            MyTravelGetDto currentMyTravelGetDto = list.get(i);
+            if(currentMyTravelGetDto.getReviewId()==null){
+                Long currentTravelId = currentMyTravelGetDto.getTravelId();
+                currentMyTravelGetDto.setPeople(memberTravelRepository.getTotalPeople(currentTravelId).orElse(0));
+            }
+        }
+        return list;
     }
 }

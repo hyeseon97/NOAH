@@ -21,6 +21,8 @@ import com.noah.backend.domain.review.repository.ReviewRepository;
 import com.noah.backend.domain.review.service.ReviewService;
 import com.noah.backend.domain.ticket.repository.TicketRepository;
 import com.noah.backend.domain.trade.repository.TradeRepository;
+import com.noah.backend.domain.travel.entity.Travel;
+import com.noah.backend.domain.travel.repository.TravelRepository;
 import com.noah.backend.global.exception.image.ImageNotFoundException;
 import com.noah.backend.global.exception.member.MemberNotFoundException;
 import com.noah.backend.global.exception.membertravel.MemberTravelAccessException;
@@ -48,6 +50,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final MemberTravelRepository memberTravelRepository;
     private final TradeRepository tradeRepository;
     private final ImageRepository imageRepository;
+    private final TravelRepository travelRepository;
 
     @Override
     public List<ReviewListGetDto> getReviewList() {
@@ -76,6 +79,9 @@ public class ReviewServiceImpl implements ReviewService {
 
         // 나라, 시작일, 종료일을 구하기 위한 계획 엔티티 조회
         Plan plan = planRepository.findByTravelId(reviewPostDto.getTravelId()).orElseThrow(PlanNotFound::new);
+
+        // 여행 엔티티 조회
+        Travel travel = travelRepository.findById(reviewPostDto.getTravelId()).orElseThrow(TravelNotFoundException::new);
 
         // 리뷰 엔티티 생성
         Review review = Review.builder()

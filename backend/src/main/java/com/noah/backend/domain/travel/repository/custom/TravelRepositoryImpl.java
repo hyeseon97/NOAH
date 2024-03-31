@@ -5,6 +5,7 @@ import com.noah.backend.domain.datailPlan.dto.responseDto.DetailPlanListDto;
 import com.noah.backend.domain.memberTravel.dto.Response.MemberTravelListGetFromTravelDto;
 import com.noah.backend.domain.plan.dto.responseDto.PlanGetDto;
 import com.noah.backend.domain.ticket.dto.responseDto.TicketListGetFromTravelDto;
+import com.noah.backend.domain.travel.dto.responseDto.MyTravelGetDto;
 import com.noah.backend.domain.travel.dto.responseDto.TravelGetDto;
 import com.noah.backend.domain.travel.dto.responseDto.TravelGetDtoJun;
 import com.noah.backend.domain.travel.dto.requestDto.TravelGetListDto;
@@ -20,6 +21,7 @@ import static com.noah.backend.domain.datailPlan.entity.QDetailPlan.detailPlan;
 import static com.noah.backend.domain.groupaccount.entity.QGroupAccount.groupAccount;
 import static com.noah.backend.domain.memberTravel.entity.QMemberTravel.memberTravel;
 import static com.noah.backend.domain.plan.entity.QPlan.plan;
+import static com.noah.backend.domain.review.entity.QReview.review;
 import static com.noah.backend.domain.ticket.entity.QTicket.ticket;
 import static com.noah.backend.domain.travel.entity.QTravel.travel;
 import static com.querydsl.core.types.Projections.constructor;
@@ -187,6 +189,18 @@ public class TravelRepositoryImpl implements TravelRepositoryCustom {
                                         .leftJoin(plan).on(plan.travel.id.eq(travel.id))
                                         .where(travel.id.eq(travelId).and(travel.isDeleted.eq(false)))
                                         .fetchOne());
+    }
+
+    @Override
+    public Optional<List<MyTravelGetDto>> getTravelAll(Long memberId) {
+        return Optional.ofNullable(query.select(Projections.constructor(MyTravelGetDto.class, travel.id, travel.title, review.people, groupAccount.id, plan.id, plan.country, plan.startDate, plan.endDate, review.id))
+                                       .from(travel)
+                                       .leftJoin(review).on(review.travel.id.eq(travel.id))
+                                       .leftJoin(memberTravel).on(memberTravel.travel.id.eq(travel.id))
+                                       .leftJoin(groupAccount).on(groupAccount.travel.id.eq(travel.id))
+                                       .leftJoin(plan).on(plan.travel.id.eq(travel.id))
+                                       .where(memberTravel.member.id.eq(memberId))
+                                       .fetch());
     }
 
 }

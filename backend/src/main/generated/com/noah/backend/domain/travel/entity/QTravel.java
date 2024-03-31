@@ -43,6 +43,8 @@ public class QTravel extends EntityPathBase<Travel> {
 
     public final com.noah.backend.domain.plan.entity.QPlan plan;
 
+    public final com.noah.backend.domain.review.entity.QReview review;
+
     public final ListPath<com.noah.backend.domain.ticket.entity.Ticket, com.noah.backend.domain.ticket.entity.QTicket> ticketList = this.<com.noah.backend.domain.ticket.entity.Ticket, com.noah.backend.domain.ticket.entity.QTicket>createList("ticketList", com.noah.backend.domain.ticket.entity.Ticket.class, com.noah.backend.domain.ticket.entity.QTicket.class, PathInits.DIRECT2);
 
     public final StringPath title = createString("title");
@@ -67,6 +69,7 @@ public class QTravel extends EntityPathBase<Travel> {
         super(type, metadata, inits);
         this.groupAccount = inits.isInitialized("groupAccount") ? new com.noah.backend.domain.groupaccount.entity.QGroupAccount(forProperty("groupAccount"), inits.get("groupAccount")) : null;
         this.plan = inits.isInitialized("plan") ? new com.noah.backend.domain.plan.entity.QPlan(forProperty("plan"), inits.get("plan")) : null;
+        this.review = inits.isInitialized("review") ? new com.noah.backend.domain.review.entity.QReview(forProperty("review"), inits.get("review")) : null;
     }
 
 }
