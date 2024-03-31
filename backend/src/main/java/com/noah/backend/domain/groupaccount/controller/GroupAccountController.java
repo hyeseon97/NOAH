@@ -94,10 +94,17 @@ public class GroupAccountController {
         return response.success(ResponseCode.GROUP_ACCOUNT_CREATED, groupAccountId);
     }
 
-    @Operation(summary = "모임 단건 통장 조회", description = "모임 통장 단건 조회")
-    @GetMapping("/{groupAccountId}")
-    public ResponseEntity<?> getGroupAccount(@Parameter(hidden = true) Authentication authentication, @PathVariable(name = "groupAccountId") Long groupAccountId) {
-        GroupAccountInfoDto groupAccountInfoDto = groupAccountService.groupAccountInfo(authentication.getName(), groupAccountId);
+//    @Operation(summary = "모임 단건 통장 조회", description = "모임 통장 단건 조회")
+//    @GetMapping("/{groupAccountId}")
+//    public ResponseEntity<?> getGroupAccount(@Parameter(hidden = true) Authentication authentication, @PathVariable(name = "groupAccountId") Long groupAccountId) {
+//        GroupAccountInfoDto groupAccountInfoDto = groupAccountService.groupAccountInfo(authentication.getName(), groupAccountId);
+//        return response.success(ResponseCode.GROUP_ACCOUNT_INFO_FETCHED, groupAccountInfoDto);
+//    }
+
+    @Operation(summary = "여행 아이디로 모임 통장 조회", description = "여행 아이디로 모임 통장 단건 조회")
+    @GetMapping("/{travelId}")
+    public ResponseEntity<?> getGroupAccountByTravelId(@Parameter(hidden = true) Authentication authentication, @PathVariable(name = "travelId") Long travelId) {
+        GroupAccountInfoDto groupAccountInfoDto = groupAccountService.groupAccountInfoByTravelId(authentication.getName(), travelId);
         return response.success(ResponseCode.GROUP_ACCOUNT_INFO_FETCHED, groupAccountInfoDto);
     }
 

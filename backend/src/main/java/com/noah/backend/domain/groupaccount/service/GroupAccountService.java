@@ -19,6 +19,8 @@ public interface GroupAccountService {
 
     GroupAccountInfoDto groupAccountInfo(String email, Long groupAccountId);
 
+    GroupAccountInfoDto groupAccountInfoByTravelId(String email, Long travelId);
+
     Long updateGroupAccount(Long memberId, GroupAccountUpdateDto groupAccountUpdateDto);
 
     int getTotalPay(String email, Long travelId);
