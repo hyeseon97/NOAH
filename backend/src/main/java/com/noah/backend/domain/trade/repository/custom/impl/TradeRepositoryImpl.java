@@ -145,4 +145,15 @@ public class TradeRepositoryImpl implements TradeRepositoryCustom {
                                  .fetch())
             .orElseThrow(TradeAccessException::new);
     }
+
+    @Override
+    public Optional<Integer> getTotalExpense(Long travelId) {
+        return Optional.ofNullable(query.select(trade.cost.sum())
+                                       .from(trade)
+                                       .leftJoin(account).on(trade.account.id.eq(account.id))
+                                       .leftJoin(groupAccount).on(account.id.eq(groupAccount.account.id))
+                                       .where(groupAccount.travel.id.eq(travelId).and(trade.type.eq(2)).and(trade.isContained.isTrue()))
+                                       .fetchOne());
+
+    }
 }

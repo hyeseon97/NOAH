@@ -50,8 +50,8 @@ public class ReviewController {
     // 리뷰 생성
     @Operation(summary = "후기 등록", description = "후기 등록 버튼에 사용")
     @PostMapping
-    public ResponseEntity<?> createReview(@Parameter(hidden = true) Authentication authentication, @RequestBody ReviewPostDto reviewCreateDto, @RequestParam(value = "travelId") Long travelId) {
-        Long createdReviewId = reviewService.createReviewTest2(reviewCreateDto, travelId);
+    public ResponseEntity<?> createReview(@Parameter(hidden = true) Authentication authentication, @RequestBody ReviewPostDto reviewCreateDto) {
+        Long createdReviewId = reviewService.createReview(authentication.getName(), reviewCreateDto);
         return response.success(ResponseCode.REVIEW_CREATED, createdReviewId);
     }
 

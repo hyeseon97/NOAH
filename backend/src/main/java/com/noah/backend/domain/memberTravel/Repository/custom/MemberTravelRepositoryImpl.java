@@ -85,5 +85,13 @@ public class MemberTravelRepositoryImpl implements MemberTravelRepositoryCustom 
                                        .fetchOne());
     }
 
+    @Override
+    public Optional<Integer> getTotalPeople(Long travelId) {
+        return Optional.ofNullable(query.select(memberTravel.id.count().intValue())
+                                       .from(memberTravel)
+                                       .where(memberTravel.travel.id.eq(travelId))
+                                       .fetchOne());
+    }
+
 
 }

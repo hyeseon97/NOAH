@@ -21,4 +21,6 @@ public interface MemberTravelRepositoryCustom {
 	Optional<Integer> totalPeople(Long travelId);
 
     Optional<MemberTravel> findByTravelIdAndMemberId(Long memberId, Long travelId);
+
+    Optional<Integer> getTotalPeople(Long travelId);
 }
