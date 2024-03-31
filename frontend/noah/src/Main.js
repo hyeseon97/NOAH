@@ -36,7 +36,7 @@ export default function Main() {
           <Route path="home" element={<HomePage />} />
           <Route path="transfer/:travelId" element={<TransferPage />} />
           <Route path="tripcreate" element={<TripCreatePage />} />
-          <Route path="trip/:tripid">
+          <Route path="trip/:travelId">
             <Route index element={<TripPage />} />
             <Route path="goal" element={<GoalPage />} />
             <Route
