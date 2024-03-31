@@ -141,6 +141,15 @@ public class SwaggerConfig {
 
     }
 
+    @Bean
+    public GroupedOpenApi csvGroup() {
+        return GroupedOpenApi.builder()
+                .group("csv")
+                .pathsToMatch("/api/v1/csv/**")
+                .build();
+
+    }
+
 //    @Bean
 //    public GroupedOpenApi flightGroup() {
 //        return GroupedOpenApi.builder()

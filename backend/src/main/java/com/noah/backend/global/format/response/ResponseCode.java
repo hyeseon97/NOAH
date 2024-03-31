@@ -115,8 +115,10 @@ public enum ResponseCode {
     TICKET_CREATED(HttpStatus.OK, "티켓이 성공적으로 생성되었습니다."),
     TICKET_FETCHED(HttpStatus.OK, "티켓 정보가 성공적으로 조회되었습니다."),
     TICKET_UPDATED(HttpStatus.OK, "티켓이 성공적으로 수정되었습니다."),
-    TICKET_DELETED(HttpStatus.OK, "티켓이 성공적으로 삭제되었습니다.")
+    TICKET_DELETED(HttpStatus.OK, "티켓이 성공적으로 삭제되었습니다."),
 
+    /* 더미데이터 생성(csv) */
+    DUMMY_SUCCESS(HttpStatus.OK, "더미데이터가 성공적으로 생성되었습니다.")
     ;
 
 

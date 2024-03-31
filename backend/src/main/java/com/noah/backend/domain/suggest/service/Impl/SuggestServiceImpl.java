@@ -31,11 +31,11 @@ public class SuggestServiceImpl implements SuggestService {
 	private final ImageRepository imageRepository;
 
 	@Override
-	public List<SuggestListResDto> getSuggestList(SuggestListReqDto suggestListReqDto) {
-		int total = memberTravelRepository.totalPeople(suggestListReqDto.getTravelId()).orElse(0);
+	public List<SuggestListResDto> getSuggestList(Long travelId) {
+		int total = memberTravelRepository.totalPeople(travelId).orElse(0);
 		//이우진 교보재
 		//int balance = groupAccountRepository.findBalance(suggestListReqDto.getTravelId()).orElse(0);
-		Integer targetAmount = groupAccountRepository.findTargetAmount(suggestListReqDto.getTravelId()).orElse(null);
+		Integer targetAmount = groupAccountRepository.findTargetAmount(travelId).orElse(null);
 
 		if(targetAmount == null){//목표금액이 null이면 랜덤으로 여행 후기 보여주기
 			int reviewCount = reviewRepository.getRandomSuggestId().orElse(0);
@@ -54,7 +54,7 @@ public class SuggestServiceImpl implements SuggestService {
 		}else{
 			List<SuggestListResDto> list = new ArrayList<>();
 			HashSet<Long> hm = new HashSet<>();
-			while(hm.size()<=4){
+			while(hm.size()<=3){
 				long num = ThreadLocalRandom.current().nextInt(1, reviewCount);
 				hm.add(num);
 			}
