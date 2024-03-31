@@ -1,8 +1,6 @@
 import Header from "../components/common/Header";
 import styles from "./SpendingManagementPage.module.css";
 import { ReactComponent as CancelGrey } from "./../assets/Icon/CancelGrey.svg";
-import DropdownMember from "../components/common/DropdownMember";
-import DropdownConsumeType from "../components/common/DropdownConsumeType";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useState, useEffect } from "react";
