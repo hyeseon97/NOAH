@@ -63,7 +63,6 @@ export default function SignUpPage() {
 
     if (!isEmailVerified && !isNickNameVerified) {
       // 인증 확인 시도
-      console.log(formData);
       try {
         const res = await checkEmailCode({
           email: formData.email,

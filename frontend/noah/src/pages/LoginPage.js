@@ -26,10 +26,11 @@ export default function LoginPage() {
 
   //formData 전송
   const handleLoginClick = async () => {
-    console.log(formData);
+    const firebaseToken = localStorage.getItem("firebaseToken");
+
     /* 로그인 API 작성 + 유효성 검사 */
     try {
-      const res = await login(formData);
+      const res = await login({ ...formData, firebaseToken: firebaseToken });
       if (res.status === "SUCCESS") {
         localStorage.setItem("accessToken", res.data.token);
         await setUser({
@@ -39,7 +40,6 @@ export default function LoginPage() {
           name: res.data.memberInfo.name,
         });
         navigate("/home");
-        // 전역 상태 지정 코드
       } else {
         setLoginFailedMessage("입력 정보를 확인해주세요.");
       }
