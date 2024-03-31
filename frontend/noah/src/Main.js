@@ -23,6 +23,7 @@ import GoogleMapSearch from "./pages/GoogleMapSearch";
 import TestGoogleMap from "./pages/TestGoogleMap";
 import PaymentPage from "./pages/PaymentPage";
 import PlaneSearchPage from "./pages/PlaneSearchPage";
+import PlanningTestPage from "./pages/PlanningTestPage";
 
 export default function Main() {
   return (
@@ -54,6 +55,7 @@ export default function Main() {
           </Route>
           <Route path="googlemap" element={<GoogleMapSearch />} />
           <Route path="planeSearch" element={<PlaneSearchPage />}/>
+          <Route path="planningTest" element={<PlanningTestPage />}/>
           <Route path="testgooglemap" element={<TestGoogleMap />} />
           <Route path="notification" element={<NotificationPage />} />
           <Route path="mypage" element={<MyPage />} />
