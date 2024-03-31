@@ -2,7 +2,13 @@ import { ReactComponent as Arrow } from "../../assets/Icon/Arrow.svg";
 import { ReactComponent as Cancel } from "../../assets/Icon/Cancel.svg";
 import { ReactComponent as Filter } from "../../assets/Icon/Filter.svg";
 
-export default function Header({ LeftIcon, Title, RightIcon, onClick }) {
+export default function Header({
+  LeftIcon,
+  Title,
+  RightIcon,
+  onClick,
+  onRightIconClick,
+}) {
   const headerBorderStyle = {
     width: "100vw",
     height: "16.67vw",
@@ -58,7 +64,7 @@ export default function Header({ LeftIcon, Title, RightIcon, onClick }) {
           <div style={headingStyle}>{Title}</div>
           <div>
             {RightIcon === "Filter" ? (
-              <Filter style={iconStyle} />
+              <Filter style={iconStyle} onClick={onRightIconClick} />
             ) : (
               <div style={iconStyle} /> // RightIcon이 없을 때 공간 차지
             )}
