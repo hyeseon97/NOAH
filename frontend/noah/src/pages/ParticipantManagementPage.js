@@ -32,8 +32,8 @@ export default function ParticipantManagementPage() {
       <Header LeftIcon="Arrow" Title="인원관리" />
       <div>
         {memberInfo.map((member, index) => (
-          <div>
-            <div key={index} className={styles.memberBox}>
+          <div key={index}>
+            <div className={styles.memberBox}>
               <div className={styles.memberBoxLeft}>
                 <div className={styles.labelLarge}>{member.memberNickname}</div>
                 <div className={styles.paragraphSmallGrey}>
