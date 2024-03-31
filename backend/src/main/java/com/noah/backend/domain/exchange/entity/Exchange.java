@@ -28,6 +28,9 @@ public class Exchange extends BaseEntity {
     @Column(name = "exchange_amount")
     private int exchangeAmount;
 
+    @Column(name = "exchange_rate", nullable = true)
+    private Double exchangeRate;
+
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     @JoinColumn(name = "group_account_id")
     private GroupAccount groupAccount;

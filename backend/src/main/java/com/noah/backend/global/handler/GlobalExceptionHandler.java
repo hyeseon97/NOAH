@@ -2,6 +2,7 @@ package com.noah.backend.global.handler;
 
 import com.noah.backend.global.exception.account.AccountNotFoundException;
 import com.noah.backend.global.exception.bank.*;
+import com.noah.backend.global.exception.csv.CsvCreateFailedException;
 import com.noah.backend.global.exception.groupaccount.GroupAccountAccessDeniedException;
 import com.noah.backend.global.exception.member.AccessTokenNotFoundException;
 import com.noah.backend.global.exception.member.DuplicateEmailException;
@@ -245,6 +246,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(PlanAccessException.class)
     protected ResponseEntity<?> handle(PlanAccessException e){
         log.error("PlanAccessException = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+
+    /* csv */
+    @ExceptionHandler(CsvCreateFailedException.class)
+    protected ResponseEntity<?> handle(CsvCreateFailedException e){
+        log.error("CsvCreateFailedException = {}", e.getErrorCode().getMessage());
         return response.error(e.getErrorCode());
     }
 

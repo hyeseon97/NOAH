@@ -153,7 +153,7 @@ public class MemberTravelServiceImpl implements MemberTravelService {
 
     @Override
     public boolean memberAccessTravel(Long memberId, Long travelId) {
-        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(travelId, memberId).orElse(null);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(memberId, travelId).orElse(null);
         if(memberTravel == null) throw new MemberTravelAccessException();
         return true;
     }
