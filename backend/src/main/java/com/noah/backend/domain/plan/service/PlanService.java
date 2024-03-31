@@ -14,9 +14,9 @@ public interface PlanService {
 
     PlanGetDto getPlanSelect(String email, Long PlanId);
 
-    Long createPlan(PlanPostDto planDto);
+    Long createPlan(String email, PlanPostDto planDto);
 
-    Long updatePlan(Long PlanId, PlanUpdateDto planDto);
+    Long updatePlan(String email, PlanUpdateDto planDto);
 
     boolean changeStart(Long PlanId, PlanUpdateDto planDto);
 

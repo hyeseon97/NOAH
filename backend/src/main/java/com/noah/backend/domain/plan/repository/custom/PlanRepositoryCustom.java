@@ -13,4 +13,6 @@ public interface PlanRepositoryCustom {
     Optional<PlanGetDto> getPlanSelect(Long travelId);
 
     Optional<List<SimplePlan>> getSimplePlan(Long planId);
+
+    void isAccessPlan(Long memberId, Long planId);
 }

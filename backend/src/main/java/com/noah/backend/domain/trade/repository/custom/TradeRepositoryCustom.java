@@ -16,4 +16,6 @@ public interface TradeRepositoryCustom {
     Optional<List<TradeGetResDto>> getTradeListByMemberAndConsumeType(Long accountId, List<Long> memberIds, List<String> consumeTypes);
 
     Optional<List<TradeGetResDto>> getHideTradeList(Long accountId);
+
+    void isAccessTrade(Long memberId, Long tradeId);
 }

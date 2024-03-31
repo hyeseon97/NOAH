@@ -10,6 +10,8 @@ import com.noah.backend.domain.bank.service.BankService;
 import com.noah.backend.domain.member.entity.Member;
 import com.noah.backend.domain.member.repository.MemberRepository;
 import com.noah.backend.domain.member.service.member.MemberService;
+import com.noah.backend.domain.memberTravel.Repository.MemberTravelRepository;
+import com.noah.backend.domain.memberTravel.entity.MemberTravel;
 import com.noah.backend.domain.trade.dto.requestDto.TradeGetReqDto;
 import com.noah.backend.domain.trade.dto.requestDto.TradePostReqDto;
 import com.noah.backend.domain.trade.dto.requestDto.TradeUpdateClassifyReqDto;
@@ -22,6 +24,7 @@ import com.noah.backend.domain.travel.entity.Travel;
 import com.noah.backend.domain.travel.repository.TravelRepository;
 import com.noah.backend.global.exception.account.AccountNotFoundException;
 import com.noah.backend.global.exception.member.MemberNotFoundException;
+import com.noah.backend.global.exception.membertravel.MemberTravelAccessException;
 import com.noah.backend.global.exception.trade.TradeNotFoundException;
 import com.noah.backend.global.exception.travel.TravelNotFoundException;
 import jakarta.transaction.Transactional;
@@ -50,6 +53,7 @@ public class TradeServiceImpl implements TradeService {
     private final AccountService accountService;
     private final TravelRepository travelRepository;
     private final TradeRepository tradeRepository;
+    private final MemberTravelRepository memberTravelRepository;
 
     @Override
     public void createTrade(TradePostReqDto tradePostReqDto) {
@@ -70,7 +74,14 @@ public class TradeServiceImpl implements TradeService {
 
     @Transactional
     @Override
-    public List<TradeGetResDto> getTradeList(Long travelId) throws IOException {
+    public List<TradeGetResDto> getTradeList(String email, Long travelId) throws IOException {
+
+        /* 접근권한 */
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), travelId).orElseThrow(
+            MemberTravelAccessException::new);
+        /* ------ */
+
         Travel travel = travelRepository.findById(travelId).orElseThrow(TravelNotFoundException::new);
         Account account = accountRepository.findById(travel.getGroupAccount().getAccount().getId()).orElseThrow(AccountNotFoundException::new);
 
@@ -150,16 +161,30 @@ public class TradeServiceImpl implements TradeService {
     }
 
     @Override
-    public List<TradeGetResDto> getTradeListByMemberAndConsumeType(Long travelId, List<Long> memberIds, List<String> consumeTypes) {
+    public List<TradeGetResDto> getTradeListByMemberAndConsumeType(String email, Long travelId, List<Long> memberIds, List<String> consumeTypes) {
+
+        /* 접근권한 */
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), travelId).orElseThrow(
+            MemberTravelAccessException::new);
+        /* ------ */
+
         Travel travel = travelRepository.findById(travelId).orElseThrow(TravelNotFoundException::new);
         Account account = accountRepository.findById(travel.getGroupAccount().getAccount().getId()).orElseThrow(AccountNotFoundException::new);
         List<TradeGetResDto> tradeGetResDtos = tradeRepository.getTradeListByMemberAndConsumeType(account.getId(), memberIds, consumeTypes).orElseThrow(TradeNotFoundException::new);
         return tradeGetResDtos;
     }
 
+    @Transactional
     @Override
-    public Long updateTradeClassify(Long tradeId, TradeUpdateClassifyReqDto tradeUpdateClassifyReqDto) {
-        Trade trade = tradeRepository.findById(tradeId).orElseThrow(TradeNotFoundException::new);
+    public Long updateTradeClassify(String email, TradeUpdateClassifyReqDto tradeUpdateClassifyReqDto) {
+
+        /* 접근권한 */
+        Member loginMember = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        tradeRepository.isAccessTrade(loginMember.getId(), tradeUpdateClassifyReqDto.getTradeId());
+        /* ------ */
+
+        Trade trade = tradeRepository.findById(tradeUpdateClassifyReqDto.getTradeId()).orElseThrow(TradeNotFoundException::new);
         Long memberId = tradeUpdateClassifyReqDto.getMemberId();
         String consumeType = tradeUpdateClassifyReqDto.getConsumeType();
         if (memberId != null) {
@@ -169,24 +194,38 @@ public class TradeServiceImpl implements TradeService {
         if (consumeType != null) {
             trade.setConsumeType(consumeType);
         }
-        tradeRepository.save(trade);
+
         return trade.getId();
     }
 
+    @Transactional
     @Override
-    public Long updateTradeContain(Long tradeId) {
+    public Long updateTradeContain(String email, Long tradeId) {
+
+        /* 접근권한 */
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        tradeRepository.isAccessTrade(member.getId(), tradeId);
+        /* ------ */
+
         Trade trade = tradeRepository.findById(tradeId).orElseThrow(TradeNotFoundException::new);
         if (trade.isContained()) {
             trade.setContained(false);
         } else {
             trade.setContained(true);
         }
-        tradeRepository.save(trade);
+
         return trade.getId();
     }
 
     @Override
-    public List<TradeGetResDto> getHideTradeList(Long travelId) {
+    public List<TradeGetResDto> getHideTradeList(String email, Long travelId) {
+
+        /* 접근권한 */
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), travelId).orElseThrow(
+            MemberTravelAccessException::new);
+        /* ------ */
+
         Travel travel = travelRepository.findById(travelId).orElseThrow(TravelNotFoundException::new);
         Account account = accountRepository.findById(travel.getGroupAccount().getAccount().getId()).orElseThrow(AccountNotFoundException::new);
         List<TradeGetResDto> result = tradeRepository.getHideTradeList(account.getId()).orElseThrow(TradeNotFoundException::new);
