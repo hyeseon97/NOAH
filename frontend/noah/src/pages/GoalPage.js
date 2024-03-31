@@ -94,7 +94,6 @@ export default function GoalPage() {
         const res = await getGroupAccountMemberAndTotalDue(travelId);
         if (res.status === "SUCCESS") {
           setMemberInfo(res.data);
-          console.log(memberInfo);
         }
       } catch (error) {
         console.log(error);
