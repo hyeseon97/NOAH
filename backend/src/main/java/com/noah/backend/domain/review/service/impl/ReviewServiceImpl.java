@@ -55,13 +55,13 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<ReviewListGetDto> getReviewList() {
         return reviewRepository.getReviewList()
-                .orElseThrow(ReviewNotFound::new);
+                               .orElseThrow(ReviewNotFound::new);
     }
 
     @Override
     public ReviewGetDto getReviewSelect(Long reviewId) {
         return reviewRepository.getReviewSelect(reviewId)
-                .orElseThrow(ReviewNotFound::new);
+                               .orElseThrow(ReviewNotFound::new);
     }
 
     @Override
@@ -70,8 +70,9 @@ public class ReviewServiceImpl implements ReviewService {
 
         /* 접근권한 */
         Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
-        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), reviewPostDto.getTravelId()).orElseThrow(
-            MemberTravelAccessException::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), reviewPostDto.getTravelId())
+                                                          .orElseThrow(
+                                                              MemberTravelAccessException::new);
 
         // 총 사용 경비와 인원수 계산
         int expense = tradeRepository.getTotalExpense(reviewPostDto.getTravelId()).orElse(0);
@@ -85,18 +86,19 @@ public class ReviewServiceImpl implements ReviewService {
 
         // 리뷰 엔티티 생성
         Review review = Review.builder()
-                .expense(expense)
-                .people(people)
-                .country(plan.getCountry())
-                .startDate(plan.getStartDate())
-                .endDate(plan.getEndDate())
-                .build();
+                              .expense(expense)
+                              .people(people)
+                              .country(plan.getCountry())
+                              .startDate(plan.getStartDate())
+                              .endDate(plan.getEndDate())
+                              .travel(travel)
+                              .build();
 
         // 리뷰 저장
         Review savedReview = reviewRepository.save(review);
 
         // 이미지 리스트 반복해서 이미지 엔티티 조회해서 리뷰 연결하기
-        for(Long imageId : reviewPostDto.getImageIdList()){
+        for (Long imageId : reviewPostDto.getImageIdList()) {
 
             Image image = imageRepository.findById(imageId).orElseThrow(ImageNotFoundException::new);
             image.setReview(savedReview);
@@ -174,7 +176,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public Long updateReview(Long reviewId, ReviewUpdateDto review) {
         Review currentReview = reviewRepository.findById(reviewId)
-                .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
+                                               .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
         currentReview.setExpense(review.getExpense());
         currentReview.setCountry(review.getCountry());
         currentReview.setPeople(review.getPeople());
