@@ -94,6 +94,9 @@ public enum ResponseCode {
     REVIEW_UPDATED(HttpStatus.OK, "리뷰가 성공적으로 수정되었습니다."),
     REVIEW_DELETED(HttpStatus.OK, "리뷰가 성공적으로 삭제되었습니다."),
 
+    /* 추천(Suggest) */
+    SUGGEST_FETCHED(HttpStatus.OK, "추천 정보가 성공적으로 조회되었습니다."),
+
     /* 댓글(Comment) */
     COMMENT_CREATED(HttpStatus.OK, "댓글이 성공적으로 생성되었습니다."),
     COMMENT_FETCHED(HttpStatus.OK, "댓글 정보가 성공적으로 조회되었습니다."),

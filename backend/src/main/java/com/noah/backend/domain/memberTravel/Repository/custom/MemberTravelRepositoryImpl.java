@@ -93,5 +93,13 @@ public class MemberTravelRepositoryImpl implements MemberTravelRepositoryCustom 
                                        .fetchOne());
     }
 
+    @Override
+    public Optional<List<Long>> findByMemberId(Long memberId) {
+        return Optional.ofNullable(query.select(memberTravel.id)
+                                       .from(memberTravel)
+                                       .where(memberTravel.member.id.eq(memberId))
+                                       .fetch());
+    }
+
 
 }
