@@ -27,6 +27,10 @@ public class QNotification extends EntityPathBase<Notification> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
+    public final StringPath currency = createString("currency");
+
+    public final NumberPath<Double> exchangeRate = createNumber("exchangeRate", Double.class);
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     //inherited
