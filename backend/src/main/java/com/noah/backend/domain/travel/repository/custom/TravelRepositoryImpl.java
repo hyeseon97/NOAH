@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.noah.backend.domain.account.entity.QAccount.account;
-import static com.noah.backend.domain.datailPlan.entity.QDetailPlan.detailPlan;
 import static com.noah.backend.domain.groupaccount.entity.QGroupAccount.groupAccount;
 import static com.noah.backend.domain.memberTravel.entity.QMemberTravel.memberTravel;
 import static com.noah.backend.domain.plan.entity.QPlan.plan;
