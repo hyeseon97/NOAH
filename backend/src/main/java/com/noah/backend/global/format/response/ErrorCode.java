@@ -38,6 +38,7 @@ public enum ErrorCode {
 
     /* 거래내역(Trade) */
     TRADE_NOT_FOUND(HttpStatus.NOT_FOUND, "거래내역을 찾을 수 없습니다."),
+    TRADE_ACCESS_DENIED(HttpStatus.BAD_REQUEST, "거래내역을 수정할 수 없습니다."),
 
     /* 환전 */
     EXCHANGE_NOT_FOUND(HttpStatus.NOT_FOUND, "환전내용을 찾을 수 없습니다."),
@@ -74,6 +75,7 @@ public enum ErrorCode {
     PLAN_PERMISSION_DENIED (HttpStatus.FORBIDDEN, "계획 수정 권한이 없습니다."),
     PLAN_UPDATE_FAILED (HttpStatus.BAD_REQUEST, "계획 업데이트에 실패했습니다."),
     PLAN_DELETE_FAILED (HttpStatus.INTERNAL_SERVER_ERROR, "계획 삭제에 실패했습니다."),
+    PLAN_ACCESS_DENIED(HttpStatus.BAD_REQUEST, "여행계획을 수정할 수 없습니다."),
 
     /*세부계획(DetailPlan)*/
     DETAILPLAN_NOT_FOUNT(HttpStatus.NOT_FOUND,"세부계획을 찾을 수 없습니다."),
@@ -105,6 +107,8 @@ public enum ErrorCode {
     MEMBERTRAVEL_PERMISSION_DENIED(HttpStatus.FORBIDDEN, "멤버여행 정보 수정 권한이 없습니다."),
     MEMBERTRAVEL_UPDATE_FAILED(HttpStatus.BAD_REQUEST, "멤버여행 정보 업데이트에 실패했습니다."),
     MEMBERTRAVEL_DELETE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "멤버여행 삭제에 실패했습니다."),
+    MEMBERTRAVEL_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "여행에 이미 가입된 회원입니다."),
+    MEMBERTRAVEL_ALREADY_INVITED(HttpStatus.BAD_REQUEST, "여행에 이미 초대된 회원입니다."),
 
     /* 알림(Notification) */
     NOTIFICATION_NOT_FOUND(HttpStatus.NOT_FOUND, "알림을 찾을 수 없습니다."),

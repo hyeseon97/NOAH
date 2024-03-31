@@ -20,7 +20,7 @@ public interface TravelService {
 
     Long createTravelTest(TravelPostDto travelDto, Long memberId);
 
-    Long updateTravel(Long travelId, TravelUpdateDto travelDto);
+    Long updateTravel(String email, TravelUpdateDto travelDto);
 
-    void deleteTravel(Long travelId);
+    void deleteTravel(String email, Long travelId);
 }

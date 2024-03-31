@@ -15,12 +15,16 @@ import com.noah.backend.global.exception.member.UnauthorizedAccessException;
 import com.noah.backend.global.exception.groupaccount.GroupAccountNotFoundException;
 import com.noah.backend.global.exception.member.MemberNotFoundException;
 import com.noah.backend.global.exception.membertravel.MemberTravelAccessException;
+import com.noah.backend.global.exception.membertravel.MemberTravelAlreadyExistException;
+import com.noah.backend.global.exception.membertravel.MemberTravelAlreadyInvitedException;
 import com.noah.backend.global.exception.notification.FirebaseTokenNotExistException;
 import com.noah.backend.global.exception.notification.NotificationAccessException;
 import com.noah.backend.global.exception.notification.NotificationNotFoundException;
 import com.noah.backend.global.exception.notification.NotificationSendFailedException;
+import com.noah.backend.global.exception.plan.PlanAccessException;
 import com.noah.backend.global.exception.suggest.LowerThanPriceNotExists;
 import com.noah.backend.global.exception.suggest.SuggestNotExists;
+import com.noah.backend.global.exception.trade.TradeAccessException;
 import com.noah.backend.global.exception.trade.TradeNotFoundException;
 import com.noah.backend.global.exception.travel.TravelMemberNotFoundException;
 import com.noah.backend.global.exception.travel.TravelNotFoundException;
@@ -117,6 +121,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(TradeNotFoundException.class)
     protected ResponseEntity<?> handle(TradeNotFoundException e){
         log.error("TradeNotFoundException = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+
+    @ExceptionHandler(TradeAccessException.class)
+    protected ResponseEntity<?> handle(TradeAccessException e){
+        log.error("TradeAccessException = {}", e.getErrorCode().getMessage());
         return response.error(e.getErrorCode());
     }
 
@@ -217,6 +227,25 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(MemberTravelAccessException.class)
     protected ResponseEntity<?> handle(MemberTravelAccessException e){
         log.error("MemberTravelAccessException = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+
+    @ExceptionHandler(MemberTravelAlreadyInvitedException.class)
+    protected ResponseEntity<?> handle(MemberTravelAlreadyInvitedException e){
+        log.error("MemberTravelAlreadyInvitedException = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+
+    @ExceptionHandler(MemberTravelAlreadyExistException.class)
+    protected ResponseEntity<?> handle(MemberTravelAlreadyExistException e){
+        log.error("MemberTravelAlreadyExistException = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+
+    /* 계획 */
+    @ExceptionHandler(PlanAccessException.class)
+    protected ResponseEntity<?> handle(PlanAccessException e){
+        log.error("PlanAccessException = {}", e.getErrorCode().getMessage());
         return response.error(e.getErrorCode());
     }
 

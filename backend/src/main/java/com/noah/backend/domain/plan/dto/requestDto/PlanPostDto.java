@@ -10,11 +10,11 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PlanPostDto {
-    private Date start_date;
-    private Date end_date;
-    private boolean travel_start;
+
+    private Long travelId;
+    private Date startDate;
+    private Date endDate;
+    private boolean travelStart;
     private String country;
-    
-    // 테스트 용이니까 후에 travelDto로 수정하자
-    private Long travel_id;
+
 }

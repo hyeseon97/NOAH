@@ -1,8 +1,11 @@
 package com.noah.backend.domain.datailPlan.entity;
 
 import com.noah.backend.domain.base.BaseEntity;
+import com.noah.backend.domain.image.entity.Image;
 import com.noah.backend.domain.plan.entity.Plan;
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -60,4 +63,8 @@ public class DetailPlan extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "plan_id")
     private Plan plan;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "detailPlan", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    private List<Image> imageList = new ArrayList<>();
 }

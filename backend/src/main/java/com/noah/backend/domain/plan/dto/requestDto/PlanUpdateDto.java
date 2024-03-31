@@ -10,6 +10,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PlanUpdateDto {
+    private Long planId;
     private Date start_date;
     private Date end_date;
     private boolean travel_start;

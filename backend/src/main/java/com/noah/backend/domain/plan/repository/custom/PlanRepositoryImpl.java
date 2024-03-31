@@ -5,6 +5,7 @@ import com.noah.backend.domain.datailPlan.dto.responseDto.DetailPlanListDto;
 import com.noah.backend.domain.plan.dto.responseDto.PlanGetDto;
 import com.noah.backend.domain.plan.dto.responseDto.PlanListGetFromTravelDto;
 import com.noah.backend.domain.plan.dto.responseDto.SimplePlan;
+import com.noah.backend.global.exception.plan.PlanAccessException;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,10 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.noah.backend.domain.datailPlan.entity.QDetailPlan.detailPlan;
+import static com.noah.backend.domain.image.entity.QImage.image;
+import static com.noah.backend.domain.memberTravel.entity.QMemberTravel.memberTravel;
 import static com.noah.backend.domain.plan.entity.QPlan.plan;
+import static com.noah.backend.domain.travel.entity.QTravel.travel;
 import static com.querydsl.core.types.Projections.constructor;
 
 @RequiredArgsConstructor
@@ -74,11 +78,24 @@ public class PlanRepositoryImpl implements PlanRepositoryCustom {
 
     @Override
     public Optional<List<SimplePlan>> getSimplePlan(Long planId) {
-        return Optional.ofNullable(query.select(Projections.constructor(SimplePlan.class, detailPlan.day, detailPlan.place))
+        return Optional.ofNullable(query.select(Projections.constructor(SimplePlan.class, detailPlan.day, detailPlan.sequence, detailPlan.place, image.id,
+                                                                        image.url))
                                        .from(plan)
-                                       .leftJoin(detailPlan).on(detailPlan.plan.id.eq(planId))
-                                       .where(plan.id.eq(planId).and(detailPlan.sequence.eq(1)))
-                                       .orderBy(detailPlan.day.asc())
+                                       .leftJoin(detailPlan).on(detailPlan.plan.id.eq(plan.id))
+                                       .leftJoin(image).on(image.detailPlan.id.eq(detailPlan.id))
+                                       .where(plan.id.eq(planId))
+                                       .orderBy(detailPlan.day.asc(), detailPlan.sequence.asc())
                                        .fetch());
+    }
+
+    @Override
+    public void isAccessPlan(Long memberId, Long planId) {
+        Optional.ofNullable(query.select()
+                                .from(plan)
+                                .leftJoin(travel).on(plan.travel.id.eq(travel.id))
+                                .leftJoin(memberTravel).on(memberTravel.travel.id.eq(travel.id))
+                                .where(memberTravel.member.id.eq(memberId).and(plan.id.eq(planId)))
+                                .fetch())
+            .orElseThrow(PlanAccessException::new);
     }
 }

@@ -31,6 +31,8 @@ public class QDetailPlan extends EntityPathBase<DetailPlan> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final ListPath<com.noah.backend.domain.image.entity.Image, com.noah.backend.domain.image.entity.QImage> imageList = this.<com.noah.backend.domain.image.entity.Image, com.noah.backend.domain.image.entity.QImage>createList("imageList", com.noah.backend.domain.image.entity.Image.class, com.noah.backend.domain.image.entity.QImage.class, PathInits.DIRECT2);
+
     //inherited
     public final BooleanPath isDeleted = _super.isDeleted;
 

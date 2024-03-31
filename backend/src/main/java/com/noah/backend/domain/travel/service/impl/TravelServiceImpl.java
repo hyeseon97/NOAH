@@ -19,6 +19,8 @@ import com.noah.backend.domain.travel.service.TravelService;
 import com.noah.backend.global.exception.membertravel.MemberTravelAccessException;
 import com.noah.backend.global.exception.travel.TravelNotFoundException;
 import com.noah.backend.global.exception.travelmember.MemberTravelNotFound;
+import jakarta.transaction.Transactional;
+import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,7 @@ import java.util.List;
 
 @Log4j2
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class TravelServiceImpl implements TravelService {
 
@@ -55,7 +58,41 @@ public class TravelServiceImpl implements TravelService {
         /* ------ */
 
         TravelGetDto travelGetDto = travelRepository.getTravelSelect(travelId).orElseThrow(TravelNotFoundException::new);
-        List<SimplePlan> simplePlanList = planRepository.getSimplePlan(travelGetDto.getPlanId()).orElse(null);
+
+//        // 계획이 생성되지 않았을 땐 바로 반환
+//        if(travelGetDto.getPlanId() == null) {
+//            return travelGetDto;
+//        }
+//
+//        List<SimplePlan> simplePlanList = planRepository.getSimplePlan(travelGetDto.getPlanId()).orElse(null);
+
+//        List<List<SimplePlan>> res = new ArrayList<>();
+//        int index = -1;
+//        int day = 0;
+//        int seq = 0;
+//        for(SimplePlan s : simplePlanList){
+//            if(day != s.getDay()){
+//                res.add(new ArrayList<>());
+//                index++;
+//                day++;
+//                seq = 0;
+//            }
+//            if(seq == s.getSequence()){
+//                continue;
+//            }
+//
+//            res.get(index).add(SimplePlan.builder()
+//                                   .day(s.getDay())
+//                                   .sequence(s.getSequence())
+//                                   .place(s.getPlace())
+//                                   .imageId(s.getImageId())
+//                                   .imageUrl(s.getImageUrl())
+//                                   .build());
+//            seq++;
+//        }
+//
+//        travelGetDto.setSimplePlanList(res);
+
         return travelGetDto;
     }
 
@@ -106,16 +143,29 @@ public class TravelServiceImpl implements TravelService {
     }
 
     @Override
-    public Long updateTravel(Long travelId, TravelUpdateDto travelDto) {
-        Travel travel = travelRepository.findById(travelId).orElseThrow(TravelNotFoundException::new);
-        travel.setTitle(travelDto.getTitle());
-        travel.setEnded(travelDto.isEnded());
+    public Long updateTravel(String email, TravelUpdateDto travelDto) {
 
-        return travelRepository.save(travel).getId();
+        /* 접근권한 */
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberTravelNotFound::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), travelDto.getTravelId()).orElseThrow(
+            MemberTravelAccessException::new);
+        /* ------ */
+
+        Travel travel = travelRepository.findById(travelDto.getTravelId()).orElseThrow(TravelNotFoundException::new);
+        travel.setTitle(travelDto.getTitle());
+
+        return travel.getId();
     }
 
     @Override
-    public void deleteTravel(Long travelId) {
+    public void deleteTravel(String email, Long travelId) {
+
+        /* 접근권한 */
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberTravelNotFound::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), travelId).orElseThrow(
+            MemberTravelAccessException::new);
+        /* ------ */
+
         travelRepository.deleteById(travelId);
     }
 }
