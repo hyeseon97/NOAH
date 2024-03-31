@@ -16,10 +16,22 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleNotificationClick = () => {
+    if (localStorage.getItem("accessToken") === null) {
+      showToast("로그인 후 이용해보세요.");
+      navigate("/login");
+      return;
+    }
+
     navigate("/notification");
   };
 
   const handleMyClick = () => {
+    console.log(localStorage.getItem("accessToken"));
+    if (localStorage.getItem("accessToken") === null) {
+      showToast("로그인 후 이용해보세요.");
+      navigate("/login");
+      return;
+    }
     navigate("/mypage");
   };
 

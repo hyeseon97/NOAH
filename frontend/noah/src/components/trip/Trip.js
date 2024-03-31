@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as Plus } from "../../assets/Icon/Plus.svg";
 import ClipLoader from "react-spinners/ClipLoader";
+import showToast from "../common/Toast";
 
 const borderStyle = {
   border: "0.277vw solid #E1E1E1",
@@ -116,7 +117,17 @@ export default function Trip({
   return (
     <>
       {isLast ? (
-        <div style={lastTripStyle} onClick={() => navigate("/tripcreate")}>
+        <div
+          style={lastTripStyle}
+          onClick={() => {
+            if (localStorage.getItem) {
+              showToast("로그인 후 이용해보세요.");
+              navigate("/login");
+              return;
+            }
+            navigate("/tripcreate");
+          }}
+        >
           <Plus style={iconStyle} />
           <div>여행 계획을 세우고, 자금을 모아보세요</div>
         </div>
