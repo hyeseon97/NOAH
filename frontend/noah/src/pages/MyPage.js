@@ -7,13 +7,18 @@ import { ReactComponent as Account } from "./../assets/Icon/Account.svg";
 import { ReactComponent as Noah } from "./../assets/Icon/Noah.svg";
 import { logout } from "../api/member/Member";
 import { useNavigate } from "react-router-dom";
+import useUserStore from "../store/useUserStore";
 
 export default function MyPage() {
+  const user = useUserStore((state) => state.user);
+
   const navigate = useNavigate();
 
   const handleTripHistoryClick = () => {};
 
-  const handleMyAccountClick = () => {};
+  const handleMyAccountClick = () => {
+    navigate("/");
+  };
 
   const handleAutomaticSettingClick = () => {};
 
@@ -43,11 +48,11 @@ export default function MyPage() {
         }}
       >
         <div className={styles.infoContainer}>
-          <div className={styles.labelLarge}>큐티핸섬준규</div>
-          <div className={styles.labelSmall}>wnsrb933@naver.com</div>
-          <div className={styles.labelSmall}>강준규</div>
+          <div className={styles.labelLarge}>{user.nickname}</div>
+          <div className={styles.labelSmall}>{user.email}</div>
+          <div className={styles.labelSmall}>{user.name}</div>
         </div>
-        <Noah style={{ width: "44vw", height: "44vw", marginLeft: "10vw" }} />
+        <Noah style={{ width: "40vw", height: "44vw", marginLeft: "10vw" }} />
       </div>
       <div className={styles.menuContainer} onClick={handleTripHistoryClick}>
         <History className={styles.icon} />

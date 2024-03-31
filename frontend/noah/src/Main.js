@@ -23,6 +23,8 @@ import GoogleMapSearch from "./pages/GoogleMapSearch";
 import TestGoogleMap from "./pages/TestGoogleMap";
 import PaymentPage from "./pages/PaymentPage";
 import PlaneSearchPage from "./pages/PlaneSearchPage";
+import MyAccount from "./components/common/MyAccount";
+import MyAccountPage from "./pages/MyAccountPage";
 
 export default function Main() {
   return (
@@ -58,6 +60,7 @@ export default function Main() {
           <Route path="notification" element={<NotificationPage />} />
           <Route path="mypage" element={<MyPage />} />
           <Route path="travelhistory" element={<TravelHistoryPage />} />
+          <Route path="myaccount" element={<MyAccountPage />} />
           <Route
             path="automaticwithdrawalsetting"
             element={<AutomaticWithdrawalSettingPage />}
