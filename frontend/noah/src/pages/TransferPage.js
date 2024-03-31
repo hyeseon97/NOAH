@@ -8,8 +8,10 @@ import { ReactComponent as TransferArrow } from "./../assets/Icon/TransferArrow.
 import { getAccount } from "../api/account/Account";
 import { depositGroupAccount } from "../api/groupaccount/GroupAccount";
 import showToast from "../components/common/Toast";
+import ClipLoader from "react-spinners/ClipLoader";
 
 export default function TransferPage() {
+  const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
   const [seq, setSeq] = useState(0); // 페이지 관리를 위해
   // const [accountNumber, setAccountNumber] = useState(""); // 내 계좌번호 기억
@@ -68,6 +70,7 @@ export default function TransferPage() {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     (async () => {
       try {
         const res = await getAccount();
@@ -75,6 +78,8 @@ export default function TransferPage() {
         setAccounts(res.data);
       } catch (e) {
         console.log(e);
+      } finally {
+        setIsLoading(false);
       }
     })();
   }, []);
@@ -92,17 +97,35 @@ export default function TransferPage() {
             Title="내 계좌"
             onClick={handleLeftIconClick}
           />
-          {accounts
-            .filter((account) => account.type !== "공동계좌") // 공동계좌만 불러옴
-            .map((account) => (
-              <MyAccount
-                key={account.accountId} // 고유 key 값으로 accountId 사용
-                type={account.bankName} // 조건에 따른 type 결정
-                accountNumber={account.accountNumber}
-                sum={account.amount}
-                onClick={() => handleAccountClick(account)}
-              />
-            ))}
+          {!isLoading && (
+            <>
+              {accounts
+                .filter((account) => account.type !== "공동계좌") // 공동계좌만 불러옴
+                .map((account) => (
+                  <MyAccount
+                    key={account.accountId} // 고유 key 값으로 accountId 사용
+                    type={account.bankName} // 조건에 따른 type 결정
+                    accountNumber={account.accountNumber}
+                    sum={account.amount}
+                    onClick={() => handleAccountClick(account)}
+                  />
+                ))}
+            </>
+          )}
+          {isLoading && (
+            <>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "80vh",
+                }}
+              >
+                <ClipLoader />
+              </div>
+            </>
+          )}
         </>
       )}
       {seq === 1 && (
