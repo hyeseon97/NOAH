@@ -110,7 +110,9 @@ export default function SignUpPage() {
     }
     /* 회원가입 API 작성 */
     if (!regex.password.test(formData.password)) {
-      setSignUpFailedMessage("비밀번호를 확인해주세요.");
+      setSignUpFailedMessage(
+        "비밀번호는 최소 하나의 영소문자, 숫자를 포함한 3~20자 입니다."
+      );
       return;
     }
 
