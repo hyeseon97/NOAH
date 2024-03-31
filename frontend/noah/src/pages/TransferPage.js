@@ -43,7 +43,6 @@ export default function TransferPage() {
   const handleTransfer = async () => {
     // 최종 송금 코드 작성
     if (!accountId || !travelId || !amount) {
-      console.error("필수 정보가 누락되었습니다.");
       return;
     }
 
@@ -55,18 +54,13 @@ export default function TransferPage() {
 
     try {
       const response = await depositGroupAccount(object);
-      console.log(response);
       if (response.status === "ERROR") {
         setWarningText("잔액이 부족합니다.");
-        console.log("잔액부족");
       } else {
-        console.log("송금 성공", response);
         showToast("입금이 성공적으로 완료되었습니다.");
         navigate("/home");
       }
-    } catch (error) {
-      console.log("송금 실패", error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -74,10 +68,8 @@ export default function TransferPage() {
     (async () => {
       try {
         const res = await getAccount();
-        console.log(res);
         setAccounts(res.data);
       } catch (e) {
-        console.log(e);
       } finally {
         setIsLoading(false);
       }
