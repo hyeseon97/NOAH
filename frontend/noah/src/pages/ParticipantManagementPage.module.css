@@ -24,8 +24,16 @@
     line-height: 160%;
     color: #898989;
 }
+.paragraphSSmallGrey{
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 2.8vw;
+    color: #898989;
+    text-align: right;
+}
 .memberBoxRight{
-    margin-top: 8.89vw;
+    margin-top: 8vw;
 }
 .line{
     width: 100vw;
