@@ -49,7 +49,7 @@ export default function TripPage() {
         Title="여행이름"
         onClick={handleLeftIconClick}
       />
-      <div style={{ marginTop: "6.67vw" }}>
+      <div style={{ marginTop: "6.67vw", cursor: "pointer" }}>
         <DoughnutChart percent={percent} />
         <div
           className={styles.detailParagraph}
@@ -68,7 +68,7 @@ export default function TripPage() {
         style={{ width: "100vw", display: "flex", justifyContent: "center" }}
       >
         <div className={styles.planBorder} onClick={handlePlanningClick}>
-          {true && (
+          {false && (
             <>
               <div
                 style={{
@@ -89,18 +89,16 @@ export default function TripPage() {
               </div>
             </>
           )}
-          {false && (
+          {true && (
             <>
-              <div>D-27</div>
-              <div className={styles.planLine}></div>
-
-              <div
-                style={{
-                  background: "black",
-                  height: "0.277vw",
-                  width: `${20 * 1}vw`,
-                }}
-              ></div>
+              <div className={styles.infoContainer}>
+                <div className={styles.Dday}>D-27</div>
+                <div className={styles.day}>2024/03/15 ~ 2024/03/18</div>
+                <div className={styles.bottom}>
+                  <div className={styles.country}>일본</div>
+                  <div className={styles.clickMessage}>여행계획 보러가기</div>
+                </div>
+              </div>
             </>
           )}
         </div>
