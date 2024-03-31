@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   getGroupAccount,
+  getGroupAccountMemberAndTotalDue,
+  getGroupAccountTotalDue,
   updateGroupAccountInfo,
 } from "../api/groupaccount/GroupAccount";
 import showToast from "../components/common/Toast";
@@ -30,6 +32,8 @@ export default function GoalPage() {
   const [newPaymentDate, setNewpaymentDate] = useState(
     groupAccountInfo.paymentDate
   );
+  const [memberInfo, setMemberInfo] = useState([]);
+  const [totalDue, setTotalDue] = useState("");
 
   function formatDate(dateString) {
     const pattern = /(\d{4})(\d{2})(\d{2})/;
@@ -84,6 +88,31 @@ export default function GoalPage() {
       }
     };
     fetchGroupAccounts();
+
+    const fetchMemberInfo = async () => {
+      try {
+        const res = await getGroupAccountMemberAndTotalDue(travelId);
+        if (res.status === "SUCCESS") {
+          setMemberInfo(res.data);
+          console.log(memberInfo);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchMemberInfo();
+
+    const fetchTotalDue = async () => {
+      try {
+        const res = await getGroupAccountTotalDue(travelId);
+        if (res.status === "SUCCESS") {
+          setTotalDue(res.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchTotalDue();
   }, []);
 
   return (
@@ -221,34 +250,18 @@ export default function GoalPage() {
         </div>
         <div className={styles.labelMedium}>달성인원</div>
         <div className={styles.memberContainer}>
-          <div className={styles.item}>
-            <BluePeople className={styles.iconPeople} />
-            <div className={styles.paragraphSmall}>큐티준규95</div>
-          </div>
-          <div className={styles.item}>
-            <GreyPeople className={styles.iconPeople} />
-            <div className={styles.paragraphSmall}>핸섬건영</div>
-          </div>
-          <div className={styles.item}>
-            <BluePeople className={styles.iconPeople} />
-            <div className={styles.paragraphSmall}>큐티준규95</div>
-          </div>
-          <div className={styles.item}>
-            <GreyPeople className={styles.iconPeople} />
-            <div className={styles.paragraphSmall}>핸섬건영</div>
-          </div>
-          <div className={styles.item}>
-            <BluePeople className={styles.iconPeople} />
-            <div className={styles.paragraphSmall}>큐티준규95</div>
-          </div>
-          <div className={styles.item}>
-            <BluePeople className={styles.iconPeople} />
-            <div className={styles.paragraphSmall}>큐티준규95</div>
-          </div>
-          <div className={styles.item}>
-            <BluePeople className={styles.iconPeople} />
-            <div className={styles.paragraphSmall}>큐티준규95</div>
-          </div>
+          {memberInfo.map((member, index) => (
+            <div key={index} className={styles.item}>
+              {member.payment_amount >= totalDue ? (
+                <BluePeople className={styles.iconPeople} />
+              ) : (
+                <GreyPeople className={styles.iconPeople} />
+              )}
+              <div className={styles.paragraphSmall}>
+                {member.memberNickname}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </>
