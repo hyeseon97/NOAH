@@ -19,7 +19,7 @@ export default function DoughnutChartSmall({ percent, isRed = false }) {
     }, 10);
 
     return () => clearInterval(donutAnimation); // 컴포넌트 언마운트 시 인터벌 클리어
-  }, [t]);
+  }, [t, percent]);
 
   return (
     <>

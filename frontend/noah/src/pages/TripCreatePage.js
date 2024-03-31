@@ -41,7 +41,8 @@ export default function TripCreatePage() {
         type: selectedBank,
         travelId: travelID,
       });
-
+      console.log(bankRes);
+      showToast("여행이 생성되었습니다.");
       navigate(`/trip/${travelID}`);
     } catch (e) {
       console.log(e);
