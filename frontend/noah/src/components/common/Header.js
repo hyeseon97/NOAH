@@ -40,6 +40,17 @@ export default function Header({
     color: "#000000",
   };
 
+  const headingSmallStyle = {
+    /* Heading/Large */
+    fontFamily: "Pretendard",
+    fontStyle: "normal",
+    fontWeight: "700",
+    fontSize: "3.35vw",
+    lineHeight: "140%",
+
+    color: "#000000",
+  };
+
   const headerContainer = {
     display: "flex",
     alignItems: "center",
@@ -61,7 +72,9 @@ export default function Header({
             {LeftIcon === "Arrow" && <Arrow style={iconStyle} />}
             {LeftIcon === "Cancel" && <Cancel style={iconStyle} />}
           </div>
-          <div style={headingStyle}>{Title}</div>
+          <div style={Title.length <= 12 ? headingStyle : headingSmallStyle}>
+            {Title}
+          </div>
           <div>
             {RightIcon === "Filter" ? (
               <Filter style={iconStyle} onClick={onRightIconClick} />

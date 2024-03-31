@@ -7,13 +7,13 @@ import Trip from "../components/trip/Trip";
 import Exchange from "./../components/exchange/Exchange";
 import sample1 from "../assets/Image/sample1.jpg";
 import sample2 from "../assets/Image/sample2.png";
-import { getMyTravel } from "../api/travel/Travel";
 import { getAllGroupAccount } from "../api/groupaccount/GroupAccount";
 import showToast from "../components/common/Toast";
 
 export default function HomePage() {
   const navigate = useNavigate();
   const [trips, setTrips] = useState([]); // 여행 데이터 저장
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleNotificationClick = () => {
     navigate("/notification");
@@ -21,11 +21,6 @@ export default function HomePage() {
 
   const handleMyClick = () => {
     navigate("/mypage");
-  };
-
-  const handleTripClick = (index) => {
-    console.log(`Trip ${index} 클릭됨`);
-    navigate(`/trip/${index}`);
   };
 
   /* Trip 컴포넌트 스와이프 */
@@ -85,14 +80,17 @@ export default function HomePage() {
   }
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchGroupAccounts = async () => {
       try {
         const response = await getAllGroupAccount();
+        console.log(response);
         if (response.data === null) setTrips([]);
         else setTrips(response.data); // API로부터 받아온 여행 데이터를 상태에 저장
-        console.log(response);
       } catch (error) {
-        console.error("여행 데이터를 불러오는 중 오류 발생:", error);
+        setTrips([]);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -121,6 +119,12 @@ export default function HomePage() {
         onTouchEnd={handleTouchEnd}
       >
         <div style={{ marginLeft: "5vw" }}></div>
+        {isLoading && (
+          <>
+            <Trip isLoading={true} />
+          </>
+        )}
+
         {trips.map((trip, index) => (
           <Trip
             key={index}
@@ -137,6 +141,7 @@ export default function HomePage() {
         <Trip isLast={true} />
         <div style={{ marginRight: "5vw" }}></div>
       </div>
+
       <div className={styles.exchangeContainer}>
         <Exchange />
       </div>

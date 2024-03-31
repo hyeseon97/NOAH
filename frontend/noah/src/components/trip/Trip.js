@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as Plus } from "../../assets/Icon/Plus.svg";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const borderStyle = {
   border: "0.277vw solid #E1E1E1",
@@ -63,6 +64,13 @@ const paragraphSmall = {
   textAlign: "center",
 };
 
+const loadingStyle = {
+  ...borderStyle,
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+};
+
 export default function Trip({
   onClick,
   isLast = false,
@@ -74,6 +82,7 @@ export default function Trip({
   accountNumber,
   amount,
   targetAmount,
+  isLoading = false,
 }) {
   const navigate = useNavigate();
   const handleAccountClick = (e) => {
@@ -93,6 +102,16 @@ export default function Trip({
         color: "#898989",
       }
     : {};
+
+  if (isLoading) {
+    return (
+      <>
+        <div style={loadingStyle}>
+          <ClipLoader />
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
