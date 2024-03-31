@@ -23,9 +23,14 @@ import {
 const reviewStyle = {
   width: "400px",
   maxWidth: "100%",
-  margin: "0 auto",
+  margin: "3px",
   alignItems: "center",
   justifyContent: "center",
+  fontFamily: "Pretendard",
+  fontStyle: "normal",
+  fontWeight: "700",
+  fontSize: "2.7vw",
+  lineHeight: "200%",
 };
 
 const listSearch = {
@@ -42,6 +47,8 @@ const listSearch = {
   fontWeight: "700",
   fontSize: "3.4vw",
   lineHeight: "200%",
+  margin: "17px",
+  border: "1px solid grey",
 };
 
 const buttonStyle = {
@@ -53,17 +60,13 @@ const buttonStyle = {
 
 const listResult = {
   // backgroundColor: "pink",
-  // display: "flex",
-  // flexDirection: "row"
-  // height: "100px"
-  // margin: "10px",
+  display: "flex",
+  flexDirection: "column",
+  height: "500px",
+  margin: "10px",
 };
 
-const center = {
-  lat: 37.5665,
-  lng: 126.978,
-};
-
+// 이거 확인하자
 const toggleStyle = {
   cursor: "pointer",
   position: "absolute",
@@ -97,6 +100,29 @@ const searchPlace = {
   // backgroundColor: "green",
 };
 
+const placeAddress = {
+  fontFamily: "Pretendard",
+  fontStyle: "normal",
+  fontWeight: "700",
+  fontSize: "3.4vw",
+  lineHeight: "200%",
+}
+const placeName = {
+  fontFamily: "Pretendard",
+  fontStyle: "normal",
+  fontWeight: "700",
+  fontSize: "4.4vw",
+  lineHeight: "200%",
+}
+
+const placeRating = {
+  fontFamily: "Pretendard",
+  fontStyle: "normal",
+  fontWeight: "700",
+  fontSize: "3.4vw",
+  lineHeight: "200%",
+}
+
 const Review = ({ review }) => {
   // 리뷰 텍스트를 전체 보여줄지 여부를 결정하는 상태
   const [isExpanded, setIsExpanded] = useState(false);
@@ -125,7 +151,7 @@ const Review = ({ review }) => {
       <div
         key={review.id}
         onClick={toggleExpand}
-        style={{ cursor: "pointer", backgroundColor: "blue" }}
+        style={reviewStyle}
       >
         {review.author_name} / {review.rating} /{review.text.substring(0, 20)}
         {/* {showToggle && <span>{isExpanded ? " 접기" : " 더 보기"}</span>} */}
@@ -169,10 +195,10 @@ const PhotoSlider = ({ photos }) => {
         >
           <img
             src={photo.getUrl({
-              maxWidth: "400",
-              maxHeight: "400",
-              height: "400",
-              width: "400",
+              maxWidth: "300",
+              maxHeight: "300",
+              height: "300",
+              width: "300",
             })}
             alt="장소 사진"
           />
@@ -515,16 +541,10 @@ export default function GoogleMapSearch() {
           )}
           {outPlace && (
             <div style={listResult} onClick={changeDetailToggle}>
-              {outPlace.formatted_address}
-              <br />
-              {outPlace.geometry?.location.lat()}
-              <br />
-              {outPlace.geometry?.location.lng()}
-              <br />
-              {outPlace.name}
-              <br />
-              {outPlace.rating}
-              <br />
+              <div style={placeName}>{outPlace.name}</div>
+              <div style={placeAddress}>{outPlace.formatted_address}</div>
+              <div style={placeRating}>{outPlace.rating}</div>
+              <div onClick={() => {setDetailToggle(!detailToggle)}}>더보기</div>
               {detailToggle && (
                 <div>
                   {reviews &&
