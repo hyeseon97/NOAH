@@ -4,7 +4,7 @@ import styles from "./DoughnutChart.module.css";
 export default function DoughnutChart({ percent }) {
   const [t, setT] = useState(0);
   const donutStyle = {
-    background: `conic-gradient(#2f80ED 0% ${t}%, #99c8FF ${t}% 100%)`,
+    background: `conic-gradient(#2f80ED 0% ${t}%, #66ACFF ${t}% 100%)`,
   };
 
   useEffect(() => {

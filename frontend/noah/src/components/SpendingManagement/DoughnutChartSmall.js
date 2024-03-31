@@ -1,10 +1,12 @@
 import { useEffect, useState, React } from "react";
 import styles from "./DoughnutChartSmall.module.css";
 
-export default function DoughnutChartSmall({ percent }) {
+export default function DoughnutChartSmall({ percent, isRed = false }) {
   const [t, setT] = useState(0);
   const donutStyle = {
-    background: `conic-gradient(#2f80ED 0% ${t}%, #99c8FF ${t}% 100%)`,
+    background: isRed
+      ? `conic-gradient(#E74733 0% ${t}%, #ED7566 ${t}% 100%)`
+      : `conic-gradient(#2f80ED 0% ${t}%, #66ACFF ${t}% 100%)`,
   };
 
   useEffect(() => {

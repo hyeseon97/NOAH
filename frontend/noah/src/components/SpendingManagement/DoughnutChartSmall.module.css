@@ -1,7 +1,7 @@
 /* DoughnutChart.module.css 수정 */
 .doughnut {
-  width: 50vw;
-  padding-bottom: 50vw; /* 도넛 높이 */
+  width: 27.7vw;
+  padding-bottom: 27.7vw; /* 도넛 높이 */
   margin: 0 auto;
   border-radius: 50%;
   position: relative;
@@ -19,9 +19,9 @@
   display: block;
   margin: auto;
   font-family: "Pretendard";
-  font-weight: 800;
-  font-size: 7.87vw;
-  padding: calc(45% - 4.47vw) 0;
+  font-weight: 600;
+  font-size: 4.45vw;
+  padding: calc(45% - 2.6vw) 0;
   content: ""; /* 이 부분은 더 이상 필요 없으므로 제거 */
   transform: skew(-0.03deg);
 
