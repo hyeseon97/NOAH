@@ -55,9 +55,23 @@ public class GroupAccountController {
 
         BankAccountCreateReqDto bankAccountCreateReqDto = BankAccountCreateReqDto.builder()
                 .userKey(memberService.searchMember(authentication).getUserKey())
-                .bankType(groupAccountRequestDto.getType())
                 .travelId(groupAccountRequestDto.getTravelId())
                 .build();
+
+        switch (groupAccountRequestDto.getType()){
+            case "한국은행":
+                bankAccountCreateReqDto.setBankType("001");
+                break;
+            case "산업은행":
+                bankAccountCreateReqDto.setBankType("002");
+                break;
+            case "기업은행":
+                bankAccountCreateReqDto.setBankType("003");
+                break;
+            case "국민은행":
+                bankAccountCreateReqDto.setBankType("004");
+                break;
+        }
 
         /* 은행에서 계좌 생성 */
         BankAccountCreateResDto bankAccountCreateResDto = bankService.bankAccountCreate(bankAccountCreateReqDto);
