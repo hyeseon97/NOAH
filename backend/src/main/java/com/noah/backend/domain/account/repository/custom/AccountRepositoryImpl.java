@@ -1,5 +1,6 @@
 package com.noah.backend.domain.account.repository.custom;
 
+import com.noah.backend.domain.account.dto.responseDto.AccountIncludeIsAutoTransfer;
 import com.noah.backend.domain.account.dto.responseDto.AccountInfoDto;
 import com.noah.backend.domain.account.entity.Account;
 import com.querydsl.core.types.Projections;
@@ -23,5 +24,13 @@ public class AccountRepositoryImpl implements AccountRepositoryCustom {
                 .from(account)
                 .where(account.member.id.eq(memberId))
                 .fetch());
+    }
+
+    @Override
+    public Optional<List<AccountIncludeIsAutoTransfer>> getAccountListIncludeIsAutoTransfer(Long memberId, Long travelId) {
+        return Optional.ofNullable(query.select(Projections.constructor(AccountIncludeIsAutoTransfer.class, account.id, account.bankName, account.accountNumber, account.amount))
+                                       .from(account)
+                                       .where(account.member.id.eq(memberId).and(account.type.eq("개인계좌")))
+                                       .fetch());
     }
 }

@@ -1,5 +1,6 @@
 package com.noah.backend.domain.apis.controller;
 
+import static com.noah.backend.global.format.response.ErrorCode.DEPARTURE_DATE_ERROR;
 import static com.noah.backend.global.format.response.ErrorCode.REQUIRED_FIELD_FAILED;
 import static com.noah.backend.global.format.response.ResponseCode.AIRLINE_CODES_SUCCESS;
 import static com.noah.backend.global.format.response.ResponseCode.AIRLINE_ROUTES_SUCCESS;
@@ -15,8 +16,10 @@ import com.noah.backend.domain.apis.dto.AirportRouteDto;
 import com.noah.backend.domain.apis.dto.CurrencyDto;
 import com.noah.backend.domain.apis.dto.FlightOffersDto;
 import com.noah.backend.domain.apis.dto.FlightPriceDto;
+import com.noah.backend.domain.apis.dto.ResponseFlightOffersDto;
 import com.noah.backend.domain.apis.service.FlightService;
 import com.noah.backend.domain.apis.service.ForeignCurrencyService;
+import com.noah.backend.global.exception.flight.DepartureDateException;
 import com.noah.backend.global.exception.flight.RequiredFilledException;
 import com.noah.backend.global.format.code.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -107,16 +110,22 @@ public class ApisController {
 //            .departureDate(LocalDate.of(2024, 5, 12).toString())
 //            .build();
 //        //
-        JSONObject jsonObject;
+        List<ResponseFlightOffersDto> list;
         try {
-            jsonObject = flightService.findFlightOffers(accesstoken, flightOffersDto);
+            list = flightService.findFlightOffers(accesstoken, flightOffersDto);
         }
         catch (RequiredFilledException e) {
             e.printStackTrace();
             return apiResponse.fail(REQUIRED_FIELD_FAILED);
         }
-        log.info("jsonobject : "+jsonObject);
-        return apiResponse.success(FLIGHT_OFFERS_SUCCESS, jsonObject);
+        catch (DepartureDateException e) {
+            e.printStackTrace();
+            return apiResponse.fail(DEPARTURE_DATE_ERROR);
+        }
+        for (ResponseFlightOffersDto dto : list) {
+            log.info(dto.toString());
+        }
+        return apiResponse.success(FLIGHT_OFFERS_SUCCESS, list);
     }
 
     @Operation(summary = "환율 정보", description = "가장 최신의 환율 정보를 db에서 가져옴")
