@@ -2,17 +2,12 @@ import React, { useEffect, useState } from "react";
 import { ReactComponent as Cancel } from "../../assets/Icon/Cancel.svg";
 import { ReactComponent as Ship } from "../../assets/Icon/Ship.svg";
 import showToast from "../common/Toast";
+import {
+  acceptNotification,
+  refuseNotification,
+} from "../../api/notification/Notification";
 
-export default function Notification({
-  object,
-  // isInvitation,
-  onDelete,
-  // messageType,
-  // createdAt,
-  // travelTitle,
-  // currency,
-  // exchangeRate,
-}) {
+export default function Notification({ object, onDelete }) {
   const [startX, setStartX] = useState(0); // 스와이프 시작 X 좌표
   const [isSwiping, setIsSwiping] = useState(false); // 스와이핑 중인지 여부
   const [translateX, setTranslateX] = useState(0); // 변환(이동) X 좌표
@@ -206,6 +201,27 @@ export default function Notification({
     }
   };
 
+  const accept = async (notificationId) => {
+    try {
+      const res = await acceptNotification(notificationId);
+      if (res.data === "SUCCESS") {
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const refuse = async (notificationId) => {
+    try {
+      const res = await refuseNotification(notificationId);
+      if (res.data === "SUCCESS") {
+        console.log("거절성공");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // 모달을 닫는 함수
   const closeModal = () => {
     setIsModalVisible(false);
@@ -247,14 +263,13 @@ export default function Notification({
           marginLeft: "31.11vw",
         }}
       />
-      <div style={title}>B106여행가자</div>
-      <div style={{ ...paragraphSmall, textAlign: "center" }}>
-        목표금액: 1,000,000원
-      </div>
+      <div style={title}>{groupTitle}</div>
+
       <div
         style={button}
         onClick={() => {
           closeModal();
+          accept(object.notificationId);
           // 초대 수락 요청 보내기
           onDelete(); // 수락해도 알람 삭제
           showToast("초대를 수락하셨습니다.");
@@ -266,6 +281,7 @@ export default function Notification({
         style={{ ...paragraphSmall, textAlign: "center", cursor: "pointer" }}
         onClick={() => {
           closeModal();
+          refuse(object.notificationId);
           onDelete();
         }}
       >
@@ -282,7 +298,6 @@ export default function Notification({
         //onMouseMove={handleMouseMove}
         //onMouseUp={handleMouseUp}
         onTouchStart={handleTouchStart}
-        ㅇ
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
