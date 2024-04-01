@@ -42,8 +42,8 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Long createTicket(TicketPostDto ticketDto) {
-        Travel foundTravel = travelRepository.findById(ticketDto.getTravel_id()).orElseThrow(TravelNotFoundException::new);
+    public Long createTicket(TicketPostDto ticketDto, Long travelId) {
+        Travel foundTravel = travelRepository.findById(travelId).orElseThrow(TravelNotFoundException::new);
 
         Ticket ticket = Ticket.builder()
                 .departure(ticketDto.getDeparture())

@@ -5,6 +5,8 @@ import { ReactComponent as Mark } from "./../assets/Icon/Mark.svg";
 import styles from "./PlaneSearchPage.module.css";
 
 import { getFlightInfo } from "../api/flight/flight";
+import { createTicket } from "../api/ticket/Ticket";
+import { useParams } from "react-router-dom";
 
 // const wholeStyle = {
 //   display: "flex",
@@ -150,54 +152,55 @@ import { getFlightInfo } from "../api/flight/flight";
 // };
 
 export default function PlaneSearchPage() {
-  // const [planeList, setPlaneList] = useState([
-  //   {
-  //     a_airport: "인천공항",
-  //     d_airport: "나리타공항",
-  //     a_time: "07:57",
-  //     d_time: "09:17",
-  //     price: 248000,
-  //     airLine: "싸피항공",
-  //     code: "7C115",
-  //   },
-  //   {
-  //     a_airport: "인천공항",
-  //     d_airport: "나리타공항",
-  //     a_time: "07:57",
-  //     d_time: "09:17",
-  //     price: 248000,
-  //     airLine: "싸피항공",
-  //     code: "7C115",
-  //   },
-  //   {
-  //     a_airport: "인천공항",
-  //     d_airport: "나리타공항",
-  //     a_time: "07:57",
-  //     d_time: "09:17",
-  //     price: 248000,
-  //     airLine: "싸피항공",
-  //     code: "7C115",
-  //   },
-  //   {
-  //     a_airport: "인천공항",
-  //     d_airport: "나리타공항",
-  //     a_time: "07:57",
-  //     d_time: "09:17",
-  //     price: 248000,
-  //     airLine: "싸피항공",
-  //     code: "7C115",
-  //   },
-  //   {
-  //     a_airport: "인천공항",
-  //     d_airport: "나리타공항",
-  //     a_time: "07:57",
-  //     d_time: "09:17",
-  //     price: 248000,
-  //     airLine: "싸피항공",
-  //     code: "7C115",
-  //   },
-  // ]);
-  const [planeList, setPlaneList] = useState([]);
+  const [planeList, setPlaneList] = useState([
+    {
+      a_airport: "인천공항",
+      d_airport: "나리타공항",
+      a_time: "2024-04-01 07:57",
+      d_time: "2024-04-01 09:17",
+      price: 248000,
+      airLine: "싸피항공",
+      code: "7C115",
+    },
+    {
+      a_airport: "인천공항",
+      d_airport: "나리타공항",
+      a_time: "2024-04-01 07:57",
+      d_time: "2024-04-01 09:17",
+      price: 248000,
+      airLine: "싸피항공",
+      code: "7C115",
+    },
+    {
+      a_airport: "인천공항",
+      d_airport: "나리타공항",
+      a_time: "2024-04-01 07:57",
+      d_time: "2024-04-01 09:17",
+      price: 248000,
+      airLine: "싸피항공",
+      code: "7C115",
+    },
+    {
+      a_airport: "인천공항",
+      d_airport: "나리타공항",
+      a_time: "2024-04-01 07:57",
+      d_time: "2024-04-01 09:17",
+      price: 248000,
+      airLine: "싸피항공",
+      code: "7C115",
+    },
+    {
+      a_airport: "인천공항",
+      d_airport: "나리타공항",
+      a_time: "2024-04-01 07:57",
+      d_time: "2024-04-01 09:17",
+      price: 248000,
+      airLine: "싸피항공",
+      code: "7C115",
+    },
+  ]);
+  // const [planeList, setPlaneList] = useState([]);
+  const { travelId } = useParams();
 
   const [arrivalAirPort, setArrivalAirPort] = useState();
   const [departureAirPort, setDepartureAirPort] = useState();
@@ -224,15 +227,16 @@ export default function PlaneSearchPage() {
   };
 
   const getPlaneList = () => {
-    const object = {
-      originLocationCode: arrivalAirPort,
-      destinationLocationCode: departureAirPort,
-      departureDate: boarderDate,
-    };
-    console.log(arrivalAirPort, departureAirPort, boarderDate);
+    // const object = {
+    //   originLocationCode: arrivalAirPort,
+    //   destinationLocationCode: departureAirPort,
+    //   departureDate: boarderDate,
+    // };
+    // console.log(arrivalAirPort, departureAirPort, boarderDate);
     getFlightInfo(arrivalAirPort, departureAirPort, boarderDate)
       .then((data) => {
         console.log(data); // API 호출 결과를 여기에서 사용할 수 있습니다.
+        console.log(data.Object);
         // 필요한 로직을 추가하세요.
       })
       .catch((error) => {
@@ -240,7 +244,30 @@ export default function PlaneSearchPage() {
       });
   };
 
-  const selectPlane = () => {};
+  const selectPlane = (
+    departureTime,
+    arrivalTime,
+    departureAirport,
+    arrivalAirport
+  ) => {
+    const departureDate = new Date(departureTime).toISOString();
+    const arrivalDate = new Date(arrivalTime).toISOString();
+
+    console.log(departureDate, arrivalDate, departureAirport, arrivalAirport);
+
+    const object = {
+      departure: departureDate,
+      arrival: arrivalDate,
+      d_airport: departureAirport,
+      a_airport: arrivalAirport,
+      d_gate: 0,
+    };
+    createTicket(object, travelId);
+  };
+
+  function extractTime(dateTime) {
+    return dateTime.split(" ")[1];
+  }
 
   return (
     <>
@@ -309,17 +336,25 @@ export default function PlaneSearchPage() {
               <div className={styles.middleStyle}>
                 <div>
                   <div>{plane.a_airport}</div>
-                  <div>{plane.a_time} 출발</div>
+                  <div>{extractTime(plane.a_time)} 출발</div>
                 </div>
                 <div>
                   <SmallPlane />
                 </div>
                 <div>
                   <div>{plane.d_airport}</div>
-                  <div>{plane.d_time} 도착</div>
+                  <div>{extractTime(plane.d_time)} 도착</div>
                 </div>
               </div>
-              <div className={styles.lowerStyle} onClick={selectPlane}>
+              <div
+                className={styles.lowerStyle}
+                onClick={() => selectPlane(
+                  plane.d_time,
+                  plane.a_time,
+                  plane.d_airport,
+                  plane.a_airport
+                )}
+              >
                 항공권 선택
               </div>
             </div>

@@ -27,8 +27,8 @@ public class TicketController {
 
     @Operation(summary = "티켓 생성",description = "티켓 생성 / TravelId가 필요")
     @PostMapping
-    public ResponseEntity<?> createTicket(@RequestBody TicketPostDto ticketDto){
-        Long createTicketId = ticketService.createTicket(ticketDto);
+    public ResponseEntity<?> createTicket(@RequestBody TicketPostDto ticketDto, @RequestParam Long travelId){
+        Long createTicketId = ticketService.createTicket(ticketDto, travelId);
 
         return response.success(ResponseCode.TICKET_CREATED, createTicketId);
     }

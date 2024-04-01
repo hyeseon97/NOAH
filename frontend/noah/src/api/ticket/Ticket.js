@@ -29,9 +29,11 @@ export async function deleteTicket(ticketId) {
   }
 }
 /* 티켓 생성 */
-export async function createTicket(object) {
+export async function createTicket(object, travelId) {
+  const urlWithQueryParam = `${commonUrl}?travelId=${travelId}`;
   try {
-    const res = await axiosAPI.post(commonUrl, object);
+    const res = await axiosAPI.post(urlWithQueryParam, object);
+    console.log(res)
     return res.data;
   } catch (error) {
     throw error;

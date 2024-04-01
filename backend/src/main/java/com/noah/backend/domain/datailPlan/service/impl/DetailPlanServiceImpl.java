@@ -53,9 +53,9 @@ public class DetailPlanServiceImpl implements DetailPlanService {
     }
 
     @Override
-    public Long createDetailPlan(String email, DetailPlanPostDto detailPlan) {
+    public Long createDetailPlan(String email,Long planId, DetailPlanPostDto detailPlan) {
 
-        Plan plan = planRepository.findById(detailPlan.getPlanId()).orElseThrow(PlanNotFound::new);
+        Plan plan = planRepository.findById(planId).orElseThrow(PlanNotFound::new);
 
         /* 접근권한 */
         Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
