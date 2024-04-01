@@ -17,4 +17,6 @@ public interface NotificationService {
     void inviteRefuse(String email, Long notificationId);
 
     boolean sendNotificationByToken(String token, String title, String body);
+
+    void deleteNotification(String email, Long notificationId);
 }
