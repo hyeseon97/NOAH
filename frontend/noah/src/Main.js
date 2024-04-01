@@ -70,7 +70,7 @@ export default function Main() {
             element={<AutomaticWithdrawalSettingPage />}
           />
         </Route>
-        <Route path="*" element={<ErrorPage />}></Route>
+        <Route path="*" element={<WelcomePage />}></Route>
       </Routes>
     </BrowserRouter>
   );

@@ -74,7 +74,8 @@ export default function AutomaticWithdrawalSettingPage() {
       try {
         const response = await getAllGroupAccount();
         if (response.data === null) setTrips([]);
-        else setTrips(response.data); // API로부터 받아온 여행 데이터를 상태에 저장
+        else setTrips([]);
+        //else setTrips(response.data); // API로부터 받아온 여행 데이터를 상태에 저장
       } catch (error) {
         setTrips([]);
       } finally {
@@ -155,19 +156,26 @@ export default function AutomaticWithdrawalSettingPage() {
               </>
             )}
 
-            {trips.map((trip, index) => (
-              <Trip
-                key={index}
-                onClick={() => handleTripClick(trip.travelId)}
-                title={trip.title}
-                bankName={trip.bankName}
-                accountNumber={trip.accountNumber}
-                amount={trip.amount}
-                targetAmount={trip.targetAmount}
-                fromHome={false}
-                travelId={trip.travelId}
-              />
-            ))}
+            {!isLoading &&
+              trips.length !== 0 &&
+              trips.map((trip, index) => (
+                <Trip
+                  key={index}
+                  onClick={() => handleTripClick(trip.travelId)}
+                  title={trip.title}
+                  bankName={trip.bankName}
+                  accountNumber={trip.accountNumber}
+                  amount={trip.amount}
+                  targetAmount={trip.targetAmount}
+                  fromHome={false}
+                  travelId={trip.travelId}
+                />
+              ))}
+            {!isLoading && trips.length === 0 && (
+              <div className={styles.headingLarge}>
+                참여 중인 여행이 없습니다.
+              </div>
+            )}
             <div style={{ marginRight: "5vw" }}></div>
           </div>
         </>
