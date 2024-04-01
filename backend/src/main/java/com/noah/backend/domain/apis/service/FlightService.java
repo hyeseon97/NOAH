@@ -9,6 +9,7 @@ import com.noah.backend.domain.apis.dto.ResponseFlightOffersDto;
 import com.noah.backend.domain.apis.entity.Airport;
 import com.noah.backend.domain.apis.repository.AirportRepository;
 import com.noah.backend.global.exception.flight.AirportNotFoundException;
+import com.noah.backend.global.exception.flight.DepartureDateException;
 import com.noah.backend.global.exception.flight.RequiredFilledException;
 import com.noah.backend.global.format.response.ErrorCode;
 import java.io.IOException;
@@ -16,6 +17,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.URI;
 import java.net.http.HttpResponse;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +40,14 @@ public class FlightService {
         if (dto.getOriginLocationCode() == null
         || dto.getDestinationLocationCode() == null
         || dto.getDepartureDate() == null) throw  new RequiredFilledException();
+
+//        // dto를 string으로 바꿨을 때 사용
+//        if (LocalDate.parse(dto.getDepartureDate()).isBefore(LocalDate.now())) {
+//            throw new DepartureDateException();
+//        }
+        if (dto.getDepartureDate().isBefore(LocalDate.now())) {
+            throw new DepartureDateException();
+        }
 
         Airport location = airportRepository.findByName(dto.getOriginLocationCode())
             .orElseThrow(() -> new AirportNotFoundException(ErrorCode.AIRPORT_NOT_FOUND_DEP));
