@@ -94,6 +94,9 @@ public enum ResponseCode {
     REVIEW_UPDATED(HttpStatus.OK, "리뷰가 성공적으로 수정되었습니다."),
     REVIEW_DELETED(HttpStatus.OK, "리뷰가 성공적으로 삭제되었습니다."),
 
+    /* 추천(Suggest) */
+    SUGGEST_FETCHED(HttpStatus.OK, "추천 정보가 성공적으로 조회되었습니다."),
+
     /* 댓글(Comment) */
     COMMENT_CREATED(HttpStatus.OK, "댓글이 성공적으로 생성되었습니다."),
     COMMENT_FETCHED(HttpStatus.OK, "댓글 정보가 성공적으로 조회되었습니다."),
@@ -111,6 +114,7 @@ public enum ResponseCode {
     INVITE_ACCEPT(HttpStatus.OK, "여행 초대를 수락했습니다."),
     INVITE_REFUSE(HttpStatus.OK, "여행 초대를 거절했습니다."),
     NOTIFICATION_SEND_SUCCESS(HttpStatus.OK, "알람이 성공적으로 보내졌습니다."),
+    NOTIFICATION_DELETED_SUCCESS(HttpStatus.OK, "알람이 성공적으로 삭제되었습니다."),
 
     /* 댓글(Comment) */
     TICKET_CREATED(HttpStatus.OK, "티켓이 성공적으로 생성되었습니다."),
