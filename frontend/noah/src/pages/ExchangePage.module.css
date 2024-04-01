@@ -113,6 +113,8 @@
     font-Weight: 700;
     font-Size: 5.7vw;
     line-Height: 140%;
+    border: 0;
+    width: 13vw;
 }
 .labelSmallBlue{
     display: flex;
@@ -123,4 +125,5 @@
     line-Height: 150%;
     align-items: center;
     color: #0075FF;
+    text-align: right
 };
