@@ -56,6 +56,7 @@ public enum ResponseCode {
     /* 환전 */
     EXCHANGE_SUCCESS(HttpStatus.OK, "환전이 성공적으로 완료되었습니다."),
     EXCHANGE_INFO_FETCHED(HttpStatus.OK, "환전 내역이 성공적으로 조회되었습니다."),
+    EXCHANGE_RATE_INFO_FETCHED(HttpStatus.OK, "환율이 성공적으로 조회되었습니다."),
     EXCHANGE_NOT_FOUND(HttpStatus.OK, "환전내역이 없습니다."),
 
     /* 은행 (Bank) */
@@ -92,6 +93,9 @@ public enum ResponseCode {
     REVIEW_FETCHED(HttpStatus.OK, "리뷰 정보가 성공적으로 조회되었습니다."),
     REVIEW_UPDATED(HttpStatus.OK, "리뷰가 성공적으로 수정되었습니다."),
     REVIEW_DELETED(HttpStatus.OK, "리뷰가 성공적으로 삭제되었습니다."),
+
+    /* 추천(Suggest) */
+    SUGGEST_FETCHED(HttpStatus.OK, "추천 정보가 성공적으로 조회되었습니다."),
 
     /* 댓글(Comment) */
     COMMENT_CREATED(HttpStatus.OK, "댓글이 성공적으로 생성되었습니다."),

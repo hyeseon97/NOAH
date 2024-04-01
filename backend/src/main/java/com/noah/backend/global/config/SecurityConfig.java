@@ -40,29 +40,30 @@ public class SecurityConfig {
         ;
 
         security
-                .authorizeHttpRequests((authorize ->
-                {
-                    authorize.requestMatchers(
-                            "/api-docs/**",
-                            "/v2/api-docs/**",
-                            "/v3/api-docs/**",
-                            "/webjars/**",
-                            "/swagger/**",
-                            "/swagger-ui/**",
-                            "/swagger-config/**",
-                            "/swagger-resources/**",
-                            "/api/v1/member",
-                            "/api/v1/member/social",
-                            "/api/v1/member/login/**",
-                            "/api/v1/member/nickname/**",
-                            "/api/v1/member/email/**",
-                            "/api/v1/member/password-reset",
-                            "/ws/**",
-                            "/pub/**",
-                            "/sub/**"
-                    ).permitAll();
-                    authorize.anyRequest().authenticated();
-                }))
+            .authorizeHttpRequests((authorize ->
+            {
+                authorize.requestMatchers(
+                    "/api-docs/**",
+                    "/v2/api-docs/**",
+                    "/v3/api-docs/**",
+                    "/webjars/**",
+                    "/swagger/**",
+                    "/swagger-ui/**",
+                    "/swagger-config/**",
+                    "/swagger-resources/**",
+                    "/api/v1/member",
+                    "/api/v1/member/social",
+                    "/api/v1/member/login/**",
+                    "/api/v1/member/nickname/**",
+                    "/api/v1/member/email/**",
+                    "/api/v1/member/password-reset",
+                    "api/v1/exchange/rateinfo",
+                    "/ws/**",
+                    "/pub/**",
+                    "/sub/**"
+                ).permitAll();
+                authorize.anyRequest().authenticated();
+            }))
         ;
 
         security

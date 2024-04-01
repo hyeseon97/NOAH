@@ -3,6 +3,7 @@ package com.noah.backend.domain.review.entity;
 import com.noah.backend.domain.base.BaseEntity;
 import com.noah.backend.domain.comment.entity.Comment;
 import com.noah.backend.domain.image.entity.Image;
+import com.noah.backend.domain.travel.entity.Travel;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -58,5 +59,9 @@ public class Review extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "review", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<Comment> commentList = new ArrayList<>();
+
+    @OneToOne
+    @JoinColumn(name = "travel_id")
+    private Travel travel;
 
 }

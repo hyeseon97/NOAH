@@ -83,7 +83,7 @@ public class GroupAccountServiceImpl implements GroupAccountService {
                     .build();
             int amount = bankService.bankAccountBalanceCheck(bankAccountBalanceCheckReqDto).getAccountBalance();
             account.setAmount(amount);
-            accountRepository.save(account);
+//            accountRepository.save(account);
         }
         // 통장정보 반환
         return groupAccountRepository.getGroupAccountListByMemberId(memberId).orElseThrow(GroupAccountNotFoundException::new);

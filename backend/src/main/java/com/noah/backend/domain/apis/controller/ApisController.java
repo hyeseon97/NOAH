@@ -19,6 +19,7 @@ import com.noah.backend.domain.apis.service.FlightService;
 import com.noah.backend.domain.apis.service.ForeignCurrencyService;
 import com.noah.backend.global.exception.flight.RequiredFilledException;
 import com.noah.backend.global.format.code.ApiResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -50,9 +51,10 @@ public class ApisController {
     private final ApiResponse apiResponse;
     private final FlightService flightService;
     private final ForeignCurrencyService foreignCurrencyService;
-    private String accesstoken = "ApDniM6GfG8sUwO32AAqc224zWYF";
+    private String accesstoken = "";
 
 //    @Scheduled(fixedDelay = 1500000)
+    @Operation(summary = "아마데우스 토큰 갱신")
     private void updateAcesstoken() throws IOException, InterruptedException {
         String clientId = "OGMc8pKdyLwOtE5AvQNVQ7SpwWJmYyCi";
         String clientSecret = "KGhPd2Qsy8sG1gs9";
@@ -66,12 +68,13 @@ public class ApisController {
             .POST(BodyPublishers.ofString(requestBody))
             .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-        System.out.println(response);
+        log.info(response.toString());
         JSONObject jsonObject = new JSONObject(response.toString());
         accesstoken = jsonObject.getString("access_token");
     }
 
     @GetMapping("flight-offers")
+    @Operation(summary = "항공권 탐색")
     public ResponseEntity findFlightOffers(FlightOffersDto flightOffersDto) throws IOException, InterruptedException {
         // test code
         flightOffersDto = FlightOffersDto.builder()
@@ -91,6 +94,12 @@ public class ApisController {
         }
         log.info("jsonobject : "+jsonObject);
         return apiResponse.success(FLIGHT_OFFERS_SUCCESS, jsonObject);
+    }
+
+    @Operation(summary = "환율 정보", description = "가장 최신의 환율 정보를 db에서 가져옴")
+    @GetMapping("currency/exchage-rate")
+    public CurrencyDto getExchangeRate() {
+        return foreignCurrencyService.getExchangeRate();
     }
 
     @GetMapping("/mock/flight-offers")
@@ -261,11 +270,6 @@ public class ApisController {
             return apiResponse.fail(REQUIRED_FIELD_FAILED);
         }
         return apiResponse.success(AIRLINE_ROUTES_SUCCESS, jsonObject.toString());
-    }
-
-    @GetMapping("currency/exchage-rate")
-    public CurrencyDto getExchangeRate() {
-        return foreignCurrencyService.getExchangeRate();
     }
 
 // 22.311492, 114.172291

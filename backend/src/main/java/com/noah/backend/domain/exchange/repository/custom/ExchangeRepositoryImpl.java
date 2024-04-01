@@ -2,6 +2,7 @@ package com.noah.backend.domain.exchange.repository.custom;
 
 import com.noah.backend.domain.apis.dto.CurrencyDto;
 import com.noah.backend.domain.exchange.dto.responseDto.TargetExchangeRate;
+import com.noah.backend.domain.exchange.entity.Exchange;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -32,15 +33,24 @@ public class ExchangeRepositoryImpl implements ExchangeRepositoryCustom {
 
     @Override
     public Optional<List<TargetExchangeRate>> getTargetExchangeRateTravel(CurrencyDto currency) {
-        return Optional.ofNullable(query.select(Projections.constructor(TargetExchangeRate.class, travel.id, travel.title, memberTravel.member.id, exchange.currency, exchange.exchangeRate))
+        return Optional.ofNullable(query.select(Projections.constructor(TargetExchangeRate.class, travel.id, travel.title, memberTravel.member.id, exchange.targetExchangeCurrency, exchange.targetExchangeRate))
                                        .from(exchange)
                                        .leftJoin(groupAccount).on(exchange.groupAccount.id.eq(groupAccount.id))
                                        .leftJoin(travel).on(groupAccount.travel.id.eq(travel.id))
                                        .leftJoin(memberTravel).on(memberTravel.travel.id.eq(travel.id))
-                                       .where((exchange.currency.eq(0).and(exchange.exchangeRate.loe(currency.getBuyDollar())))
-                                                  .or((exchange.currency.eq(1).and(exchange.exchangeRate.loe(currency.getBuyYen()))))
-                                                  .or((exchange.currency.eq(2).and(exchange.exchangeRate.loe(currency.getBuyYuan()))))
-                                                  .or((exchange.currency.eq(3).and(exchange.exchangeRate.loe(currency.getBuyEuro())))))
+                                       .where((exchange.currency.eq("USD").and(exchange.targetExchangeRate.loe(currency.getBuyDollar())))
+                                                  .or((exchange.currency.eq("JPY").and(exchange.targetExchangeRate.loe(currency.getBuyYen()))))
+                                                  .or((exchange.currency.eq("CNY").and(exchange.targetExchangeRate.loe(currency.getBuyYuan()))))
+                                                  .or((exchange.currency.eq("EUR").and(exchange.targetExchangeRate.loe(currency.getBuyEuro())))))
                                        .fetch());
+    }
+
+    @Override
+    public Optional<Exchange> getExchangeByTravelId(Long travelId) {
+        return Optional.ofNullable(query.select(exchange)
+                                       .from(exchange)
+                                       .leftJoin(groupAccount).on(exchange.groupAccount.id.eq(groupAccount.id))
+                                       .where(groupAccount.travel.id.eq(travelId))
+                                       .fetchOne());
     }
 }

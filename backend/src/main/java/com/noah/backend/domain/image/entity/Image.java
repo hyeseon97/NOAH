@@ -25,10 +25,12 @@ public class Image extends BaseEntity {
     @Column(name = "url")
     private String url;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id", nullable = true)
     private Review review;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "detail_plan_id", nullable = true)
     private DetailPlan detailPlan;

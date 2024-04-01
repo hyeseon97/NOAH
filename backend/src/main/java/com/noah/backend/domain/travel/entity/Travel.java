@@ -5,6 +5,7 @@ import com.noah.backend.domain.base.BaseEntity;
 import com.noah.backend.domain.memberTravel.entity.MemberTravel;
 import com.noah.backend.domain.notification.entity.Notification;
 import com.noah.backend.domain.plan.entity.Plan;
+import com.noah.backend.domain.review.entity.Review;
 import com.noah.backend.domain.ticket.entity.Ticket;
 import jakarta.persistence.*;
 import lombok.*;
@@ -47,5 +48,8 @@ public class Travel extends BaseEntity {
 
 	@OneToMany(mappedBy = "travel", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
 	private List<Ticket> ticketList = new ArrayList<>();
+
+	@OneToOne(mappedBy = "travel", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+	private Review review;
 
 }

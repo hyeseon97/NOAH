@@ -14,20 +14,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReviewPostDto {
 
-//    private Long review_id;
-    @Setter
-    private Integer expense;
-    @Setter
-    private String country;
-    @Setter
-    private Integer people;
-    @Setter
-    private Date start_date;
-    @Setter
-    private Date end_date;
-//    @Setter
-//    private List<CommentListGetDto> commentList;
-//    @Setter
-//    private List<ImageGetDto> imageList;
+    private Long travelId;
+    private List<Long> imageIdList;
 
 }

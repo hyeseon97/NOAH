@@ -1,12 +1,14 @@
 package com.noah.backend.global.exception.image;
 
 import com.noah.backend.global.format.response.ErrorCode;
+import lombok.Getter;
 
-public class ImageNotFound extends RuntimeException {
+@Getter
+public class ImageNotFoundException extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public ImageNotFound( ) {
+    public ImageNotFoundException( ) {
         this.errorCode = ErrorCode.IMAGE_NOT_FOUND;
     }
 }
