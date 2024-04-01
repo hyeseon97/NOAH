@@ -217,8 +217,8 @@ public class GroupAccountServiceImpl implements GroupAccountService {
                 .transactionBalance(amount)
                 .withdrawalBankCode(depositBankCode)
                 .withdrawalAccountNo(account.getAccountNumber())
-                .depositTransactionSummary("D:"+ userName + "/"+ "B" + amount)
-                .withdrawalTransactionSummary("W:" + userName + "/"+"B" + amount)
+                .depositTransactionSummary(userName)
+                .withdrawalTransactionSummary(userName)
                 .build();
         bankService.bankAccountTransfer(bankAccountTransferReqDto);
 

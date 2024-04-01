@@ -151,6 +151,17 @@ public class TradeServiceImpl implements TradeService {
                         .amount(bankTrade.getAmount())
                         .account(account)
                         .build();
+
+
+                Member usedMember = null;
+                if(bankTrade.getType() == 1){
+                    usedMember = memberRepository.findByNameAndAccountId(bankTrade.getName(), account.getId()).orElse(null);
+                }
+
+                if(usedMember != null){
+                    trade.setMember(usedMember);
+                }
+
                 tradeRepository.save(trade);
 
                 // 잔액 최신화 부분
