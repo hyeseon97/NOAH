@@ -29,9 +29,10 @@ public class ForeignCurrencyService {
     public CurrencyDto getExchangeRate() {
         return currencyRepository.getOne();
     }
-    @Scheduled(fixedRate = 5000) // 테스트용 5초마다
+//    @Scheduled(fixedRate = 5000) // 테스트용 5초마다
 //    @Scheduled(cron = "0 * * * * *") // 매 분의 0초마다 실행
-    @Scheduled(cron = "0 */2 * * * *") // 매 짝수 분에 실행됨
+//    @Scheduled(cron = "0 */2 * * * *") // 매 짝수 분에 실행됨
+    @Scheduled(cron = "0 0 11 ? * *") // 매일 오전 11시에 실행
     public void saveExchangeRate() throws IOException, InterruptedException {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmm");
