@@ -78,7 +78,7 @@ export default function TripPage() {
       return;
     }
     if (menu === "소비관리") {
-      navigate("/trip/3/spendingmanagement");
+      navigate(`/trip/${travelId}/spendingmanagement`);
       return;
     }
     if (menu === "인원관리") {
