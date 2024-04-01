@@ -16,6 +16,9 @@ export default function HomePage() {
   const [trips, setTrips] = useState([]); // 여행 데이터 저장
   const [isLoading, setIsLoading] = useState(false);
   const [exchangeRate, setExchangeRate] = useState([]);
+  const [krwAmount, setKrwAmount] = useState();
+  const [foreignAmount, setForeignAmount] = useState("1");
+  const [currency, setCurrency] = useState("USD");
 
   const handleNotificationClick = () => {
     if (localStorage.getItem("accessToken") === null) {
@@ -166,7 +169,15 @@ export default function HomePage() {
       </div>
 
       <div className={styles.exchangeContainer}>
-        <Exchange exchangeRateInfo={exchangeRate} />
+        <Exchange
+          exchangeRateInfo={exchangeRate}
+          krwAmount={krwAmount}
+          foreignAmount={foreignAmount}
+          setKrwAmount={setKrwAmount}
+          setForeignAmount={setForeignAmount}
+          currency={currency}
+          setCurrency={setCurrency}
+        />
       </div>
       <div className={styles.paragraphSmall}>
         {formatTime(new Date())} 환율 기준

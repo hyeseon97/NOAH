@@ -3,14 +3,23 @@ import Header from "./../components/common/Header";
 import styles from "./ExchangePage.module.css";
 import ExchangeButton from "../components/common/ExchangeButton";
 import DropdownSmall from "../components/common/DropdownSmall";
-import { getExchangeAmount, getExchangeRate } from "../api/exchange/Exchange";
+import {
+  exchange,
+  getExchangeAmount,
+  getExchangeRate,
+} from "../api/exchange/Exchange";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import showToast from "./../components/common/Toast";
 export default function ExchangePage() {
   const [exchangeInfo, setExchangeInfo] = useState([]);
   const [exchangeRate, setExchangeRate] = useState([]);
   const [symbol, setSymbol] = useState("");
   const { travelId } = useParams();
+  const [krwAmount, setKrwAmount] = useState();
+  const [foreignAmount, setForeignAmount] = useState("1");
+  const [currency, setCurrency] = useState("USD");
+  const [warningText, setWarningText] = useState("");
 
   function formatTime(date) {
     const hours = date.getHours();
@@ -24,13 +33,22 @@ export default function ExchangePage() {
     return `${formattedHours}:${formattedMinutes}`;
   }
 
-  const handleExchangeClick = () => {
+  const handleExchangeClick = async () => {
     const object = {
       travelId: travelId,
-      // currency:
-      // amount:
-      // exchangeAmount:
+      currency: currency,
+      amount: Math.ceil(krwAmount),
+      exchangeAmount: foreignAmount,
     };
+    console.log(object);
+    const res = await exchange(object);
+    if (res.status === "SUCCESS") {
+      showToast("환전이 완료되었습니다.");
+      setWarningText("");
+      window.location.reload();
+    } else {
+      setWarningText("계좌 잔액이 부족합니다.");
+    }
     // const res = exchange();
   };
 
@@ -88,14 +106,25 @@ export default function ExchangePage() {
           </div>
           <div className={styles.paragraphSmallTop}>현재까지 환전한 금액</div>
         </div>
-        <Exchange exchangeRateInfo={exchangeRate} />
+        <Exchange
+          exchangeRateInfo={exchangeRate}
+          krwAmount={krwAmount}
+          foreignAmount={foreignAmount}
+          setKrwAmount={setKrwAmount}
+          setForeignAmount={setForeignAmount}
+          currency={currency}
+          setCurrency={setCurrency}
+        />
         <div className={styles.paragraphSmallExchangeRight}>
           {formatTime(new Date())} 환율 기준
         </div>
-        <ExchangeButton
-          buttonText="환전"
-          warningText="계좌에 잔액이 부족합니다."
-        />
+        <div
+          onClick={() => {
+            handleExchangeClick();
+          }}
+        >
+          <ExchangeButton buttonText="환전" warningText={warningText} />
+        </div>
         <div className={styles.notificationContainer}>
           <div className={styles.notificationContainerTop}>
             <div className={styles.labelMedium}>환전알림</div>
