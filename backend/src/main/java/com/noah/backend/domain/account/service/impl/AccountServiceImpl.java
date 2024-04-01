@@ -2,6 +2,7 @@ package com.noah.backend.domain.account.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.noah.backend.domain.account.dto.requestDto.AccountPostDto;
+import com.noah.backend.domain.account.dto.responseDto.AccountIncludeIsAutoTransfer;
 import com.noah.backend.domain.account.dto.responseDto.AccountInfoDto;
 import com.noah.backend.domain.account.entity.Account;
 import com.noah.backend.domain.account.repository.AccountRepository;
@@ -11,6 +12,8 @@ import com.noah.backend.domain.bank.dto.requestDto.BankAccountBalanceCheckReqDto
 import com.noah.backend.domain.bank.service.BankService;
 import com.noah.backend.domain.member.entity.Member;
 import com.noah.backend.domain.member.repository.MemberRepository;
+import com.noah.backend.domain.memberTravel.Repository.MemberTravelRepository;
+import com.noah.backend.domain.memberTravel.entity.MemberTravel;
 import com.noah.backend.domain.travel.entity.Travel;
 import com.noah.backend.domain.travel.repository.TravelRepository;
 import com.noah.backend.global.exception.account.AccountNotFoundException;
@@ -34,6 +37,7 @@ public class AccountServiceImpl implements AccountService {
     private final TravelRepository travelRepository;
     private final MemberRepository memberRepository;
     private final BankService bankService;
+    private final MemberTravelRepository memberTravelRepository;
 
     @Transactional
     @Override
@@ -89,5 +93,20 @@ public class AccountServiceImpl implements AccountService {
         Account account = accountRepository.findById(accountUpdateDto.getAccountId()).orElseThrow(AccountNotFoundException::new);
         account.setAmount(accountUpdateDto.getAmount());
         return account.getId();
+    }
+
+    @Override
+    public List<AccountIncludeIsAutoTransfer> getAccountListIncludeIsAutoTransfer(String email, Long travelId) {
+
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        List<AccountIncludeIsAutoTransfer> list = accountRepository.getAccountListIncludeIsAutoTransfer(member.getId(), travelId).orElse(null);
+        for(int i = 0;i<list.size();i++){
+            MemberTravel memberTravel = memberTravelRepository.isAutoTransfer(member.getId(), travelId, list.get(i).getAccountId()).orElse(null);
+            if(memberTravel != null){
+                list.get(i).setAutoTransfer(true);
+            }
+        }
+
+        return list;
     }
 }
