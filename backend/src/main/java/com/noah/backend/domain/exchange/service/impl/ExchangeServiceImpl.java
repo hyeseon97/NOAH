@@ -84,7 +84,7 @@ public class ExchangeServiceImpl implements ExchangeService {
                 .bankCode(bankCode)
                 .accountNo(account.getAccountNumber())
                 .transactionBalance(amount)
-                .transactionSummary("E" + currencyName + "M:" + amount)
+                .transactionSummary(currencyName + " 환전")
                 .build();
         bankService.bankAccountWithdraw(bankAccountWithdrawReqDto);
 
