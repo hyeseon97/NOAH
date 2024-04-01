@@ -53,7 +53,7 @@ public class DetailPlanServiceImpl implements DetailPlanService {
     }
 
     @Override
-    public Long createDetailPlan(String email,Long planId, DetailPlanPostDto detailPlan) {
+    public Long createDetailPlan(String email, Long planId, DetailPlanPostDto detailPlan) {
 
         Plan plan = planRepository.findById(planId).orElseThrow(PlanNotFound::new);
 

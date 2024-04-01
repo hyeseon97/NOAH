@@ -22,14 +22,22 @@ export async function getDetailPlanList(object) {
 }
 
 /* 상세계획 목록 조회 */
-export async function createDetailPlan(object){
-  try{
-    const res = axiosAPI.post(commonUrl, object);
-    return (await res).data;
+export async function createDetailPlan(planId, object){
+  const urlWithQueryParam = `${commonUrl}?planId=${planId}`;
+  try {
+    console.log(object)
+    console.log(planId + "test");
+    const res = await axiosAPI.post(urlWithQueryParam, object, {
+      // headers: {
+      //   'Content-Type': 'application/json',
+      // }
+    });
+    return res.data;
   } catch (error) {
     throw error;
   }
 }
+
 
 /* 상세 계획 수정 */
 export async function updateDetailPlan(detailPlanId, object) {

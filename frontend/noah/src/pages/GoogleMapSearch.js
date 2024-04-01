@@ -10,7 +10,7 @@ import styles from "./GoogleMapSearch.module.css";
 import Rating from "react-rating";
 import { FaStar } from "react-icons/fa";
 import { useParams } from "react-router-dom";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 
 import {
   getDetailPlan,
@@ -444,13 +444,11 @@ export default function GoogleMapSearch() {
     }, 1000);
     // console.log(googleMapApiKey);
     return () => clearTimeout(timeoutId);
-
-
   }, []);
 
   useEffect(() => {
-    console.log(planId, day)
-  }, [])
+    console.log(planId, day);
+  }, []);
 
   const handleSelect = (placeId, event) => {
     event.preventDefault(); // 추가: 클릭 이벤트의 기본 동작 방지
@@ -501,22 +499,30 @@ export default function GoogleMapSearch() {
     }
   }, [mapRef.current]);
 
-
   const handleMapLoad = (map) => {
     mapRef.current = map;
     // getCurrentLocation();
   };
 
-  const createdetail = (name, formatted_address ,lat, lng, rating ) => {
+  const createdetail = async (name, formatted_address, lat, lng, rating) => {
+    // const intday = parseInt(day, 10); 
+    // console.log("Day value:", day);
     const object = {
-      place : name,
+      day: day, 
+      sequence: 1,
+      place: name,
       pinX: lat,
       pinY: lng,
       memo: formatted_address,
       time: rating,
+    };
+    try {
+      const response = await createDetailPlan(planId, object);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
     }
-    createDetailPlan(object, planId);
-  }
+  };
 
   return (
     <>
@@ -582,7 +588,19 @@ export default function GoogleMapSearch() {
               <div className={styles.placeNameStyle}>
                 {outPlace.name} {outPlace.types[0]}
               </div>
-              <div onClick={() => {createdetail(outPlace.name, outPlace.formatted_address ,outPlace.lat, outPlace.lng, outPlace.rating )}}>계획 추가</div>
+              <div
+                onClick={() => {
+                  createdetail(
+                    outPlace.name,
+                    outPlace.vicinity,
+                    outPlace.lat,
+                    outPlace.lng,
+                    outPlace.rating
+                  );
+                }}
+              >
+                계획 추가
+              </div>
               <div className={styles.ratingStyle}>
                 {outPlace.rating && (
                   <>
