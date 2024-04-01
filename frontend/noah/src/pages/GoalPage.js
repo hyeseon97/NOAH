@@ -22,9 +22,7 @@ export default function GoalPage() {
   const [editModeTargetDate, setEditModeTargetDate] = useState(false);
   const [editModePerAmount, setEditModePerAmount] = useState(false);
   const [editModePaymentDate, setEditModePaymentDate] = useState(false);
-  const [newTargetAmount, setNewTargetAmount] = useState(
-    groupAccountInfo.targetAmount
-  );
+  const [newTargetAmount, setNewTargetAmount] = useState();
   const [newTargetDate, setNewTargetDate] = useState(
     groupAccountInfo.targetDate
   );
@@ -66,8 +64,8 @@ export default function GoalPage() {
       const res = await updateGroupAccountInfo(updatedInfo); // API 호출로 정보 업데이트
       if (res.status === "SUCCESS") {
         // 상태 업데이트로 UI 변경
-        setGroupAccountInfo((prev) => ({
-          ...prev,
+        console.log(newTargetAmount);
+        setGroupAccountInfo(() => ({
           targetAmount: newTargetAmount,
           targetDate: newTargetDate,
           perAmount: newPerAmount,
@@ -95,6 +93,10 @@ export default function GoalPage() {
             setGroupAccountInfo(response.data);
             const dateString = String(response.data.targetDate);
             setDate(formatDate(dateString));
+            setNewTargetAmount(response.data.targetAmount);
+            setNewTargetDate(response.data.targetDate);
+            setNewpaymentDate(response.data.paymentDate);
+            setNewperAmount(response.data.perAmount);
           }
         }
       } catch (error) {
@@ -155,7 +157,7 @@ export default function GoalPage() {
                     onChange={(e) => setNewTargetAmount(e.target.value)}
                     className={styles.inputBox}
                     placeholder={new Intl.NumberFormat("ko-KR").format(
-                      groupAccountInfo.targetAmount
+                      newTargetAmount
                     )}
                   />
                 </>
@@ -166,10 +168,7 @@ export default function GoalPage() {
                     onClick={handleEditTargetAmount}
                   />
                   <div className={styles.labelMedium}>
-                    {new Intl.NumberFormat("ko-KR").format(
-                      groupAccountInfo.targetAmount
-                    )}{" "}
-                    원
+                    {new Intl.NumberFormat("ko-KR").format(newTargetAmount)} 원
                   </div>
                 </>
               )}
@@ -213,7 +212,7 @@ export default function GoalPage() {
                     onChange={(e) => setNewperAmount(e.target.value)}
                     className={styles.inputBox}
                     placeholder={new Intl.NumberFormat("ko-KR").format(
-                      groupAccountInfo.perAmount
+                      newPerAmount
                     )}
                     일
                   />
@@ -222,10 +221,7 @@ export default function GoalPage() {
                 <>
                   <Edit className={styles.icon} onClick={handleEditPerAmount} />
                   <div className={styles.labelMedium}>
-                    {new Intl.NumberFormat("ko-KR").format(
-                      groupAccountInfo.perAmount
-                    )}{" "}
-                    원
+                    {new Intl.NumberFormat("ko-KR").format(newPerAmount)} 원
                   </div>
                 </>
               )}
