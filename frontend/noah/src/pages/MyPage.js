@@ -14,13 +14,17 @@ export default function MyPage() {
 
   const navigate = useNavigate();
 
-  const handleTripHistoryClick = () => {};
-
-  const handleMyAccountClick = () => {
-    navigate("/");
+  const handleTripHistoryClick = () => {
+    navigate("/travelhistory");
   };
 
-  const handleAutomaticSettingClick = () => {};
+  const handleMyAccountClick = () => {
+    navigate("/myaccount");
+  };
+
+  const handleAutomaticSettingClick = () => {
+    navigate("/automaticwithdrawalsetting");
+  };
 
   const handleLogoutClick = async () => {
     try {

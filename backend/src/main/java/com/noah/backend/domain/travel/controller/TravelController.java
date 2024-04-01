@@ -3,6 +3,7 @@ package com.noah.backend.domain.travel.controller;
 import com.noah.backend.domain.member.service.member.MemberService;
 import com.noah.backend.domain.memberTravel.Service.MemberTravelService;
 import com.noah.backend.domain.memberTravel.dto.Request.MemberTravelInviteDto;
+import com.noah.backend.domain.travel.dto.responseDto.MyTravelGetDto;
 import com.noah.backend.domain.travel.dto.responseDto.TravelGetDto;
 import com.noah.backend.domain.travel.dto.responseDto.TravelGetDtoJun;
 import com.noah.backend.domain.travel.dto.requestDto.TravelGetListDto;
@@ -33,17 +34,24 @@ public class TravelController {
     private final MemberService memberService;
     private final MemberTravelService memberTravelService;
 
-//    @Operation(summary = "여행 전체 조회", description = "여행 전체 목록 조회")
+    //    @Operation(summary = "여행 전체 조회", description = "여행 전체 목록 조회")
 //    @GetMapping("/allTravel")
 //    public ResponseEntity<?> getTravelList(){
 //        List<TravelGetListDto> travelList = travelService.getTravelList();
 //
 //        return response.success(ResponseCode.TRAVEL_INFO_FETCHED, travelList);
 //    }
+    @Operation(summary = "마이페이지에서 모든 여행 조회", description = "목표금액 그래프, 날짜별 장소 리스트(사진포함) 조회하는 페이지 요청용")
+    @GetMapping()
+    public ResponseEntity<?> getTravelAll(@Parameter(hidden = true) Authentication authentication){
+        List<MyTravelGetDto> result = travelService.getTravelAll(authentication.getName());
+        return response.success(ResponseCode.TRAVEL_INFO_FETCHED, result);
+    }
 
     @Operation(summary = "여행 선택 조회", description = "목표금액 그래프, 날짜별 장소 리스트(사진포함) 조회하는 페이지 요청용")
     @GetMapping("{travelId}")
-    public ResponseEntity<?> getTravelSelect(@Parameter(hidden = true) Authentication authentication, @PathVariable(value = "travelId") Long travelId){
+    public ResponseEntity<?> getTravelSelect(@Parameter(hidden = true) Authentication authentication,
+                                             @PathVariable(value = "travelId") Long travelId) {
         TravelGetDto selectTravel = travelService.getTravelSelect(authentication.getName(), travelId);
         return response.success(ResponseCode.TRAVEL_INFO_FETCHED, selectTravel);
     }
@@ -60,7 +68,8 @@ public class TravelController {
 
     @Operation(summary = "여행 생성", description = "여행 생성 기능")
     @PostMapping
-    public ResponseEntity<?> createTravel(@Parameter(hidden = true) Authentication authentication, @RequestBody TravelPostDto travelPostDto){
+    public ResponseEntity<?> createTravel(@Parameter(hidden = true) Authentication authentication,
+                                          @RequestBody TravelPostDto travelPostDto) {
 
         Long memberId = memberService.searchMember(authentication).getMemberId();
 
@@ -71,7 +80,8 @@ public class TravelController {
 
     @Operation(summary = "여행 정보 수정", description = "여행 정보 수정 기능 / travelId 필요")
     @PutMapping()
-    public ResponseEntity<?> updateTravel(@Parameter(hidden = true) Authentication authentication, @RequestBody TravelUpdateDto travelUpdateDto){
+    public ResponseEntity<?> updateTravel(@Parameter(hidden = true) Authentication authentication,
+                                          @RequestBody TravelUpdateDto travelUpdateDto) {
 
         Long updateTravelId = travelService.updateTravel(authentication.getName(), travelUpdateDto);
 
@@ -80,7 +90,8 @@ public class TravelController {
 
     @Operation(summary = "여행 삭제", description = "여행 선택 삭제 / TravelID 필요")
     @DeleteMapping("{travelId}")
-    public ResponseEntity<?> deleteTravel(@Parameter(hidden = true) Authentication authentication, @PathVariable(value = "travelId") Long travelId){
+    public ResponseEntity<?> deleteTravel(@Parameter(hidden = true) Authentication authentication,
+                                          @PathVariable(value = "travelId") Long travelId) {
         travelService.deleteTravel(authentication.getName(), travelId);
 
         return response.success(ResponseCode.TRAVEL_DELETED);
@@ -88,7 +99,8 @@ public class TravelController {
 
     @Operation(summary = "여행 멤버 초대 요청", description = "여행에 멤버 초대 요청 보내기")
     @PostMapping("/invite")
-    public ResponseEntity<?> invite(@Parameter(hidden = true) Authentication authentication, @RequestBody MemberTravelInviteDto memberTravelInviteDto){
+    public ResponseEntity<?> invite(@Parameter(hidden = true) Authentication authentication,
+                                    @RequestBody MemberTravelInviteDto memberTravelInviteDto) {
         Long memberTravelId = memberTravelService.inviteMember(authentication.getName(), memberTravelInviteDto);
         return response.success(ResponseCode.TRAVEL_INVITE_SUCCESS, memberTravelId);
     }

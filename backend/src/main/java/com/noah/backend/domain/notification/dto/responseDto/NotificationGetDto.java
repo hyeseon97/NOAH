@@ -1,5 +1,6 @@
 package com.noah.backend.domain.notification.dto.responseDto;
 
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,9 +14,12 @@ import lombok.Setter;
 @NoArgsConstructor
 public class NotificationGetDto {
 
-    private Long id;
+    private Long notificationId;
     private int type;
     private Long travelId;
     private String travelTitle;
+    private String currency;
+    private Double exchangeRate;
+    private LocalDateTime createAt;
 
 }

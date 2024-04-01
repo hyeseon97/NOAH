@@ -11,12 +11,11 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TargetExchangeRate {
+public class ExchangeRateGetDto {
 
-    private Long travelId;
-    private String travelTitle;
-    private Long memberId;
-    private String targetExchangeCurrency;
-    private Double targetExchangeRate;
+    private Double USD;
+    private Double JPY;
+    private Double CNY;
+    private Double EUR;
 
 }
