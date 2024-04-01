@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class NotificationGetDto {
 
-    private Long id;
+    private Long notificationId;
     private int type;
     private Long travelId;
     private String travelTitle;
