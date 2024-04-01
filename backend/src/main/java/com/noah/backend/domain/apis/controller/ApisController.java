@@ -15,6 +15,7 @@ import com.noah.backend.domain.apis.dto.AirportRouteDto;
 import com.noah.backend.domain.apis.dto.CurrencyDto;
 import com.noah.backend.domain.apis.dto.FlightOffersDto;
 import com.noah.backend.domain.apis.dto.FlightPriceDto;
+import com.noah.backend.domain.apis.dto.ResponseFlightOffersDto;
 import com.noah.backend.domain.apis.service.FlightService;
 import com.noah.backend.domain.apis.service.ForeignCurrencyService;
 import com.noah.backend.global.exception.flight.RequiredFilledException;
@@ -107,16 +108,18 @@ public class ApisController {
 //            .departureDate(LocalDate.of(2024, 5, 12).toString())
 //            .build();
 //        //
-        JSONObject jsonObject;
+        List<ResponseFlightOffersDto> list;
         try {
-            jsonObject = flightService.findFlightOffers(accesstoken, flightOffersDto);
+            list = flightService.findFlightOffers(accesstoken, flightOffersDto);
         }
         catch (RequiredFilledException e) {
             e.printStackTrace();
             return apiResponse.fail(REQUIRED_FIELD_FAILED);
         }
-        log.info("jsonobject : "+jsonObject);
-        return apiResponse.success(FLIGHT_OFFERS_SUCCESS, jsonObject);
+        for (ResponseFlightOffersDto dto : list) {
+            log.info(dto.toString());
+        }
+        return apiResponse.success(FLIGHT_OFFERS_SUCCESS, list);
     }
 
     @Operation(summary = "환율 정보", description = "가장 최신의 환율 정보를 db에서 가져옴")

@@ -1,11 +1,11 @@
 package com.noah.backend.domain.apis.service;
 
 import com.noah.backend.domain.apis.dto.AirlineRouteDto;
-import com.noah.backend.domain.apis.dto.AirportDto;
 import com.noah.backend.domain.apis.dto.AirportNearestDto;
 import com.noah.backend.domain.apis.dto.AirportRouteDto;
 import com.noah.backend.domain.apis.dto.FlightOffersDto;
 import com.noah.backend.domain.apis.dto.FlightPriceDto;
+import com.noah.backend.domain.apis.dto.ResponseFlightOffersDto;
 import com.noah.backend.domain.apis.entity.Airport;
 import com.noah.backend.domain.apis.repository.AirportRepository;
 import com.noah.backend.global.exception.flight.AirportNotFoundException;
@@ -16,6 +16,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.URI;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,8 +30,9 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class FlightService {
     private final AirportRepository airportRepository;
+    private HashMap<String, String> map;
 
-    public JSONObject findFlightOffers(String accessToken, FlightOffersDto dto)
+    public List<ResponseFlightOffersDto> findFlightOffers(String accessToken, FlightOffersDto dto)
         throws IOException, InterruptedException {
         if (dto.getOriginLocationCode() == null
         || dto.getDestinationLocationCode() == null
@@ -57,17 +60,32 @@ public class FlightService {
             .header("Authorization", "Bearer "+accessToken)
             .build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-//        return new JSONObject(response.body());
 
 //         json 데이터 조작하는 부분, 나중에 필요하면 수정해서 반영하기
-        JSONObject jsonObject = new JSONObject(response.body());
-        JSONArray jsonArray = jsonObject.getJSONArray("data");
-        int cnt = 0;
-        JSONObject result = new JSONObject();
-        for (Object o : jsonArray) {
-            result.append(cnt++ +"", o);
+        List<ResponseFlightOffersDto> list = new ArrayList<>();
+        JSONObject jsonResponse = new JSONObject(response.body());
+        map = new HashMap<>();
+        JSONObject carri = jsonResponse.getJSONObject("dictionaries").getJSONObject("carriers");
+        for (String key : carri.keySet()) {
+            String value = carri.getString(key);
+            map.put(key, value);
         }
-        return result;
+        JSONArray jsonArray = jsonResponse.getJSONArray("data");
+        for (Object object : jsonArray) {
+            JSONObject jsonObject = new JSONObject(object.toString());
+            JSONObject airline = jsonObject.getJSONArray("itineraries").getJSONObject(0).getJSONArray("segments").getJSONObject(0);
+            ResponseFlightOffersDto responseFlightOffersDto = ResponseFlightOffersDto.builder()
+                .d_airport(jsonObject.getJSONArray("itineraries").getJSONObject(0).getJSONArray("segments").getJSONObject(0).getJSONObject("departure").get("iataCode").toString())
+                .a_airport(jsonObject.getJSONArray("itineraries").getJSONObject(0).getJSONArray("segments").getJSONObject(0).getJSONObject("arrival").get("iataCode").toString())
+                .d_time(jsonObject.getJSONArray("itineraries").getJSONObject(0).getJSONArray("segments").getJSONObject(0).getJSONObject("departure").get("at").toString())
+                .a_time(jsonObject.getJSONArray("itineraries").getJSONObject(0).getJSONArray("segments").getJSONObject(0).getJSONObject("arrival").get("at").toString())
+                .price(Double.parseDouble((jsonObject.getJSONObject("price").get("total").toString())))
+                .airLine(map.get(airline.get("carrierCode").toString()))
+                .code(airline.get("carrierCode")+airline.get("number").toString())
+                .build();
+            list.add(responseFlightOffersDto);
+        }
+        return list;
     }
 //    public JSONObject getFlightOffers(String accessToken, FlightOffersDto dto)
 //        throws IOException, InterruptedException {
