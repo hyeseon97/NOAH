@@ -1,4 +1,10 @@
-export default function MyAccount({ type, accountNumber, sum, onClick }) {
+export default function MyAccount({
+  type,
+  accountNumber,
+  sum,
+  onClick,
+  from = "transfer",
+}) {
   const typeMapping = {
     한국은행: "한국",
     기업은행: "기업",
@@ -69,7 +75,7 @@ export default function MyAccount({ type, accountNumber, sum, onClick }) {
             {new Intl.NumberFormat("ko-KR").format(sum)} 원
           </div>
         </div>
-        <div style={labelMedium}>선택</div>
+        {from === "transfer" && <div style={labelMedium}>선택</div>}
       </div>
       <div style={line}></div>
     </>

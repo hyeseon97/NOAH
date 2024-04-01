@@ -23,6 +23,7 @@ import GoogleMapSearch from "./pages/GoogleMapSearch";
 import TestGoogleMap from "./pages/TestGoogleMap";
 import PaymentPage from "./pages/PaymentPage";
 import PlaneSearchPage from "./pages/PlaneSearchPage";
+import PlanningTestPage from "./pages/PlanningTestPage";
 import MyAccount from "./components/common/MyAccount";
 import MyAccountPage from "./pages/MyAccountPage";
 
