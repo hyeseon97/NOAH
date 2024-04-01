@@ -7,6 +7,7 @@ import {
   exchange,
   getExchangeAmount,
   getExchangeRate,
+  setNotification,
 } from "../api/exchange/Exchange";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -21,6 +22,8 @@ export default function ExchangePage() {
   const [foreignAmount, setForeignAmount] = useState("1");
   const [currency, setCurrency] = useState("USD");
   const [warningText, setWarningText] = useState("");
+  const [targetExchangeCurrency, setTargetExchangeCurrency] = useState("USD"); // 기본값으로 "USD" 설정
+  const [targetExchangeRate, setTargetExchangeRate] = useState("1300"); // 사용자가 입력할 목표 환율 값
   const [isLoading, setIsLoading] = useState(true);
 
   function formatTime(date) {
@@ -42,7 +45,6 @@ export default function ExchangePage() {
       amount: Math.ceil(krwAmount),
       exchangeAmount: foreignAmount,
     };
-    console.log(object);
     const res = await exchange(object);
     if (res.status === "SUCCESS") {
       showToast("환전이 완료되었습니다.");
@@ -54,15 +56,30 @@ export default function ExchangePage() {
     // const res = exchange();
   };
 
+  const handleExchangeNotificationClick = async () => {
+    const object = {
+      travelId: travelId,
+      targetExchangeCurrency: targetExchangeCurrency,
+      targetExchangeRage: targetExchangeRate,
+    };
+    try {
+      const res = await setNotification(object);
+      if (res.status === "SUCCESS") {
+        showToast("성공적으로 설정되었습니다.");
+      } else {
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     const fetchExchangeInfo = async () => {
       try {
         const res = await getExchangeAmount(travelId);
         if (res.status === "SUCCESS") {
           if (res.data === null) {
-            console.log("내역없음");
           } else {
-            console.log("정보 불러오기 성공", res.data);
             setExchangeInfo(res.data);
             switch (res.data.currency) {
               case "USD":
@@ -90,7 +107,6 @@ export default function ExchangePage() {
     const fetchExchangeRate = async () => {
       try {
         const res = await getExchangeRate();
-        console.log(res.data);
         setExchangeRate(res.data);
       } catch (error) {
         console.log(error);
@@ -150,7 +166,10 @@ export default function ExchangePage() {
             <div className={styles.notificationContainer}>
               <div className={styles.notificationContainerTop}>
                 <div className={styles.labelMedium}>환전알림</div>
-                <DropdownSmall />
+                <DropdownSmall
+                  selectedCurrency={targetExchangeCurrency}
+                  setSelectedCurrency={setTargetExchangeCurrency}
+                />
               </div>
               <div className={styles.notificationBox}>
                 <div className={styles.boxLeft}>
@@ -158,17 +177,27 @@ export default function ExchangePage() {
                     {formatTime(new Date())} 환율 기준
                   </div>
                   <div className={styles.paragraphSmall}>
-                    {exchangeRate.usd}
+                    {exchangeRate[targetExchangeCurrency.toLowerCase()]}
                   </div>
                 </div>
                 <div className={styles.boxRight}>
                   <div className={styles.setRate}>
-                    <div className={styles.headingLarge}>1100</div>
+                    <input
+                      type="number"
+                      value={targetExchangeRate}
+                      onChange={(e) => setTargetExchangeRate(e.target.value)}
+                      className={styles.headingLarge}
+                    ></input>
                     <div className={styles.paragraphSmallGrey}>
                       이하일때 알림
                     </div>
                   </div>
-                  <div className={styles.labelSmallBlue}> 설정</div>
+                  <div
+                    className={styles.labelSmallBlue}
+                    onClick={handleExchangeNotificationClick}
+                  >
+                    설정
+                  </div>
                 </div>
               </div>
             </div>

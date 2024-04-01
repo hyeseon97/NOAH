@@ -29,3 +29,13 @@ export async function getExchangeRate() {
     throw error;
   }
 }
+
+/* 환율 알림 설정 */
+export async function setNotification(object) {
+  try {
+    const res = await axiosAPI.put(commonUrl + `/rate`, object);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+}
