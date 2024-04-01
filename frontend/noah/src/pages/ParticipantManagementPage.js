@@ -19,6 +19,7 @@ export default function ParticipantManagementPage() {
       try {
         const res = await getGroupAccountMemberAndTotalDue(travelId);
         if (res.status === "SUCCESS") {
+          console.log(res.data);
           setMemberInfo(res.data);
         }
       } catch (error) {
