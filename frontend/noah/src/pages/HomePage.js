@@ -26,7 +26,6 @@ export default function HomePage() {
   };
 
   const handleMyClick = () => {
-    console.log(localStorage.getItem("accessToken"));
     if (localStorage.getItem("accessToken") === null) {
       showToast("로그인 후 이용해보세요.");
       navigate("/login");
@@ -96,7 +95,6 @@ export default function HomePage() {
     const fetchGroupAccounts = async () => {
       try {
         const response = await getAllGroupAccount();
-        console.log(response);
         if (response.data === null) setTrips([]);
         else setTrips(response.data); // API로부터 받아온 여행 데이터를 상태에 저장
       } catch (error) {

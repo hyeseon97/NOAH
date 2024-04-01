@@ -57,15 +57,29 @@ export default function GoalPage() {
   const handleSaveChanges = async () => {
     try {
       const updatedInfo = {
-        // ...groupAccountInfo, // 기존 정보를 유지하면서
         groupAccountId: groupAccountInfo.groupAccountId,
         targetAmount: newTargetAmount, // 새로운 목표금액으로 업데이트
         targetDate: newTargetDate,
         perAmount: newPerAmount,
         paymentDate: newPaymentDate,
       };
-      await updateGroupAccountInfo(updatedInfo); // API 호출로 정보 업데이트
-      window.location.reload();
+      const res = await updateGroupAccountInfo(updatedInfo); // API 호출로 정보 업데이트
+      if (res.status === "SUCCESS") {
+        // 상태 업데이트로 UI 변경
+        setGroupAccountInfo((prev) => ({
+          ...prev,
+          targetAmount: newTargetAmount,
+          targetDate: newTargetDate,
+          perAmount: newPerAmount,
+          paymentDate: newPaymentDate,
+        }));
+        // 모든 수정 모드 비활성화
+        setEditModeTargetAmount(false);
+        setEditModeTargetDate(false);
+        setEditModePerAmount(false);
+        setEditModePaymentDate(false);
+        showToast("정보가 업데이트되었습니다.");
+      }
     } catch (error) {
       console.error("모임통장 정보 업데이트 실패", error);
       showToast("정보 업데이트에 실패했습니다.");
@@ -118,16 +132,23 @@ export default function GoalPage() {
     <>
       <Header LeftIcon="Arrow" Title="여행 이름" />
       <div className={styles.goalPageContainer}>
-        <div className={styles.labelMedium}>목표설정</div>
+        <div className={styles.containerHeader}>
+          <div className={styles.labelMedium}>목표설정</div>
+          {(editModeTargetAmount ||
+            editModeTargetDate ||
+            editModePerAmount ||
+            editModePaymentDate) && (
+            <div className={styles.labelSmallCheck} onClick={handleSaveChanges}>
+              확인
+            </div>
+          )}
+        </div>
         <div className={styles.goalContainer}>
           <div className={styles.goalColumn}>
             <div className={styles.labelSmall}>목표금액</div>
             <div className={styles.amount}>
               {editModeTargetAmount ? (
                 <>
-                  <Check className={styles.icon} onClick={handleSaveChanges}>
-                    확인
-                  </Check>
                   <input
                     type="number"
                     value={newTargetAmount}
@@ -160,9 +181,6 @@ export default function GoalPage() {
             <div className={styles.amount}>
               {editModeTargetDate ? (
                 <>
-                  <Check className={styles.icon} onClick={handleSaveChanges}>
-                    확인
-                  </Check>
                   <input
                     type="number"
                     value={newTargetDate}
@@ -189,9 +207,6 @@ export default function GoalPage() {
             <div className={styles.amount}>
               {editModePerAmount ? (
                 <>
-                  <Check className={styles.icon} onClick={handleSaveChanges}>
-                    확인
-                  </Check>
                   <input
                     type="number"
                     value={newPerAmount}
@@ -222,9 +237,6 @@ export default function GoalPage() {
             <div className={styles.amount}>
               {editModePaymentDate ? (
                 <>
-                  <Check className={styles.icon} onClick={handleSaveChanges}>
-                    확인
-                  </Check>
                   <input
                     type="number"
                     value={newPaymentDate}
