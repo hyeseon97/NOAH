@@ -3,8 +3,12 @@ import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Header from "./../components/common/Header";
+import Header from "../components/common/Header";
 import { ReactComponent as Mark } from "./../assets/Icon/Mark.svg";
+import styles from './GoogleMapSearch.module.css';
+
+import Rating from "react-rating";
+import { FaStar } from "react-icons/fa";
 
 import {
   getDetailPlan,
@@ -20,189 +24,258 @@ import {
 //   backgroundColor: "transparent",
 // };
 
-const reviewStyle = {
-  width: "400px",
-  maxWidth: "100%",
-  margin: "3px",
-  alignItems: "center",
-  justifyContent: "center",
-  fontFamily: "Pretendard",
-  fontStyle: "normal",
-  fontWeight: "700",
-  fontSize: "2.7vw",
-  lineHeight: "200%",
-};
+// const listSearch = {
+//   // backgroundColor: "coral",
+//   // margin: "10px",
+//   display: "flex",
+//   // justifyContent: "center",
+//   // alignItems: "center",
+//   // textAlign: "center",
+//   width: "90vw",
+//   marginBottom: "20px",
+//   fontFamily: "Pretendard",
+//   fontStyle: "normal",
+//   fontWeight: "700",
+//   fontSize: "3.4vw",
+//   lineHeight: "200%",
+//   margin: "17px",
+//   border: "1px solid grey",
+// };
 
-const listSearch = {
-  // backgroundColor: "coral",
-  // margin: "10px",
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "center",
-  alignItems: "center",
-  textAlign: "center",
-  width: "90vw",
-  fontFamily: "Pretendard",
-  fontStyle: "normal",
-  fontWeight: "700",
-  fontSize: "3.4vw",
-  lineHeight: "200%",
-  margin: "17px",
-  border: "1px solid grey",
-};
+// const buttonStyle = {
+//   width: "60vw",
+//   height: "8vh",
+//   border: "none",
+//   marginLeft: "20px",
+// };
 
-const buttonStyle = {
-  width: "60vw",
-  height: "8vh",
-  border: "none",
-  marginLeft: "20px",
-};
+// const listResult = {
+//   // backgroundColor: "pink",
+//   display: "flex",
+//   flexDirection: "column",
+//   height: "80vh",
+//   margin: "10px",
+// };
 
-const listResult = {
-  // backgroundColor: "pink",
-  display: "flex",
-  flexDirection: "column",
-  height: "500px",
-  margin: "10px",
-};
+// const placeOrTicket = {
+//   height: "8vh",
+//   display: "flex",
+//   flexDirection: "row",
+//   justifyContent: "space-evenly",
+//   marginLeft: "20px",
+//   marginRight: "20px",
+//   alignItems: "center",
+// };
 
-// 이거 확인하자
-const toggleStyle = {
-  cursor: "pointer",
-  position: "absolute",
-  bottom: "0px",
-  backgroundColor: "gray",
-  width: "100vw",
-  alignItems: "center",
-  textAlign: "center",
-};
+// const searchPlace = {
+//   height: "8vh",
+//   display: "flex",
+//   flexDirection: "row",
+//   justifyContent: "center",
+//   alignItems: "center",
+//   border: "1px solid gray",
+//   borderRadius: "5px",
+//   margin: "10px",
+// };
 
-const placeOrTicket = {
-  height: "8vh",
-  // backgroundColor: "red",
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "space-evenly",
-  marginLeft: "20px",
-  marginRight: "20px",
-  alignItems: "center",
-};
+// const placeNameStyle = {
+//   display: "flex",
+//   margin: "0px",
+//   fontFamily: "Pretendard",
+//   fontStyle: "normal",
+//   fontWeight: "700",
+//   fontSize: "4.4vw",
+//   lineHeight: "200%",
+// };
 
-const searchPlace = {
-  height: "8vh",
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "center",
-  alignItems: "center",
-  border: "1px solid gray",
-  borderRadius: "5px",
-  margin: "10px",
-  // backgroundColor: "green",
-};
+// const ratingStyle = {
+//   display: "flex",
+//   fontFamily: "Pretendard",
+//   fontStyle: "normal",
+//   fontWeight: "700",
+//   fontSize: "3.4vw",
+//   lineHeight: "200%",
+// };
 
-const placeAddress = {
-  fontFamily: "Pretendard",
-  fontStyle: "normal",
-  fontWeight: "700",
-  fontSize: "3.4vw",
-  lineHeight: "200%",
-}
-const placeName = {
-  fontFamily: "Pretendard",
-  fontStyle: "normal",
-  fontWeight: "700",
-  fontSize: "4.4vw",
-  lineHeight: "200%",
-}
+// const placeAddressStyle = {
+//   display: "flex",
+//   textAlign: "left",
+//   fontFamily: "Pretendard",
+//   fontStyle: "normal",
+//   fontWeight: "700",
+//   fontSize: "3.4vw",
+//   lineHeight: "200%",
+// };
 
-const placeRating = {
-  fontFamily: "Pretendard",
-  fontStyle: "normal",
-  fontWeight: "700",
-  fontSize: "3.4vw",
-  lineHeight: "200%",
-}
+// const placeNumberStyle = {
+//   display: "flex",
+//   fontFamily: "Pretendard",
+//   fontStyle: "normal",
+//   fontWeight: "700",
+//   fontSize: "3.4vw",
+//   lineHeight: "200%",
+// };
+// const placeOpenSytle = {
+//   display: "flex",
+//   fontFamily: "Pretendard",
+//   fontStyle: "normal",
+//   fontWeight: "700",
+//   fontSize: "3.4vw",
+//   lineHeight: "200%",
+// };
+
+// const placeWeekTimeToggleStyle = {
+//   fontFamily: "Pretendard",
+//   fontStyle: "normal",
+//   fontWeight: "700",
+//   fontSize: "3.4vw",
+//   lineHeight: "200%",
+// };
+
+// const placeWeekTimeDetailInfoSytle = {
+//   display: "flex",
+//   flexDirection: "column",
+//   textAlign: "left",
+//   fontFamily: "Pretendard",
+//   fontStyle: "normal",
+//   fontWeight: "700",
+//   fontSize: "3.4vw",
+//   lineHeight: "200%",
+// };
+
+// const webSiteStyle = {
+//   display: "flex",
+//   textAlign: "left",
+//   fontFamily: "Pretendard",
+//   fontStyle: "normal",
+//   fontWeight: "700",
+//   fontSize: "3.4vw",
+//   lineHeight: "200%",
+//   wordWrap: "break-word",
+//   overflowWrap: "break-word",
+//   whiteSpace: "normal",
+// };
+
+// const moreInfoStyle = {
+//   display: "flex",
+//   margin: "10px",
+//   justifyContent: "center",
+//   textAlign: "center",
+//   fontFamily: "Pretendard",
+//   fontStyle: "normal",
+//   fontWeight: "700",
+//   fontSize: "3.4vw",
+//   lineHeight: "200%",
+// };
+
+// const moreInfoDetailStyle = {
+//   display: "flex",
+//   flexDirection: "column",
+//   // justifyContent: "center",
+//   // alignContent : "center",
+//   // alignItems: "center",
+//   textAlign: "left",
+//   height: "50vh",
+//   overflow: "auto", // 내용이 넘치면 스크롤 허용
+// };
+
+// const imgStyle = {
+//   display: "flex",
+//   justifyContent: "center",
+//   alignItems: "center",
+//   padding: "10px",
+//   marginTop: "10px",
+// };
+
+// const smallTextStyle = {
+//   fontFamily: "Pretendard",
+//   fontStyle: "normal",
+//   fontWeight: "700",
+//   fontSize: "3.6vw",
+//   lineHeight: "200%",
+//   color: "gray",
+// };
+
+// const reviewStyle = {
+//   display: "flex",
+//   flexDirection: "column",
+//   width: "90vw",
+//   margin: "10px",
+//   alignItems: "flex-start", // 왼쪽 정렬을 위해 변경
+//   fontFamily: "Pretendard",
+//   fontStyle: "normal",
+//   fontWeight: "700",
+//   fontSize: "2.7vw",
+//   lineHeight: "200%",
+// };
+
+// // 더보기 버튼과 리뷰 텍스트를 같은 줄에 위치시키기 위한 스타일
+// const reviewContentStyle = {
+//   display: "flex",
+//   width: "100%",
+//   justifyContent: "space-between",
+//   alignItems: "center",
+//   marginBottom: "10px", // 리뷰간의 간격을 조정하기 위해 추가
+//   overflow: "scroll",
+// };
 
 const Review = ({ review }) => {
-  // 리뷰 텍스트를 전체 보여줄지 여부를 결정하는 상태
   const [isExpanded, setIsExpanded] = useState(false);
-
-  // "더 보기" / "접기" 버튼 클릭 이벤트 핸들러
-  const toggleExpand = () => {
-    setIsExpanded(!isExpanded);
-  };
-
-  // 리뷰 텍스트가 20글자를 초과하는 경우에만 "더 보기" / "접기" 기능 활성화
   const showToggle = review.text.length > 20;
 
-  const [selectedReview, setSelectedReview] = useState(null);
-
-  const handleSelectReview = (review) => {
-    setSelectedReview(review);
-  };
-
-  // 뒤로 가기 버튼 핸들러
-  const handleBack = () => {
-    setSelectedReview(null); // 선택된 리뷰를 null로 설정하여 리스트로 돌아감
-  };
-
   return (
-    <>
-      <div
-        key={review.id}
-        onClick={toggleExpand}
-        style={reviewStyle}
-      >
-        {review.author_name} / {review.rating} /{review.text.substring(0, 20)}
-        {/* {showToggle && <span>{isExpanded ? " 접기" : " 더 보기"}</span>} */}
+    <div className={styles.reviewContentStyle}>
+      <div style={{ flex: 1 }}>
+        {review.author_name.length < 10
+          ? review.author_name
+          : `${review.author_name.substring(0, 10)}...`}
+        / 평점 : {review.rating}
+      </div>
+      <div style={{ marginRight: "20px" }}>
+        {isExpanded
+          ? review.text
+          : review.text.length > 15
+          ? `${review.text.substring(0, 15)}...`
+          : review.text}
       </div>
 
-      {/* <div>
-        {selectedReview ? (
-          // 선택된 리뷰의 상세 정보와 뒤로 가기 버튼을 렌더링
-          <>
-            <Review review={selectedReview} />
-            <button onClick={handleBack}>뒤로 가기</button>
-          </>
-        ) : (
-          // 리뷰 리스트 렌더링
-          reviewsData.map((review) => (
-            <div key={review.id} onClick={() => handleSelectReview(review)}>
-              {review.author_name}
-            </div>
-          ))
-        )}
-      </div> */}
-    </>
+      {showToggle && review.text.length > 15 && (
+        <div
+          onClick={() => setIsExpanded(!isExpanded)}
+          style={{ cursor: "pointer" }}
+        >
+          <span>{isExpanded ? "접기" : "더 보기"}</span>
+        </div>
+      )}
+    </div>
   );
 };
 
+// PhotoSlider 컴포넌트 정의
 const PhotoSlider = ({ photos }) => {
+  // Slider 설정
   const settings = {
-    dots: false, // 슬라이더 하단에 점 표시 여부
-    infinite: true, // 무한 슬라이드 여부
-    speed: 500, // 슬라이드 전환 속도
-    slidesToShow: 1, // 한 번에 보여줄 슬라이드 개수
-    slidesToScroll: 1, // 스크롤할 때 넘어가는 슬라이드 개수
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 2,
+    slidesToScroll: 1,
   };
 
   return (
     <Slider {...settings}>
       {photos.map((photo, index) => (
-        <div
-          key={index}
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
-        >
+        <div key={index}>
           <img
-            src={photo.getUrl({
-              maxWidth: "300",
-              maxHeight: "300",
-              height: "300",
-              width: "300",
-            })}
+            src={photo.getUrl()} // 이미지 URL
+            style={{
+              width: "40vw",
+              height: "20vh",
+              objectFit: "cover",
+              marginLeft: "10px",
+            }}
             alt="장소 사진"
           />
-          <div className="googlemaptest" />
         </div>
       ))}
     </Slider>
@@ -225,6 +298,9 @@ export default function GoogleMapSearch() {
   const [center, setCenter] = useState({ lat: 37.5665, lng: 126.978 });
   const [infoToggle, setInpoToggle] = useState(false);
   const [detailToggle, setDetailToggle] = useState(false);
+  const [isWeekTime, setIsWeekTime] = useState(false);
+
+  
 
   const onLoad = (map) => {
     mapRef.current = map;
@@ -257,33 +333,6 @@ export default function GoogleMapSearch() {
   const mapType = "roadMap";
   const markersw = "color:blue%7Clabel:S%7C37.5665,126.9780";
   const [mapUrl, setMapUrl] = useState("");
-
-  // useEffect(() => {
-  //   if (outPlace && outPlace.geometry && outPlace.geometry.location) {
-  //     setCenter({
-  //       lat: outPlace.geometry.location.lat(),
-  //       lng: outPlace.geometry.location.lng(),
-  //     });
-  //     setMarkers([
-  //       {
-  //         // 새 마커 위치를 설정
-  //         lat: outPlace.geometry.location.lat(),
-  //         lng: outPlace.geometry.location.lng(),
-  //       },
-  //     ]);
-  //   }
-  // }, [outPlace]);
-
-  // useEffect(() => {
-  //   if (outPlace && outPlace.geometry && outPlace.geometry.location) {
-  //     const lat = outPlace.geometry.location.lat();
-  //     const lng = outPlace.geometry.location.lng();
-  //     setCenter({ lat, lng });
-  //     setMarkers([{ lat, lng }]);
-  //     const newMapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=${zoom}&size=${size}&maptype=${mapType}&markers=color:blue%7Clabel:S%7C${lat},${lng}&key=${apiKey}`;
-  //     setMapUrl(newMapUrl);
-  //   }
-  // }, [outPlace]);
 
   useEffect(() => {
     if (outPlace?.geometry?.location) {
@@ -325,19 +374,6 @@ export default function GoogleMapSearch() {
     setDetailToggle(false);
   };
 
-  // 검색어 입력 시 호출되는 함수
-  // useEffect(() => {
-  //   const handleSearchChange = (e) => {
-  //     const value = e.target.value;
-  //     setSearch(value);
-  //     if (value.length > 0) {
-  //       setShowList(true); // 검색어가 있을 때 검색 결과창을 표시
-  //     }
-  //     setSuggestions([]);
-  //     setOutPlace([]);
-  //   };
-  // }, [search])
-
   useEffect(() => {
     // 클릭 이벤트 리스너를 document에 추가
     const handleClickOutside = (event) => {
@@ -361,18 +397,18 @@ export default function GoogleMapSearch() {
   }, [searchResultsRef, toggleButtonRef]);
 
   // 검색 결과 및 상세 정보를 보여주는 영역을 제어하는 스타일 추가
-  const searchResultsStyle = {
-    position: "absolute", // 절대 위치 지정
-    // display: "flex",
-    bottom: 0, // 하단에 위치
-    width: "100%", // 너비는 전체 차지
-    height: "71vh", // 높이는 70vh
-    backgroundColor: "#fff", // 배경색 지정
-    overflowY: "scroll", // 내용이 많을 경우 스크롤
-    display: showList ? "block" : "none", // showList 상태에 따라 보여주기/숨기기
-    alignItems: "center",
-    textAlign: "center",
-  };
+  // const searchResultsStyle = {
+  //   position: "absolute", // 절대 위치 지정
+  //   // display: "flex",
+  //   bottom: 0, // 하단에 위치
+  //   width: "100%", // 너비는 전체 차지
+  //   height: "71vh", // 높이는 70vh
+  //   backgroundColor: "#fff", // 배경색 지정
+  //   overflowY: "scroll", // 내용이 많을 경우 스크롤
+  //   display: showList ? "block" : "none", // showList 상태에 따라 보여주기/숨기기
+  //   alignItems: "center",
+  //   textAlign: "center",
+  // };
 
   useEffect(() => {
     if (search.length > 0) {
@@ -475,15 +511,15 @@ export default function GoogleMapSearch() {
 
   return (
     <>
-      <Header LeftIcon="Arrow" Title="장소 검색" />
+      {/* <Header LeftIcon="Arrow" Title="장소 검색" />
       <div style={placeOrTicket} onClick={() => setShowList(false)}>
         <div>장소</div>
         <div>항공권</div>
-      </div>
-      <div style={searchPlace} onClick={() => setShowList(false)}>
+      </div> */}
+      <div className={styles.searchPlace} onClick={() => setShowList(false)}>
         <Mark />
         <input
-          style={buttonStyle}
+          className={styles.buttonStyle}
           value={search}
           onChange={handleSearchChange}
           placeholder="장소 검색..."
@@ -503,19 +539,9 @@ export default function GoogleMapSearch() {
           ))}
         </GoogleMap>
       </LoadScript>
-
-      <div
-        style={
-          toggleStyle
-          // 토글 버튼 색상 변경
-        }
-        onClick={changeDetailToggle}
-      >
-        {detailToggle ? "상세 정보 숨기기" : "상세 정보 보기"}
-      </div>
-      {showList && search.length != 0 && (
-        <div style={searchResultsStyle}>
-          <div style={listSearch}>
+      {outPlace && showList && search.length != 0 && (
+        <div className={styles.searchResultsStyle} style={{ display: showList ? 'block' : 'none' }}>
+          <div className={styles.listSearch}>
             {suggestions && suggestions.length > 0 && (
               <ul>
                 {suggestions.map((suggestion) => (
@@ -539,20 +565,83 @@ export default function GoogleMapSearch() {
               onClick={changeInfoToggle}
             />
           )}
-          {outPlace && (
-            <div style={listResult} onClick={changeDetailToggle}>
-              <div style={placeName}>{outPlace.name}</div>
-              <div style={placeAddress}>{outPlace.formatted_address}</div>
-              <div style={placeRating}>{outPlace.rating}</div>
-              <div onClick={() => {setDetailToggle(!detailToggle)}}>더보기</div>
+          {outPlace && outPlace.name && (
+            <div className={styles.listResult}>
+              <div className={styles.placeNameStyle}>
+                {outPlace.name} {outPlace.types[0]}
+              </div>
+              <div className={styles.ratingStyle}>
+                {outPlace.rating && (
+                  <>
+                    <Rating
+                      emptySymbol={<FaStar color="gray" />}
+                      fullSymbol={<FaStar color="gold" />}
+                      initialRating={outPlace.rating}
+                      readonly
+                    />
+                    <div>{outPlace.rating}</div>
+                  </>
+                )}
+              </div>
+              <div className={styles.placeAddressStyle}>{outPlace.formatted_address}</div>
+              <div className={styles.placeNumberStyle}>
+                {outPlace.international_phone_number}
+              </div>
+
+              <div
+                className={styles.placeWeekTimeToggleStyle}
+                onClick={() => setIsWeekTime(!isWeekTime)}
+              >
+                <div className={styles.placeOpenSytle}>
+                  <div
+                    style={{
+                      color: outPlace.current_opening_hours ? "green" : "red",
+                    }}
+                  >
+                    {outPlace.current_opening_hours?.open_now !== undefined
+                      ? outPlace.current_opening_hours.open_now
+                        ? "영업 중"
+                        : "영업 종료"
+                      : "영업 시간 정보 없음"}
+                  </div>
+                  <div style={{ marginLeft: "10px" }}>
+                    {outPlace.current_opening_hours?.weekday_text
+                      ? isWeekTime
+                        ? "접기"
+                        : "펼치기"
+                      : ""}
+                  </div>
+                </div>
+              </div>
+              <div className={styles.placeWeekTimeDetailInfoSytle}>
+                {isWeekTime &&
+                  outPlace.current_opening_hours?.weekday_text &&
+                  outPlace.current_opening_hours.weekday_text.map(
+                    (day, index) => <div key={index}>{day}</div>
+                  )}
+              </div>
+
+              {outPlace.website && (
+                <div href={outPlace.website} className={styles.webSiteStyle}>
+                  웹사이트 : {outPlace.website}
+                </div>
+              )}
+
+              <div className={styles.moreInfoStyle} onClick={changeDetailToggle}>
+                {detailToggle ? "줄이기" : "더보기"}
+              </div>
               {detailToggle && (
-                <div>
-                  {reviews &&
-                    reviews.length > 0 &&
-                    reviews.map((review, index) => (
-                      <Review key={index} review={review} />
-                    ))}
-                  <div style={reviewStyle}>
+                <div className={styles.moreInfoDetailStyle}>
+                  <div className={styles.smallTextStyle}>Review</div>
+                  <div className={styles.reviewStyle}>
+                    {reviews &&
+                      reviews.length > 0 &&
+                      reviews.map((review, index) => (
+                        <Review key={index} review={review} />
+                      ))}
+                  </div>
+                  <div className={styles.smallTextStyle}>Photo</div>
+                  <div className={styles.imgStyle}>
                     {photos && photos.length > 0 && (
                       <PhotoSlider photos={photos} />
                     )}

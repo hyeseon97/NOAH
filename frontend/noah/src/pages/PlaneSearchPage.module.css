@@ -1,0 +1,144 @@
+/* Styles.module.css */
+.wholeStyle {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid grey;
+    margin: 10px;
+    border-radius: 5px;
+    padding: 10px;
+  }
+    
+  .upperStyle {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 10px;
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 3.4vw;
+    line-height: 200%;
+  }
+    
+  .middleStyle {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin: 0;
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 4.0vw;
+    line-height: 200%;
+  }
+    
+  .lowerStyle {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: blue;
+    margin-top: 10px;
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 4.4vw;
+    line-height: 200%;
+  }
+    
+  .wholeBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 20px;
+    border: 1px solid grey;
+    text-align: center;
+    align-items: center;
+    border-radius: 5px;
+  }
+    
+  .boxLeft {
+    display: flex;
+    flex-direction: row;
+    margin: 15px;
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 3.4vw;
+    line-height: 200%;
+  }
+    
+  .inputStyle {
+    border: none;
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 4.0vw;
+    line-height: 200%;
+  }
+    
+  .boxRight {
+    margin-right: 10px;
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 3.8vw;
+    line-height: 200%;
+  }
+    
+  .lowerButtonStyle {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 3.4vw;
+    line-height: 200%;
+  }
+    
+  .buttonStyle {
+    width: 90vw;
+    height: 7vh;
+    align-items: center;
+    border-radius: 10px;
+    border: none;
+    background-color: black;
+    color: white;
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 550;
+    font-size: 4.8vw;
+    line-height: 200%;
+  }
+    
+  .placeOrTicket {
+    height: 8vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-left: 20px;
+    margin-right: 20px;
+    align-items: center;
+  }
+    
+  .resultList {
+    margin-left: 20px;
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 550;
+    font-size: 3.8vw;
+    line-height: 200%;
+  }
+
+  .noResultStyle {
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 550;
+    font-size: 3.8vw;
+    line-height: 200%;
+    margin: 10px;
+    text-align: center;
+    border: 1px solid grey;
+    padding: 10px;
+  };
+  
