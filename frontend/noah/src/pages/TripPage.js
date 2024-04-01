@@ -31,6 +31,7 @@ export default function TripPage() {
     (async () => {
       try {
         const res = await getTravelInfo(travelId);
+        console.log(res.data);
         if (res.status === "SUCCESS") {
           setTravelInfo(res.data);
         } else {
@@ -46,10 +47,8 @@ export default function TripPage() {
     if (travelInfo.accountAmount === 0) {
       setPercent(0);
       return;
-    }
-
-    if (travelInfo.targetAmount === 0) {
-      setPercent(100);
+    } else if (travelInfo.targetAmount === 0) {
+      setPercent(0);
       return;
     }
 
