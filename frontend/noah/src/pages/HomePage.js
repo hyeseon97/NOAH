@@ -9,11 +9,13 @@ import sample1 from "../assets/Image/sample1.jpg";
 import sample2 from "../assets/Image/sample2.png";
 import { getAllGroupAccount } from "../api/groupaccount/GroupAccount";
 import showToast from "../components/common/Toast";
+import { getExchangeRate } from "../api/exchange/Exchange";
 
 export default function HomePage() {
   const navigate = useNavigate();
   const [trips, setTrips] = useState([]); // 여행 데이터 저장
   const [isLoading, setIsLoading] = useState(false);
+  const [exchangeRate, setExchangeRate] = useState([]);
 
   const handleNotificationClick = () => {
     if (localStorage.getItem("accessToken") === null) {
@@ -105,6 +107,17 @@ export default function HomePage() {
     };
 
     fetchGroupAccounts();
+
+    const fetchExchangeRate = async () => {
+      try {
+        const res = await getExchangeRate();
+        console.log(res.data);
+        setExchangeRate(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchExchangeRate();
   }, []);
 
   return (
@@ -153,7 +166,7 @@ export default function HomePage() {
       </div>
 
       <div className={styles.exchangeContainer}>
-        <Exchange />
+        <Exchange exchangeRateInfo={exchangeRate} />
       </div>
       <div className={styles.paragraphSmall}>
         {formatTime(new Date())} 환율 기준
