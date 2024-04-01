@@ -1,5 +1,6 @@
 package com.noah.backend.domain.apis.controller;
 
+import static com.noah.backend.global.format.response.ErrorCode.DEPARTURE_DATE_ERROR;
 import static com.noah.backend.global.format.response.ErrorCode.REQUIRED_FIELD_FAILED;
 import static com.noah.backend.global.format.response.ResponseCode.AIRLINE_CODES_SUCCESS;
 import static com.noah.backend.global.format.response.ResponseCode.AIRLINE_ROUTES_SUCCESS;
@@ -18,6 +19,7 @@ import com.noah.backend.domain.apis.dto.FlightPriceDto;
 import com.noah.backend.domain.apis.dto.ResponseFlightOffersDto;
 import com.noah.backend.domain.apis.service.FlightService;
 import com.noah.backend.domain.apis.service.ForeignCurrencyService;
+import com.noah.backend.global.exception.flight.DepartureDateException;
 import com.noah.backend.global.exception.flight.RequiredFilledException;
 import com.noah.backend.global.format.code.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -115,6 +117,10 @@ public class ApisController {
         catch (RequiredFilledException e) {
             e.printStackTrace();
             return apiResponse.fail(REQUIRED_FIELD_FAILED);
+        }
+        catch (DepartureDateException e) {
+            e.printStackTrace();
+            return apiResponse.fail(DEPARTURE_DATE_ERROR);
         }
         for (ResponseFlightOffersDto dto : list) {
             log.info(dto.toString());
