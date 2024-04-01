@@ -1,7 +1,10 @@
 package com.noah.backend.domain.member.repository.custom;
 
+import static com.noah.backend.domain.account.entity.QAccount.account;
+import static com.noah.backend.domain.groupaccount.entity.QGroupAccount.groupAccount;
 import static com.noah.backend.domain.member.entity.QMember.member;
 import static com.noah.backend.domain.memberTravel.entity.QMemberTravel.memberTravel;
+import static com.noah.backend.domain.travel.entity.QTravel.travel;
 
 import com.noah.backend.domain.member.dto.responseDto.MemberInfoDto;
 import com.noah.backend.domain.member.entity.Member;
@@ -38,6 +41,18 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
                                        .leftJoin(memberTravel).on(memberTravel.member.id.eq(member.id))
                                        .where(memberTravel.travel.id.eq(travelId))
                                        .fetch());
+    }
+
+    @Override
+    public Optional<Member> findByNameAndAccountId(String name, Long accountId) {
+        return Optional.ofNullable(query.select(member)
+                                       .from(member)
+                                       .leftJoin(memberTravel).on(memberTravel.member.id.eq(member.id))
+                                       .leftJoin(travel).on(memberTravel.travel.id.eq(travel.id))
+                                       .leftJoin(groupAccount).on(groupAccount.travel.id.eq(travel.id))
+                                       .leftJoin(account).on(groupAccount.account.id.eq(account.id))
+                                       .where(member.name.eq(name).and(account.id.eq(accountId)))
+                                       .fetchOne());
     }
 
 }
