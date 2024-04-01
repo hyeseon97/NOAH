@@ -101,5 +101,13 @@ public class MemberTravelRepositoryImpl implements MemberTravelRepositoryCustom 
                                        .fetch());
     }
 
+    @Override
+    public Optional<MemberTravel> isAutoTransfer(Long memberId, Long travelId, Long accountId) {
+        return Optional.ofNullable(query.select(memberTravel)
+                                .from(memberTravel)
+                                .where(memberTravel.member.id.eq(memberId).and(memberTravel.travel.id.eq(travelId)).and(memberTravel.account.id.eq(accountId)))
+                                .fetchOne());
+    }
+
 
 }

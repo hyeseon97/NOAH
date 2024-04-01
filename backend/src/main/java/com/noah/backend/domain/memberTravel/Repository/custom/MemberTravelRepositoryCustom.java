@@ -25,4 +25,6 @@ public interface MemberTravelRepositoryCustom {
     Optional<Integer> getTotalPeople(Long travelId);
 
     Optional<List<Long>> findByMemberId(Long memberId);
+
+    Optional<MemberTravel> isAutoTransfer(Long memberId, Long travelId, Long accountId);
 }
