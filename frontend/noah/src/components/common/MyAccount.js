@@ -4,6 +4,7 @@ export default function MyAccount({
   sum,
   onClick,
   from = "transfer",
+  autoTransfer,
 }) {
   const typeMapping = {
     한국은행: "한국",
@@ -76,7 +77,12 @@ export default function MyAccount({
           </div>
         </div>
         {from === "transfer" && <div style={labelMedium}>선택</div>}
-        {from === "automatic" && <div style={labelMedium}>설정</div>}
+        {from === "automatic" && !autoTransfer && (
+          <div style={labelMedium}>선택</div>
+        )}
+        {from === "automatic" && autoTransfer && (
+          <div style={{ ...labelMedium, color: "#0075ff" }}>자동이체 계좌</div>
+        )}
       </div>
       <div style={line}></div>
     </>

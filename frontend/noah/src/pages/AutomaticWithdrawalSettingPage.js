@@ -5,7 +5,13 @@ import Trip from "../components/trip/Trip";
 import styles from "./AutomaticWithdrawalSettingPage.module.css";
 import MyAccount from "./../components/common/MyAccount";
 import ClipLoader from "react-spinners/ClipLoader";
-import { getAccount } from "../api/account/Account";
+import {
+  deleteAutoTransfer,
+  getAccount,
+  getAutoTransfer,
+  setAutoTransfer,
+} from "../api/account/Account";
+import showToast from "../components/common/Toast";
 
 export default function AutomaticWithdrawalSettingPage() {
   /* Trip 컴포넌트 스와이프 */
@@ -84,7 +90,8 @@ export default function AutomaticWithdrawalSettingPage() {
 
     (async () => {
       try {
-        const res = await getAccount();
+        const res = await getAutoTransfer(selectedTravelId);
+        console.log(res);
         setAccounts(res.data);
       } catch (e) {
       } finally {
@@ -96,6 +103,34 @@ export default function AutomaticWithdrawalSettingPage() {
   const handleTripClick = (travelId) => {
     setSelectedTravelId(travelId);
     setSeq(1);
+  };
+
+  const handleAutomaticClick = async (autoTransfer, accountId) => {
+    const res = await deleteAutoTransfer(selectedTravelId);
+    console.log(res);
+
+    if (!autoTransfer) {
+      const res = await setAutoTransfer({
+        travelId: selectedTravelId,
+        accountId: accountId,
+        autoActivate: true,
+      });
+
+      if (res.status === "SUCCESS") {
+        showToast("자동이체 계좌 등록 완료");
+      }
+    }
+
+    (async () => {
+      try {
+        const res = await getAutoTransfer(selectedTravelId);
+        console.log(res);
+        setAccounts(res.data);
+      } catch (e) {
+      } finally {
+        setIsLoading(false);
+      }
+    })();
   };
 
   return (
@@ -147,15 +182,25 @@ export default function AutomaticWithdrawalSettingPage() {
             <>
               {accounts
                 .filter((account) => account.type !== "공동계좌") // 공동계좌만 불러옴
-                .map((account) => (
-                  <MyAccount
-                    key={account.accountId} // 고유 key 값으로 accountId 사용
-                    type={account.bankName} // 조건에 따른 type 결정
-                    accountNumber={account.accountNumber}
-                    sum={account.amount}
-                    //onClick={() => handleAccountClick(account)}
-                    from="automatic"
-                  />
+                .map((account, index) => (
+                  <div
+                    onClick={() =>
+                      handleAutomaticClick(
+                        account.autoTransfer,
+                        account.accountId
+                      )
+                    }
+                  >
+                    <MyAccount
+                      key={account.accountId} // 고유 key 값으로 accountId 사용
+                      type={account.bankName} // 조건에 따른 type 결정
+                      accountNumber={account.accountNumber}
+                      sum={account.amount}
+                      //onClick={() => handleAccountClick(account)}
+                      from="automatic"
+                      autoTransfer={account.autoTransfer}
+                    />
+                  </div>
                 ))}
             </>
           )}
