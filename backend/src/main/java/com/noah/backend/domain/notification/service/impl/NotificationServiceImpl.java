@@ -121,19 +121,19 @@ public class NotificationServiceImpl implements NotificationService {
 
             String body = null;
 
-            if(t.getCurrency()==0){
+            if(t.getTargetExchangeCurrency().equals("USD")){
                 notification.setCurrency("USD");
                 notification.setExchangeRate(currency.getBuyDollar());
                 body = "[ " + t.getTravelTitle() + " ] 여행의 목표 환율에 도달했습니다.  USD:" + currency.getBuyDollar();
-            } else if(t.getCurrency()==1){
+            } else if(t.getTargetExchangeCurrency().equals("JPY")){
                 notification.setCurrency("JPY");
                 notification.setExchangeRate(currency.getBuyYen());
                 body = "[ " + t.getTravelTitle() + " ] 여행의 목표 환율에 도달했습니다.  JPY:" + currency.getBuyYen();
-            } else if(t.getCurrency()==2){
+            } else if(t.getTargetExchangeCurrency().equals("CNY")){
                 notification.setCurrency("CNY");
                 notification.setExchangeRate(currency.getBuyYuan());
                 body = "[ " + t.getTravelTitle() + " ] 여행의 목표 환율에 도달했습니다.  CNY:" + currency.getBuyYuan();
-            } else if(t.getCurrency()==3){
+            } else if(t.getTargetExchangeCurrency().equals("EUR")){
                 notification.setCurrency("EUR");
                 notification.setExchangeRate(currency.getBuyEuro());
                 body = "[ " + t.getTravelTitle() + " ] 여행의 목표 환율에 도달했습니다.  EUR:" + currency.getBuyEuro();

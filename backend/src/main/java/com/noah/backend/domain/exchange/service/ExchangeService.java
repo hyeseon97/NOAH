@@ -1,6 +1,7 @@
 package com.noah.backend.domain.exchange.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.noah.backend.domain.exchange.dto.requestDto.ExchangeRatePutDto;
 import com.noah.backend.domain.exchange.dto.requestDto.ExchangeReqDto;
 import com.noah.backend.domain.exchange.dto.responseDto.ExchangeInfoDto;
 
@@ -14,4 +15,6 @@ public interface ExchangeService {
     ExchangeInfoDto getExchangeInfo(String email, Long travelId);
 
     ExchangeRateGetDto getExchangeRate();
+
+    Long updateTargetExchangeRate(String email, ExchangeRatePutDto exchangeRatePutDto);
 }

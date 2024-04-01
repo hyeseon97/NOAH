@@ -57,7 +57,7 @@ public class SecurityConfig {
                     "/api/v1/member/nickname/**",
                     "/api/v1/member/email/**",
                     "/api/v1/member/password-reset",
-                    "api/v1/exchange/rate",
+                    "api/v1/exchange/rateinfo",
                     "/ws/**",
                     "/pub/**",
                     "/sub/**"
