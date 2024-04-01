@@ -10,6 +10,7 @@ import styles from "./GoogleMapSearch.module.css";
 import Rating from "react-rating";
 import { FaStar } from "react-icons/fa";
 import { useParams } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 
 import {
   getDetailPlan,
@@ -300,7 +301,9 @@ export default function GoogleMapSearch() {
   const [infoToggle, setInpoToggle] = useState(false);
   const [detailToggle, setDetailToggle] = useState(false);
   const [isWeekTime, setIsWeekTime] = useState(false);
-  const { planId } = useParams();
+  // const { planId } = useParams();
+  const location = useLocation();
+  const { planId, day } = location.state;
 
   const onLoad = (map) => {
     mapRef.current = map;
@@ -441,7 +444,13 @@ export default function GoogleMapSearch() {
     }, 1000);
     // console.log(googleMapApiKey);
     return () => clearTimeout(timeoutId);
+
+
   }, []);
+
+  useEffect(() => {
+    console.log(planId, day)
+  }, [])
 
   const handleSelect = (placeId, event) => {
     event.preventDefault(); // 추가: 클릭 이벤트의 기본 동작 방지

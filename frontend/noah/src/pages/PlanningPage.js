@@ -17,6 +17,7 @@ import {
   deleteDetailPlan,
   createDetailPlan,
 } from "../api/detailplan/DetailPlan";
+import { useNavigate } from "react-router-dom";
 
 // const imgStyle = {
 //   width: "90px",
@@ -184,7 +185,10 @@ const getTimeFromString = (dateTimeString) => {
 };
 
 export default function PlanningPage() {
+  const navigate = useNavigate();
+
   const [currentDay, setCurrentDay] = useState(1);
+  const [currentDate, setCurrentDate] = useState("");
 
   const [plan, setPlan] = useState({
     id: 1,
@@ -204,12 +208,6 @@ export default function PlanningPage() {
     arrival: "2024/03/24/19:30",
     a_airport: "오사카",
     travel_id: 1,
-  });
-
-  const [day, setDay] = useState({
-    detailday: 24,
-    detailweekday: "일요일",
-    sqday: 2,
   });
 
   const [detailPlans, setDetailPlans] = useState([
@@ -243,12 +241,48 @@ export default function PlanningPage() {
     },
   ]);
 
+  const getFormattedDate = (dateString) => {
+    const date = new Date(dateString);
+    return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(
+      2,
+      "0"
+    )}/${String(date.getDate()).padStart(2, "0")}`;
+  };
+
+  // // 현재 선택된 날짜로부터 YYYY/MM/DD 형태의 문자열을 얻습니다.
+  // useEffect(() => {
+  //   if (daysList.length > 0 && currentDayIndex >= 0) {
+  //     // 선택된 day 인덱스를 실제 날짜로 변환합니다.
+  //     const startDate = new Date(plan.start_date);
+  //     const currentDate = new Date(
+  //       startDate.setDate(startDate.getDate() + currentDayIndex)
+  //     );
+  //     setCurrentDate(getFormattedDate(currentDate));
+  //   }
+  // }, [currentDayIndex, daysList, plan.start_date]);
+
   const filteredDetailPlans = detailPlans.filter(
     (detailPlan) => detailPlan.day === currentDay
   );
 
   const handleDayChange = (newDay) => {
     setCurrentDay(newDay);
+  };
+
+  const handleNavigation = () => {
+    // 현재 URL을 가져옵니다.
+    const currentUrl = window.location.href;
+  
+    // 기존 URL에서 '/planning' 부분을 'planningTest'로 변경합니다.
+    const newUrl = currentUrl.replace('/planning', '/planningTest');
+  
+    // 새로운 URL로 이동합니다.
+    window.location.href = newUrl;
+  };
+  
+  const handleAddPlanClick = () => {
+    // 'add-plan' 경로로 이동하며 planId와 현재 선택된 day를 상태로 전달
+    navigate("planningTest", { state: { planId: plan.id, day: currentDay } });
   };
 
   return (
@@ -317,20 +351,24 @@ export default function PlanningPage() {
             {/* 새로운 계획 추가 버튼 등 나머지 UI 요소 */}
           </div>
         </div>
-        <div className={style.addDetailPlanStyle}>
-          <Plus />
-          <div className={style.middleFont}>새로운 계획 추가</div>
-        </div>
+        <div className={style.addDetailPlanStyle} onClick={handleAddPlanClick}>
+        <Plus />
+        <div className={style.middleFont}>새로운 계획 추가</div>
+      </div>
       </div>
     </>
   );
 }
 
-const DayCalculate = ({ startDate: initialStartDate, endDate: initialEndDate, onDayChange }) => {
+const DayCalculate = ({
+  startDate: initialStartDate,
+  endDate: initialEndDate,
+  onDayChange,
+}) => {
   // useState를 이용하여 초기 상태 설정
   const [currentDayIndex, setCurrentDayIndex] = useState(0);
   const [daysList, setDaysList] = useState([]);
-  
+
   // 시작 날짜와 종료 날짜를 이용하여 daysList를 계산하는 함수
   const calculateDays = () => {
     if (!initialStartDate || !initialEndDate) return;
@@ -358,7 +396,7 @@ const DayCalculate = ({ startDate: initialStartDate, endDate: initialEndDate, on
 
   // 이전 Day로 이동
   const goToPreviousDay = () => {
-    setCurrentDayIndex(prev => {
+    setCurrentDayIndex((prev) => {
       const newIndex = prev > 0 ? prev - 1 : prev;
       onDayChange(newIndex + 1); // 실제 day 값으로 업데이트
       return newIndex;
@@ -367,7 +405,7 @@ const DayCalculate = ({ startDate: initialStartDate, endDate: initialEndDate, on
 
   // 다음 Day로 이동
   const goToNextDay = () => {
-    setCurrentDayIndex(prev => {
+    setCurrentDayIndex((prev) => {
       const newIndex = prev < daysList.length - 1 ? prev + 1 : prev;
       onDayChange(newIndex + 1); // 실제 day 값으로 업데이트
       return newIndex;
