@@ -1,4 +1,4 @@
-package com.noah.backend.domain.exchange.dto.responseDto;
+package com.noah.backend.domain.exchange.dto.requestDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,11 +11,9 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TargetExchangeRate {
+public class ExchangeRatePutDto {
 
     private Long travelId;
-    private String travelTitle;
-    private Long memberId;
     private String targetExchangeCurrency;
     private Double targetExchangeRate;
 

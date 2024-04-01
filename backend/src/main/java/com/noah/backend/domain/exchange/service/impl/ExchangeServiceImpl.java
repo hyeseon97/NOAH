@@ -7,6 +7,7 @@ import com.noah.backend.domain.apis.dto.CurrencyDto;
 import com.noah.backend.domain.apis.service.ForeignCurrencyService;
 import com.noah.backend.domain.bank.dto.requestDto.BankAccountWithdrawReqDto;
 import com.noah.backend.domain.bank.service.BankService;
+import com.noah.backend.domain.exchange.dto.requestDto.ExchangeRatePutDto;
 import com.noah.backend.domain.exchange.dto.requestDto.ExchangeReqDto;
 import com.noah.backend.domain.exchange.dto.responseDto.ExchangeInfoDto;
 import com.noah.backend.domain.exchange.dto.responseDto.ExchangeRateGetDto;
@@ -87,26 +88,6 @@ public class ExchangeServiceImpl implements ExchangeService {
                 .build();
         bankService.bankAccountWithdraw(bankAccountWithdrawReqDto);
 
-        int currencyCode;
-
-        switch (currencyName) {
-            case "USD":
-                currencyCode = 0;
-                break;
-            case "JPY":
-                currencyCode = 1;
-                break;
-            case "CNY":
-                currencyCode = 2;
-                break;
-            case "EUR":
-                currencyCode = 3;
-                break;
-            default:
-                throw new ExchangeCurrencyNotAcceptableException();
-
-        }
-
         Long exchangeId = exchangeRepository.getExchangeIdByTravelId(travel.getId());
 
         // 만약 환전 내역이 없다면
@@ -114,7 +95,7 @@ public class ExchangeServiceImpl implements ExchangeService {
             // 환전 생성
 
             Exchange exchange = Exchange.builder()
-                    .currency(currencyCode)
+                    .currency(exchangeReqDto.getCurrency())
                     .exchangeAmount(exchangeReqDto.getExchangeAmount())
                     .groupAccount(groupAccount)
                     .build();
@@ -124,7 +105,7 @@ public class ExchangeServiceImpl implements ExchangeService {
             // 기존 환전 내역이 있다면
         } else {
             Exchange exchange = exchangeRepository.findById(exchangeId).orElseThrow(ExchangeNotFoundException::new);
-            if (exchange.getCurrency() != currencyCode) {
+            if (!exchange.getCurrency().equals(exchangeReqDto.getCurrency())) {
                 throw new ExchangeFailedException();
             }
             int previousAmount = exchange.getExchangeAmount();
@@ -152,29 +133,8 @@ public class ExchangeServiceImpl implements ExchangeService {
         } else {
             Exchange exchange = exchangeRepository.findById(exchangeId).orElseThrow(ExchangeNotFoundException::new);
 
-            int currencyCode = exchange.getCurrency();
-            String currencyName;
-
-            switch (currencyCode) {
-                case 0:
-                    currencyName = "USD";
-                    break;
-                case 1:
-                    currencyName = "JPY";
-                    break;
-                case 2:
-                    currencyName = "CNY";
-                    break;
-                case 3:
-                    currencyName = "EUR";
-                    break;
-                default:
-                    throw new ExchangeCurrencyNotAcceptableException();
-
-            }
-
             ExchangeInfoDto exchangeInfoDto = ExchangeInfoDto.builder()
-                    .currency(currencyName)
+                    .currency(exchange.getCurrency())
                     .exchangeAmount(exchange.getExchangeAmount())
                     .build();
 
@@ -194,5 +154,34 @@ public class ExchangeServiceImpl implements ExchangeService {
             .EUR(currencyDto.getBuyEuro()).build();
 
         return exchangeRateGetDto;
+    }
+
+    @Override
+    public Long updateTargetExchangeRate(String email, ExchangeRatePutDto exchangeRatePutDto) {
+
+        /* 접근권한 */
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), exchangeRatePutDto.getTravelId()).orElseThrow(
+            MemberTravelAccessException::new);
+        /* ------ */
+
+        Exchange exchange = exchangeRepository.getExchangeByTravelId(exchangeRatePutDto.getTravelId()).orElse(null);
+
+        if(exchange == null){
+            exchange = Exchange.builder()
+                .currency(null)
+                .exchangeAmount(0)
+                .targetExchangeCurrency(exchangeRatePutDto.getTargetExchangeCurrency())
+                .targetExchangeRate(exchangeRatePutDto.getTargetExchangeRate())
+                .build();
+            Exchange savedExchange = exchangeRepository.save(exchange);
+            return savedExchange.getId();
+
+        } else{
+            exchange.setTargetExchangeCurrency(exchangeRatePutDto.getTargetExchangeCurrency());
+            exchange.setTargetExchangeRate(exchangeRatePutDto.getTargetExchangeRate());
+            return exchange.getId();
+        }
+
     }
 }
