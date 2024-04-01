@@ -1,12 +1,66 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ReactComponent as Cancel } from "../../assets/Icon/Cancel.svg";
 import { ReactComponent as Ship } from "../../assets/Icon/Ship.svg";
 import showToast from "../common/Toast";
 
-export default function Notification({ isInvitation, onDelete }) {
+export default function Notification({
+  object,
+  // isInvitation,
+  onDelete,
+  // messageType,
+  // createdAt,
+  // travelTitle,
+  // currency,
+  // exchangeRate,
+}) {
   const [startX, setStartX] = useState(0); // 스와이프 시작 X 좌표
   const [isSwiping, setIsSwiping] = useState(false); // 스와이핑 중인지 여부
   const [translateX, setTranslateX] = useState(0); // 변환(이동) X 좌표
+  const [groupTitle, setGroupTitle] = useState("");
+  const [message, setMessage] = useState("");
+  const [messageHeader, setMessageHeader] = useState("");
+  const [formattedCreateAt, setFormattedCreateAt] = useState("");
+
+  // 메세지 타입에 따른 메시지 설정
+  useEffect(() => {
+    switch (object.type) {
+      case 1:
+        setMessageHeader("초대 안내");
+        setGroupTitle(object.travelTitle);
+        setMessage("모임에 초대되었습니다.");
+        break;
+      case 2:
+        setMessageHeader("납부일 안내");
+        setGroupTitle(object.travelTitle);
+        setMessage("모임의 납부일입니다.");
+        break;
+      case 3:
+        setMessageHeader("환율 안내");
+        setMessage(
+          `${object.currency}가 지정한 환율 ${object.exchangeRate}에 도달했습니다.`
+        );
+        break;
+      default:
+        setMessage("알 수 없는 메시지 타입입니다.");
+    }
+    const createAtDate = new Date(object.createAt);
+    const options = {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    };
+    const formattedDate = new Intl.DateTimeFormat("ko-KR", options)
+      .format(createAtDate)
+      .replace(/\./g, "")
+      .replace(/(\d{4}) (\d{2}) (\d{2})/, "$1.$2.$3")
+      .replace(/ /g, " ")
+      .replace(/:/g, ":");
+    setFormattedCreateAt(formattedDate);
+  }, []);
 
   // 터치 또는 마우스 다운 시작 위치 설정
   const handleStart = (clientX) => {
@@ -233,12 +287,11 @@ export default function Notification({ isInvitation, onDelete }) {
         onTouchEnd={handleTouchEnd}
       >
         <div style={notificationInfo}>
-          <div style={labelSmall}>출금 안내</div>
+          <div style={labelSmall}>{messageHeader}</div>
           <div style={{ ...paragraphSmall, color: "black" }}>
-            <span style={labelSmall}>B106여행가자</span> 모임에서 출금이
-            발생했습니다.
+            <span style={labelSmall}>{groupTitle}</span> {message}
           </div>
-          <div style={paragraphSmall}>2024.03.08 14:57:32</div>
+          <div style={paragraphSmall}>{formattedCreateAt}</div>
         </div>
         <div
           style={deleteButton}
@@ -255,7 +308,7 @@ export default function Notification({ isInvitation, onDelete }) {
         </div>
       </div>
       <div style={line}></div>
-      {isInvitation && isModalVisible && <Modal onDelete={onDelete} />}
+      {object.type === 1 && isModalVisible && <Modal onDelete={onDelete} />}
     </>
   );
 }
