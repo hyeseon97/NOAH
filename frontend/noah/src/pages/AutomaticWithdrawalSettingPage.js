@@ -1,7 +1,9 @@
+import Header from "../components/common/Header";
+
 export default function AutomaticWithdrawalSettingPage() {
   return (
     <>
-      <h1>자동이체 설정 페이지</h1>
+      <Header LeftIcon="Arrow" Title="내 여행 기록" />
     </>
   );
 }
