@@ -4,6 +4,8 @@ import { ReactComponent as SmallPlane } from "./../assets/Icon/SmallPlane.svg";
 import { ReactComponent as Mark } from "./../assets/Icon/Mark.svg";
 import styles from "./PlaneSearchPage.module.css";
 
+import { getFlightInfo } from "../api/flight/flight";
+
 // const wholeStyle = {
 //   display: "flex",
 //   flexDirection: "column",
@@ -221,6 +223,23 @@ export default function PlaneSearchPage() {
     setBoarderDate("");
   };
 
+  const getPlaneList = () => {
+    const object = {
+      originLocationCode: arrivalAirPort,
+      destinationLocationCode: departureAirPort,
+      departureDate: boarderDate,
+    };
+    console.log(arrivalAirPort, departureAirPort, boarderDate);
+    getFlightInfo(arrivalAirPort, departureAirPort, boarderDate)
+      .then((data) => {
+        console.log(data); // API 호출 결과를 여기에서 사용할 수 있습니다.
+        // 필요한 로직을 추가하세요.
+      })
+      .catch((error) => {
+        console.error(error); // 오류 처리
+      });
+  };
+
   const selectPlane = () => {};
 
   return (
@@ -271,7 +290,9 @@ export default function PlaneSearchPage() {
         </div>
       </div>
       <div className={styles.lowerButtonStyle}>
-        <button className={styles.buttonStyle}>검색</button>
+        <button className={styles.buttonStyle} onClick={getPlaneList}>
+          검색
+        </button>
       </div>
 
       {planeList.length > 0 ? (
@@ -325,7 +346,10 @@ export default function PlaneSearchPage() {
           <div className={styles.wholeBox}>
             <div className={styles.boxLeft}>
               <Mark />
-              <input className={styles.inputStyle} placeholder="2023/04/01"></input>
+              <input
+                className={styles.inputStyle}
+                placeholder="2023/04/01"
+              ></input>
             </div>
             <div className={styles.boxRight}>날짜</div>
           </div>
