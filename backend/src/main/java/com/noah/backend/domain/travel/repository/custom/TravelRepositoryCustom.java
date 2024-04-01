@@ -1,5 +1,6 @@
 package com.noah.backend.domain.travel.repository.custom;
 
+import com.noah.backend.domain.travel.dto.responseDto.MyTravelGetDto;
 import com.noah.backend.domain.travel.dto.responseDto.TravelGetDto;
 import com.noah.backend.domain.travel.dto.requestDto.TravelGetListDto;
 
@@ -17,4 +18,6 @@ public interface TravelRepositoryCustom  {
     Optional<List<Long>> findTravelPaymentDateIsToday(int todayDate);
 
     Optional<TravelGetDto> getTravelSelect(Long travelId);
+
+    Optional<List<MyTravelGetDto>> getTravelAll(Long memberId);
 }

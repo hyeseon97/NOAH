@@ -17,7 +17,7 @@ public class NotificationRepositoryImpl implements NotificationRepositoryCustom{
 
     @Override
     public Optional<List<NotificationGetDto>> getNotification(Long memberId) {
-        return Optional.ofNullable(query.select(Projections.constructor(NotificationGetDto.class, notification.id, notification.type, notification.travelId, notification.travelTitle))
+        return Optional.ofNullable(query.select(Projections.constructor(NotificationGetDto.class, notification.id, notification.type, notification.travelId, notification.travelTitle, notification.currency, notification.exchangeRate, notification.createdAt))
                                        .from(notification)
                                        .where(notification.receiver.id.eq(memberId).and(notification.isDeleted.eq(false)))
                                        .fetch());

@@ -3,9 +3,11 @@ package com.noah.backend.domain.review.repository.custom;
 import com.noah.backend.domain.comment.dto.responseDto.CommentGetDto;
 import com.noah.backend.domain.comment.dto.responseDto.CommentListGetDto;
 import com.noah.backend.domain.image.dto.requestDto.ImageGetDto;
+import com.noah.backend.domain.image.entity.Image;
 import com.noah.backend.domain.review.dto.responseDto.ReviewGetDto;
 import com.noah.backend.domain.review.dto.responseDto.ReviewListGetDto;
 import com.noah.backend.domain.review.entity.Review;
+import com.noah.backend.domain.suggest.dto.requestDto.SuggestImageGetDto;
 import com.noah.backend.domain.suggest.dto.responseDto.SuggestListResDto;
 import com.noah.backend.global.exception.suggest.SuggestNotExists;
 import com.querydsl.core.types.Projections;
@@ -95,14 +97,14 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom{
         return reviewCount;
     }
 
-    //인당 환산값보다 낮은 리뷰 아이디를 제공
+    //인당 환산값보다 낮은 리뷰를 제공
     @Override
-    public Optional<List<Long>> getSuggestId(int priceOfPerson) {
+    public Optional<List<SuggestListResDto>> getSuggestReview(int priceOfPerson) {
 
-        return Optional.ofNullable(query.select(review.id)
+        return Optional.ofNullable(query.select(Projections.constructor(SuggestListResDto.class,review.id,review.expense,review.country,review.people,review.startDate,review.endDate))
                 .from(review)
                 .where(review.expense.divide(review.people).loe(priceOfPerson))
-                        .orderBy(review.expense.divide(review.people).desc())
+                .orderBy(review.expense.divide(review.people).desc())
                 .fetch());
     }
 

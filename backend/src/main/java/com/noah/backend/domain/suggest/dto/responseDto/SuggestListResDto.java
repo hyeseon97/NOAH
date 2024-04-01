@@ -1,5 +1,7 @@
 package com.noah.backend.domain.suggest.dto.responseDto;
 
+import com.noah.backend.domain.review.entity.Review;
+import com.noah.backend.domain.suggest.dto.requestDto.SuggestImageGetDto;
 import lombok.*;
 
 import java.util.Date;
@@ -11,10 +13,20 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SuggestListResDto {
-	private int expense; //경비
-	private String Country; //여행국가
-	private int people; //인원 수
-	private Date startDate; //시작일
-	private Date endDate; //종료일
-	private List<Long> imageIdList; //이미지ID
+	private Long id;
+	private int expense;
+	private String country;
+	private int people;
+	private Date startDate;
+	private Date endDate;
+	private List<SuggestImageGetDto> imageList; //이미지
+
+	public SuggestListResDto(Long id, int expense, String country, int people, Date startDate, Date endDate) {
+		this.id = id;
+		this.expense = expense;
+		this.country = country;
+		this.people = people;
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
 }

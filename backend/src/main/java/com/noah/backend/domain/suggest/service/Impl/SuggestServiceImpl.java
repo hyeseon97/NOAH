@@ -2,14 +2,17 @@ package com.noah.backend.domain.suggest.service.Impl;
 
 import com.noah.backend.domain.groupaccount.repository.GroupAccountRepository;
 import com.noah.backend.domain.image.repository.ImageRepository;
+import com.noah.backend.domain.member.entity.Member;
+import com.noah.backend.domain.member.repository.MemberRepository;
 import com.noah.backend.domain.memberTravel.Repository.MemberTravelRepository;
 import com.noah.backend.domain.review.entity.Review;
 import com.noah.backend.domain.review.repository.ReviewRepository;
-import com.noah.backend.domain.suggest.dto.requestDto.SuggestListReqDto;
+import com.noah.backend.domain.suggest.dto.requestDto.SuggestImageGetDto;
+import com.noah.backend.domain.suggest.dto.responseDto.MainSuggestGetDto;
 import com.noah.backend.domain.suggest.dto.responseDto.SuggestListResDto;
 import com.noah.backend.domain.suggest.service.SuggestService;
+import com.noah.backend.global.exception.member.MemberNotFoundException;
 import com.noah.backend.global.exception.review.ReviewNotFound;
-import com.noah.backend.global.exception.suggest.LowerThanPriceNotExists;
 import com.noah.backend.global.exception.suggest.SuggestNotExists;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -25,6 +28,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @Service
 public class SuggestServiceImpl implements SuggestService {
 
+	private final MemberRepository memberRepository;
 	private final MemberTravelRepository memberTravelRepository;
 	private final GroupAccountRepository groupAccountRepository;
 	private final ReviewRepository reviewRepository;
@@ -36,15 +40,65 @@ public class SuggestServiceImpl implements SuggestService {
 		//이우진 교보재
 		//int balance = groupAccountRepository.findBalance(suggestListReqDto.getTravelId()).orElse(0);
 		Integer targetAmount = groupAccountRepository.findTargetAmount(travelId).orElse(null);
+		System.out.println("targetAmount : " + targetAmount);
 
 		if(targetAmount == null){//목표금액이 null이면 랜덤으로 여행 후기 보여주기
 			int reviewCount = reviewRepository.getRandomSuggestId().orElse(0);
 			return makeRandomSuggestList(reviewCount);
 		} else{//목표금액이 존재하면 targetAmount/total로 인당 가격을 환산하여 여행후기 추천
 			int priceOfPerson = targetAmount/total;
-			List<Long> reviewIdlist = reviewRepository.getSuggestId(priceOfPerson).orElse(null);
-			return makePriceSuggestList(reviewIdlist);
+			List<SuggestListResDto> reviewlist = reviewRepository.getSuggestReview(priceOfPerson).orElse(null);
+
+			if(reviewlist == null || reviewlist.size()==0){
+				int reviewCount = reviewRepository.getRandomSuggestId().orElse(0);
+				return makeRandomSuggestList(reviewCount);
+			}
+
+			List<SuggestListResDto> returnlist = new ArrayList<>();
+			for(SuggestListResDto s : reviewlist){
+				Long reviewId = s.getId();
+				List<SuggestImageGetDto> imageList = imageRepository.getImageList(reviewId).orElse(null);
+				SuggestListResDto suggestListResDto = SuggestListResDto.builder()
+						.id(s.getId())
+						.expense(s.getExpense())
+						.country(s.getCountry())
+						.people(s.getPeople())
+						.startDate(s.getStartDate())
+						.endDate(s.getEndDate())
+						.imageList(imageList)
+						.build();
+				returnlist.add(suggestListResDto);
+			}
+			return returnlist;
 		}
+	}
+
+	@Override
+	public List<MainSuggestGetDto> getSuggestMain(String email) {
+
+		Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+		List<Long> travelIdList = memberTravelRepository.findByMemberId(member.getId()).orElse(null);
+
+		List<MainSuggestGetDto> result = new ArrayList<>();
+		for(Long travelId : travelIdList){
+
+			List<SuggestListResDto> suggestList = getSuggestList(travelId);
+
+			SuggestListResDto suggest = suggestList.get(0);
+
+			MainSuggestGetDto mainSuggestGetDto = MainSuggestGetDto.builder()
+				.travelId(travelId)
+				.reviewId(suggest.getId())
+				.country(suggest.getCountry())
+				.expense(suggest.getExpense())
+				.imageId(suggest.getImageList().get(0).getImageId())
+				.imageUrl(suggest.getImageList().get(0).getImageUrl())
+				.build();
+
+			result.add(mainSuggestGetDto);
+		}
+
+		return result;
 	}
 
 	//랜덤 제안리스트를 만드는 메소드
@@ -60,14 +114,15 @@ public class SuggestServiceImpl implements SuggestService {
 			}
 			for(long reviewId:hm){
 				Review review = reviewRepository.findById(reviewId).orElseThrow(ReviewNotFound::new);
-				List<Long> imageIdList = imageRepository.findImageOfReview(reviewId).orElse(null);
+				List<SuggestImageGetDto> imageIdList = imageRepository.findImageOfReview(reviewId).orElse(null);
 				SuggestListResDto suggestListResDto = SuggestListResDto.builder()
+						.id(review.getId())
 						.expense(review.getExpense())
-						.Country(review.getCountry())
+						.country(review.getCountry())
 						.people(review.getPeople())
 						.startDate(review.getStartDate())
 						.endDate(review.getEndDate())
-						.imageIdList(imageIdList)
+						.imageList(imageIdList)
 						.build();
 				list.add(suggestListResDto);
 			}
@@ -75,6 +130,7 @@ public class SuggestServiceImpl implements SuggestService {
 		}
 	}
 	//인당 가격보다 낮은 제안리스트를 만드는 메소드
+	/*
 	public List<SuggestListResDto> makePriceSuggestList(List<Long> reviewIdlist){
 		if(reviewIdlist==null){
 			throw new LowerThanPriceNotExists();
@@ -97,4 +153,5 @@ public class SuggestServiceImpl implements SuggestService {
 			return list;
 		}
 	}
+	*/
 }

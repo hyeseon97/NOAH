@@ -1,5 +1,6 @@
 package com.noah.backend.domain.travel.service;
 
+import com.noah.backend.domain.travel.dto.responseDto.MyTravelGetDto;
 import com.noah.backend.domain.travel.dto.responseDto.TravelGetDto;
 import com.noah.backend.domain.travel.dto.responseDto.TravelGetDtoJun;
 import com.noah.backend.domain.travel.dto.requestDto.TravelGetListDto;
@@ -23,4 +24,6 @@ public interface TravelService {
     Long updateTravel(String email, TravelUpdateDto travelDto);
 
     void deleteTravel(String email, Long travelId);
+
+    List<MyTravelGetDto> getTravelAll(String email);
 }
