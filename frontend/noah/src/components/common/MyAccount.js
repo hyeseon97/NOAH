@@ -76,6 +76,7 @@ export default function MyAccount({
           </div>
         </div>
         {from === "transfer" && <div style={labelMedium}>선택</div>}
+        {from === "automatic" && <div style={labelMedium}>설정</div>}
       </div>
       <div style={line}></div>
     </>

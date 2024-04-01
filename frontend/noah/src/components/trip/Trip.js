@@ -143,10 +143,7 @@ export default function Trip({
             </div>
           )}
           {!fromHome && (
-            <div
-              style={{ ...paragraphSmall, color: "#898989" }}
-              onClick={handleAccountClick}
-            >
+            <div style={{ ...paragraphSmall, color: "#898989" }}>
               {bankName} {accountNumber}
             </div>
           )}
