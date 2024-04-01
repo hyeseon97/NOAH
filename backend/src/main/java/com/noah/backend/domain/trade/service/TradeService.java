@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface TradeService {
-    void createTrade(TradePostReqDto tradePostReqDto);
+    void createTrade(TradePostReqDto tradePostReqDto) throws IOException;
 
     List<TradeGetResDto> getTradeList(String email, Long travelId) throws IOException;
 
