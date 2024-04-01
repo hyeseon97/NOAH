@@ -18,6 +18,7 @@ import java.util.Optional;
 
 import static com.noah.backend.domain.account.entity.QAccount.account;
 import static com.noah.backend.domain.groupaccount.entity.QGroupAccount.groupAccount;
+import static com.noah.backend.domain.member.entity.QMember.member;
 import static com.noah.backend.domain.memberTravel.entity.QMemberTravel.memberTravel;
 import static com.noah.backend.domain.trade.entity.QTrade.trade;
 import static com.noah.backend.domain.travel.entity.QTravel.travel;
@@ -62,9 +63,10 @@ public class TradeRepositoryImpl implements TradeRepositoryCustom {
                                                                     trade.cost,
                                                                     trade.amount,
                                                                     trade.consumeType,
-                                                                    trade.member.id,
-                                                                    trade.member.name))
+                                                                    member.id,
+                                                                    member.name))
                                         .from(trade)
+                                        .leftJoin(member).on(trade.member.id.eq(member.id))
                                         .where(trade.account.id.eq(accountId)
                                             , trade.isContained.isTrue()
 //                        trade.date.between(startDate, endDate),
@@ -94,9 +96,10 @@ public class TradeRepositoryImpl implements TradeRepositoryCustom {
                                                                         trade.cost,
                                                                         trade.amount,
                                                                         trade.consumeType,
-                                                                        trade.member.id,
-                                                                        trade.member.name))
+                                                                        member.id,
+                                                                        member.name))
                                         .from(trade)
+                                        .leftJoin(member).on(trade.member.id.eq(member.id))
                                         .where(trade.account.id.eq(accountId),
                                                memberIdsCondition(memberIds),
                                                consumeTypesCondition(consumeTypes),
@@ -125,8 +128,11 @@ public class TradeRepositoryImpl implements TradeRepositoryCustom {
                                                                         trade.cost,
                                                                         trade.amount,
                                                                         trade.member.nickname,
-                                                                        trade.consumeType))
+                                                                        trade.consumeType,
+                                                                        member.id,
+                                                                        member.name))
                                         .from(trade)
+                                        .leftJoin(member).on(trade.member.id.eq(member.id))
                                         .where(trade.account.id.eq(accountId),
                                                trade.isContained.isFalse())
                                         .orderBy(trade.date.asc(), trade.time.asc())
@@ -143,7 +149,7 @@ public class TradeRepositoryImpl implements TradeRepositoryCustom {
                                  .leftJoin(memberTravel).on(memberTravel.travel.id.eq(travel.id))
                                  .where(memberTravel.member.id.eq(memberId).and(trade.id.eq(tradeId)))
                                  .fetch())
-            .orElseThrow(TradeAccessException::new);
+                .orElseThrow(TradeAccessException::new);
     }
 
     @Override

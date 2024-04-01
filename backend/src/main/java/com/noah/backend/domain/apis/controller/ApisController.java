@@ -20,13 +20,8 @@ import com.noah.backend.domain.apis.service.ForeignCurrencyService;
 import com.noah.backend.global.exception.flight.RequiredFilledException;
 import com.noah.backend.global.format.code.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.http.HttpRequest.BodyPublishers;
-import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
@@ -34,6 +29,13 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -51,39 +53,60 @@ public class ApisController {
     private final ApiResponse apiResponse;
     private final FlightService flightService;
     private final ForeignCurrencyService foreignCurrencyService;
-    private String accesstoken = "";
+    private String accesstoken = "BgvYFm1UjQPnyKOMdzrG1hZYI8nQ";
 
-//    @Scheduled(fixedDelay = 1500000)
+    @Scheduled(fixedDelay = 1500000)
     @Operation(summary = "아마데우스 토큰 갱신")
     private void updateAcesstoken() throws IOException, InterruptedException {
         String clientId = "OGMc8pKdyLwOtE5AvQNVQ7SpwWJmYyCi";
         String clientSecret = "KGhPd2Qsy8sG1gs9";
-
         String url = "https://test.api.amadeus.com/v1/security/oauth2/token";
-        String requestBody = "grant_type=client_credentials&client_id="+clientId+"&client_secret="+clientSecret;
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create(url))
-            .header("Content-Type", "application/x-www-form-urlencoded")
-            .POST(BodyPublishers.ofString(requestBody))
-            .build();
-        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-        log.info(response.toString());
-        JSONObject jsonObject = new JSONObject(response.toString());
-        accesstoken = jsonObject.getString("access_token");
+        String requestBody = "grant_type=client_credentials&client_id=" + clientId + "&client_secret=" + clientSecret;
+
+        HttpClient httpClient = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost(url);
+        httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
+        try {
+            StringEntity entity = new StringEntity(requestBody);
+            httpPost.setEntity(entity);
+
+            HttpResponse response = httpClient.execute(httpPost);
+            HttpEntity responseEntity = response.getEntity();
+
+            if (responseEntity != null) {
+                String responseBody = EntityUtils.toString(responseEntity);
+                JSONObject jsonResponse = new JSONObject(responseBody);
+                accesstoken = jsonResponse.getString("access_token");
+                System.out.println("success : " + accesstoken);
+            } else {
+                System.out.println("Empty response entity");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+//        HttpClient client = HttpClient.newHttpClient();
+//        HttpRequest request = HttpRequest.newBuilder()
+//            .uri(URI.create(url))
+//            .header("Content-Type", "application/x-www-form-urlencoded")
+//            .POST(BodyPublishers.ofString(requestBody))
+//            .build();
+//        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+//        JSONObject jsonObject = new JSONObject(response);
+//        log.info(jsonObject.toString());
+//        accesstoken = jsonObject.getString("access_token");
     }
 
     @GetMapping("flight-offers")
     @Operation(summary = "항공권 탐색")
-    public ResponseEntity findFlightOffers(FlightOffersDto flightOffersDto) throws IOException, InterruptedException {
-        // test code
-        flightOffersDto = FlightOffersDto.builder()
-            .originLocationCode("인천")
-            .destinationLocationCode("후쿠")
-            .departureDate(LocalDate.of(2024, 5, 12))
-            .adults(3)
-            .build();
-        //
+    public ResponseEntity findFlightOffers(@RequestBody FlightOffersDto flightOffersDto) throws IOException, InterruptedException {
+//        // test code
+//        flightOffersDto = FlightOffersDto.builder()
+//            .originLocationCode("인천")
+//            .destinationLocationCode("후쿠")
+//            .departureDate(LocalDate.of(2024, 5, 12).toString())
+//            .build();
+//        //
         JSONObject jsonObject;
         try {
             jsonObject = flightService.findFlightOffers(accesstoken, flightOffersDto);
@@ -108,41 +131,41 @@ public class ApisController {
         return Files.readAllBytes(Path.of(resource.getURI()));
     }
 //    @GetMapping("flight-offers")
-    public ResponseEntity getFlightOffers(FlightOffersDto flightOffersDto) throws IOException, InterruptedException {
-        // 프론트 dto 임시 제작
-        List<String> a = new ArrayList<>();
-        a.add("T6");
-        a.add("Q5");
-        flightOffersDto =
-            FlightOffersDto
-            .builder()
-                .originLocationCode("SYD")
-                .destinationLocationCode("BKK")
-                .departureDate(LocalDate.of(2024, 5, 2))
-                .returnDate(LocalDate.of(2024, 5, 12))
-                .adults(2)
-                .children(1)
-                .infants(1)
-                .travelClass("ECONOMY")
-                .excludedAirlineCodes(a)
-//                .includedAirlineCodes(비워뒀음)
-                .nonStop(true)
-                .currencyCode("KRW")
-                .maxPrice(5000000)
-                .max(250)
-            .build();
-        JSONObject jsonObject;
-        // dto
-        try {
-            jsonObject = flightService.getFlightOffers(accesstoken, flightOffersDto);
-        }
-        catch (RequiredFilledException e) {
-            e.printStackTrace();
-            return apiResponse.fail(REQUIRED_FIELD_FAILED);
-        }
-        log.info("jsonobject: " + jsonObject);
-        return apiResponse.success(FLIGHT_OFFERS_SUCCESS, jsonObject.toString());
-    }
+//    public ResponseEntity getFlightOffers(FlightOffersDto flightOffersDto) throws IOException, InterruptedException {
+//        // 프론트 dto 임시 제작
+//        List<String> a = new ArrayList<>();
+//        a.add("T6");
+//        a.add("Q5");
+//        flightOffersDto =
+//            FlightOffersDto
+//            .builder()
+//                .originLocationCode("SYD")
+//                .destinationLocationCode("BKK")
+//                .departureDate(LocalDate.of(2024, 5, 2))
+//                .returnDate(LocalDate.of(2024, 5, 12))
+//                .adults(2)
+//                .children(1)
+//                .infants(1)
+//                .travelClass("ECONOMY")
+//                .excludedAirlineCodes(a)
+////                .includedAirlineCodes(비워뒀음)
+//                .nonStop(true)
+//                .currencyCode("KRW")
+//                .maxPrice(5000000)
+//                .max(250)
+//            .build();
+//        JSONObject jsonObject;
+//        // dto
+//        try {
+//            jsonObject = flightService.getFlightOffers(accesstoken, flightOffersDto);
+//        }
+//        catch (RequiredFilledException e) {
+//            e.printStackTrace();
+//            return apiResponse.fail(REQUIRED_FIELD_FAILED);
+//        }
+//        log.info("jsonobject: " + jsonObject);
+//        return apiResponse.success(FLIGHT_OFFERS_SUCCESS, jsonObject.toString());
+//    }
 
     @GetMapping("/mock/flight-price-analysis")
     public byte[] getMockFlightPriceAnalysis() throws IOException {
