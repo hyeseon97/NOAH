@@ -91,7 +91,6 @@ export default function AutomaticWithdrawalSettingPage() {
     (async () => {
       try {
         const res = await getAutoTransfer(selectedTravelId);
-        console.log(res);
         setAccounts(res.data);
       } catch (e) {
       } finally {
@@ -127,7 +126,6 @@ export default function AutomaticWithdrawalSettingPage() {
     (async () => {
       try {
         const res = await getAutoTransfer(selectedTravelId);
-        console.log(res);
         setAccounts(res.data);
       } catch (e) {
       } finally {
