@@ -26,7 +26,7 @@ public class Exchange extends BaseEntity {
 
     @Setter
     @Column(name = "exchange_amount")
-    private int exchangeAmount;
+    private Double exchangeAmount;
 
     @Setter
     @Column(name = "target_exchange_currency")

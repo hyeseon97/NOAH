@@ -11,5 +11,5 @@ public class ExchangeReqDto {
     Long travelId;
     String currency;        // 통화
     int amount;          // 환전금액
-    int exchangeAmount;  // 외화금액
+    Double exchangeAmount;  // 외화금액
 }
