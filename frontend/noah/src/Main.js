@@ -26,6 +26,9 @@ import PlaneSearchPage from "./pages/PlaneSearchPage";
 import PlanningTestPage from "./pages/PlanningTestPage";
 import MyAccount from "./components/common/MyAccount";
 import MyAccountPage from "./pages/MyAccountPage";
+import ReviewPage from "./pages/ReviewPage";
+import ReviewDetailPage from "./pages/ReviewDetailPage";
+import ReviewCreatePage from "./pages/ReviewCreatePage";
 
 export default function Main() {
   return (
@@ -58,6 +61,11 @@ export default function Main() {
               <Route path="planningTest" element={<PlanningTestPage />} />
             </Route>
           </Route>
+          <Route path="review">
+            <Route index element={<ReviewPage />} />
+            <Route path=":reviewId" element={<ReviewDetailPage />}></Route>
+          </Route>
+          <Route path="createreview/:travelId" element={<ReviewCreatePage />} />
           <Route path="googlemap" element={<GoogleMapSearch />} />
           <Route path="planeSearch" element={<PlaneSearchPage />} />
           <Route path="testgooglemap" element={<TestGoogleMap />} />
