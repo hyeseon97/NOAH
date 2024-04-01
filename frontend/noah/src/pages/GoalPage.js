@@ -62,6 +62,7 @@ export default function GoalPage() {
         paymentDate: newPaymentDate,
       };
       const res = await updateGroupAccountInfo(updatedInfo); // API 호출로 정보 업데이트
+      console.log(res);
       if (res.status === "SUCCESS") {
         // 상태 업데이트로 UI 변경
         console.log(newTargetAmount);
@@ -77,9 +78,13 @@ export default function GoalPage() {
         setEditModePerAmount(false);
         setEditModePaymentDate(false);
         showToast("정보가 업데이트되었습니다.");
+      } else if (res.status === "ERROR") {
+        showToast("모임 통장의 소유주만 변경 가능합니다.");
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
       }
     } catch (error) {
-      console.error("모임통장 정보 업데이트 실패", error);
       showToast("정보 업데이트에 실패했습니다.");
     }
   };
