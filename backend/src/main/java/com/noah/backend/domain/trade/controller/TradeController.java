@@ -28,9 +28,10 @@ public class TradeController {
     private final ApiResponse response;
     private final TradeService tradeService;
 
-    @Operation(summary = "거래내역 생성", description = "거래내역 생성 실제로는 사용안할듯")
+    @Operation(summary = "거래내역 생성", description = "accountId:공동통장계좌아이디 / name:거래내역내용 / cost:금액 / tradeType:입금(1), 출금(2)")
     @PostMapping
-    public ResponseEntity<?> createTrade(@RequestBody TradePostReqDto tradePostReqDto) {
+    public ResponseEntity<?> createTrade(@RequestBody TradePostReqDto tradePostReqDto)
+        throws IOException {
         tradeService.createTrade(tradePostReqDto);
         return response.success(ResponseCode.TRADE_CREATED);
     }

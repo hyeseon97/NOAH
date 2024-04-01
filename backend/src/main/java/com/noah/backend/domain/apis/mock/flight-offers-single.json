@@ -1,0 +1,160 @@
+{
+  "type": "flight-offer",
+  "id": "1",
+  "source": "GDS",
+  "instantTicketingRequired": false,
+  "nonHomogeneous": false,
+  "oneWay": false,
+  "lastTicketingDate": "2024-09-14",
+  "lastTicketingDateTime": "2024-09-14",
+  "numberOfBookableSeats": 9,
+  "itineraries": [
+    {
+      "duration": "PT1H15M",
+      "segments": [
+        {
+          "departure": {
+            "iataCode": "ICN",
+            "terminal": "1",
+            "at": "2024-09-14T15:30:00"
+          },
+          "arrival": {
+            "iataCode": "FUK",
+            "at": "2024-09-14T16:45:00"
+          },
+          "carrierCode": "7C",
+          "number": "1404",
+          "aircraft": {
+            "code": "738"
+          },
+          "operating": {
+            "carrierCode": "7C"
+          },
+          "duration": "PT1H15M",
+          "id": "1",
+          "numberOfStops": 0,
+          "blacklistedInEU": false
+        }
+      ]
+    },
+    {
+      "duration": "PT1H30M",
+      "segments": [
+        {
+          "departure": {
+            "iataCode": "FUK",
+            "at": "2024-09-18T09:00:00"
+          },
+          "arrival": {
+            "iataCode": "ICN",
+            "terminal": "1",
+            "at": "2024-09-18T10:30:00"
+          },
+          "carrierCode": "7C",
+          "number": "1407",
+          "aircraft": {
+            "code": "738"
+          },
+          "operating": {
+            "carrierCode": "7C"
+          },
+          "duration": "PT1H30M",
+          "id": "23",
+          "numberOfStops": 0,
+          "blacklistedInEU": false
+        }
+      ]
+    }
+  ],
+  "price": {
+    "currency": "KRW",
+    "total": "410000.00",
+    "base": "180000.00",
+    "fees": [
+      {
+        "amount": "0.00",
+        "type": "SUPPLIER"
+      },
+      {
+        "amount": "0.00",
+        "type": "TICKETING"
+      }
+    ],
+    "grandTotal": "410000.00"
+  },
+  "pricingOptions": {
+    "fareType": [
+      "PUBLISHED"
+    ],
+    "includedCheckedBagsOnly": true
+  },
+  "validatingAirlineCodes": [
+    "7C"
+  ],
+  "travelerPricings": [
+    {
+      "travelerId": "1",
+      "fareOption": "STANDARD",
+      "travelerType": "ADULT",
+      "price": {
+        "currency": "KRW",
+        "total": "205000.00",
+        "base": "90000.00"
+      },
+      "fareDetailsBySegment": [
+        {
+          "segmentId": "1",
+          "cabin": "ECONOMY",
+          "fareBasis": "HV3OKR",
+          "class": "H",
+          "includedCheckedBags": {
+            "weight": 15,
+            "weightUnit": "KG"
+          }
+        },
+        {
+          "segmentId": "23",
+          "cabin": "ECONOMY",
+          "fareBasis": "HV3OKR",
+          "class": "H",
+          "includedCheckedBags": {
+            "weight": 15,
+            "weightUnit": "KG"
+          }
+        }
+      ]
+    },
+    {
+      "travelerId": "2",
+      "fareOption": "STANDARD",
+      "travelerType": "ADULT",
+      "price": {
+        "currency": "KRW",
+        "total": "205000.00",
+        "base": "90000.00"
+      },
+      "fareDetailsBySegment": [
+        {
+          "segmentId": "1",
+          "cabin": "ECONOMY",
+          "fareBasis": "HV3OKR",
+          "class": "H",
+          "includedCheckedBags": {
+            "weight": 15,
+            "weightUnit": "KG"
+          }
+        },
+        {
+          "segmentId": "23",
+          "cabin": "ECONOMY",
+          "fareBasis": "HV3OKR",
+          "class": "H",
+          "includedCheckedBags": {
+            "weight": 15,
+            "weightUnit": "KG"
+          }
+        }
+      ]
+    }
+  ]
+}
