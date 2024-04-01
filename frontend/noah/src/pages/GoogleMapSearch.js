@@ -5,10 +5,12 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Header from "../components/common/Header";
 import { ReactComponent as Mark } from "./../assets/Icon/Mark.svg";
-import styles from './GoogleMapSearch.module.css';
+import styles from "./GoogleMapSearch.module.css";
 
 import Rating from "react-rating";
 import { FaStar } from "react-icons/fa";
+import { useParams } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 
 import {
   getDetailPlan,
@@ -299,8 +301,9 @@ export default function GoogleMapSearch() {
   const [infoToggle, setInpoToggle] = useState(false);
   const [detailToggle, setDetailToggle] = useState(false);
   const [isWeekTime, setIsWeekTime] = useState(false);
-
-  
+  // const { planId } = useParams();
+  const location = useLocation();
+  const { planId, day } = location.state;
 
   const onLoad = (map) => {
     mapRef.current = map;
@@ -441,7 +444,13 @@ export default function GoogleMapSearch() {
     }, 1000);
     // console.log(googleMapApiKey);
     return () => clearTimeout(timeoutId);
+
+
   }, []);
+
+  useEffect(() => {
+    console.log(planId, day)
+  }, [])
 
   const handleSelect = (placeId, event) => {
     event.preventDefault(); // 추가: 클릭 이벤트의 기본 동작 방지
@@ -492,22 +501,22 @@ export default function GoogleMapSearch() {
     }
   }, [mapRef.current]);
 
-  const myStyle = {
-    display: "none",
-    flexDirection: "column",
-    alignItems: "center",
-  };
-
-  const searchList = {
-    backgroundColor: "orange",
-
-    height: "5vh",
-  };
 
   const handleMapLoad = (map) => {
     mapRef.current = map;
     // getCurrentLocation();
   };
+
+  const createdetail = (name, formatted_address ,lat, lng, rating ) => {
+    const object = {
+      place : name,
+      pinX: lat,
+      pinY: lng,
+      memo: formatted_address,
+      time: rating,
+    }
+    createDetailPlan(object, planId);
+  }
 
   return (
     <>
@@ -540,7 +549,10 @@ export default function GoogleMapSearch() {
         </GoogleMap>
       </LoadScript>
       {outPlace && showList && search.length != 0 && (
-        <div className={styles.searchResultsStyle} style={{ display: showList ? 'block' : 'none' }}>
+        <div
+          className={styles.searchResultsStyle}
+          style={{ display: showList ? "block" : "none" }}
+        >
           <div className={styles.listSearch}>
             {suggestions && suggestions.length > 0 && (
               <ul>
@@ -570,6 +582,7 @@ export default function GoogleMapSearch() {
               <div className={styles.placeNameStyle}>
                 {outPlace.name} {outPlace.types[0]}
               </div>
+              <div onClick={() => {createdetail(outPlace.name, outPlace.formatted_address ,outPlace.lat, outPlace.lng, outPlace.rating )}}>계획 추가</div>
               <div className={styles.ratingStyle}>
                 {outPlace.rating && (
                   <>
@@ -583,7 +596,9 @@ export default function GoogleMapSearch() {
                   </>
                 )}
               </div>
-              <div className={styles.placeAddressStyle}>{outPlace.formatted_address}</div>
+              <div className={styles.placeAddressStyle}>
+                {outPlace.formatted_address}
+              </div>
               <div className={styles.placeNumberStyle}>
                 {outPlace.international_phone_number}
               </div>
@@ -627,7 +642,10 @@ export default function GoogleMapSearch() {
                 </div>
               )}
 
-              <div className={styles.moreInfoStyle} onClick={changeDetailToggle}>
+              <div
+                className={styles.moreInfoStyle}
+                onClick={changeDetailToggle}
+              >
                 {detailToggle ? "줄이기" : "더보기"}
               </div>
               {detailToggle && (

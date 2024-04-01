@@ -7,7 +7,7 @@ public interface DetailPlanService {
 
     DetailPlanListDto getDetailPlanList(String email, Long planId);
 
-    Long createDetailPlan(String email, DetailPlanPostDto detailPlan);
+    Long createDetailPlan(String email, Long planId, DetailPlanPostDto detailPlan);
 
     //DTO 수정 필요
     Long updateDetailPlan(String email, DetailPlanListDto detailPlanDto);

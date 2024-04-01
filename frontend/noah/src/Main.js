@@ -53,11 +53,13 @@ export default function Main() {
             />
             <Route path="payment" element={<PaymentPage />} />
             <Route path="planningcreate" element={<PlanningCreatePage />} />
-            <Route path="planning" element={<PlanningPage />} />
+            <Route path="planning">
+              <Route index element={<PlanningPage />} />
+              <Route path="planningTest" element={<PlanningTestPage />} />
+            </Route>
           </Route>
           <Route path="googlemap" element={<GoogleMapSearch />} />
           <Route path="planeSearch" element={<PlaneSearchPage />} />
-          <Route path="planningTest" element={<PlanningTestPage />}/>
           <Route path="testgooglemap" element={<TestGoogleMap />} />
           <Route path="notification" element={<NotificationPage />} />
           <Route path="mypage" element={<MyPage />} />
