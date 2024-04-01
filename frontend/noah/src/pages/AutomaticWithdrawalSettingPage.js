@@ -107,7 +107,10 @@ export default function AutomaticWithdrawalSettingPage() {
 
   const handleAutomaticClick = async (autoTransfer, accountId) => {
     const res = await deleteAutoTransfer(selectedTravelId);
-    console.log(res);
+
+    if (autoTransfer) {
+      showToast("자동이체 계좌 해제 완료");
+    }
 
     if (!autoTransfer) {
       const res = await setAutoTransfer({
