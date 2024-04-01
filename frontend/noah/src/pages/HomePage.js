@@ -10,11 +10,12 @@ import sample2 from "../assets/Image/sample2.png";
 import { getAllGroupAccount } from "../api/groupaccount/GroupAccount";
 import showToast from "../components/common/Toast";
 import { getExchangeRate } from "../api/exchange/Exchange";
+import ClipLoader from "react-spinners/ClipLoader";
 
 export default function HomePage() {
   const navigate = useNavigate();
   const [trips, setTrips] = useState([]); // 여행 데이터 저장
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [exchangeRate, setExchangeRate] = useState([]);
   const [krwAmount, setKrwAmount] = useState();
   const [foreignAmount, setForeignAmount] = useState("1");
@@ -118,6 +119,7 @@ export default function HomePage() {
         setExchangeRate(res.data);
       } catch (error) {
         console.log(error);
+      } finally {
       }
     };
     fetchExchangeRate();
@@ -135,68 +137,98 @@ export default function HomePage() {
           <My className={styles.icon} onClick={() => handleMyClick()} />
         </div>
       </div>
-      <div
-        className={styles.tripContainer}
-        ref={containerRef}
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp} // 컨테이너 밖으로 마우스가 나갔을 때
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-      >
-        <div style={{ marginLeft: "5vw" }}></div>
-        {isLoading && (
-          <>
-            <Trip isLoading={true} />
-          </>
-        )}
+      {isLoading && (
+        <>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "80vh",
+            }}
+          >
+            <ClipLoader />
+          </div>
+        </>
+      )}
+      {!isLoading && (
+        <>
+          <div
+            className={styles.tripContainer}
+            ref={containerRef}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp} // 컨테이너 밖으로 마우스가 나갔을 때
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
+            <div style={{ marginLeft: "5vw" }}></div>
+            {isLoading && (
+              <>
+                <Trip isLoading={true} />
+              </>
+            )}
 
-        {trips.map((trip, index) => (
-          <Trip
-            key={index}
-            onClick={() => navigate(`/trip/${trip.travelId}`)}
-            title={trip.title}
-            bankName={trip.bankName}
-            accountNumber={trip.accountNumber}
-            amount={trip.amount}
-            targetAmount={trip.targetAmount}
-            fromHome={true}
-            travelId={trip.travelId}
-          />
-        ))}
-        <Trip isLast={true} />
-        <div style={{ marginRight: "5vw" }}></div>
-      </div>
+            {trips.map((trip, index) => (
+              <Trip
+                key={index}
+                onClick={() => navigate(`/trip/${trip.travelId}`)}
+                title={trip.title}
+                bankName={trip.bankName}
+                accountNumber={trip.accountNumber}
+                amount={trip.amount}
+                targetAmount={trip.targetAmount}
+                fromHome={true}
+                travelId={trip.travelId}
+              />
+            ))}
+            <Trip isLast={true} />
+            <div style={{ marginRight: "5vw" }}></div>
+          </div>
 
-      <div className={styles.exchangeContainer}>
-        <Exchange
-          exchangeRateInfo={exchangeRate}
-          krwAmount={krwAmount}
-          foreignAmount={foreignAmount}
-          setKrwAmount={setKrwAmount}
-          setForeignAmount={setForeignAmount}
-          currency={currency}
-          setCurrency={setCurrency}
-        />
-      </div>
-      <div className={styles.paragraphSmall}>
-        {formatTime(new Date())} 환율 기준
-      </div>
-      <div className={styles.reviewHeader}>추천 후기</div>
-      <div className={styles.reviewContainer}>
-        <div className={styles.review}>
-          <img src={sample1} alt="Sample 1" className={styles.reviewImage} />
-          <div className={styles.place}>준규모리현 벚꽃공원</div>
-        </div>
-        <div className={styles.review}>
-          <img src={sample2} alt="Sample 2" className={styles.reviewImage} />
-          <div className={styles.place}>오오건건현 스마트료칸</div>
-        </div>
-        <div className={styles.review}>
-          <img src={sample1} alt="Sample 1" className={styles.reviewImage} />
-          <div className={styles.place}>준규모리현 벚꽃공원</div>
-        </div>
-      </div>
+          <div className={styles.exchangeContainer}>
+            <Exchange
+              exchangeRateInfo={exchangeRate}
+              krwAmount={krwAmount}
+              foreignAmount={foreignAmount}
+              setKrwAmount={setKrwAmount}
+              setForeignAmount={setForeignAmount}
+              currency={currency}
+              setCurrency={setCurrency}
+            />
+          </div>
+          <div className={styles.paragraphSmall}>
+            {formatTime(new Date())} 환율 기준
+          </div>
+          <div className={styles.reviewHeader}>추천 후기</div>
+          <div className={styles.reviewContainer}>
+            <div className={styles.review}>
+              <img
+                src={sample1}
+                alt="Sample 1"
+                className={styles.reviewImage}
+              />
+              <div className={styles.place}>준규모리현 벚꽃공원</div>
+            </div>
+            <div className={styles.review}>
+              <img
+                src={sample2}
+                alt="Sample 2"
+                className={styles.reviewImage}
+              />
+              <div className={styles.place}>오오건건현 스마트료칸</div>
+            </div>
+            <div className={styles.review}>
+              <img
+                src={sample1}
+                alt="Sample 1"
+                className={styles.reviewImage}
+              />
+              <div className={styles.place}>준규모리현 벚꽃공원</div>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 }

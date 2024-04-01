@@ -6,6 +6,7 @@ import { ReactComponent as BluePeople } from "./../assets/Icon/BluePeople.svg";
 import { ReactComponent as Check } from "./../assets/Icon/check.svg";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import ClipLoader from "react-spinners/ClipLoader";
 import {
   getGroupAccount,
   getGroupAccountMemberAndTotalDue,
@@ -15,6 +16,7 @@ import {
 import showToast from "../components/common/Toast";
 
 export default function GoalPage() {
+  const [isLoading, setIsLoading] = useState(true);
   const { travelId } = useParams();
   const [groupAccountInfo, setGroupAccountInfo] = useState([]);
   const [date, setDate] = useState("");
@@ -35,7 +37,7 @@ export default function GoalPage() {
 
   function formatDate(dateString) {
     const pattern = /(\d{4})(\d{2})(\d{2})/;
-    return dateString.replace(pattern, "$1-$2-$3");
+    return dateString.replace(pattern, "$1. $2. $3");
   }
 
   const handleEditTargetAmount = () => {
@@ -92,6 +94,7 @@ export default function GoalPage() {
   useEffect(() => {
     const fetchGroupAccounts = async () => {
       try {
+        setIsLoading(true);
         const response = await getGroupAccount(travelId);
         if (response.status === "SUCCESS") {
           if (response.data !== null) {
@@ -106,6 +109,8 @@ export default function GoalPage() {
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchGroupAccounts();
@@ -138,144 +143,169 @@ export default function GoalPage() {
   return (
     <>
       <Header LeftIcon="Arrow" Title="여행 이름" />
-      <div className={styles.goalPageContainer}>
-        <div className={styles.containerHeader}>
-          <div className={styles.labelMedium}>목표설정</div>
-          {(editModeTargetAmount ||
-            editModeTargetDate ||
-            editModePerAmount ||
-            editModePaymentDate) && (
-            <div className={styles.labelSmallCheck} onClick={handleSaveChanges}>
-              확인
-            </div>
-          )}
-        </div>
-        <div className={styles.goalContainer}>
-          <div className={styles.goalColumn}>
-            <div className={styles.labelSmall}>목표금액</div>
-            <div className={styles.amount}>
-              {editModeTargetAmount ? (
-                <>
-                  <input
-                    type="number"
-                    value={newTargetAmount}
-                    onChange={(e) => setNewTargetAmount(e.target.value)}
-                    className={styles.inputBox}
-                    placeholder={new Intl.NumberFormat("ko-KR").format(
-                      newTargetAmount
-                    )}
-                  />
-                </>
-              ) : (
-                <>
-                  <Edit
-                    className={styles.icon}
-                    onClick={handleEditTargetAmount}
-                  />
-                  <div className={styles.labelMedium}>
-                    {new Intl.NumberFormat("ko-KR").format(newTargetAmount)} 원
-                  </div>
-                </>
-              )}
-            </div>
-            <div className={styles.line}></div>
+      {isLoading && (
+        <>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "80vh",
+            }}
+          >
+            <ClipLoader />
           </div>
-          <div className={styles.goalColumn}>
-            <div className={styles.labelSmall}>목표기간</div>
-            <div className={styles.amount}>
-              {editModeTargetDate ? (
-                <>
-                  <input
-                    type="number"
-                    value={newTargetDate}
-                    onChange={(e) => setNewTargetDate(e.target.value)}
-                    className={styles.inputBox}
-                    placeholder={date}
-                    일
-                  />
-                </>
-              ) : (
-                <>
-                  <Edit
-                    className={styles.icon}
-                    onClick={handleEditTargetDate}
-                  />
-                  <div className={styles.labelMedium}>{date} 일</div>
-                </>
+        </>
+      )}
+      {!isLoading && (
+        <>
+          <div className={styles.goalPageContainer}>
+            <div className={styles.containerHeader}>
+              <div className={styles.labelMedium}>목표설정</div>
+              {(editModeTargetAmount ||
+                editModeTargetDate ||
+                editModePerAmount ||
+                editModePaymentDate) && (
+                <div
+                  className={styles.labelSmallCheck}
+                  onClick={handleSaveChanges}
+                >
+                  확인
+                </div>
               )}
             </div>
-            <div className={styles.line}></div>
-          </div>
-          <div className={styles.goalColumn}>
-            <div className={styles.labelSmall}>월별 납입금액</div>
-            <div className={styles.amount}>
-              {editModePerAmount ? (
-                <>
-                  <input
-                    type="number"
-                    value={newPerAmount}
-                    onChange={(e) => setNewperAmount(e.target.value)}
-                    className={styles.inputBox}
-                    placeholder={new Intl.NumberFormat("ko-KR").format(
-                      newPerAmount
-                    )}
-                    일
-                  />
-                </>
-              ) : (
-                <>
-                  <Edit className={styles.icon} onClick={handleEditPerAmount} />
-                  <div className={styles.labelMedium}>
-                    {new Intl.NumberFormat("ko-KR").format(newPerAmount)} 원
-                  </div>
-                </>
-              )}
-            </div>
-            <div className={styles.line}></div>
-          </div>
-          <div className={styles.goalColumn}>
-            <div className={styles.labelSmall}>납입날짜</div>
-            <div className={styles.amount}>
-              {editModePaymentDate ? (
-                <>
-                  <input
-                    type="number"
-                    value={newPaymentDate}
-                    onChange={(e) => setNewpaymentDate(e.target.value)}
-                    className={styles.inputBox}
-                    placeholder={groupAccountInfo.paymentDate}
-                  />
-                </>
-              ) : (
-                <>
-                  <Edit
-                    className={styles.icon}
-                    onClick={handleEditPaymentDate}
-                  />
-                  <div className={styles.labelMedium}>
-                    {groupAccountInfo.paymentDate}일
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-        <div className={styles.labelMedium}>달성인원</div>
-        <div className={styles.memberContainer}>
-          {memberInfo.map((member, index) => (
-            <div key={index} className={styles.item}>
-              {member.payment_amount >= totalDue ? (
-                <BluePeople className={styles.iconPeople} />
-              ) : (
-                <GreyPeople className={styles.iconPeople} />
-              )}
-              <div className={styles.paragraphSmall}>
-                {member.memberNickname}
+            <div className={styles.goalContainer}>
+              <div className={styles.goalColumn}>
+                <div className={styles.labelSmall}>목표금액</div>
+                <div className={styles.amount}>
+                  {editModeTargetAmount ? (
+                    <>
+                      <input
+                        type="number"
+                        value={newTargetAmount}
+                        onChange={(e) => setNewTargetAmount(e.target.value)}
+                        className={styles.inputBox}
+                        placeholder={new Intl.NumberFormat("ko-KR").format(
+                          newTargetAmount
+                        )}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <Edit
+                        className={styles.icon}
+                        onClick={handleEditTargetAmount}
+                      />
+                      <div className={styles.labelMedium}>
+                        {new Intl.NumberFormat("ko-KR").format(newTargetAmount)}{" "}
+                        원
+                      </div>
+                    </>
+                  )}
+                </div>
+                <div className={styles.line}></div>
+              </div>
+              <div className={styles.goalColumn}>
+                <div className={styles.labelSmall}>목표기간</div>
+                <div className={styles.amount}>
+                  {editModeTargetDate ? (
+                    <>
+                      <input
+                        type="number"
+                        value={newTargetDate}
+                        onChange={(e) => setNewTargetDate(e.target.value)}
+                        className={styles.inputBox}
+                        placeholder={date}
+                        일
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <Edit
+                        className={styles.icon}
+                        onClick={handleEditTargetDate}
+                      />
+                      <div className={styles.labelMedium}>{date}</div>
+                    </>
+                  )}
+                </div>
+                <div className={styles.line}></div>
+              </div>
+              <div className={styles.goalColumn}>
+                <div className={styles.labelSmall}>월별 납입금액</div>
+                <div className={styles.amount}>
+                  {editModePerAmount ? (
+                    <>
+                      <input
+                        type="number"
+                        value={newPerAmount}
+                        onChange={(e) => setNewperAmount(e.target.value)}
+                        className={styles.inputBox}
+                        placeholder={new Intl.NumberFormat("ko-KR").format(
+                          newPerAmount
+                        )}
+                        일
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <Edit
+                        className={styles.icon}
+                        onClick={handleEditPerAmount}
+                      />
+                      <div className={styles.labelMedium}>
+                        {new Intl.NumberFormat("ko-KR").format(newPerAmount)} 원
+                      </div>
+                    </>
+                  )}
+                </div>
+                <div className={styles.line}></div>
+              </div>
+              <div className={styles.goalColumn}>
+                <div className={styles.labelSmall}>납입날짜</div>
+                <div className={styles.amount}>
+                  {editModePaymentDate ? (
+                    <>
+                      <input
+                        type="number"
+                        value={newPaymentDate}
+                        onChange={(e) => setNewpaymentDate(e.target.value)}
+                        className={styles.inputBox}
+                        placeholder={groupAccountInfo.paymentDate}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <Edit
+                        className={styles.icon}
+                        onClick={handleEditPaymentDate}
+                      />
+                      <div className={styles.labelMedium}>
+                        {groupAccountInfo.paymentDate} 일
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
-          ))}
-        </div>
-      </div>
+            <div className={styles.labelMedium}>달성인원</div>
+            <div className={styles.memberContainer}>
+              {memberInfo.map((member, index) => (
+                <div key={index} className={styles.item}>
+                  {member.payment_amount >= totalDue ? (
+                    <BluePeople className={styles.iconPeople} />
+                  ) : (
+                    <GreyPeople className={styles.iconPeople} />
+                  )}
+                  <div className={styles.paragraphSmall}>
+                    {member.memberNickname}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 }

@@ -6,19 +6,18 @@ import Notification from "../components/notification/Notification";
 import Header from "./../components/common/Header";
 import { useEffect, useState } from "react";
 import styles from "./NotificationPage.module.css";
+import ClipLoader from "react-spinners/ClipLoader";
 export default function NotificationPage() {
   const [notifications, setNotifications] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleDelete = (index, notificationId) => {
     const fetchDeleteNotification = async () => {
       try {
         const res = await deleteNotification(notificationId);
         if (res.status === "SUCCESS") {
-          console.log("삭제성공");
         }
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
     fetchDeleteNotification();
     setNotifications((currentNotifications) =>
@@ -33,12 +32,12 @@ export default function NotificationPage() {
         if (res.status === "SUCCESS") {
           if (res.data === null) {
           } else {
-            console.log(res.data);
             setNotifications(res.data);
           }
         }
       } catch (error) {
-        console.log(error);
+      } finally {
+        setTimeout(() => setIsLoading(false), 200);
       }
     };
     fetchNotification();
@@ -47,16 +46,36 @@ export default function NotificationPage() {
   return (
     <>
       <Header LeftIcon="Cancel" Title="알림" />
-      {notifications.length > 0 ? (
-        notifications.map((notification, index) => (
-          <Notification
-            key={index}
-            object={notification}
-            onDelete={() => handleDelete(index, notification.notificationId)}
-          />
-        ))
-      ) : (
-        <div className={styles.headingLarge}>조회된 알림이 없습니다.</div>
+      {isLoading && (
+        <>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "80vh",
+            }}
+          >
+            <ClipLoader />
+          </div>
+        </>
+      )}
+      {!isLoading && (
+        <>
+          {notifications.length > 0 ? (
+            notifications.map((notification, index) => (
+              <Notification
+                key={index}
+                object={notification}
+                onDelete={() =>
+                  handleDelete(index, notification.notificationId)
+                }
+              />
+            ))
+          ) : (
+            <div className={styles.headingLarge}>조회된 알림이 없습니다.</div>
+          )}
+        </>
       )}
     </>
   );

@@ -11,6 +11,7 @@ import {
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import showToast from "./../components/common/Toast";
+import ClipLoader from "react-spinners/ClipLoader";
 export default function ExchangePage() {
   const [exchangeInfo, setExchangeInfo] = useState([]);
   const [exchangeRate, setExchangeRate] = useState([]);
@@ -20,6 +21,7 @@ export default function ExchangePage() {
   const [foreignAmount, setForeignAmount] = useState("1");
   const [currency, setCurrency] = useState("USD");
   const [warningText, setWarningText] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   function formatTime(date) {
     const hours = date.getHours();
@@ -92,6 +94,8 @@ export default function ExchangePage() {
         setExchangeRate(res.data);
       } catch (error) {
         console.log(error);
+      } finally {
+        setTimeout(() => setIsLoading(false), 200);
       }
     };
     fetchExchangeRate();
@@ -99,54 +103,78 @@ export default function ExchangePage() {
   return (
     <>
       <Header LeftIcon="Arrow" Title="환전" />
-      <div className={styles.ExchangeContainer}>
-        <div className={styles.ExchangeContainerTop}>
-          <div className={styles.labelXL}>
-            {symbol} {exchangeInfo.exchangeAmount}
+      {isLoading && (
+        <>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "80vh",
+            }}
+          >
+            <ClipLoader />
           </div>
-          <div className={styles.paragraphSmallTop}>현재까지 환전한 금액</div>
-        </div>
-        <Exchange
-          exchangeRateInfo={exchangeRate}
-          krwAmount={krwAmount}
-          foreignAmount={foreignAmount}
-          setKrwAmount={setKrwAmount}
-          setForeignAmount={setForeignAmount}
-          currency={currency}
-          setCurrency={setCurrency}
-        />
-        <div className={styles.paragraphSmallExchangeRight}>
-          {formatTime(new Date())} 환율 기준
-        </div>
-        <div
-          onClick={() => {
-            handleExchangeClick();
-          }}
-        >
-          <ExchangeButton buttonText="환전" warningText={warningText} />
-        </div>
-        <div className={styles.notificationContainer}>
-          <div className={styles.notificationContainerTop}>
-            <div className={styles.labelMedium}>환전알림</div>
-            <DropdownSmall />
-          </div>
-          <div className={styles.notificationBox}>
-            <div className={styles.boxLeft}>
-              <div className={styles.paragraphSmallExchangeLeft}>
-                {formatTime(new Date())} 환율 기준
+        </>
+      )}
+      {!isLoading && (
+        <>
+          <div className={styles.ExchangeContainer}>
+            <div className={styles.ExchangeContainerTop}>
+              <div className={styles.labelXL}>
+                {symbol} {exchangeInfo.exchangeAmount}
               </div>
-              <div className={styles.paragraphSmall}>{exchangeRate.usd}</div>
-            </div>
-            <div className={styles.boxRight}>
-              <div className={styles.setRate}>
-                <div className={styles.headingLarge}>1100</div>
-                <div className={styles.paragraphSmallGrey}>이하일때 알림</div>
+              <div className={styles.paragraphSmallTop}>
+                현재까지 환전한 금액
               </div>
-              <div className={styles.labelSmallBlue}> 설정</div>
+            </div>
+            <Exchange
+              exchangeRateInfo={exchangeRate}
+              krwAmount={krwAmount}
+              foreignAmount={foreignAmount}
+              setKrwAmount={setKrwAmount}
+              setForeignAmount={setForeignAmount}
+              currency={currency}
+              setCurrency={setCurrency}
+            />
+            <div className={styles.paragraphSmallExchangeRight}>
+              {formatTime(new Date())} 환율 기준
+            </div>
+            <div
+              onClick={() => {
+                handleExchangeClick();
+              }}
+            >
+              <ExchangeButton buttonText="환전" warningText={warningText} />
+            </div>
+            <div className={styles.notificationContainer}>
+              <div className={styles.notificationContainerTop}>
+                <div className={styles.labelMedium}>환전알림</div>
+                <DropdownSmall />
+              </div>
+              <div className={styles.notificationBox}>
+                <div className={styles.boxLeft}>
+                  <div className={styles.paragraphSmallExchangeLeft}>
+                    {formatTime(new Date())} 환율 기준
+                  </div>
+                  <div className={styles.paragraphSmall}>
+                    {exchangeRate.usd}
+                  </div>
+                </div>
+                <div className={styles.boxRight}>
+                  <div className={styles.setRate}>
+                    <div className={styles.headingLarge}>1100</div>
+                    <div className={styles.paragraphSmallGrey}>
+                      이하일때 알림
+                    </div>
+                  </div>
+                  <div className={styles.labelSmallBlue}> 설정</div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </>
   );
 }
