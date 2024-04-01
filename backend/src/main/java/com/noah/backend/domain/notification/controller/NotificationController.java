@@ -13,6 +13,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,6 +51,13 @@ public class NotificationController {
                                           @PathVariable(name = "notificationId") Long notificationId) {
         notificationService.inviteRefuse(authentication.getName(), notificationId);
         return response.success(ResponseCode.INVITE_REFUSE);
+    }
+
+    @Operation(summary = "알림 단건 삭제", description = "알림 단건 삭제")
+    @DeleteMapping("/{notificationId}")
+    public ResponseEntity<?> deleteNotification(@Parameter(hidden = true) Authentication authentication, @PathVariable(name = "notificationId") Long notificationId){
+        notificationService.deleteNotification(authentication.getName(), notificationId);
+        return response.success(ResponseCode.NOTIFICATION_DELETED_SUCCESS);
     }
 
 }

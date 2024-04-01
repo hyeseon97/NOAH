@@ -49,6 +49,9 @@ public class NotificationServiceImpl implements NotificationService {
     public List<NotificationGetDto> getNotification(String email) {
         Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
         List<NotificationGetDto> notificationList = notificationRepository.getNotification(member.getId()).orElse(null);
+        if(notificationList == null || notificationList.size()==0){
+            return null;
+        }
         return notificationList;
     }
 
@@ -81,6 +84,7 @@ public class NotificationServiceImpl implements NotificationService {
                     .type(2)
                     .travelId(travelId)
                     .travelTitle(travel.getTitle())
+                    .receiver(member)
                     .build();
 
                 notificationRepository.save(notification);
@@ -108,6 +112,7 @@ public class NotificationServiceImpl implements NotificationService {
         List<TargetExchangeRate> list = exchangeRepository.getTargetExchangeRateTravel(currency).orElse(null);
 
         for(TargetExchangeRate t : list){
+            System.out.println("목표환율에 도달한 여행이 있어");
             Member receiver = memberRepository.findById(t.getMemberId()).orElseThrow(MemberNotFoundException::new);
 
 
@@ -181,6 +186,7 @@ public class NotificationServiceImpl implements NotificationService {
         return travel.getId();
     }
 
+    @Transactional
     @Override
     public void inviteRefuse(String email, Long notificationId) {
         // 알림 아이디로 알림 엔티티 찾아와서 삭제하기
@@ -200,6 +206,7 @@ public class NotificationServiceImpl implements NotificationService {
     // 파이어베이스로 푸시알림
     // 알림을 보낼 사용자의 파이어베이스토큰 - token
     // 푸시알림의 제목이랑 내용 - title, body
+    @Transactional
     @Override
     public boolean sendNotificationByToken(String token, String title, String body) {
 
@@ -223,6 +230,21 @@ public class NotificationServiceImpl implements NotificationService {
             return false;
         }
 
+    }
+
+    @Transactional
+    @Override
+    public void deleteNotification(String email, Long notificationId) {
+        // 알림 아이디로 알림 엔티티 찾아와서 삭제하기
+        Notification notification = notificationRepository.findById(notificationId).orElseThrow(NotificationNotFoundException::new);
+
+        /* 접근권한 */
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        if(!notification.getReceiver().getId().equals(member.getId())){
+            throw new NotificationAccessException();
+        }
+        /* ------ */
+        notificationRepository.delete(notification);
     }
 
 }
