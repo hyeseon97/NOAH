@@ -58,6 +58,7 @@ public class SecurityConfig {
                     "/api/v1/member/email/**",
                     "/api/v1/member/password-reset",
                     "api/v1/exchange/rateinfo",
+                    "api/v1/bank/qr/withdraw",
                     "/ws/**",
                     "/pub/**",
                     "/sub/**"

@@ -124,7 +124,10 @@ public enum ResponseCode {
     TICKET_DELETED(HttpStatus.OK, "티켓이 성공적으로 삭제되었습니다."),
 
     /* 더미데이터 생성(csv) */
-    DUMMY_SUCCESS(HttpStatus.OK, "더미데이터가 성공적으로 생성되었습니다.")
+    DUMMY_SUCCESS(HttpStatus.OK, "더미데이터가 성공적으로 생성되었습니다."),
+
+    /* QR 결제(QR) */
+    QR_WITHDRAW_SUCCESS(HttpStatus.OK, "QR결제가 성공적으로 진행되었습니다.")
     ;
 
 

@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.Pageable;
 
 import static com.noah.backend.domain.comment.entity.QComment.comment;
 import static com.noah.backend.domain.image.entity.QImage.image;
@@ -27,7 +28,7 @@ import static com.noah.backend.domain.review.entity.QReview.review;
 import static com.querydsl.core.types.Projections.constructor;
 
 @RequiredArgsConstructor
-public class ReviewRepositoryImpl implements ReviewRepositoryCustom{
+public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
     private final JPAQueryFactory query;
 
@@ -35,15 +36,15 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom{
     @Override
     public Optional<List<ReviewListGetDto>> getReviewList() {
         List<ReviewListGetDto> reviewDtos = query
-                .select(constructor(ReviewListGetDto.class,
+            .select(constructor(ReviewListGetDto.class,
 //                        review.id,
-                        review.expense,
-                        review.country,
-                        review.people,
-                        review.startDate,
-                        review.endDate))
-                .from(review)
-                .fetch();
+                                review.expense,
+                                review.country,
+                                review.people,
+                                review.startDate,
+                                review.endDate))
+            .from(review)
+            .fetch();
 
         return Optional.ofNullable(reviewDtos.isEmpty() ? null : reviewDtos);
     }
@@ -52,34 +53,34 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom{
     @Override
     public Optional<ReviewGetDto> getReviewSelect(Long reviewId) {
         ReviewGetDto reviewDto = query
-                .select(Projections.constructor(ReviewGetDto.class,
+            .select(Projections.constructor(ReviewGetDto.class,
 //                        review.id,
-                        review.expense,
-                        review.country,
-                        review.people,
-                        review.startDate,
-                        review.endDate))
-                .from(review)
-                .where(review.id.eq(reviewId))
-                .fetchOne();
+                                            review.expense,
+                                            review.country,
+                                            review.people,
+                                            review.startDate,
+                                            review.endDate))
+            .from(review)
+            .where(review.id.eq(reviewId))
+            .fetchOne();
 
-        if(reviewDto != null){
+        if (reviewDto != null) {
 
             List<CommentListGetDto> commentDtos = query
-                    .select(Projections.constructor(CommentListGetDto.class,
+                .select(Projections.constructor(CommentListGetDto.class,
 //                            comment.id,
-                            comment.content))
-                    .from(comment)
-                    .where(comment.review.id.eq(reviewId))
-                    .fetch();
+                                                comment.content))
+                .from(comment)
+                .where(comment.review.id.eq(reviewId))
+                .fetch();
 
             List<ImageGetDto> imageDtos = query
-                    .select(Projections.constructor(ImageGetDto.class,
+                .select(Projections.constructor(ImageGetDto.class,
 //                            image.id,
-                            image.url))
-                    .from(image)
-                    .where(image.review.id.eq(reviewId))
-                    .fetch();
+                                                image.url))
+                .from(image)
+                .where(image.review.id.eq(reviewId))
+                .fetch();
 
             reviewDto.setCommentList(commentDtos);
             reviewDto.setImageList(imageDtos);
@@ -91,21 +92,25 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom{
     @Override
     public Optional<Integer> getRandomSuggestId() {
         Optional<Integer> reviewCount =
-                Optional.ofNullable(query.select(review.count().intValue())
-                        .from(review)
-                        .fetchOne());
+            Optional.ofNullable(query.select(review.count().intValue())
+                                     .from(review)
+                                     .fetchOne());
         return reviewCount;
     }
 
     //인당 환산값보다 낮은 리뷰를 제공
     @Override
-    public Optional<List<SuggestListResDto>> getSuggestReview(int priceOfPerson) {
+    public Optional<List<SuggestListResDto>> getSuggestReview(int priceOfPerson, Pageable pageable) {
 
-        return Optional.ofNullable(query.select(Projections.constructor(SuggestListResDto.class,review.id,review.expense,review.country,review.people,review.startDate,review.endDate))
-                .from(review)
-                .where(review.expense.divide(review.people).loe(priceOfPerson))
-                .orderBy(review.expense.divide(review.people).desc())
-                .fetch());
+        return Optional.ofNullable(query.select(
+                                            Projections.constructor(SuggestListResDto.class, review.id, review.expense, review.country, review.people,
+                                                                    review.startDate, review.endDate))
+                                        .from(review)
+                                        .where(review.expense.divide(review.people).loe(priceOfPerson))
+                                        .orderBy(review.expense.divide(review.people).desc())
+                                        .offset(pageable.getOffset())
+                                        .limit(pageable.getPageSize())
+                                        .fetch());
     }
 
 }

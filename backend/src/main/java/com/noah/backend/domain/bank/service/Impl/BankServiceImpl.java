@@ -5,12 +5,23 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.noah.backend.domain.account.dto.responseDto.AccountInfoDto;
 import com.noah.backend.domain.admin.dto.requestDto.AdminKeyRequestDto;
 import com.noah.backend.domain.bank.dto.requestDto.*;
 import com.noah.backend.domain.bank.dto.responseDto.*;
 import com.noah.backend.domain.bank.service.BankService;
+import com.noah.backend.domain.groupaccount.repository.GroupAccountRepository;
 import com.noah.backend.domain.member.dto.requestDto.UserKeyRequestDto;
+import com.noah.backend.domain.member.entity.Member;
+import com.noah.backend.domain.member.repository.MemberRepository;
+import com.noah.backend.domain.travel.entity.Travel;
+import com.noah.backend.domain.travel.repository.TravelRepository;
 import com.noah.backend.global.exception.bank.*;
+import com.noah.backend.global.exception.groupaccount.GroupAccountNotFoundException;
+import com.noah.backend.global.exception.member.MemberNotFoundException;
+import com.noah.backend.global.exception.travel.TravelNotFoundException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
@@ -29,11 +40,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
+@RequiredArgsConstructor
 @Service
 public class BankServiceImpl implements BankService {
 	static String adminEmail = "dldnwls009@ssafy.co.kr";
 	static String adminKey = "2971f57e01a54fd0a91161ec5c59c3cd";
 	static ObjectMapper objectMapper = new ObjectMapper();
+
+	private final MemberRepository memberRepository;
+	private final TravelRepository travelRepository;
+	private final GroupAccountRepository groupAccountRepository;
+
 
 	//관리자 키 발급
 	@Override
@@ -509,9 +527,55 @@ public class BankServiceImpl implements BankService {
 
 	}
 
+	//Qr 결제
+	@Override
+	public void qrWithdraw(QrWithdrawReqDto qrWithdrawReqDto) throws IOException {
+		String requestURL = "https://finapi.p.ssafy.io/ssafy/api/v1/edu/account/drawingTransfer";
+		RequestHeaderDto requestHeaderDto = new RequestHeaderDto();
+		requestHeaderDto.setApiKey(adminKey);
+		requestHeaderDto.setApiName("drawingTransfer");
+		requestHeaderDto.setApiServiceCode(requestHeaderDto.getApiName());
+		Member currentMember = memberRepository.findById(qrWithdrawReqDto.getMemberId()).orElseThrow(MemberNotFoundException::new);
+		Travel currentTravel = travelRepository.findById(qrWithdrawReqDto.getTravelId()).orElseThrow(TravelNotFoundException::new);
+		AccountInfoDto currentAccountInfoDto = groupAccountRepository.findByTravleId(currentTravel.getId()).orElseThrow(GroupAccountNotFoundException::new);
+		requestHeaderDto.setUserKey(currentMember.getUserKey()); //확인하려는 계좌의 주인의 유저키가 필요
+		System.out.println("UserKey : " + currentMember.getUserKey());
+		HashMap<String,String> result = objectMapper.convertValue(requestHeaderDto, HashMap.class);
+		String headerMessage = makeHeader(result);
+		HashMap<String,Object> bodyHm = new HashMap<>();
+		bodyHm.put("bankCode",bankCodeExtract(currentAccountInfoDto.getBankName())); //은행 코드
+		System.out.println("BankCode : " + bankCodeExtract(currentAccountInfoDto.getBankName()));
+		bodyHm.put("accountNo",currentAccountInfoDto.getAccountNumber()); //계좌 번호
+		System.out.println("AccountNumber : " + currentAccountInfoDto.getAccountNumber());
+		bodyHm.put("transactionBalance",qrWithdrawReqDto.getTransactionBalance()); //출금 금액
+		bodyHm.put("transactionSummary",qrWithdrawReqDto.getTransactionSummary()); //출금 계좌 요약
+		String bodyMessage = makeBody(bodyHm);
+		String mergeMessage = makeMerge(headerMessage,bodyMessage);
+
+		HttpClient client = HttpClientBuilder.create().build(); // HttpClient 생성
+		HttpPost postRequest = new HttpPost(requestURL); //전송방식 HttpPost 방식 //POST 메소드 URL 생성
+
+		postRequest.setHeader("Content-Type", "application/json");
+		postRequest.setEntity(new StringEntity(mergeMessage, ContentType.APPLICATION_JSON.withCharset(StandardCharsets.UTF_8))); //json 메시지 입력
+		HttpResponse response = client.execute(postRequest);
+
+		//Response 출력
+		if (response.getStatusLine().getStatusCode() == 200) {
+			ResponseHandler<String> handler = new BasicResponseHandler();
+			String body = handler.handleResponse(response);
+//				System.out.println(body);
+			TypeReference<Map<String, Object>> typeReference = new TypeReference<Map<String,Object>>() {};
+			Map<String, Object> responseJson = objectMapper.readValue(body, typeReference);
+			Map<String, Object> REC = (Map<String, Object>) responseJson.get("Header");
+			System.out.println("계좌 출금 제대로되는지 확인");
+			System.out.println("처리 결과 : " + (String)REC.get("responseMessage"));
+		} else {
+			errorCheck(response);
+		}
+	}
 
 
-//-----------------------------------------------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------------------------------------------
 //result를 넣으면 공통Header를 만들어주는 메소드
 public static String makeHeader(HashMap<String,String> result) throws JsonProcessingException {
 	HashMap<String,HashMap<String,String>> header = new HashMap<>();
@@ -559,6 +623,22 @@ public static String makeHeader(HashMap<String,String> result) throws JsonProces
 				return "기업은행";
 			case "004"://국민은행
 				return "국민은행";
+			default:
+				return null;
+		}
+	}
+
+	//은행이름 해석해서 뱅크코드 알려주는 메소드
+	public static String bankCodeExtract(String bankName){
+		switch (bankName){
+			case "한국은행"://한국은행
+				return "001";
+			case "산업은행"://산업은행
+				return "002";
+			case "기업은행"://기업은행
+				return "003";
+			case "국민은행"://국민은행
+				return "004";
 			default:
 				return null;
 		}
