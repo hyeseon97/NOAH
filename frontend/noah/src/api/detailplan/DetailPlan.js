@@ -12,20 +12,23 @@ export async function getDetailPlan(detailPlanId) {
 }
 
 /* 상세계획 목록 조회 */
-export async function getDetailPlanList(object) {
+export async function getDetailPlanList(planId) {
   try {
-    const res = axiosAPI.get(commonUrl + `/list`, object);
+    console.log(commonUrl + `/${planId}`);
+    const res = await axiosAPI.get(commonUrl + `/${planId}`); // await 키워드 추가
+    console.log(res.data);
     return res.data;
   } catch (error) {
+    console.error(error); // 오류 출력 변경
     throw error;
   }
 }
 
-/* 상세계획 목록 조회 */
-export async function createDetailPlan(planId, object){
+/* 상세계획 추가 */
+export async function createDetailPlan(planId, object) {
   const urlWithQueryParam = `${commonUrl}?planId=${planId}`;
   try {
-    console.log(object)
+    console.log(object);
     console.log(planId + "test");
     const res = await axiosAPI.post(urlWithQueryParam, object, {
       // headers: {
@@ -37,7 +40,6 @@ export async function createDetailPlan(planId, object){
     throw error;
   }
 }
-
 
 /* 상세 계획 수정 */
 export async function updateDetailPlan(detailPlanId, object) {
