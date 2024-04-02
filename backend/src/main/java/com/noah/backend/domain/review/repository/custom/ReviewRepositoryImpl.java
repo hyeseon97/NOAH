@@ -113,7 +113,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
     //인당 환산값보다 낮은 리뷰 여러개를 제공
     @Override
-    public Optional<List<SuggestListResDto>> getSuggestReviewList(int priceOfPerson, Pageable pageable) {
+    public Optional<List<SuggestListResDto>> getSuggestReviewList(int priceOfPerson) {
 
         return Optional.ofNullable(query.select(
                                             Projections.constructor(SuggestListResDto.class, review.id, review.expense, review.country, review.people,
@@ -121,8 +121,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                                         .from(review)
                                         .where(review.expense.divide(review.people).loe(priceOfPerson))
                                         .orderBy(review.expense.divide(review.people).desc())
-                                        .offset(pageable.getOffset())
-                                        .limit(pageable.getPageSize())
+                                        .limit(30)
                                         .fetch());
     }
 

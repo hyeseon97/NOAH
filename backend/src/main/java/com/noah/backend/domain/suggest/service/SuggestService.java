@@ -4,7 +4,9 @@ import com.noah.backend.domain.suggest.dto.responseDto.SuggestListResDto;
 import java.util.List;
 
 public interface SuggestService {
-	List<SuggestListResDto> getSuggestList(Long travelId, int page);
+	List<SuggestListResDto> loginGetSuggestList(Long travelId);
 
 	List<MainSuggestGetDto> getSuggestMain(String email);
+
+	SuggestListResDto nonLoginGetSuggestList();
 }
