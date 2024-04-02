@@ -229,6 +229,11 @@ public class TradeServiceImpl implements TradeService {
                     trade.setMember(usedMember);
                 }
 
+                if(bankTrade.getName().contains("USD") || bankTrade.getName().contains("JPY") || bankTrade.getName().contains("CNY") || bankTrade.getName().contains("EUR")){
+                    trade.setConsumeType("환전");
+                    trade.setMember(null);
+                }
+
                 tradeRepository.save(trade);
 
                 // 잔액 최신화 부분
