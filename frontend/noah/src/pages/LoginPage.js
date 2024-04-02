@@ -97,7 +97,7 @@ export default function LoginPage() {
 
         <div className={styles.loginFooter}>
           <div
-            style={{ cursor: "pointer", width: "15.5vw" }}
+            style={{ cursor: "pointer", width: "16.5vw" }}
             onClick={() => handleSignupPageRedirect()}
           >
             회원가입
