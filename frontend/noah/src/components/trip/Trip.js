@@ -120,7 +120,7 @@ export default function Trip({
         <div
           style={lastTripStyle}
           onClick={() => {
-            if (localStorage.getItem === null) {
+            if (localStorage.getItem("accessToken") === null) {
               showToast("로그인 후 이용해보세요.");
               navigate("/login");
               return;

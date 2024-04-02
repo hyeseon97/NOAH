@@ -16,13 +16,12 @@ export default function PaymentPage() {
     };
 
     getQR();
-    setImageUrl(`http://localhost:8080/api/v1/qrcode/image/${travelId}`);
+    setImageUrl();
   }, []);
 
   return (
     <>
       <Header LeftIcon="Arrow" Title="결제" />
-      <div>{imageUrl}</div>
       {imageUrl !== null && (
         <>
           <div>
