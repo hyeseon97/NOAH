@@ -16,6 +16,8 @@ import com.noah.backend.global.exception.review.ReviewNotFound;
 import com.noah.backend.global.exception.suggest.SuggestNotExists;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -35,7 +37,11 @@ public class SuggestServiceImpl implements SuggestService {
 	private final ImageRepository imageRepository;
 
 	@Override
-	public List<SuggestListResDto> getSuggestList(Long travelId) {
+	public List<SuggestListResDto> getSuggestList(Long travelId, int page) {
+
+		/* Pageable 객체 생성 */
+		Pageable pageable = PageRequest.of(page, 10);
+
 		int total = memberTravelRepository.totalPeople(travelId).orElse(0);
 		//이우진 교보재
 		//int balance = groupAccountRepository.findBalance(suggestListReqDto.getTravelId()).orElse(0);
@@ -47,9 +53,10 @@ public class SuggestServiceImpl implements SuggestService {
 			return makeRandomSuggestList(reviewCount);
 		} else{//목표금액이 존재하면 targetAmount/total로 인당 가격을 환산하여 여행후기 추천
 			int priceOfPerson = targetAmount/total;
-			List<SuggestListResDto> reviewlist = reviewRepository.getSuggestReview(priceOfPerson).orElse(null);
+			List<SuggestListResDto> reviewlist = reviewRepository.getSuggestReview(priceOfPerson, pageable).orElse(null);
 
 			if(reviewlist == null || reviewlist.size()==0){
+				System.out.println("왜왜왜");
 				int reviewCount = reviewRepository.getRandomSuggestId().orElse(0);
 				return makeRandomSuggestList(reviewCount);
 			}
@@ -82,7 +89,7 @@ public class SuggestServiceImpl implements SuggestService {
 		List<MainSuggestGetDto> result = new ArrayList<>();
 		for(Long travelId : travelIdList){
 
-			List<SuggestListResDto> suggestList = getSuggestList(travelId);
+			List<SuggestListResDto> suggestList = getSuggestList(travelId, 0);
 
 			SuggestListResDto suggest = suggestList.get(0);
 
@@ -108,7 +115,7 @@ public class SuggestServiceImpl implements SuggestService {
 		}else{
 			List<SuggestListResDto> list = new ArrayList<>();
 			HashSet<Long> hm = new HashSet<>();
-			while(hm.size()<=3){
+			while(hm.size()<=9){
 				long num = ThreadLocalRandom.current().nextInt(1, reviewCount);
 				hm.add(num);
 			}
