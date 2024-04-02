@@ -2,9 +2,9 @@ import axiosAPI from "../axios";
 const commonUrl = "/api/v1/plan";
 
 /* 계획 수정 */
-export async function updatePlan(planId, object) {
+export async function updatePlan(object) {
   try {
-    const res = await axiosAPI.put(commonUrl + `/update/${planId}`, object);
+    const res = await axiosAPI.put(commonUrl, object);
     return res.data;
   } catch (error) {
     throw error;

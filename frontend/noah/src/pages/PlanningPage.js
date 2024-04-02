@@ -56,18 +56,6 @@ export default function PlanningPage() {
     )}/${String(date.getDate()).padStart(2, "0")}`;
   };
 
-  // // 현재 선택된 날짜로부터 YYYY/MM/DD 형태의 문자열을 얻습니다.
-  // useEffect(() => {
-  //   if (daysList.length > 0 && currentDayIndex >= 0) {
-  //     // 선택된 day 인덱스를 실제 날짜로 변환합니다.
-  //     const startDate = new Date(plan.start_date);
-  //     const currentDate = new Date(
-  //       startDate.setDate(startDate.getDate() + currentDayIndex)
-  //     );
-  //     setCurrentDate(getFormattedDate(currentDate));
-  //   }
-  // }, [currentDayIndex, daysList, plan.start_date]);
-
   const filteredDetailPlans = detailPlans.filter(
     (detailPlan) => detailPlan.day === currentDay
   );
@@ -158,16 +146,6 @@ export default function PlanningPage() {
         </div>
         <Edit className={style.editButton} />
       </div>
-      {/* <div className={style.midStyle}>
-        <Next className={style.privousButton} />
-        <div>
-          <div className={style.smallFont}>
-            {day.detailday} {day.detailweekday}
-          </div>
-          <div className={style.bigFont}>DAY {day.sqday}</div>
-        </div>
-        <Next className={style.nextButton} />
-      </div> */}
       <DayCalculate
         startDate={plan.startDate}
         endDate={plan.endDate}
