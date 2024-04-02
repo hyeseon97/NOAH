@@ -53,7 +53,7 @@ public class SuggestServiceImpl implements SuggestService {
 			return makeRandomSuggestList(reviewCount);
 		} else{//목표금액이 존재하면 targetAmount/total로 인당 가격을 환산하여 여행후기 추천
 			int priceOfPerson = targetAmount/total;
-			List<SuggestListResDto> reviewlist = reviewRepository.getSuggestReview(priceOfPerson, pageable).orElse(null);
+			List<SuggestListResDto> reviewlist = reviewRepository.getSuggestReviewList(priceOfPerson, pageable).orElse(null);
 
 			if(reviewlist == null || reviewlist.size()==0){
 				System.out.println("왜왜왜");
@@ -89,9 +89,7 @@ public class SuggestServiceImpl implements SuggestService {
 		List<MainSuggestGetDto> result = new ArrayList<>();
 		for(Long travelId : travelIdList){
 
-			List<SuggestListResDto> suggestList = getSuggestList(travelId, 0);
-
-			SuggestListResDto suggest = suggestList.get(0);
+			SuggestListResDto suggest = getSuggestOne(travelId);
 
 			MainSuggestGetDto mainSuggestGetDto = MainSuggestGetDto.builder()
 				.travelId(travelId)
@@ -108,6 +106,7 @@ public class SuggestServiceImpl implements SuggestService {
 		return result;
 	}
 
+//------------------------------------------------------------------------------------------------------
 	//랜덤 제안리스트를 만드는 메소드
 	public List<SuggestListResDto> makeRandomSuggestList(int reviewCount){
 		if(reviewCount==0){
@@ -136,6 +135,8 @@ public class SuggestServiceImpl implements SuggestService {
 			return list;
 		}
 	}
+
+
 	//인당 가격보다 낮은 제안리스트를 만드는 메소드
 	/*
 	public List<SuggestListResDto> makePriceSuggestList(List<Long> reviewIdlist){
@@ -161,4 +162,62 @@ public class SuggestServiceImpl implements SuggestService {
 		}
 	}
 	*/
+
+	//추천할 여행 썸네일을 만드는 메소드
+	public SuggestListResDto getSuggestOne(Long travelId) {
+
+		int total = memberTravelRepository.totalPeople(travelId).orElse(0);
+		//이우진 교보재
+		//int balance = groupAccountRepository.findBalance(suggestListReqDto.getTravelId()).orElse(0);
+		Integer targetAmount = groupAccountRepository.findTargetAmount(travelId).orElse(null);
+		System.out.println("targetAmount : " + targetAmount);
+
+		if(targetAmount == null){//목표금액이 null이면 랜덤으로 여행 후기 보여주기
+			int reviewCount = reviewRepository.getRandomSuggestId().orElse(0);
+			return makeRandomSuggestOne(reviewCount);
+		} else{//목표금액이 존재하면 targetAmount/total로 인당 가격을 환산하여 여행후기 추천
+			int priceOfPerson = targetAmount/total;
+			SuggestListResDto review = reviewRepository.getSuggestReviewOne(priceOfPerson).orElse(null);
+
+			if(review == null){
+				int reviewCount = reviewRepository.getRandomSuggestId().orElse(0);
+				return makeRandomSuggestOne(reviewCount);
+			}
+
+
+				List<SuggestImageGetDto> imageList = imageRepository.getImageList(review.getId()).orElse(null);
+				SuggestListResDto suggestListResDto = SuggestListResDto.builder()
+						.id(review.getId())
+						.expense(review.getExpense())
+						.country(review.getCountry())
+						.people(review.getPeople())
+						.startDate(review.getStartDate())
+						.endDate(review.getEndDate())
+						.imageList(imageList)
+						.build();
+
+			return suggestListResDto;
+		}
+	}
+
+	//추천할 랜덤 여행 썸네일을 만드는 메소드
+	public SuggestListResDto makeRandomSuggestOne(int reviewCount){
+		if(reviewCount==0){
+			throw new SuggestNotExists();
+		}else{
+			long reviewId = ThreadLocalRandom.current().nextInt(1, reviewCount);
+				Review review = reviewRepository.findById(reviewId).orElseThrow(ReviewNotFound::new);
+				List<SuggestImageGetDto> imageIdList = imageRepository.findImageOfReview(reviewId).orElse(null);
+				SuggestListResDto suggestListResDto = SuggestListResDto.builder()
+						.id(review.getId())
+						.expense(review.getExpense())
+						.country(review.getCountry())
+						.people(review.getPeople())
+						.startDate(review.getStartDate())
+						.endDate(review.getEndDate())
+						.imageList(imageIdList)
+						.build();
+			return suggestListResDto;
+		}
+	}
 }
