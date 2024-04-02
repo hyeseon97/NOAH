@@ -10,3 +10,13 @@ export async function getQRImage(travelId) {
     throw error;
   }
 }
+
+/* QR 결제 승인 */
+export async function withdrawByQR(object) {
+  try {
+    const response = await axiosAPI.post("/api/v1/bank/qr/withdraw", object);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
