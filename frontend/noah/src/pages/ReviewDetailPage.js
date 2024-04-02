@@ -43,7 +43,6 @@ export default function ReviewDetailPage() {
       try {
         const res = await getReview(reviewId);
         if (res.status === "SUCCESS") {
-          console.log(res);
           setReviewInfo(res.data);
           const startDateString = String(res.data.start_date);
           setStartDate(formatDate(startDateString));
@@ -107,9 +106,13 @@ export default function ReviewDetailPage() {
             <div className={styles.labelMedium}>여행자들의 한줄평</div>
           </div>
           <div className={styles.line}></div>
-          <div className={styles.commentBox}>
-            <User />
-            <div className={styles.labelSmall}>{comment[0]?.content}</div>
+          <div>
+            {comment.map((comment, index) => (
+              <div className={styles.commentBox}>
+                <User />
+                <div className={styles.labelSmall}>{comment?.content}</div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
