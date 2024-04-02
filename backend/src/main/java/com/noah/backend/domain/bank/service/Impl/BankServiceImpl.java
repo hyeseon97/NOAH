@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.noah.backend.domain.account.dto.responseDto.AccountInfoDto;
+import com.noah.backend.domain.account.entity.Account;
+import com.noah.backend.domain.account.repository.AccountRepository;
 import com.noah.backend.domain.admin.dto.requestDto.AdminKeyRequestDto;
 import com.noah.backend.domain.bank.dto.requestDto.*;
 import com.noah.backend.domain.bank.dto.responseDto.*;
@@ -14,12 +16,17 @@ import com.noah.backend.domain.groupaccount.repository.GroupAccountRepository;
 import com.noah.backend.domain.member.dto.requestDto.UserKeyRequestDto;
 import com.noah.backend.domain.member.entity.Member;
 import com.noah.backend.domain.member.repository.MemberRepository;
+import com.noah.backend.domain.trade.entity.Trade;
+import com.noah.backend.domain.trade.repository.TradeRepository;
 import com.noah.backend.domain.travel.entity.Travel;
 import com.noah.backend.domain.travel.repository.TravelRepository;
+import com.noah.backend.global.exception.account.AccountNotFoundException;
 import com.noah.backend.global.exception.bank.*;
 import com.noah.backend.global.exception.groupaccount.GroupAccountNotFoundException;
 import com.noah.backend.global.exception.member.MemberNotFoundException;
 import com.noah.backend.global.exception.travel.TravelNotFoundException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
@@ -51,6 +58,8 @@ public class BankServiceImpl implements BankService {
 	private final MemberRepository memberRepository;
 	private final TravelRepository travelRepository;
 	private final GroupAccountRepository groupAccountRepository;
+	private final AccountRepository accountRepository;
+	private final TradeRepository tradeRepository;
 
 
 	//관리자 키 발급
@@ -569,6 +578,55 @@ public class BankServiceImpl implements BankService {
 			Map<String, Object> REC = (Map<String, Object>) responseJson.get("Header");
 			System.out.println("계좌 출금 제대로되는지 확인");
 			System.out.println("처리 결과 : " + (String)REC.get("responseMessage"));
+
+
+
+			// 멤버와 사용할 계좌 조회
+			Account account = accountRepository.findById(currentAccountInfoDto.getAccountId()).orElseThrow(AccountNotFoundException::new);
+			Member member = memberRepository.findById(account.getMember().getId()).orElseThrow(MemberNotFoundException::new);
+			Member usedMember = memberRepository.findById(qrWithdrawReqDto.getMemberId()).orElseThrow(MemberNotFoundException::new);
+
+			Map<String, String> bankCodeMap = Map.of(
+				"한국은행", "001",
+				"산업은행", "002",
+				"기업은행", "003",
+				"국민은행", "004"
+			);
+
+			// 현재시간을 거래시간으로
+			LocalDateTime now = LocalDateTime.now();
+
+			DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+			DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmmss");
+
+			String createdDate = now.format(dateTimeFormatter);
+			String createdTime = now.format(timeFormatter);
+
+			// 계좌 잔액 조회
+			BankAccountBalanceCheckReqDto dto = BankAccountBalanceCheckReqDto.builder()
+																			 .userKey(member.getUserKey())
+																			 .bankCode(bankCodeMap.get((account.getBankName())))
+																			 .accountNo(account.getAccountNumber())
+																			 .build();
+			BankAccountBalanceCheckResDto amountDto = bankAccountBalanceCheck(dto);
+			int amount = amountDto.getAccountBalance();
+			amount -= qrWithdrawReqDto.getTransactionBalance();
+
+			// 거래내역 생성
+			Trade trade = Trade.builder()
+							   .type(2)
+							   .name(qrWithdrawReqDto.getTransactionSummary())
+							   .date(createdDate)
+							   .time(createdTime)
+							   .cost(qrWithdrawReqDto.getTransactionBalance())
+							   .amount(amount)
+							   .consumeType(qrWithdrawReqDto.getConsumeType())
+							   .account(account)
+							   .member(usedMember)
+							   .build();
+
+			tradeRepository.save(trade);
+
 		} else {
 			errorCheck(response);
 		}

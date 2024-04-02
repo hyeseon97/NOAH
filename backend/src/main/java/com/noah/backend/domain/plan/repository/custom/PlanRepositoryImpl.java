@@ -91,7 +91,7 @@ public class PlanRepositoryImpl implements PlanRepositoryCustom {
 
     @Override
     public void isAccessPlan(Long memberId, Long planId) {
-        Optional.ofNullable(query.select()
+        Optional.ofNullable(query.select(plan)
                                 .from(plan)
                                 .leftJoin(travel).on(plan.travel.id.eq(travel.id))
                                 .leftJoin(memberTravel).on(memberTravel.travel.id.eq(travel.id))
