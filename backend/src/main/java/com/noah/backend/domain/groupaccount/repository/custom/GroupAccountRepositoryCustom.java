@@ -1,5 +1,6 @@
 package com.noah.backend.domain.groupaccount.repository.custom;
 
+import com.noah.backend.domain.account.dto.responseDto.AccountInfoDto;
 import com.noah.backend.domain.groupaccount.dto.responseDto.GroupAccountInfoDto;
 import com.noah.backend.domain.memberTravel.dto.Response.GetTravelListResDto;
 
@@ -17,4 +18,6 @@ public interface GroupAccountRepositoryCustom {
 	Optional<Integer> findBalance(Long travelId);
 
 	Optional<Integer> findTargetAmount(Long travelId);
+
+	Optional<AccountInfoDto> findByTravleId(Long travelId);
 }

@@ -1,5 +1,6 @@
 package com.noah.backend.domain.groupaccount.repository.custom;
 
+import com.noah.backend.domain.account.dto.responseDto.AccountInfoDto;
 import com.noah.backend.domain.groupaccount.dto.responseDto.GroupAccountInfoDto;
 import com.noah.backend.domain.groupaccount.entity.GroupAccount;
 import com.noah.backend.domain.groupaccount.repository.GroupAccountRepository;
@@ -111,6 +112,15 @@ public class GroupAccountRepositoryImpl implements GroupAccountRepositoryCustom 
         return Optional.ofNullable(query.select(groupAccount.targetAmount)
                 .from(groupAccount)
                 .where(groupAccount.id.eq(travelId))
+                .fetchOne());
+    }
+
+    //여행아이디로 모임통장의 은행명, 계좌번호 알아내는 메소드
+    @Override
+    public Optional<AccountInfoDto> findByTravleId(Long travelId) {
+        return Optional.ofNullable(query.select(Projections.constructor(AccountInfoDto.class,groupAccount.account.bankName,groupAccount.account.accountNumber))
+                .from(groupAccount)
+                .where(groupAccount.travel.id.eq(travelId))
                 .fetchOne());
     }
 
