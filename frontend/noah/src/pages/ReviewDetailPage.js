@@ -13,6 +13,11 @@ export default function ReviewDetailPage() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [imgList, setImgList] = useState([]);
+  const [expandedImg, setExpandedImg] = useState(null); // 확대된 이미지 상태 관리
+
+  const handleImageClick = (imgUrl) => {
+    setExpandedImg(imgUrl);
+  };
 
   function calculateDays(startDate, endDate) {
     const start = new Date(startDate);
@@ -95,11 +100,20 @@ export default function ReviewDetailPage() {
             <img
               key={index}
               src={img.url}
-              alt={`Review Image ${index}`}
+              alt={`Review ${index}`}
               className={styles.reviewImage}
+              onClick={() => handleImageClick(img.url)} // 이미지 클릭 시 핸들러 호출
             />
           ))}
         </div>
+        {expandedImg && (
+          <div
+            className={styles.expandedImgModal}
+            onClick={() => setExpandedImg(null)} // 모달 바깥을 클릭하면 닫힘
+          >
+            <img src={expandedImg} className={styles.expandedImg} />
+          </div>
+        )}
         <div className={styles.commentContainer}>
           <div className={styles.commentHead}>
             <Comment />
