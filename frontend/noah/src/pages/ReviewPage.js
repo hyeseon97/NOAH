@@ -33,7 +33,7 @@ export default function ReviewPage() {
       }
     };
     fetchReviewInfo();
-    setTimeout(() => setIsLoading(false), 100);
+    setTimeout(() => setIsLoading(false), 1000);
   }, []);
   function calculateDays(startDate, endDate) {
     const start = new Date(startDate);
