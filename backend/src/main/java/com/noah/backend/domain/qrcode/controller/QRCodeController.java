@@ -48,7 +48,7 @@ public class QRCodeController {
         // QR 정보
         int width = 200;
         int height = 200;
-        String url = "http://j10b106.p.ssafy.io/market?memberId=" + memberId + "&travelId=" + travelId;
+        String url = "http://j10b106.p.ssafy.io/#/market?memberId=" + memberId + "&travelId=" + travelId;
 
         // QR Code - BitMatrix: qr code 정보 생성
         BitMatrix encode = new MultiFormatWriter()
