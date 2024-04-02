@@ -6,13 +6,15 @@ import { ReactComponent as CancelGrey } from "../../assets/Icon/CancelGrey.svg";
 import DropdownMember from "../common/DropdownMember";
 import DropdownConsumeType from "../common/DropdownConsumeType";
 
-export default function Spending({ transaction }) {
+export default function Spending({ transaction, people }) {
   function formatTime(timeString) {
     // HHMMSS 형식의 문자열을 입력받아 HH:MM:SS 형식으로 변환합니다.
     return timeString.replace(/^(\d{2})(\d{2})(\d{2})$/, "$1:$2:$3");
   }
 
-  const [person, setPerson] = useState("강준규");
+  const [person, setPerson] = useState(
+    transaction.memberName === null ? "공통" : transaction.memberName
+  );
   const [consumeType, setConsumeType] = useState("공통");
 
   useEffect(() => {
@@ -51,7 +53,11 @@ export default function Spending({ transaction }) {
           <div className={styles.tradeBoxBottomLeft}>
             {transaction.type === 2 && (
               <>
-                <DropdownMember selected={person} setSelected={setPerson} />
+                <DropdownMember
+                  selected={person}
+                  setSelected={setPerson}
+                  people={people}
+                />
                 <DropdownConsumeType
                   selected={consumeType}
                   setSelected={setConsumeType}
