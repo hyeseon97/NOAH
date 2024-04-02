@@ -11,7 +11,10 @@ import { getAllGroupAccount } from "../api/groupaccount/GroupAccount";
 import showToast from "../components/common/Toast";
 import { getExchangeRate } from "../api/exchange/Exchange";
 import ClipLoader from "react-spinners/ClipLoader";
-import { getRecommendReviewInfo } from "../api/suggest/Suggest";
+import {
+  getRecommendReviewInfo,
+  getRecommendReviewInfoNonLogin,
+} from "../api/suggest/Suggest";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -139,7 +142,13 @@ export default function HomePage() {
 
     const fetchGetRecommendReviewInfo = async () => {
       try {
-        const res = await getRecommendReviewInfo();
+        let res = null;
+        if (localStorage.getItem("accessToken") === null) {
+          res = await getRecommendReviewInfoNonLogin();
+        } else {
+          res = await getRecommendReviewInfo();
+        }
+
         if (res.status === "SUCCESS") {
           setRecommendReviews(res.data);
           setRecommendReviewInfo(res.data[0]);

@@ -52,8 +52,8 @@ export default function TripPage() {
       return;
     }
 
-    setPercent((travelInfo.accountAmount / travelInfo.targetAmount) * 100);
-  }, [travelInfo.accountAmount, travelInfo.targetAmount]);
+    setPercent((travelInfo.depositTotal / travelInfo.targetAmount) * 100);
+  }, [travelInfo.depositTotal, travelInfo.targetAmount]);
 
   const handleLeftIconClick = () => {
     navigate("/home");
