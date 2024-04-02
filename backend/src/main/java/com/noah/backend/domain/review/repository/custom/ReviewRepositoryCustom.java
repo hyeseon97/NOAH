@@ -7,6 +7,7 @@ import com.noah.backend.domain.suggest.dto.responseDto.SuggestListResDto;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Pageable;
 
 public interface ReviewRepositoryCustom {
 
@@ -18,5 +19,5 @@ public interface ReviewRepositoryCustom {
     Optional<Integer> getRandomSuggestId();
 
     //인당 환산값보다 낮은 리뷰를 제공
-    Optional<List<SuggestListResDto>> getSuggestReview(int priceOfPerson);
+    Optional<List<SuggestListResDto>> getSuggestReview(int priceOfPerson, Pageable pageable);
 }
