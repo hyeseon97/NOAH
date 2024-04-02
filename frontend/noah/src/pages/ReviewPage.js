@@ -66,12 +66,15 @@ export default function ReviewPage() {
               <div
                 onClick={() => navigate(`${review.id}`)}
                 className={styles.reviewBox}
+                style={{ display: "flex" }}
               >
-                <img
-                  src={review.imageList[0]?.imageUrl}
-                  alt="여행지 사진"
-                  className={styles.reviewImg}
-                />
+                <div>
+                  <img
+                    src={review.imageList[0]?.imageUrl}
+                    alt="여행지 사진"
+                    className={styles.reviewImg}
+                  />
+                </div>
                 <div className={styles.boxRight}>
                   <div className={styles.headingLarge}>{review.country}</div>
                   <div className={styles.boxRightRow}>
