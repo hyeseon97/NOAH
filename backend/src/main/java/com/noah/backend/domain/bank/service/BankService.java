@@ -35,5 +35,6 @@ public interface BankService {
 	void bankAccountTransfer(BankAccountTransferReqDto bankAccountTransferReqDto) throws IOException;
 	//계좌 거래 내역 조회
 	ArrayList<TransactionHistoryResDto> transactionHistory(TransactionHistoryReqDto transactionHistoryReqDto) throws IOException;
-
+	//QR 결제
+	void qrWithdraw(QrWithdrawReqDto qrWithdrawReqDto) throws IOException;
 }
