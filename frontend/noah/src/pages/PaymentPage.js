@@ -12,11 +12,10 @@ export default function PaymentPage() {
   useEffect(() => {
     const getQR = async () => {
       const res = await getQRImage(travelId);
-      console.log(res);
+      setImageUrl(`data:image/png;base64,${res}`);
     };
 
     getQR();
-    setImageUrl();
   }, []);
 
   return (
@@ -25,7 +24,7 @@ export default function PaymentPage() {
       {imageUrl !== null && (
         <>
           <div>
-            <a href={imageUrl}>QR 코드</a>
+            <img src={imageUrl} alt=""></img>
           </div>
         </>
       )}
