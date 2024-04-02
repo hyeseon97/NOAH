@@ -34,17 +34,19 @@ public class SuggestController {
 		return response.success(ResponseCode.SUGGEST_FETCHED, result);
 	}
 
-	@Operation(summary = "여행 추천 목록 조회(로그인)", description = "여행 추천 목록 조회(로그인)")
+	@Operation(summary = "둘러보기할때 메인페이지에서 띄울 대표 추천 여행", description = "둘러보기 대표 추천 여행")
+	@GetMapping("/nonlogin")
+	public ResponseEntity<?> nonLoginGetSuggestList() {
+		List<MainSuggestGetDto> suggestOne = suggestService.nonLoginGetSuggestMain();
+		return response.success(ResponseCode.SUGGEST_FETCHED, suggestOne);
+	}
+
+	@Operation(summary = "여행 추천 목록 조회", description = "여행 추천 목록 조회")
 	@GetMapping("/{travelId}")
 	public ResponseEntity<?> loginGetSuggestList(@PathVariable(name = "travelId") Long travelId) {
-		List<SuggestListResDto> suggestList = suggestService.loginGetSuggestList(travelId);
+		List<SuggestListResDto> suggestList = suggestService.getSuggestList(travelId);
 		return response.success(ResponseCode.SUGGEST_FETCHED, suggestList);
 	}
 
-	@Operation(summary = "여행 추천 목록 조회(비로그인)", description = "여행 추천 목록 조회(비로그인)")
-	@GetMapping("/nonlogin")
-	public ResponseEntity<?> nonLoginGetSuggestList() {
-		SuggestListResDto suggestOne = suggestService.nonLoginGetSuggestList();
-		return response.success(ResponseCode.SUGGEST_FETCHED, suggestOne);
-	}
+
 }

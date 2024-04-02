@@ -176,7 +176,7 @@ public class TradeServiceImpl implements TradeService {
     }
 
     /* 은행에서 가져오고 저장하는 메서드 */
-    private void fetchAndSaveTradeHistory(Account account, String startDate, String endDate) throws IOException {
+    public void fetchAndSaveTradeHistory(Account account, String startDate, String endDate) throws IOException {
         /* 은행 코드 */
         Map<String, String> bankCodeMap = Map.of(
             "한국은행", "001",

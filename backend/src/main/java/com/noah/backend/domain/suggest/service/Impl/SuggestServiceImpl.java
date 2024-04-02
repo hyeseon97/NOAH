@@ -37,7 +37,7 @@ public class SuggestServiceImpl implements SuggestService {
 	private final ImageRepository imageRepository;
 
 	@Override
-	public List<SuggestListResDto> loginGetSuggestList(Long travelId) {
+	public List<SuggestListResDto> getSuggestList(Long travelId) {
 
 		int total = memberTravelRepository.totalPeople(travelId).orElse(0);
 		//이우진 교보재
@@ -77,6 +77,7 @@ public class SuggestServiceImpl implements SuggestService {
 		}
 	}
 
+	//메인페이지에서 띄울 내가 포함된 여행의 대표 추천 여행
 	@Override
 	public List<MainSuggestGetDto> getSuggestMain(String email) {
 
@@ -103,14 +104,26 @@ public class SuggestServiceImpl implements SuggestService {
 		return result;
 	}
 
+	//둘러보기할때 메인페이지에서 띄울 대표 추천 여행
 	@Override
-	public SuggestListResDto nonLoginGetSuggestList() {
+	public List<MainSuggestGetDto> nonLoginGetSuggestMain() {
 
-		int reviewCount = reviewRepository.getRandomSuggestId().orElse(0);
-		if(reviewCount==0){
-			throw new SuggestNotExists();
-		}
-		return makeRandomSuggestOne(reviewCount);
+		List<MainSuggestGetDto> result = new ArrayList<>();
+			int reviewCount = reviewRepository.getRandomSuggestId().orElse(0);
+			SuggestListResDto suggest = makeRandomSuggestOne(reviewCount);
+
+			MainSuggestGetDto mainSuggestGetDto = MainSuggestGetDto.builder()
+					.travelId(null)
+					.reviewId(suggest.getId())
+					.country(suggest.getCountry())
+					.expense(suggest.getExpense())
+					.imageId(suggest.getImageList().get(0).getImageId())
+					.imageUrl(suggest.getImageList().get(0).getImageUrl())
+					.build();
+
+			result.add(mainSuggestGetDto);
+
+		return result;
 	}
 
 	//------------------------------------------------------------------------------------------------------
