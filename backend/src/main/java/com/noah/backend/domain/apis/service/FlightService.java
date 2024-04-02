@@ -86,8 +86,10 @@ public class FlightService {
             JSONObject jsonObject = new JSONObject(object.toString());
             JSONObject airline = jsonObject.getJSONArray("itineraries").getJSONObject(0).getJSONArray("segments").getJSONObject(0);
             ResponseFlightOffersDto responseFlightOffersDto = ResponseFlightOffersDto.builder()
-                .d_airport(jsonObject.getJSONArray("itineraries").getJSONObject(0).getJSONArray("segments").getJSONObject(0).getJSONObject("departure").get("iataCode").toString())
-                .a_airport(jsonObject.getJSONArray("itineraries").getJSONObject(0).getJSONArray("segments").getJSONObject(0).getJSONObject("arrival").get("iataCode").toString())
+//                .d_airport(jsonObject.getJSONArray("itineraries").getJSONObject(0).getJSONArray("segments").getJSONObject(0).getJSONObject("departure").get("iataCode").toString())
+//                .a_airport(jsonObject.getJSONArray("itineraries").getJSONObject(0).getJSONArray("segments").getJSONObject(0).getJSONObject("arrival").get("iataCode").toString())
+                .d_airport(location.getAirportKo())
+                .a_airport(destinationLocation.getAirportKo())
                 .d_time(jsonObject.getJSONArray("itineraries").getJSONObject(0).getJSONArray("segments").getJSONObject(0).getJSONObject("departure").get("at").toString())
                 .a_time(jsonObject.getJSONArray("itineraries").getJSONObject(0).getJSONArray("segments").getJSONObject(0).getJSONObject("arrival").get("at").toString())
                 .price(Double.parseDouble((jsonObject.getJSONObject("price").get("total").toString())))
