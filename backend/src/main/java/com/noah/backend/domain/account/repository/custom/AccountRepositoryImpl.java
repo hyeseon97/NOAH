@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.noah.backend.domain.account.entity.QAccount.account;
+import static com.noah.backend.domain.groupaccount.entity.QGroupAccount.groupAccount;
 
 @RequiredArgsConstructor
 public class AccountRepositoryImpl implements AccountRepositoryCustom {
@@ -32,5 +33,14 @@ public class AccountRepositoryImpl implements AccountRepositoryCustom {
                                        .from(account)
                                        .where(account.member.id.eq(memberId).and(account.type.eq("개인계좌")))
                                        .fetch());
+    }
+
+    @Override
+    public Optional<Account> findAccountBytravelId(Long travelId) {
+        return Optional.ofNullable(query.select(account)
+                                       .from(account)
+                                       .leftJoin(groupAccount).on(groupAccount.account.id.eq(account.id))
+                                       .where(groupAccount.travel.id.eq(travelId))
+                                       .fetchOne());
     }
 }
