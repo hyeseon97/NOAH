@@ -2,6 +2,7 @@ package com.noah.backend.domain.datailPlan.controller;
 
 import com.google.rpc.context.AttributeContext.Auth;
 import com.noah.backend.domain.datailPlan.dto.requestDto.DetailPlanPostDto;
+import com.noah.backend.domain.datailPlan.dto.responseDto.DetailPlanDto;
 import com.noah.backend.domain.datailPlan.dto.responseDto.DetailPlanListDto;
 import com.noah.backend.domain.datailPlan.service.DetailPlanService;
 import com.noah.backend.global.format.code.ApiResponse;
@@ -9,6 +10,7 @@ import com.noah.backend.global.format.response.ResponseCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -26,7 +28,7 @@ public class DetailPlanController {
     @Operation(summary = "상세 계획 목록 조회", description = "상세 계획 목록 조회")
     @GetMapping("/{planId}")
     public ResponseEntity<?> getDetailPlanList(@Parameter(hidden = true) Authentication authentication, @PathVariable(value = "planId") Long planId){
-        DetailPlanListDto detailPlanList = detailPlanService.getDetailPlanList(authentication.getName(), planId);
+        List<DetailPlanDto> detailPlanList = detailPlanService.getDetailPlanList(authentication.getName(), planId);
         return response.success(ResponseCode.DETAILPLAN_INFO_FETCHED, detailPlanList);
     }
 
