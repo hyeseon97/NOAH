@@ -32,8 +32,8 @@ public class DetailPlanController {
 
     @Operation(summary = "상세 계획 추가", description = "상세 계획 추가 / PlanId 필요")
     @PostMapping
-    public ResponseEntity<?> createDetailPlan(@Parameter(hidden = true) Authentication authentication, @RequestBody DetailPlanPostDto detailPlanDto){
-        Long createDetailPlanId = detailPlanService.createDetailPlan(authentication.getName(), detailPlanDto);
+    public ResponseEntity<?> createDetailPlan(@Parameter(hidden = true) Authentication authentication, @RequestParam Long planId, @RequestBody DetailPlanPostDto detailPlanDto){
+        Long createDetailPlanId = detailPlanService.createDetailPlan(authentication.getName(), planId, detailPlanDto);
         return response.success(ResponseCode.DETAILPLAN_CREATED, createDetailPlanId);
     }
 

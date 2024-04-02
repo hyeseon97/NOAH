@@ -16,5 +16,4 @@ public class TicketPostDto {
     private String d_airport;
     private String a_airport;
     private int d_gate;
-    private Long travel_id;
 }
