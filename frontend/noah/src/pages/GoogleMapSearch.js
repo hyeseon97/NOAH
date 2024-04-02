@@ -89,7 +89,6 @@ export default function GoogleMapSearch() {
   const [search, setSearch] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const mapRef = useRef(null);
-  const googleMapApiKey = "AIzaSyDQuG0EPBRz632DtyOLTtopsQ97Uun8ybM";
   const [outPlace, setOutPlace] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [photos, setPhotos] = useState([]);
@@ -121,14 +120,22 @@ export default function GoogleMapSearch() {
 
   const [size, setSize] = useState(getSize());
 
+  const DEFAULT_IMAGE_URL =
+    "https://us.123rf.com/450wm/robuart/robuart1808/robuart180801020/111971665-%ED%99%94%EC%B0%BD%ED%95%9C-%EB%82%A0-%EC%A0%95%EC%82%AC%EA%B0%81%ED%98%95-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%A7%8C%ED%99%94-%EB%B2%A1%ED%84%B0-%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8-%EB%A0%88%EC%9D%B4-%EC%85%98%EC%97%90-%ED%94%84%EB%9E%91%EC%8A%A4-%EC%82%AC%EC%A7%84-%EC%9C%A0%EB%9F%BD-%EB%AA%85%EC%86%8C%EB%A5%BC-%EC%97%AC%ED%96%89%ED%95%98%EB%8A%94-%EC%97%90%ED%8E%A0%ED%83%91%EA%B3%BC-%ED%95%A8%EA%BB%98-%ED%8C%8C%EB%A6%AC%EB%A1%9C%EC%9D%98-%EC%97%AC%ED%96%89.jpg";
+
   const handleCreateDetail = async (name, vicinity, lat, lng, rating, url) => {
     try {
-      await createdetail(name, vicinity, lat, lng, rating, url);
-      console.log(url)
+      await createdetail(
+        name,
+        vicinity,
+        lat,
+        lng,
+        rating,
+        url || DEFAULT_IMAGE_URL
+      );
       navigate(-1);
     } catch (error) {
-      // 에러 처리
-      console.error("계획 추가 중 오류 발생", error);
+      console.error("계획 추가 중 오류 발생: ", error);
     }
   };
 
@@ -137,8 +144,8 @@ export default function GoogleMapSearch() {
     const heightVH = window.innerHeight * 0.4; // 뷰포트의 40%
     return `${Math.round(widthVW)}x${Math.round(heightVH)}`;
   }
-
-  const apiKey = "AIzaSyDQuG0EPBRz632DtyOLTtopsQ97Uun8ybM";
+  
+  const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 
   const zoom = 14;
   const widthVW = window.innerWidth * 1; // 뷰포트의 80%
@@ -295,7 +302,14 @@ export default function GoogleMapSearch() {
     mapRef.current = map;
   };
 
-  const createdetail = async (name, formatted_address, lat, lng, rating, url) => {
+  const createdetail = async (
+    name,
+    formatted_address,
+    lat,
+    lng,
+    rating,
+    url
+  ) => {
     const object = {
       day: day,
       sequence: 1,
@@ -325,7 +339,7 @@ export default function GoogleMapSearch() {
           placeholder="장소 검색..."
         />
       </div>
-      <LoadScript googleMapsApiKey={googleMapApiKey} libraries={["places"]}>
+      <LoadScript googleMapsApiKey={apiKey} libraries={["places"]}>
         <GoogleMap
           center={center}
           zoom={10}
@@ -337,7 +351,7 @@ export default function GoogleMapSearch() {
           ))}
         </GoogleMap>
       </LoadScript>
-      {outPlace && showList && search.length != 0 && (
+      {outPlace && showList && search.length !== 0 && (
         <div
           className={styles.searchResultsStyle}
           style={{ display: showList ? "block" : "none" }}
@@ -358,7 +372,7 @@ export default function GoogleMapSearch() {
               </ul>
             )}
           </div>
-          {mapUrl != "" && (
+          {mapUrl !== "" && (
             <img
               key={mapUrl}
               src={mapUrl}
@@ -379,7 +393,9 @@ export default function GoogleMapSearch() {
                     outPlace.lat,
                     outPlace.lng,
                     outPlace.rating,
-                    outPlace.photos[0].getUrl(),
+                    outPlace.photos && outPlace.photos.length > 0
+                      ? outPlace.photos[0].getUrl()
+                      : DEFAULT_IMAGE_URL
                   )
                 }
               >
