@@ -1,0 +1,43 @@
+.tradeHeader {
+  height: 9.86vw;
+  display: flex;
+  align-items: center;
+  padding-left: 3.33vw;
+  padding-right: 3.33vw;
+  gap: 32.67vw;
+  width: 100%;
+}
+.labelMedium {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 4.45vw;
+  line-height: 150%;
+  color: #000000;
+}
+.headerRight {
+  display: flex;
+  justify-content: space-between;
+  width: 35.33vw;
+}
+.labelSmallGray {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 3.35vw;
+  line-height: 150%;
+  color: #898989;
+}
+.labelSmall {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 3.35vw;
+  line-height: 150%;
+  color: #000000;
+}
+.line {
+  width: 100vw;
+  height: 0px;
+  border: 0.277vw solid rgba(137, 137, 137, 0.3);
+}

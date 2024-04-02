@@ -100,7 +100,7 @@ export default function ReviewDetailPage() {
             // 이미지가 하나일 경우
             <img
               src={imgList[0].url}
-              alt="Review Image"
+              alt="Review"
               className={styles.singleImage} // 새로운 스타일 적용
               onClick={() => handleImageClick(imgList[0].url)}
             />
