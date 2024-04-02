@@ -20,5 +20,5 @@ public interface ReviewRepositoryCustom {
     //인당 환산값보다 낮은 리뷰 한개를 제공
     Optional<SuggestListResDto> getSuggestReviewOne(int priceOfPerson);
     //인당 환산값보다 낮은 리뷰 여러개를 제공
-    Optional<List<SuggestListResDto>> getSuggestReviewList(int priceOfPerson, Pageable pageable);
+    Optional<List<SuggestListResDto>> getSuggestReviewList(int priceOfPerson);
 }
