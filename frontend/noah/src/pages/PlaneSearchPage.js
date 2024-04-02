@@ -14,13 +14,13 @@ import { useLocation } from "react-router-dom";
 export default function PlaneSearchPage() {
   const [planeList, setPlaneList] = useState([]);
   // const [planeList, setPlaneList] = useState([]);
-  const { travelId } = useParams();
+  const { travelId, planId } = useParams();
   const navigate = useNavigate();
   const [arrivalAirPort, setArrivalAirPort] = useState();
   const [departureAirPort, setDepartureAirPort] = useState();
   const [boarderDate, setBoarderDate] = useState();
   const location = useLocation();
-  const { planId, day, date } = location.state;
+  const { planId2, day, date } = location.state;
 
   const handleArrival = (e) => {
     const value = e.target.value;
@@ -31,16 +31,16 @@ export default function PlaneSearchPage() {
     setDepartureAirPort(value);
   };
   const handleDate = (e) => {
-    const value = e.target.value;
+     const value = e.target.value
     setBoarderDate(value);
   };
 
-  const postPlaneDate = () => {
-    const postDate = { departureAirPort, arrivalAirPort, boarderDate };
-    setDepartureAirPort("");
-    setArrivalAirPort("");
-    setBoarderDate("");
-  };
+  // const postPlaneDate = () => {
+  //   const postDate = { departureAirPort, arrivalAirPort, boarderDate };
+  //   setDepartureAirPort("");
+  //   setArrivalAirPort("");
+  //   setBoarderDate("");
+  // };
 
   const handleCreateTicket = async (
     departureTime,
@@ -84,10 +84,10 @@ export default function PlaneSearchPage() {
     const departureDate = new Date(departureTime).toISOString();
     const arrivalDate = new Date(arrivalTime).toISOString();
 
-    console.log(departureDate, arrivalDate, departureAirport, arrivalAirport);
+    console.log(departureDate, arrivalDate, departureAirport, arrivalAirport + "testestestset" + " travelId" + travelId);
 
     const object = {
-      departure: departureDate,
+      departure: date,
       arrival: arrivalDate,
       d_airport: departureAirport,
       a_airport: arrivalAirport,
@@ -139,8 +139,8 @@ export default function PlaneSearchPage() {
             <Mark />
             <input
               className={styles.inputStyle}
-              placeholder="탑승 날짜"
-              value={date}
+              placeholder={date}
+              value={boarderDate}
               onChange={handleDate}
             ></input>
           </div>

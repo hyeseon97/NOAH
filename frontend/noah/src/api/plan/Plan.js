@@ -20,6 +20,7 @@ export async function updatePlanStart(planId, object) {
     throw error;
   }
 }
+
 /* 계획 작성 */
 export async function cretePlan(object) {
   try {
@@ -29,15 +30,18 @@ export async function cretePlan(object) {
     throw error;
   }
 }
+
 /* 계획 상세 조회 */
-export async function getPlanDetail(planId) {
+export async function getPlanDetail(travelId) {
   try {
-    const res = await axiosAPI.get(commonUrl + `/${planId}`);
-    return res.data;
+    const res = await axiosAPI.get(commonUrl + `/${travelId}`);
+    console.log(res)
+    return res.data.data;
   } catch (error) {
     throw error;
   }
 }
+
 /* 계획 삭제 */
 export async function deletePlan(planId) {
   try {

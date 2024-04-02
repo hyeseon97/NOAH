@@ -9,6 +9,7 @@ import { ReactComponent as Mark } from "./../assets/Icon/Mark.svg";
 // import DayCalculate from "../components/trip/DayCalculate";
 import { useParams } from "react-router-dom";
 import style from "./PlanningPage.module.css";
+import { format } from "date-fns";
 
 import {
   getDetailPlan,
@@ -17,6 +18,8 @@ import {
   deleteDetailPlan,
   createDetailPlan,
 } from "../api/detailplan/DetailPlan";
+
+import { getPlanDetail } from "../api/plan/Plan";
 
 import { getTicketList, deleteTicket } from "../api/ticket/Ticket";
 
@@ -36,15 +39,7 @@ export default function PlanningPage() {
   let { travelId, planId } = useParams();
   const [currentSelectedDate, setCurrentSelectedDate] = useState("");
 
-  const [plan, setPlan] = useState({
-    id: 1,
-    title: "오사카 일본",
-    start_date: "2024-04-02",
-    end_date: "2024-04-05",
-    travel_start: false,
-    country: "일본",
-    travel_id: 1,
-  });
+  const [plan, setPlan] = useState({});
 
   const [plane, setPlane] = useState([]);
 
@@ -55,7 +50,9 @@ export default function PlanningPage() {
   );
 
   const handleAddPlanClick = () => {
-    navigate("planningTest", { state: { planId: plan.id, day: currentDay, date: currentSelectedDate } });
+    navigate("planningTest", {
+      state: { planId: planId, day: currentDay, date: currentSelectedDate },
+    });
   };
 
   function removeDuplicates(detailPlans) {
@@ -86,6 +83,21 @@ export default function PlanningPage() {
     return uniqueTickets;
   }
 
+  const loadPlan = async () => {
+    try {
+      const response = await getPlanDetail(travelId);
+      console.log(JSON.stringify(response) + " 확인용"); // response 객체 로깅
+      if (response) {
+        // 단순히 response 객체가 있는지만 확인
+        setPlan(response); // response 객체를 직접 상태로 설정
+      } else {
+        console.error("Plan data is missing or status is not SUCCESS");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const loadDetailPlan = async () => {
     try {
       const response = await getDetailPlanList(planId);
@@ -99,9 +111,7 @@ export default function PlanningPage() {
         );
         setDetailPlans(uniqueDetailPlans);
       } else {
-        console.error(
-          "detailPlanList is not an array or status is not SUCCESS"
-        );
+        console.error("plan is not an array or status is not SUCCESS");
       }
     } catch (error) {
       console.error(error);
@@ -136,13 +146,12 @@ export default function PlanningPage() {
     setCurrentSelectedDate(plan.start_date);
     loadDetailPlan();
     loadTicketList();
+    loadPlan();
   }, [plan.start_date]);
 
   const handleDeleteDetailPlan = async (detailPlanId) => {
     try {
-      // deleteDetailPlan 함수가 성공적으로 수행되었다고 가정
       await deleteDetailPlan(detailPlanId);
-      // 삭제 후 detailPlans 상태 업데이트
       setDetailPlans((prevDetailPlans) =>
         prevDetailPlans.filter((plan) => plan.detailPlanId !== detailPlanId)
       );
@@ -153,10 +162,8 @@ export default function PlanningPage() {
 
   const handleDeleteTicket = async (ticketId) => {
     try {
-      // deleteDetailPlan 함수가 성공적으로 수행되었다고 가정
       console.log(ticketId);
       await deleteTicket(ticketId);
-      // 삭제 후 detailPlans 상태 업데이트
       setPlane((prevTickets) =>
         prevTickets.filter((flight) => flight.id !== ticketId)
       );
@@ -166,20 +173,39 @@ export default function PlanningPage() {
   };
 
   const filteredPlanes = plane.filter((flight) => {
-    // 출발 또는 도착 날짜를 현재 선택된 날짜와 비교합니다.
-    // 예시로 출발 날짜(departure)를 사용했습니다. 필요에 따라 도착 날짜(arrival)로 변경 가능합니다.
+    // 출발 날짜가 유효한지 확인합니다.
+    if (!flight.departure) {
+      return false; // 유효하지 않은 경우, 이 항공편을 결과 배열에 포함시키지 않습니다.
+    }
     const flightDate = flight.departure.split("T")[0]; // 'YYYY-MM-DD' 형식으로 날짜 추출
     return flightDate === currentSelectedDate;
   });
+  
 
   return (
     <>
       <Header LeftIcon="Arrow" Title="계획" />
       <div className={style.headStyle}>
         <div>
-          <div className={style.bigFont}>{plan.title}</div>
+          <div className={style.bigFont}>{plan.country}</div>
           <div className={style.middleFont}>
-            {plan.start_date} ~ {plan.end_date}
+            {new Date(plan.startDate)
+              .toLocaleDateString("ko-KR", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+              })
+              .replace(/\.\s?/g, "-")
+              .slice(0, -1)}{" "}
+            ~ {" "}
+            {new Date(plan.endDate)
+              .toLocaleDateString("ko-KR", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+              })
+              .replace(/\.\s?/g, "-")
+              .slice(0, -1)}
           </div>
         </div>
         <Edit className={style.editButton} />
@@ -195,8 +221,8 @@ export default function PlanningPage() {
         <Next className={style.nextButton} />
       </div> */}
       <DayCalculate
-        startDate={plan.start_date}
-        endDate={plan.end_date}
+        startDate={plan.startDate}
+        endDate={plan.endDate}
         onDayChange={handleDayChange}
       />
       <div>
