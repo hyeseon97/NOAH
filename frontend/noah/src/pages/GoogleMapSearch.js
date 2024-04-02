@@ -103,7 +103,7 @@ export default function GoogleMapSearch() {
   const [isWeekTime, setIsWeekTime] = useState(false);
   // const { planId } = useParams();
   const location = useLocation();
-  const { planId, day } = location.state;
+  const { planId, day, date } = location.state;
   const navigate = useNavigate();
 
   const onLoad = (map) => {
