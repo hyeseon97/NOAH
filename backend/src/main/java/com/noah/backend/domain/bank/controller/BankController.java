@@ -3,6 +3,7 @@ package com.noah.backend.domain.bank.controller;
 import com.noah.backend.domain.bank.dto.requestDto.*;
 import com.noah.backend.domain.bank.dto.responseDto.BankAccountBalanceCheckResDto;
 import com.noah.backend.domain.bank.dto.responseDto.BankAccountListResDto;
+import com.noah.backend.domain.bank.dto.responseDto.TransactionHistoryResDto;
 import com.noah.backend.domain.bank.service.BankService;
 import com.noah.backend.domain.csv.service.impl.CsvServiceImpl;
 import com.noah.backend.global.format.code.ApiResponse;
@@ -39,6 +40,15 @@ public class BankController {//계좌 입금, 계좌 출금, 계좌 이체 기�
 		BankAccountBalanceCheckResDto bankAccountBalanceCheckResDto = bankService.bankAccountBalanceCheck(bankAccountBalanceCheckReqDto);
 		return response.success(ResponseCode.BANK_DEPOSIT_SUCCESS,bankAccountBalanceCheckResDto);
 	}
+
+	//계좌 거래내역 조회
+	@PostMapping("/bankAccountTransactionHistory")
+	@Operation(summary = "계좌 거래내역 조회", description = "계좌 거래내역 조회")
+	public ResponseEntity<?> transactionHistory(@RequestBody TransactionHistoryReqDto transactionHistoryReqDto) throws IOException {
+		ArrayList<TransactionHistoryResDto> list = bankService.transactionHistory(transactionHistoryReqDto);
+		return response.success(ResponseCode.TRANSACTION_HISTORY_SUCCESS,list);
+	}
+
 	//계좌 입금
 	@PostMapping("/deposit")
 	@Operation(summary = "계좌 입금", description = "계좌 입금")
