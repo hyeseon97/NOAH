@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { ReactComponent as CancelGrey } from "../../assets/Icon/CancelGrey.svg";
 import DropdownMember from "../common/DropdownMember";
 import DropdownConsumeType from "../common/DropdownConsumeType";
+import { changeTrade } from "../../api/trade/Trade";
 
 export default function Spending({ transaction, people }) {
   function formatTime(timeString) {
@@ -15,13 +16,26 @@ export default function Spending({ transaction, people }) {
   const [person, setPerson] = useState(
     transaction.memberName === null ? "공통" : transaction.memberName
   );
-  const [consumeType, setConsumeType] = useState("공통");
+  const [consumeType, setConsumeType] = useState(transaction.consumeType);
 
   useEffect(() => {
     AOS.init({
       duration: 200,
     });
   });
+
+  useEffect(() => {
+    const selectedPerson = people.find((p) => p.name === person);
+    const memberId = selectedPerson ? selectedPerson.id : null; // 만약 해당 person을 찾지 못했다면 null
+
+    const res = changeTrade({
+      tradeId: transaction.tradeId,
+      memberId: memberId,
+      consumeType: consumeType,
+    });
+    console.log(res);
+  }, [person, consumeType]);
+
   return (
     <>
       <div className={styles.tradeBox} data-aos="fade-up">
@@ -29,7 +43,7 @@ export default function Spending({ transaction, people }) {
           <div className={styles.labelSmallGray}>
             {formatTime(transaction.time)}
           </div>
-          <CancelGrey className={styles.icon} />
+          {/* <CancelGrey className={styles.icon} /> */}
         </div>
         <div className={styles.tradeBoxMiddle}>
           <div className={styles.labelMedium}>{transaction.name}</div>

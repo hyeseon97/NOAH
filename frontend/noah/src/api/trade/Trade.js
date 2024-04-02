@@ -24,7 +24,16 @@ export async function toggleTrade(tradeId) {
 /* 숨긴 거래 내역만 조회 */
 export async function getHiddenTrade(travelId) {
   try {
-    const response = await axiosAPI.post(commonUrl + `/hide/${travelId}`);
+    const response = await axiosAPI.get(commonUrl + `/hide/${travelId}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function changeTrade(object) {
+  try {
+    const response = await axiosAPI.put(commonUrl, object);
     return response.data;
   } catch (error) {
     throw error;

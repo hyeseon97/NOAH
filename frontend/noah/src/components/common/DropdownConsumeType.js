@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function Dropdown({ selected, setSelected }) {
+function DropdownConsumeType({ selected, setSelected }) {
   const handleChange = (event) => {
     setSelected(event.target.value); // 선택된 옵션의 value로 상태 업데이트
   };
@@ -36,4 +36,4 @@ function Dropdown({ selected, setSelected }) {
   );
 }
 
-export default Dropdown;
+export default DropdownConsumeType;
