@@ -67,9 +67,9 @@ export default function Main() {
             <Route path=":reviewId" element={<ReviewDetailPage />}></Route>
           </Route>
           <Route path="createreview/:travelId" element={<ReviewCreatePage />} />
-          <Route path="googlemap" element={<GoogleMapSearch />} />
+          {/* <Route path="googlemap" element={<GoogleMapSearch />} />
           <Route path="planeSearch" element={<PlaneSearchPage />} />
-          <Route path="testgooglemap" element={<TestGoogleMap />} />
+          <Route path="testgooglemap" element={<TestGoogleMap />} /> */}
           <Route path="notification" element={<NotificationPage />} />
           <Route path="mypage" element={<MyPage />} />
           <Route path="travelhistory" element={<TravelHistoryPage />} />
