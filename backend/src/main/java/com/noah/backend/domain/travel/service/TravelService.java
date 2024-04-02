@@ -7,13 +7,14 @@ import com.noah.backend.domain.travel.dto.requestDto.TravelGetListDto;
 import com.noah.backend.domain.travel.dto.requestDto.TravelPostDto;
 import com.noah.backend.domain.travel.dto.requestDto.TravelUpdateDto;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface TravelService {
 
     List<TravelGetListDto> getTravelList();
 
-    TravelGetDto getTravelSelect(String email, Long travelId);
+    TravelGetDto getTravelSelect(String email, Long travelId) throws IOException;
 
 //    List<TravelGetListDto> getTravelMemberId(String email);
 
