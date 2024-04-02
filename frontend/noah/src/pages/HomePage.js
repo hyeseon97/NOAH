@@ -5,8 +5,6 @@ import { ReactComponent as My } from "../assets/Icon/My.svg";
 import { useNavigate } from "react-router-dom";
 import Trip from "../components/trip/Trip";
 import Exchange from "./../components/exchange/Exchange";
-import sample1 from "../assets/Image/sample1.jpg";
-import sample2 from "../assets/Image/sample2.png";
 import { getAllGroupAccount } from "../api/groupaccount/GroupAccount";
 import showToast from "../components/common/Toast";
 import { getExchangeRate } from "../api/exchange/Exchange";
@@ -266,7 +264,14 @@ export default function HomePage() {
             </div>
           </div>
           <div className={styles.reviewContainer}>
-            <div className={styles.review}>
+            <div
+              className={styles.review}
+              onClick={() =>
+                navigate(
+                  `/trip/${travelId}/review/${recommendReviewInfo.reviewId}`
+                )
+              }
+            >
               {isImageLoading && (
                 <>
                   <div

@@ -21,6 +21,7 @@ export default function PaymentPage() {
   return (
     <>
       <Header LeftIcon="Arrow" Title="결제" />
+      <div>{imageUrl}</div>
       {imageUrl !== null && (
         <>
           <div>
