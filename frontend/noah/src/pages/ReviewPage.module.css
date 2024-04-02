@@ -1,0 +1,57 @@
+.reviewContainer{
+}
+.reviewBox{
+    margin-left: 4.17vw;
+    margin-right: 4.17vw;
+    margin-top: 4vw;
+    margin-bottom: 4vw;
+    display: flex;
+}
+.reviewImg{
+    width: 45.06vw;
+    height: 33.33vw;
+    border-radius: 2vw;
+}
+.boxRight{
+    margin-top: 5vw;
+    margin-left: 2vw;
+}
+
+.headingLarge{
+    font-Family: "Pretendard";
+    font-Style: normal;
+    font-Weight: 700;
+    font-Size: 5.92vw;
+    line-Height: 140%;
+    color: #000000;
+    margin-left: 4vw;
+    margin-bottom: 3vw;
+}
+.boxRightRow{
+    width: 45vw;
+    display: flex;
+    justify-content: space-between;
+}
+
+.icon{
+    margin-left: 19vw;
+    width: 3.33vw;
+    height: 3.33vw;
+}
+
+.labelSmall{
+    font-Family: "Pretendard";
+    font-Style: normal;
+    font-Weight: 600;
+    font-Size: 3.35vw;
+    line-Height: 150%;
+    color: #000000;
+    text-align: left;
+}
+.line{
+    margin-top: 1vw;
+    margin-bottom: 1vw;
+    width: 100vw;
+    height: 0px;
+    border: 0.277vw solid rgba(137, 137, 137, 0.3);
+}

@@ -122,7 +122,6 @@ export default function Exchange({
   };
 
   useEffect(() => {
-    console.log(exchangeRateInfo.usd);
     setKrwAmount(exchangeRateInfo.usd);
     setForeignAmount("1");
   }, []); // `exchangeRateInfo` 상태가 변경될 때마다 이 효과를 재실행
