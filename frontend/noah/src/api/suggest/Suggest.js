@@ -9,6 +9,16 @@ export async function getRecommendReviewInfo() {
     throw error;
   }
 }
+
+export async function getRecommendReviewInfoNonLogin() {
+  try {
+    const response = await axiosAPI.get(`${commonUrl}/nonlogin`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function getRecommendReviewList(travelId) {
   try {
     const res = await axiosAPI.get(commonUrl + `/${travelId}`);
