@@ -10,6 +10,7 @@ import { ReactComponent as Mark } from "./../assets/Icon/Mark.svg";
 import { useParams } from "react-router-dom";
 import style from "./PlanningPage.module.css";
 import { format } from "date-fns";
+import EditModal from '../components/trip/EditModal'; // 수정을 위한 모달 컴포넌트
 
 import {
   getDetailPlan,
@@ -18,6 +19,8 @@ import {
   deleteDetailPlan,
   createDetailPlan,
 } from "../api/detailplan/DetailPlan";
+
+import { updatePlan } from "../api/plan/Plan";
 
 import { getPlanDetail } from "../api/plan/Plan";
 
@@ -38,12 +41,11 @@ export default function PlanningPage() {
   const [currentDay, setCurrentDay] = useState(1);
   let { travelId, planId } = useParams();
   const [currentSelectedDate, setCurrentSelectedDate] = useState("");
-
   const [plan, setPlan] = useState({});
-
   const [plane, setPlane] = useState([]);
-
   const [detailPlans, setDetailPlans] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPlan, setCurrentPlan] = useState(null);
 
   const filteredDetailPlans = detailPlans.filter(
     (detailPlan) => detailPlan.day === currentDay
@@ -102,13 +104,8 @@ export default function PlanningPage() {
     try {
       const response = await getDetailPlanList(planId);
       console.log(response); // 전체 응답 로깅
-      if (
-        response.status === "SUCCESS" &&
-        Array.isArray(response.data)
-      ) {
-        const uniqueDetailPlans = removeDuplicates(
-          response.data
-        );
+      if (response.status === "SUCCESS" && Array.isArray(response.data)) {
+        const uniqueDetailPlans = removeDuplicates(response.data);
         setDetailPlans(uniqueDetailPlans);
       } else {
         console.error(
@@ -150,6 +147,7 @@ export default function PlanningPage() {
     loadDetailPlan();
     loadTicketList();
     loadPlan();
+    console.log(JSON.stringify(currentPlan) + "이거 한버넹 들어가냐")
   }, [plan.start_date]);
 
   const handleDeleteDetailPlan = async (detailPlanId) => {
@@ -174,6 +172,24 @@ export default function PlanningPage() {
       console.error("삭제 작업 중 오류가 발생했습니다.", error);
     }
   };
+
+  const handleEditClick = (plan) => {
+    setCurrentPlan(plan); // 수정할 계획의 정보 설정
+    setIsModalOpen(true); // 모달 열기
+  };
+
+  const handleSubmit = async (updatedPlan) => {
+    try {
+      console.log(updatedPlan);
+      await updatePlan(planId, updatedPlan);
+      setIsModalOpen(false); // 모달 닫기
+  
+      loadPlan();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
 
   const filteredPlanes = plane.filter((flight) => {
     // 출발 날짜가 유효한지 확인합니다.
@@ -210,7 +226,17 @@ export default function PlanningPage() {
               .slice(0, -1)}
           </div>
         </div>
-        <Edit className={style.editButton} />
+        <Edit
+          className={style.editButton}
+          onClick={() => handleEditClick(plan)}
+        />
+        {isModalOpen && (
+          <EditModal
+            plan={currentPlan}
+            onSubmit={handleSubmit}
+            onClose={() => setIsModalOpen(false)}
+          />
+        )}
       </div>
       {/* <div className={style.midStyle}>
         <Next className={style.privousButton} />
