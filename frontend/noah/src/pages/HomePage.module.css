@@ -97,3 +97,20 @@
   color: "#000000";
   margin-top: 0.5vw;
 }
+.reviewHeaderContainer{
+  margin-top: 5vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.labelSmallReview{
+  font-Family: "Pretendard";
+    font-Style: normal;
+    font-Weight: 600;
+    font-Size: 3.35vw;
+    line-Height: 150%;
+    color: #898989;
+    margin-top: 2.5vw;
+    margin-right: 10vw;
+    text-decoration: underline;
+}

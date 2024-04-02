@@ -115,7 +115,6 @@ export default function HomePage() {
     const fetchExchangeRate = async () => {
       try {
         const res = await getExchangeRate();
-        console.log(res.data);
         setExchangeRate(res.data);
       } catch (error) {
         console.log(error);
@@ -200,7 +199,15 @@ export default function HomePage() {
           <div className={styles.paragraphSmall}>
             {formatTime(new Date())} 환율 기준
           </div>
-          <div className={styles.reviewHeader}>추천 후기</div>
+          <div className={styles.reviewHeaderContainer}>
+            <div className={styles.reviewHeader}>추천 후기</div>
+            <div
+              className={styles.labelSmallReview}
+              onClick={() => navigate(`/review`)}
+            >
+              리뷰 보러가기
+            </div>
+          </div>
           <div className={styles.reviewContainer}>
             <div className={styles.review}>
               <img
