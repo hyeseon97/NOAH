@@ -2,14 +2,13 @@ import { useState, useEffect } from "react";
 import Header from "./../components/common/Header";
 import { ReactComponent as Store } from "./../assets/Icon/Store.svg";
 import styles from "./MarketPage.module.css";
-import showToast from "../components/common/Toast";
 import { withdrawByQR } from "../api/payment/Payment";
+import showToast from "./../components/common/Toast";
 
 export default function MarketPage() {
   const [name, setName] = useState("");
   const [rawPrice, setRawPrice] = useState(""); // 실제 숫자 값을 저장하는 상태
   const [displayPrice, setDisplayPrice] = useState(""); // 화면에 표시될 포맷된 값
-  const [warningText, setWarningText] = useState("");
 
   useEffect(() => {
     // rawPrice가 변경될 때마다 displayPrice를 업데이트
@@ -53,19 +52,10 @@ export default function MarketPage() {
     });
     console.log(res);
     if (res.status === "SUCCESS") {
-      setWarningText("");
+      showToast("결제가 승인되었습니다.");
     } else {
-      setWarningText("결제가 거절되었습니다.");
+      showToast("결제가 거절되었습니다.");
     }
-  };
-
-  const warningStyle = {
-    fontFamily: "Pretendard",
-    fontStyle: "normal",
-    lineHeight: "160%",
-    color: "#E11900",
-    fontSize: "3.3vw",
-    marginLeft: "8vw",
   };
 
   return (
@@ -112,7 +102,6 @@ export default function MarketPage() {
         </div>
       </div>
 
-      <div style={warningStyle}>{warningText}</div>
       <div className={styles.button} onClick={handleClickPayment}>
         결제 승인
       </div>
