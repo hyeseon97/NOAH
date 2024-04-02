@@ -23,6 +23,8 @@ export default function HomePage() {
   const [currency, setCurrency] = useState("USD");
   const [travelId, setTravelId] = useState("");
   const [recommendReviewInfo, setRecommendReviewInfo] = useState([]);
+  const [recommendReviews, setRecommendReviews] = useState([]);
+  const [idx, setIdx] = useState(0);
   const [isImageLoading, SetIsImageLoading] = useState(true);
 
   const handleNotificationClick = () => {
@@ -63,6 +65,12 @@ export default function HomePage() {
       // 이동 거리가 충분히 길거나 이동 시간이 150ms 이상인 경우 스와이프로 판단
       if (containerRef.current) {
         const direction = moveDistance > 0 ? 1 : -1;
+        if (moveDistance > 0) {
+          setIdx((prev) => prev + 1);
+        } else if (moveDistance < 0) {
+          setIdx((prev) => prev - 1);
+        }
+
         containerRef.current.scrollTo({
           left:
             containerRef.current.scrollLeft +
@@ -110,6 +118,7 @@ export default function HomePage() {
       } catch (error) {
         setTrips([]);
       } finally {
+        setTimeout(() => setIsLoading(false), 100);
       }
     };
     fetchGroupAccounts();
@@ -129,19 +138,25 @@ export default function HomePage() {
       try {
         const res = await getRecommendReviewInfo();
         if (res.status === "SUCCESS") {
-          console.log("성공", res.data);
+          setRecommendReviews(res.data);
           setRecommendReviewInfo(res.data[0]);
         } else {
-          console.log(res);
         }
       } catch (error) {
-        console.log(error);
       } finally {
-        setTimeout(() => setIsLoading(false), 100);
+        SetIsImageLoading(false);
       }
     };
     fetchGetRecommendReviewInfo();
   }, []);
+
+  useEffect(() => {
+    console.log(idx);
+    if (recommendReviews.length === 0) return;
+    if (idx === recommendReviews.length) return;
+
+    setRecommendReviewInfo(recommendReviews[idx]);
+  }, [idx]);
 
   return (
     <>
@@ -229,11 +244,30 @@ export default function HomePage() {
           </div>
           <div className={styles.reviewContainer}>
             <div className={styles.review}>
-              <img
-                src={recommendReviewInfo.imageUrl}
-                alt="Sample 1"
-                className={styles.reviewImage}
-              />
+              {isImageLoading && (
+                <>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "10vh",
+                    }}
+                  >
+                    <ClipLoader />
+                  </div>
+                </>
+              )}
+              {!isImageLoading && (
+                <>
+                  <img
+                    src={recommendReviewInfo.imageUrl}
+                    alt="Sample 1"
+                    className={styles.reviewImage}
+                  />
+                </>
+              )}
+
               <div className={styles.place}>{recommendReviewInfo.country}</div>
             </div>
           </div>
