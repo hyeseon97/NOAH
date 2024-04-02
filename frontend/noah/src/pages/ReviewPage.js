@@ -43,7 +43,7 @@ export default function ReviewPage() {
       <Header LeftIcon="Arrow" Title="추천 후기" />
       <div className={styles.reviewContainer}>
         {reviewInfo.map((review, index) => (
-          <div key={index} data-aos="fade-up">
+          <div key={index} data-aos="fade-down">
             <div className={styles.reviewBox}>
               <img
                 src={review.imageList[0]?.imageUrl}
