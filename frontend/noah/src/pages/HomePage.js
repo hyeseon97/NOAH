@@ -230,11 +230,13 @@ export default function HomePage() {
           <div className={styles.reviewContainer}>
             <div className={styles.review}>
               <img
-                src={recommendReviewInfo.imageUrl}
+                src={recommendReviewInfo[0].imageUrl}
                 alt="Sample 1"
                 className={styles.reviewImage}
               />
-              <div className={styles.place}>{recommendReviewInfo.country}</div>
+              <div className={styles.place}>
+                {recommendReviewInfo[0].country}
+              </div>
             </div>
           </div>
         </>

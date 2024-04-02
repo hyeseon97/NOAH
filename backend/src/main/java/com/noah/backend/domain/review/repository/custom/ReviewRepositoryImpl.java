@@ -67,13 +67,13 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
         if (reviewDto != null) {
 
             List<CommentListGetDto> commentDtos = query
-                .select(Projections.constructor(CommentListGetDto.class,
-                                                comment.id,
-                                                comment.member.id,
-                                                comment.content))
-                .from(comment)
-                .where(comment.review.id.eq(reviewId))
-                .fetch();
+                    .select(Projections.constructor(CommentListGetDto.class,
+                            comment.id,
+                            comment.member.id,
+                            comment.content))
+                    .from(comment)
+                    .where(comment.review.id.eq(reviewId))
+                    .fetch();
 
             List<ImageGetDto> imageDtos = query
                 .select(Projections.constructor(ImageGetDto.class,
