@@ -121,9 +121,10 @@ export default function GoogleMapSearch() {
 
   const [size, setSize] = useState(getSize());
 
-  const handleCreateDetail = async (name, vicinity, lat, lng, rating) => {
+  const handleCreateDetail = async (name, vicinity, lat, lng, rating, url) => {
     try {
-      await createdetail(name, vicinity, lat, lng, rating);
+      await createdetail(name, vicinity, lat, lng, rating, url);
+      console.log(url)
       navigate(-1);
     } catch (error) {
       // 에러 처리
@@ -294,7 +295,7 @@ export default function GoogleMapSearch() {
     mapRef.current = map;
   };
 
-  const createdetail = async (name, formatted_address, lat, lng, rating) => {
+  const createdetail = async (name, formatted_address, lat, lng, rating, url) => {
     const object = {
       day: day,
       sequence: 1,
@@ -303,6 +304,7 @@ export default function GoogleMapSearch() {
       pinY: lng,
       memo: formatted_address,
       time: rating,
+      imageUrl: url,
     };
     try {
       const response = await createDetailPlan(planId, object);
@@ -376,7 +378,8 @@ export default function GoogleMapSearch() {
                     outPlace.vicinity,
                     outPlace.lat,
                     outPlace.lng,
-                    outPlace.rating
+                    outPlace.rating,
+                    outPlace.photos[0].getUrl(),
                   )
                 }
               >

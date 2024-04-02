@@ -101,20 +101,23 @@ export default function PlanningPage() {
   const loadDetailPlan = async () => {
     try {
       const response = await getDetailPlanList(planId);
+      console.log(response); // 전체 응답 로깅
       if (
         response.status === "SUCCESS" &&
-        Array.isArray(response.data.detailPlanList)
+        Array.isArray(response.data)
       ) {
-        // 중복을 제거한 데이터로 상태 업데이트
         const uniqueDetailPlans = removeDuplicates(
-          response.data.detailPlanList
+          response.data
         );
         setDetailPlans(uniqueDetailPlans);
       } else {
-        console.error("plan is not an array or status is not SUCCESS");
+        console.error(
+          "detailplan is not an array or status is not SUCCESS",
+          response
+        );
       }
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching detail plan list:", error);
     }
   };
 
@@ -125,7 +128,7 @@ export default function PlanningPage() {
         const uniqueTickets = removeTicketDuplicates(response.data); // 중복 제거 함수 호출
         setPlane(uniqueTickets); // 중복이 제거된 데이터로 상태 업데이트
       } else {
-        console.error("plane is not an array or status is not SUCCESS");
+        console.error("ticket is not an array or status is not SUCCESS");
       }
     } catch (error) {
       console.error(error);
@@ -180,7 +183,6 @@ export default function PlanningPage() {
     const flightDate = flight.departure.split("T")[0]; // 'YYYY-MM-DD' 형식으로 날짜 추출
     return flightDate === currentSelectedDate;
   });
-  
 
   return (
     <>
@@ -197,7 +199,7 @@ export default function PlanningPage() {
               })
               .replace(/\.\s?/g, "-")
               .slice(0, -1)}{" "}
-            ~ {" "}
+            ~{" "}
             {new Date(plan.endDate)
               .toLocaleDateString("ko-KR", {
                 year: "numeric",
@@ -228,7 +230,7 @@ export default function PlanningPage() {
       <div>
         <div>
           {filteredPlanes.map((flight) => (
-            <div className={style.planeBoxStyle}>
+            <div key={flight.ticket_id} className={style.planeBoxStyle}>
               <div className={style.planeInfo}>
                 <div className={style.middleFont}>{flight.a_airport}</div>
 
@@ -253,7 +255,7 @@ export default function PlanningPage() {
             {filteredDetailPlans.map((detailPlan) => (
               <div key={detailPlan.detailPlanId} className={style.boxStyle}>
                 <img
-                  src={detailPlan.url}
+                  src={detailPlan.imageUrl}
                   alt="Detail Plan"
                   className={style.imgStyle}
                 />

@@ -35,7 +35,7 @@ export async function cretePlan(object) {
 export async function getPlanDetail(travelId) {
   try {
     const res = await axiosAPI.get(commonUrl + `/${travelId}`);
-    console.log(res)
+    console.log(res + "testestsetse")
     return res.data.data;
   } catch (error) {
     throw error;
