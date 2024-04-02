@@ -19,9 +19,11 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 @Log4j2
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class TicketServiceImpl implements TicketService {
 
@@ -42,8 +44,8 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Long createTicket(TicketPostDto ticketDto) {
-        Travel foundTravel = travelRepository.findById(ticketDto.getTravel_id()).orElseThrow(TravelNotFoundException::new);
+    public Long createTicket(Long travelId, TicketPostDto ticketDto) {
+        Travel foundTravel = travelRepository.findById(travelId).orElseThrow(TravelNotFoundException::new);
 
         Ticket ticket = Ticket.builder()
                 .departure(ticketDto.getDeparture())

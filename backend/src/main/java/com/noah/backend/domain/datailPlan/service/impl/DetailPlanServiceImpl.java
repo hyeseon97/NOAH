@@ -6,6 +6,8 @@ import com.noah.backend.domain.datailPlan.dto.responseDto.DetailPlanListDto;
 import com.noah.backend.domain.datailPlan.entity.DetailPlan;
 import com.noah.backend.domain.datailPlan.repository.DetailPlanRepository;
 import com.noah.backend.domain.datailPlan.service.DetailPlanService;
+import com.noah.backend.domain.image.entity.Image;
+import com.noah.backend.domain.image.repository.ImageRepository;
 import com.noah.backend.domain.member.entity.Member;
 import com.noah.backend.domain.member.repository.MemberRepository;
 import com.noah.backend.domain.memberTravel.Repository.MemberTravelRepository;
@@ -33,6 +35,7 @@ public class DetailPlanServiceImpl implements DetailPlanService {
     private final DetailPlanRepository detailPlanRepository;
     private final MemberRepository memberRepository;
     private final MemberTravelRepository memberTravelRepository;
+    private final ImageRepository imageRepository;
 
     @Override
     public DetailPlanListDto getDetailPlanList(String email, Long planId) {
@@ -41,39 +44,50 @@ public class DetailPlanServiceImpl implements DetailPlanService {
 
         /* 접근권한 */
         Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
-        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), plan.getTravel().getId()).orElseThrow(
-            MemberTravelAccessException::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), plan.getTravel().getId())
+                                                          .orElseThrow(
+                                                              MemberTravelAccessException::new);
         /* ------ */
 
-        List<DetailPlanDto> detailPlanDtoList = detailPlanRepository.getDetailPlanList(planId).orElseThrow(DetailPlanNotFound::new);
+        List<DetailPlanDto> detailPlanDtoList = detailPlanRepository.getDetailPlanList(planId)
+                                                                    .orElseThrow(DetailPlanNotFound::new);
         DetailPlanListDto detailPlanListDto = DetailPlanListDto.builder()
-            .planId(planId)
-            .detailPlanList(detailPlanDtoList).build();
+                                                               .planId(planId)
+                                                               .detailPlanList(detailPlanDtoList).build();
         return detailPlanListDto;
     }
 
     @Override
-    public Long createDetailPlan(String email, DetailPlanPostDto detailPlan) {
+    public Long createDetailPlan(String email, Long planId, DetailPlanPostDto detailPlan) {
 
-        Plan plan = planRepository.findById(detailPlan.getPlanId()).orElseThrow(PlanNotFound::new);
+        Plan plan = planRepository.findById(planId).orElseThrow(PlanNotFound::new);
 
         /* 접근권한 */
         Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
-        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), plan.getTravel().getId()).orElseThrow(
-            MemberTravelAccessException::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), plan.getTravel().getId())
+                                                          .orElseThrow(
+                                                              MemberTravelAccessException::new);
         /* ------ */
 
+
         DetailPlan NewDetailPlan = DetailPlan.builder()
-                .plan(plan)
-                .day(detailPlan.getDay())
-                .sequence(detailPlan.getSequence())
-                .place(detailPlan.getPlace())
-                .pinX(detailPlan.getPinX())
-                .pinY(detailPlan.getPinY())
-                .memo(detailPlan.getMemo())
-                .time(detailPlan.getTime())
-                .build();
+                                             .plan(plan)
+                                             .day(detailPlan.getDay())
+                                             .sequence(detailPlan.getSequence())
+                                             .place(detailPlan.getPlace())
+                                             .pinX(detailPlan.getPinX())
+                                             .pinY(detailPlan.getPinY())
+                                             .memo(detailPlan.getMemo())
+                                             .time(detailPlan.getTime())
+                                             .build();
         DetailPlan savedDetailPlan = detailPlanRepository.save(NewDetailPlan);
+
+        Image image = Image.builder()
+                           .url(detailPlan.getImageUrl())
+                           .detailPlan(savedDetailPlan)
+                           .build();
+        imageRepository.save(image);
+
         return savedDetailPlan.getId();
     }
 
@@ -82,11 +96,12 @@ public class DetailPlanServiceImpl implements DetailPlanService {
 
         /* 접근권한 */
         Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
-        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), detailPlanDto.getPlanId()).orElseThrow(
-            MemberTravelAccessException::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), detailPlanDto.getPlanId())
+                                                          .orElseThrow(
+                                                              MemberTravelAccessException::new);
         /* ------ */
 
-        for(DetailPlanDto dPlan : detailPlanDto.getDetailPlanList()){
+        for (DetailPlanDto dPlan : detailPlanDto.getDetailPlanList()) {
 
             DetailPlan detailPlan = detailPlanRepository.findById(dPlan.getDetailPlanId()).orElseThrow(DetailPlanNotFound::new);
             detailPlan.setDay(dPlan.getDay());
@@ -110,8 +125,9 @@ public class DetailPlanServiceImpl implements DetailPlanService {
 
         /* 접근권한 */
         Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
-        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), plan.getTravel().getId()).orElseThrow(
-            MemberTravelAccessException::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), plan.getTravel().getId())
+                                                          .orElseThrow(
+                                                              MemberTravelAccessException::new);
         /* ------ */
 
         detailPlanRepository.deleteById(detailId);
