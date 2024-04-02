@@ -193,3 +193,14 @@
   align-items: center;
   text-align: left;
 };
+
+.myStyle {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+};
+
+.searchList {
+  background-color: orange;
+  height: 5vh;
+};

@@ -31,6 +31,8 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
@@ -38,9 +40,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -50,7 +50,7 @@ public class ApisController {
     private final ApiResponse apiResponse;
     private final FlightService flightService;
     private final ForeignCurrencyService foreignCurrencyService;
-    private String accesstoken = "ApDniM6GfG8sUwO32AAqc224zWYF";
+    private String accesstoken = "MApQcubtgysc6kap9jjMLkk6IWUg";
 
 //    @Scheduled(fixedDelay = 1500000)
     private void updateAcesstoken() throws IOException, InterruptedException {
@@ -71,19 +71,20 @@ public class ApisController {
         accesstoken = jsonObject.getString("access_token");
     }
 
-    @GetMapping("flight-offers")
-    public ResponseEntity findFlightOffers(FlightOffersDto flightOffersDto) throws IOException, InterruptedException {
+    @GetMapping("/flight-offers")
+    public ResponseEntity findFlightOffers(@RequestBody FlightOffersDto flightOffersDto) throws IOException, InterruptedException {
         // test code
-        flightOffersDto = FlightOffersDto.builder()
-            .originLocationCode("인천")
-            .destinationLocationCode("후쿠")
-            .departureDate(LocalDate.of(2024, 5, 12))
-            .adults(3)
-            .build();
-        //
+//        FlightOffersDto flightOffersDto = FlightOffersDto.builder()
+//            .originLocationCode("인천")
+//            .destinationLocationCode("후쿠오카")
+//            .departureDate(LocalDate.of(2024, 5, 12))
+//            .adults(3)
+//            .build();
+//        //
         JSONObject jsonObject;
         try {
             jsonObject = flightService.findFlightOffers(accesstoken, flightOffersDto);
+            System.out.println(jsonObject.toString());
         }
         catch (RequiredFilledException e) {
             e.printStackTrace();
@@ -99,41 +100,41 @@ public class ApisController {
         return Files.readAllBytes(Path.of(resource.getURI()));
     }
 //    @GetMapping("flight-offers")
-    public ResponseEntity getFlightOffers(FlightOffersDto flightOffersDto) throws IOException, InterruptedException {
-        // 프론트 dto 임시 제작
-        List<String> a = new ArrayList<>();
-        a.add("T6");
-        a.add("Q5");
-        flightOffersDto =
-            FlightOffersDto
-            .builder()
-                .originLocationCode("SYD")
-                .destinationLocationCode("BKK")
-                .departureDate(LocalDate.of(2024, 5, 2))
-                .returnDate(LocalDate.of(2024, 5, 12))
-                .adults(2)
-                .children(1)
-                .infants(1)
-                .travelClass("ECONOMY")
-                .excludedAirlineCodes(a)
-//                .includedAirlineCodes(비워뒀음)
-                .nonStop(true)
-                .currencyCode("KRW")
-                .maxPrice(5000000)
-                .max(250)
-            .build();
-        JSONObject jsonObject;
-        // dto
-        try {
-            jsonObject = flightService.getFlightOffers(accesstoken, flightOffersDto);
-        }
-        catch (RequiredFilledException e) {
-            e.printStackTrace();
-            return apiResponse.fail(REQUIRED_FIELD_FAILED);
-        }
-        log.info("jsonobject: " + jsonObject);
-        return apiResponse.success(FLIGHT_OFFERS_SUCCESS, jsonObject.toString());
-    }
+//    public ResponseEntity getFlightOffers(@RequestBody FlightOffersDto flightOffersDto) throws IOException, InterruptedException {
+//        // 프론트 dto 임시 제작
+//        List<String> a = new ArrayList<>();
+//        a.add("T6");
+//        a.add("Q5");
+//        flightOffersDto =
+//            FlightOffersDto
+//            .builder()
+//                .originLocationCode("SYD")
+//                .destinationLocationCode("BKK")
+//                .departureDate(LocalDate.of(2024, 5, 2))
+//                .returnDate(LocalDate.of(2024, 5, 12))
+//                .adults(2)
+//                .children(1)
+//                .infants(1)
+//                .travelClass("ECONOMY")
+//                .excludedAirlineCodes(a)
+////                .includedAirlineCodes(비워뒀음)
+//                .nonStop(true)
+//                .currencyCode("KRW")
+//                .maxPrice(5000000)
+//                .max(250)
+//            .build();
+//        JSONObject jsonObject;
+//        // dto
+//        try {
+//            jsonObject = flightService.getFlightOffers(accesstoken, flightOffersDto);
+//        }
+//        catch (RequiredFilledException e) {
+//            e.printStackTrace();
+//            return apiResponse.fail(REQUIRED_FIELD_FAILED);
+//        }
+//        log.info("jsonobject: " + jsonObject);
+//        return apiResponse.success(FLIGHT_OFFERS_SUCCESS, jsonObject.toString());
+//    }
 
     @GetMapping("/mock/flight-price-analysis")
     public byte[] getMockFlightPriceAnalysis() throws IOException {

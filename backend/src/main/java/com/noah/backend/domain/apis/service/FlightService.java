@@ -69,75 +69,75 @@ public class FlightService {
         }
         return result;
     }
-    public JSONObject getFlightOffers(String accessToken, FlightOffersDto dto)
-        throws IOException, InterruptedException {
-        if (dto.getOriginLocationCode() == null
-        || dto.getDestinationLocationCode() == null
-        || dto.getDepartureDate() == null
-        || dto.getAdults() == null) throw new RequiredFilledException();
-        String url = "https://test.api.amadeus.com/v2/shopping/flight-offers"
-            + "?originLocationCode=" + dto.getOriginLocationCode()
-            + "&destinationLocationCode=" + dto.getDestinationLocationCode()
-            + "&departureDate=" + dto.getDepartureDate().toString().substring(0, 10);
-        if (dto.getReturnDate() != null) {
-            url += "&returnDate=" + dto.getReturnDate().toString().substring(0, 10);
-        }
-        url += "&adults=" + dto.getAdults();
-        if (dto.getChildren() != null) {
-            url += "&children=" + dto.getChildren();
-        }
-        if (dto.getInfants() != null) {
-            url += "&infants=" + dto.getInfants();
-        }
-        if (dto.getTravelClass() != null) {
-            url += "&travelClass=" + dto.getTravelClass();
-        }
-        if (dto.getIncludedAirlineCodes() != null) {
-            url += "&includedAirlineCodes=";
-            for (String airline : dto.getIncludedAirlineCodes()) {
-                url += airline+"%2C";
-            }
-            url = url.substring(0, url.length()-3);
-        }
-        if (dto.getExcludedAirlineCodes() != null) {
-            url += "&excludedAirlineCodes=";
-            for (String airline : dto.getExcludedAirlineCodes()) {
-                url += airline+"%2C";
-            }
-            url = url.substring(0, url.length()-3);
-        }
-        if (dto.getNonStop() != null) {
-            url += "&nonStop=" + dto.getNonStop();
-        }
-        if (dto.getCurrencyCode() != null) {
-            url += "&currencyCode=" + dto.getCurrencyCode();
-        }
-        if (dto.getMaxPrice() != null) {
-            url += "&maxPrice=" + dto.getMaxPrice();
-        }
-        if (dto.getMax() != null) {
-            url += "&max=" + dto.getMax();
-        }
-
-        HttpClient httpClient = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create(url))
-            .header("accept", "application/vnd.amadeus+json")
-            .header("Authorization", "Bearer "+accessToken)
-            .build();
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        return new JSONObject(response.body());
-
-        // json 데이터 조작하는 부분, 나중에 필요하면 수정해서 반영하기
-//        JSONObject jsonObject = new JSONObject(response.body());
-//        JSONArray jsonArray = jsonObject.getJSONArray("data");
-//        int cnt = 0;
-//        JSONObject result = new JSONObject();
-//        for (Object o : jsonArray) {
-//            result.append(cnt++ +"", o);
+//    public JSONObject getFlightOffers(String accessToken, FlightOffersDto dto)
+//        throws IOException, InterruptedException {
+//        if (dto.getOriginLocationCode() == null
+//        || dto.getDestinationLocationCode() == null
+//        || dto.getDepartureDate() == null
+//        || dto.getAdults() == null) throw new RequiredFilledException();
+//        String url = "https://test.api.amadeus.com/v2/shopping/flight-offers"
+//            + "?originLocationCode=" + dto.getOriginLocationCode()
+//            + "&destinationLocationCode=" + dto.getDestinationLocationCode()
+//            + "&departureDate=" + dto.getDepartureDate().toString().substring(0, 10);
+//        if (dto.getReturnDate() != null) {
+//            url += "&returnDate=" + dto.getReturnDate().toString().substring(0, 10);
 //        }
-//        return result;
-    }
+//        url += "&adults=" + dto.getAdults();
+//        if (dto.getChildren() != null) {
+//            url += "&children=" + dto.getChildren();
+//        }
+//        if (dto.getInfants() != null) {
+//            url += "&infants=" + dto.getInfants();
+//        }
+//        if (dto.getTravelClass() != null) {
+//            url += "&travelClass=" + dto.getTravelClass();
+//        }
+//        if (dto.getIncludedAirlineCodes() != null) {
+//            url += "&includedAirlineCodes=";
+//            for (String airline : dto.getIncludedAirlineCodes()) {
+//                url += airline+"%2C";
+//            }
+//            url = url.substring(0, url.length()-3);
+//        }
+//        if (dto.getExcludedAirlineCodes() != null) {
+//            url += "&excludedAirlineCodes=";
+//            for (String airline : dto.getExcludedAirlineCodes()) {
+//                url += airline+"%2C";
+//            }
+//            url = url.substring(0, url.length()-3);
+//        }
+//        if (dto.getNonStop() != null) {
+//            url += "&nonStop=" + dto.getNonStop();
+//        }
+//        if (dto.getCurrencyCode() != null) {
+//            url += "&currencyCode=" + dto.getCurrencyCode();
+//        }
+//        if (dto.getMaxPrice() != null) {
+//            url += "&maxPrice=" + dto.getMaxPrice();
+//        }
+//        if (dto.getMax() != null) {
+//            url += "&max=" + dto.getMax();
+//        }
+//
+//        HttpClient httpClient = HttpClient.newHttpClient();
+//        HttpRequest request = HttpRequest.newBuilder()
+//            .uri(URI.create(url))
+//            .header("accept", "application/vnd.amadeus+json")
+//            .header("Authorization", "Bearer "+accessToken)
+//            .build();
+//        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+//        return new JSONObject(response.body());
+//
+//        // json 데이터 조작하는 부분, 나중에 필요하면 수정해서 반영하기
+////        JSONObject jsonObject = new JSONObject(response.body());
+////        JSONArray jsonArray = jsonObject.getJSONArray("data");
+////        int cnt = 0;
+////        JSONObject result = new JSONObject();
+////        for (Object o : jsonArray) {
+////            result.append(cnt++ +"", o);
+////        }
+////        return result;
+//    }
 
     public JSONObject getFlightPriceAnalysis(String accessToken, FlightPriceDto dto)
         throws IOException, InterruptedException {

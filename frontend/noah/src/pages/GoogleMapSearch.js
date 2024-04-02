@@ -492,22 +492,17 @@ export default function GoogleMapSearch() {
     }
   }, [mapRef.current]);
 
-  const myStyle = {
-    display: "none",
-    flexDirection: "column",
-    alignItems: "center",
-  };
+  // const myStyle = {
+  //   display: "none",
+  //   flexDirection: "column",
+  //   alignItems: "center",
+  // };
 
-  const searchList = {
-    backgroundColor: "orange",
+  // const searchList = {
+  //   backgroundColor: "orange",
+  //   height: "5vh",
+  // };
 
-    height: "5vh",
-  };
-
-  const handleMapLoad = (map) => {
-    mapRef.current = map;
-    // getCurrentLocation();
-  };
 
   return (
     <>
