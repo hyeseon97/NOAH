@@ -38,7 +38,7 @@ public class DetailPlanServiceImpl implements DetailPlanService {
     private final ImageRepository imageRepository;
 
     @Override
-    public DetailPlanListDto getDetailPlanList(String email, Long planId) {
+    public List<DetailPlanDto> getDetailPlanList(String email, Long planId) {
 
         Plan plan = planRepository.findById(planId).orElseThrow(PlanNotFound::new);
 
@@ -51,10 +51,7 @@ public class DetailPlanServiceImpl implements DetailPlanService {
 
         List<DetailPlanDto> detailPlanDtoList = detailPlanRepository.getDetailPlanList(planId)
                                                                     .orElseThrow(DetailPlanNotFound::new);
-        DetailPlanListDto detailPlanListDto = DetailPlanListDto.builder()
-                                                               .planId(planId)
-                                                               .detailPlanList(detailPlanDtoList).build();
-        return detailPlanListDto;
+        return detailPlanDtoList;
     }
 
     @Override
@@ -107,8 +104,6 @@ public class DetailPlanServiceImpl implements DetailPlanService {
             detailPlan.setDay(dPlan.getDay());
             detailPlan.setSequence(dPlan.getSequence());
             detailPlan.setPlace(dPlan.getPlace());
-            detailPlan.setPinX(dPlan.getPinX());
-            detailPlan.setPinY(dPlan.getPinY());
             detailPlan.setMemo(dPlan.getMemo());
             detailPlan.setTime(dPlan.getTime());
 
