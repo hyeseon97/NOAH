@@ -63,6 +63,7 @@ public enum ResponseCode {
     BANK_DEPOSIT_SUCCESS(HttpStatus.OK,"입금이 성공적으로 완료되었습니다."),
     BANK_WITHDRAW_SUCCESS(HttpStatus.OK,"출금이 성공적으로 완료되었습니다."),
     BANK_TRANSFER_SUCCESS(HttpStatus.OK,"이체가 성공적으로 완료되었습니다."),
+    TRANSACTION_HISTORY_SUCCESS(HttpStatus.OK,"거래내역조회가 성공적으로 완료되었습니다."),
 
     /* 여행(Travel) */
     TRAVEL_CREATED(HttpStatus.OK, "여행이 성공적으로 생성되었습니다."),

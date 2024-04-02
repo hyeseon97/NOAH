@@ -108,9 +108,9 @@ public class ExchangeServiceImpl implements ExchangeService {
             if (!exchange.getCurrency().equals(exchangeReqDto.getCurrency())) {
                 throw new ExchangeFailedException();
             }
-            int previousAmount = exchange.getExchangeAmount();
-            int currentAmount = exchangeReqDto.getExchangeAmount();
-            int total = previousAmount + currentAmount;
+            Double previousAmount = exchange.getExchangeAmount();
+            Double currentAmount = exchangeReqDto.getExchangeAmount();
+            Double total = previousAmount + currentAmount;
             exchange.setExchangeAmount(total);
 
             return exchange.getId();
@@ -170,7 +170,7 @@ public class ExchangeServiceImpl implements ExchangeService {
         if(exchange == null){
             exchange = Exchange.builder()
                 .currency(null)
-                .exchangeAmount(0)
+                .exchangeAmount(0.0)
                 .targetExchangeCurrency(exchangeRatePutDto.getTargetExchangeCurrency())
                 .targetExchangeRate(exchangeRatePutDto.getTargetExchangeRate())
                 .build();

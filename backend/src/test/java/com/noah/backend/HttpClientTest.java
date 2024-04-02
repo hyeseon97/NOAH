@@ -45,10 +45,10 @@ public class HttpClientTest {
 //		bankAccountListRun(); //계좌 목록 조회
 //		bankAccountBalanceCheckRun("dldnwlstest11"); //계좌 잔액 조회 //산업은행 0027546213312878
 //		bankAccountBalanceCheckRun("dldnwlstest12"); //계좌 잔액 조회 //기업은행 0047501884450113
-		bankAccountDepositRun();//계좌 입금
+//		bankAccountDepositRun();//계좌 입금
 //		bankAccountWithdrawRun();//계좌 출금
 //		bankAccountTransferRun();//계좌 이체
-//  	bankAccountTransactionHistoryRun(); //계좌 거래 내역 조회
+  	bankAccountTransactionHistoryRun(); //계좌 거래 내역 조회
 	}
 //※현재 계좌 잔액 조회, 계좌 입금, 계좌출금은 같은 계좌를 쓰고있습니다.
 
@@ -583,10 +583,10 @@ public class HttpClientTest {
 	}
 	//계좌 거래 내역 조회 메소드
 	public static void bankAccountTransactionHistoryRun() throws JsonProcessingException {
-		String userKey = "06c7432c-09cc-4190-a119-ff5128072c6f"; //dldnwlstest11
+		String userKey = "671f5dd6-f2d0-4299-ac1c-be4af485d624"; //건영이형이랑 테스트 중
 		String bankCode = "002";
-		String accountNo = "0027546213312878";
-		String startDate = "20240321";
+		String accountNo = "0026607075075470";
+		String startDate = "20240331";
 		String endDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 		String transactionType = "A";
 		String orderByType = "ASC";
