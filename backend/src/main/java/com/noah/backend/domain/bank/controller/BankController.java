@@ -70,4 +70,13 @@ public class BankController {//계좌 입금, 계좌 출금, 계좌 이체 기�
 		bankService.bankAccountTransfer(bankAccountTransferReqDto);
 		return response.success(ResponseCode.BANK_TRANSFER_SUCCESS);
 	}
+
+	//QR결제
+	@PostMapping("/qr/withdraw")
+	@Operation(summary = "QR 결제", description = "QR 결제")
+	public ResponseEntity<?> qrWithdraw(@RequestBody QrWithdrawReqDto qrWithdrawReqDto) throws IOException {
+		bankService.qrWithdraw(qrWithdrawReqDto);
+		return response.success(ResponseCode.QR_WITHDRAW_SUCCESS);
+	}
+
 }
