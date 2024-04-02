@@ -24,7 +24,6 @@ export default function InviteModal({
     try {
       // API 호출에 필요한 객체 구성
       const object = { email, travelId };
-      console.log(object);
       const res = await travelMemberInvite(object); // 멤버 초대 함수 호출
       console.log(res);
       if (res.message === "여행에 이미 가입된 회원입니다.") {
@@ -33,6 +32,7 @@ export default function InviteModal({
         setWarningText("멤버를 찾을 수 없습니다.");
       } else {
         showToast("초대가 성공적으로 완료되었습니다.");
+        setEmail("");
         closeModal(); // 초대 후 모달 닫기
       }
     } catch (error) {

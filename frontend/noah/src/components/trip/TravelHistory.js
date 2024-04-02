@@ -17,8 +17,28 @@ const flexContainer = {
   justifyContent: "space-between",
 };
 
-const labelMedium = {};
-const labelSmall = {};
+const labelMedium = {
+  fontFamily: "Pretendard",
+  fontStyle: "normal",
+  fontWeight: 600,
+  fontSize: "4.45vw",
+  lineHeight: "150%",
+  color: "#000000",
+};
+const labelSmall = {
+  fontFamily: "Pretendard",
+  fontStyle: "normal",
+  fontWeight: 600,
+  fontSize: "3.34vw",
+  lineHeight: "150%",
+  color: "#898989",
+};
+
+const review = {
+  ...labelSmall,
+  textDecoration: "underline",
+  color: "black",
+};
 
 export default function TravelHistory() {
   return (
@@ -26,12 +46,12 @@ export default function TravelHistory() {
       <div style={container}>
         <div style={{ width: "80%" }}>
           <div style={flexContainer}>
-            <div>B106 여행가자</div>
-            <div>24.03.15 ~ 24.03.19</div>
+            <div style={labelMedium}>B106 여행가자</div>
+            <div style={labelSmall}>24.03.15 ~ 24.03.19</div>
           </div>
           <div style={flexContainer}>
-            <div>일본, 6명</div>
-            <div>후기 작성</div>
+            <div style={labelSmall}>일본, 6명</div>
+            <div style={review}>후기 작성</div>
           </div>
         </div>
       </div>
