@@ -4,7 +4,8 @@ const commonUrl = "/api/v1/plan";
 /* 계획 수정 */
 export async function updatePlan(planId, object) {
   try {
-    const res = await axiosAPI.put(commonUrl + `/update/${planId}`, object);
+    console.log(JSON.stringify(object))
+    const res = await axiosAPI.put(commonUrl, object);
     return res.data;
   } catch (error) {
     throw error;
@@ -15,11 +16,13 @@ export async function updatePlan(planId, object) {
 export async function updatePlanStart(planId, object) {
   try {
     const res = await axiosAPI.put(commonUrl + `/change/${planId}`, object);
+    console.log(res)
     return res.data;
   } catch (error) {
     throw error;
   }
 }
+
 /* 계획 작성 */
 export async function cretePlan(object) {
   try {
@@ -29,15 +32,18 @@ export async function cretePlan(object) {
     throw error;
   }
 }
+
 /* 계획 상세 조회 */
-export async function getPlanDetail(planId) {
+export async function getPlanDetail(travelId) {
   try {
-    const res = await axiosAPI.get(commonUrl + `/${planId}`);
-    return res.data;
+    const res = await axiosAPI.get(commonUrl + `/${travelId}`);
+    console.log(res + "testestsetse")
+    return res.data.data;
   } catch (error) {
     throw error;
   }
 }
+
 /* 계획 삭제 */
 export async function deletePlan(planId) {
   try {

@@ -1,5 +1,6 @@
 package com.noah.backend.domain.groupaccount.repository.custom;
 
+import com.noah.backend.domain.account.dto.responseDto.AccountInfoDto;
 import com.noah.backend.domain.groupaccount.dto.responseDto.GroupAccountInfoDto;
 import com.noah.backend.domain.groupaccount.entity.GroupAccount;
 import com.noah.backend.domain.groupaccount.repository.GroupAccountRepository;
@@ -41,6 +42,32 @@ public class GroupAccountRepositoryImpl implements GroupAccountRepositoryCustom 
                 .leftJoin(travel).on(travel.id.eq(groupAccount.travel.id))
                 .leftJoin(account).on(account.id.eq(groupAccount.account.id))
                 .where(groupAccount.id.eq(groupAccountId)
+                        .and(groupAccount.isDeleted.eq(false))
+                        .and(account.isDeleted.eq(false))
+                        .and(travel.isDeleted.eq(false)))
+                .fetchOne());
+    }
+
+    @Override
+    public Optional<GroupAccountInfoDto> getGroupAccountInfoByTravelId(Long travelId) {
+        return Optional.ofNullable(query.select(Projections.constructor(
+                        GroupAccountInfoDto.class,
+                        groupAccount.id.as("groupAccountId"),
+                        groupAccount.travel.id,
+                        groupAccount.travel.title.as("title"),
+                        groupAccount.account.bankName.as("bankName"),
+                        groupAccount.account.accountNumber.as("accountNumber"),
+                        groupAccount.account.amount.as("amount"),
+                        groupAccount.usedAmount,
+                        groupAccount.targetAmount,
+                        groupAccount.targetDate,
+                        groupAccount.perAmount,
+                        groupAccount.paymentDate
+                ))
+                .from(groupAccount)
+                .leftJoin(travel).on(travel.id.eq(groupAccount.travel.id))
+                .leftJoin(account).on(account.id.eq(groupAccount.account.id))
+                .where(groupAccount.travel.id.eq(travelId)
                         .and(groupAccount.isDeleted.eq(false))
                         .and(account.isDeleted.eq(false))
                         .and(travel.isDeleted.eq(false)))
@@ -111,6 +138,15 @@ public class GroupAccountRepositoryImpl implements GroupAccountRepositoryCustom 
         return Optional.ofNullable(query.select(groupAccount.targetAmount)
                 .from(groupAccount)
                 .where(groupAccount.id.eq(travelId))
+                .fetchOne());
+    }
+
+    //여행아이디로 모임통장의 은행명, 계좌번호 알아내는 메소드
+    @Override
+    public Optional<AccountInfoDto> findByTravleId(Long travelId) {
+        return Optional.ofNullable(query.select(Projections.constructor(AccountInfoDto.class,groupAccount.account.bankName,groupAccount.account.accountNumber))
+                .from(groupAccount)
+                .where(groupAccount.travel.id.eq(travelId))
                 .fetchOne());
     }
 

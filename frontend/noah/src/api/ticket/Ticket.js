@@ -21,26 +21,35 @@ export async function updateTicket(ticketId, object) {
 }
 /* 티켓 삭제 */
 export async function deleteTicket(ticketId) {
+  const deleteURL = `${commonUrl}/${ticketId}`;
   try {
-    const res = await axiosAPI.delete(commonUrl + `/${ticketId}`);
+    console.log(deleteURL + "이거 읽어지긴하냐?")
+    const res = await axiosAPI.delete(deleteURL);
     return res.data;
   } catch (error) {
     throw error;
   }
 }
+
 /* 티켓 생성 */
-export async function createTicket(object) {
+export async function createTicket(travelId, object) {
+  const urlWithQueryParam = `${commonUrl}?travelId=${travelId}`;
   try {
-    const res = await axiosAPI.post(commonUrl, object);
+    console.log(travelId)
+    const res = await axiosAPI.post(urlWithQueryParam, object);
+    console.log(res);
     return res.data;
   } catch (error) {
+    console.log(test);
     throw error;
   }
 }
 /* 티켓 목록 조회 */
-export async function getTicketList(object) {
+export async function getTicketList(travelId) {
+  const urlWithQueryParam = `${commonUrl}/list?travelId=${travelId}`;
   try {
-    const res = await axiosAPI.put(commonUrl + `/list`, object);
+    const res = await axiosAPI.get(urlWithQueryParam);
+    console.log(res.data);
     return res.data;
   } catch (error) {
     throw error;

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-function Dropdown({ selectedCurrency, setSelectedCurrency }) {
+function Dropdown({ selected, setSelected }) {
   const handleChange = (event) => {
-    setSelectedCurrency(event.target.value); // 선택된 옵션의 value로 상태 업데이트
+    setSelected(event.target.value); // 선택된 옵션의 value로 상태 업데이트
   };
 
   const dropdownStyle = {
@@ -23,15 +23,11 @@ function Dropdown({ selectedCurrency, setSelectedCurrency }) {
 
   return (
     <div style={{ position: "relative" }}>
-      <select
-        value={selectedCurrency}
-        onChange={handleChange}
-        style={dropdownStyle}
-      >
-        <option value="USD">미국 USD</option>
-        <option value="JPY">일본 JPY</option>
-        <option value="EUR">유럽 EUR</option>
-        <option value="CNY">중국 CNY</option>
+      <select value={selected} onChange={handleChange} style={dropdownStyle}>
+        <option value="강준규">강준규</option>
+        <option value="여진구">여진구</option>
+        <option value="박혜선">박혜선</option>
+        <option value="이우진">이우진</option>
       </select>
     </div>
   );

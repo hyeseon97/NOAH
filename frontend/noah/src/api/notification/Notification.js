@@ -40,3 +40,13 @@ export async function acceptNotification(notificationId) {
     throw error;
   }
 }
+
+/* 알림 삭제 */
+export async function deleteNotification(notificationId) {
+  try {
+    const res = await axiosAPI.delete(commonUrl + `/${notificationId}`);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+}

@@ -1,10 +1,10 @@
 import { useEffect, useState, React } from "react";
 import styles from "./DoughnutChart.module.css";
 
-export default function DoughnutChart({ percent }) {
+export default function DoughnutChart({ percent = 0 }) {
   const [t, setT] = useState(0);
   const donutStyle = {
-    background: `conic-gradient(#2f80ED 0% ${t}%, #99c8FF ${t}% 100%)`,
+    background: `conic-gradient(#2f80ED 0% ${t}%, #66ACFF ${t}% 100%)`,
   };
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export default function DoughnutChart({ percent }) {
     }, 10);
 
     return () => clearInterval(donutAnimation); // 컴포넌트 언마운트 시 인터벌 클리어
-  }, [t]);
+  }, [t, percent]);
 
   return (
     <>

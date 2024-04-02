@@ -5,6 +5,7 @@ import styles from "./LoginPage.module.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import App from "./../App";
+import showToast from "./../components/common/Toast";
 import {
   checkEmailCode,
   checkNickname,
@@ -29,6 +30,14 @@ export default function SignUpPage() {
     nickname: "",
   });
 
+  /* 유효성검사 정규표현식 */
+  const regex = {
+    email: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+    password: /^(?=.*[a-z])(?=.*\d)[a-zA-Z\d!@$%^&]{3,20}$/,
+    name: /^[가-힣]{2,5}$/,
+    nickname: /^[가-힣]{2,8}$/,
+  };
+
   /* 값을 입력함과 동시에 form 데이터 동시에 갱신 */
   function handleChange(e) {
     setFormData((prevFormData) => ({
@@ -38,6 +47,13 @@ export default function SignUpPage() {
   }
 
   const handleButtonClick = async () => {
+    if (!regex.email.test(formData.email)) {
+      setSignUpFailedMessage("올바른 이메일을 입력해주세요.");
+      return;
+    }
+
+    setSignUpFailedMessage("");
+
     if (!isEmailVerifying && !isEmailVerified) {
       emailVerify({ email: formData.email });
       setIsEmailVerifying(true);
@@ -47,18 +63,21 @@ export default function SignUpPage() {
 
     if (!isEmailVerified && !isNickNameVerified) {
       // 인증 확인 시도
-      // 실패시
-      const res = await checkEmailCode({
-        email: formData.email,
-        authNum: formData.authNum,
-      });
-      if (res.status === "SUCCESS") {
-        // 성공시
-        setIsEmailVerified(true);
-        setIsEmailVerifying(false);
-        setSignUpFailedMessage("");
-        setButtonText("닉네임 중복 검사");
-      } else {
+      try {
+        const res = await checkEmailCode({
+          email: formData.email,
+          authNum: formData.authNum,
+        });
+        if (res.status === "SUCCESS") {
+          // 성공시
+          setIsEmailVerified(true);
+          setIsEmailVerifying(false);
+          setSignUpFailedMessage("");
+          setButtonText("닉네임 중복 검사");
+        } else {
+          setSignUpFailedMessage("인증 번호가 올바르지 않습니다.");
+        }
+      } catch (e) {
         setSignUpFailedMessage("인증 번호가 올바르지 않습니다.");
       }
 
@@ -66,6 +85,11 @@ export default function SignUpPage() {
     }
 
     if (isEmailVerified && !isNickNameVerified) {
+      if (!regex.nickname.test(formData.nickname)) {
+        setSignUpFailedMessage("한글 2~8자의 올바른 닉네임을 입력해주세요.");
+        return;
+      }
+
       // 닉네임 중복검사 실시
       const res = await checkNickname({ nickname: formData.nickname });
       if (res.message === "사용 가능한 닉네임입니다") {
@@ -85,11 +109,25 @@ export default function SignUpPage() {
       return;
     }
     /* 회원가입 API 작성 */
+    if (!regex.password.test(formData.password)) {
+      setSignUpFailedMessage(
+        "비밀번호는 최소 하나의 영소문자, 숫자를 포함한 3~20자 입니다."
+      );
+      return;
+    }
+
+    if (!regex.name.test(formData.name)) {
+      setSignUpFailedMessage("올바른 이름을 입력해주세요.");
+      return;
+    }
+
     delete formData.authNum;
-    console.log(formData);
     const res = await signup(formData);
     if (res.status === "SUCCESS") {
+      showToast("회원가입이 완료되었습니다.");
       navigate("/login");
+    } else if (res.status === "ERROR") {
+      setSignUpFailedMessage(res.message);
     } else {
       /* 회원가입 실패 시 */
       setSignUpFailedMessage("입력 정보를 다시 확인해주세요.");

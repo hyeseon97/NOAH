@@ -4,12 +4,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.noah.backend.domain.account.dto.requestDto.AccountPostDto;
 import com.noah.backend.domain.account.dto.requestDto.AccountUpdateDto;
 import com.noah.backend.domain.account.dto.requestDto.AutoTransferPostDto;
+import com.noah.backend.domain.account.dto.responseDto.AccountIncludeIsAutoTransfer;
 import com.noah.backend.domain.account.dto.responseDto.AccountInfoDto;
 import com.noah.backend.domain.account.repository.AccountRepository;
 import com.noah.backend.domain.account.service.AccountService;
 import com.noah.backend.domain.member.service.member.MemberService;
 import com.noah.backend.domain.memberTravel.Service.MemberTravelService;
 import com.noah.backend.domain.memberTravel.entity.MemberTravel;
+import com.noah.backend.domain.travel.dto.responseDto.MyTravelGetDto;
 import com.noah.backend.global.format.code.ApiResponse;
 import com.noah.backend.global.format.response.ResponseCode;
 import io.swagger.v3.oas.annotations.Operation;
@@ -75,5 +77,12 @@ public class AccountController {
         memberTravelService.deleteAutoTransfer(authentication.getName(), travelId);
 
         return response.success(ResponseCode.ACCOUNT_AUTO_SET_SUCCESS);
+    }
+
+    @Operation(summary = "여행 자동이체 계좌 정보 조회", description = "내 계좌 리스트인데 해당 여행에 자동이체로 연결되어 있는 계좌인지 여부도 포함")
+    @GetMapping("/auto/{travelId}")
+    public ResponseEntity<?> getTravelAll(@Parameter(hidden = true) Authentication authentication, @PathVariable(name = "travelId") Long travelId){
+        List<AccountIncludeIsAutoTransfer> list = accountService.getAccountListIncludeIsAutoTransfer(authentication.getName(), travelId);
+        return response.success(ResponseCode.TRAVEL_INFO_FETCHED, list);
     }
 }

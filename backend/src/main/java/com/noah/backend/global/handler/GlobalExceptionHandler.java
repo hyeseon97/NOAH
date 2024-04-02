@@ -2,6 +2,7 @@ package com.noah.backend.global.handler;
 
 import com.noah.backend.global.exception.account.AccountNotFoundException;
 import com.noah.backend.global.exception.bank.*;
+import com.noah.backend.global.exception.csv.CsvCreateFailedException;
 import com.noah.backend.global.exception.groupaccount.GroupAccountAccessDeniedException;
 import com.noah.backend.global.exception.member.AccessTokenNotFoundException;
 import com.noah.backend.global.exception.member.DuplicateEmailException;
@@ -20,8 +21,10 @@ import com.noah.backend.global.exception.notification.FirebaseTokenNotExistExcep
 import com.noah.backend.global.exception.notification.NotificationAccessException;
 import com.noah.backend.global.exception.notification.NotificationNotFoundException;
 import com.noah.backend.global.exception.notification.NotificationSendFailedException;
+import com.noah.backend.global.exception.plan.PlanAccessException;
 import com.noah.backend.global.exception.suggest.LowerThanPriceNotExists;
 import com.noah.backend.global.exception.suggest.SuggestNotExists;
+import com.noah.backend.global.exception.trade.TradeAccessException;
 import com.noah.backend.global.exception.trade.TradeNotFoundException;
 import com.noah.backend.global.exception.travel.TravelMemberNotFoundException;
 import com.noah.backend.global.exception.travel.TravelNotFoundException;
@@ -118,6 +121,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(TradeNotFoundException.class)
     protected ResponseEntity<?> handle(TradeNotFoundException e){
         log.error("TradeNotFoundException = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+
+    @ExceptionHandler(TradeAccessException.class)
+    protected ResponseEntity<?> handle(TradeAccessException e){
+        log.error("TradeAccessException = {}", e.getErrorCode().getMessage());
         return response.error(e.getErrorCode());
     }
 
@@ -230,6 +239,20 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(MemberTravelAlreadyExistException.class)
     protected ResponseEntity<?> handle(MemberTravelAlreadyExistException e){
         log.error("MemberTravelAlreadyExistException = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+
+    /* 계획 */
+    @ExceptionHandler(PlanAccessException.class)
+    protected ResponseEntity<?> handle(PlanAccessException e){
+        log.error("PlanAccessException = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+
+    /* csv */
+    @ExceptionHandler(CsvCreateFailedException.class)
+    protected ResponseEntity<?> handle(CsvCreateFailedException e){
+        log.error("CsvCreateFailedException = {}", e.getErrorCode().getMessage());
         return response.error(e.getErrorCode());
     }
 

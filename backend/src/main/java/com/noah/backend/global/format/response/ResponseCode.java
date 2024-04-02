@@ -56,12 +56,14 @@ public enum ResponseCode {
     /* 환전 */
     EXCHANGE_SUCCESS(HttpStatus.OK, "환전이 성공적으로 완료되었습니다."),
     EXCHANGE_INFO_FETCHED(HttpStatus.OK, "환전 내역이 성공적으로 조회되었습니다."),
+    EXCHANGE_RATE_INFO_FETCHED(HttpStatus.OK, "환율이 성공적으로 조회되었습니다."),
     EXCHANGE_NOT_FOUND(HttpStatus.OK, "환전내역이 없습니다."),
 
     /* 은행 (Bank) */
     BANK_DEPOSIT_SUCCESS(HttpStatus.OK,"입금이 성공적으로 완료되었습니다."),
     BANK_WITHDRAW_SUCCESS(HttpStatus.OK,"출금이 성공적으로 완료되었습니다."),
     BANK_TRANSFER_SUCCESS(HttpStatus.OK,"이체가 성공적으로 완료되었습니다."),
+    TRANSACTION_HISTORY_SUCCESS(HttpStatus.OK,"거래내역조회가 성공적으로 완료되었습니다."),
 
     /* 여행(Travel) */
     TRAVEL_CREATED(HttpStatus.OK, "여행이 성공적으로 생성되었습니다."),
@@ -93,6 +95,9 @@ public enum ResponseCode {
     REVIEW_UPDATED(HttpStatus.OK, "리뷰가 성공적으로 수정되었습니다."),
     REVIEW_DELETED(HttpStatus.OK, "리뷰가 성공적으로 삭제되었습니다."),
 
+    /* 추천(Suggest) */
+    SUGGEST_FETCHED(HttpStatus.OK, "추천 정보가 성공적으로 조회되었습니다."),
+
     /* 댓글(Comment) */
     COMMENT_CREATED(HttpStatus.OK, "댓글이 성공적으로 생성되었습니다."),
     COMMENT_FETCHED(HttpStatus.OK, "댓글 정보가 성공적으로 조회되었습니다."),
@@ -110,13 +115,19 @@ public enum ResponseCode {
     INVITE_ACCEPT(HttpStatus.OK, "여행 초대를 수락했습니다."),
     INVITE_REFUSE(HttpStatus.OK, "여행 초대를 거절했습니다."),
     NOTIFICATION_SEND_SUCCESS(HttpStatus.OK, "알람이 성공적으로 보내졌습니다."),
+    NOTIFICATION_DELETED_SUCCESS(HttpStatus.OK, "알람이 성공적으로 삭제되었습니다."),
 
     /* 댓글(Comment) */
     TICKET_CREATED(HttpStatus.OK, "티켓이 성공적으로 생성되었습니다."),
     TICKET_FETCHED(HttpStatus.OK, "티켓 정보가 성공적으로 조회되었습니다."),
     TICKET_UPDATED(HttpStatus.OK, "티켓이 성공적으로 수정되었습니다."),
-    TICKET_DELETED(HttpStatus.OK, "티켓이 성공적으로 삭제되었습니다.")
+    TICKET_DELETED(HttpStatus.OK, "티켓이 성공적으로 삭제되었습니다."),
 
+    /* 더미데이터 생성(csv) */
+    DUMMY_SUCCESS(HttpStatus.OK, "더미데이터가 성공적으로 생성되었습니다."),
+
+    /* QR 결제(QR) */
+    QR_WITHDRAW_SUCCESS(HttpStatus.OK, "QR결제가 성공적으로 진행되었습니다.")
     ;
 
 

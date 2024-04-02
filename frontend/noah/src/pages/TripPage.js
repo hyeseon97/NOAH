@@ -1,6 +1,6 @@
 import DoughnutChart from "../components/common/DoughnutChart";
 import Header from "./../components/common/Header";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import styles from "./TripPage.module.css";
 
@@ -9,51 +9,106 @@ import { ReactComponent as QR } from "./../assets/Icon/QR.svg";
 import { ReactComponent as Pig } from "./../assets/Icon/Pig.svg";
 import { ReactComponent as Person } from "./../assets/Icon/Person.svg";
 import { ReactComponent as Plan } from "./../assets/Icon/Plan.svg";
+import { getTravelInfo } from "../api/travel/Travel";
 export default function TripPage() {
   const navigate = useNavigate();
+  const { travelId } = useParams();
+  const [percent, setPercent] = useState(0);
+  const [travelInfo, setTravelInfo] = useState({
+    accountAmount: null,
+    accountId: null,
+    country: null,
+    endDate: null,
+    groupAccountId: null,
+    planId: null,
+    startDate: null,
+    targetAmount: 0,
+    title: "",
+    travelId: null,
+  });
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await getTravelInfo(travelId);
+        console.log(res.data);
+        if (res.status === "SUCCESS") {
+          setTravelInfo(res.data);
+        } else {
+          throw new Error(res.status);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (travelInfo.accountAmount === 0) {
+      setPercent(0);
+      return;
+    } else if (travelInfo.targetAmount === 0) {
+      setPercent(0);
+      return;
+    }
+
+    setPercent((travelInfo.accountAmount / travelInfo.targetAmount) * 100);
+  }, [travelInfo.accountAmount, travelInfo.targetAmount]);
+
   const handleLeftIconClick = () => {
     navigate("/home");
   };
-  const [percent, setPercent] = useState(85);
+
   const handleDetailClick = () => {
-    navigate(`/trip/3/goal`); // 3은 tripId
+    navigate(`/trip/${travelId}/goal`); // 3은 travelId
   };
 
   const handlePlanningClick = () => {
-    navigate(`/trip/3/planning`); // 3은 tripId
+    navigate(`/trip/${travelId}/planning`); // 3은 travelId
   };
 
   const handleMenuClick = (menu) => {
     if (menu === "결제") {
-      navigate("/trip/3/payment");
+      navigate(`/trip/${travelId}/payment`);
       return;
     }
     if (menu === "환전") {
-      navigate("/trip/3/exchange");
+      navigate(`/trip/${travelId}/exchange`);
       return;
     }
     if (menu === "소비관리") {
-      navigate("/trip/3/spendingmanagement");
+      navigate(`/trip/${travelId}/spendingmanagement`);
       return;
     }
     if (menu === "인원관리") {
-      navigate("/trip/3/participantmanagement");
+      navigate(`/trip/${travelId}/participantmanagement`);
       return;
     }
+  };
+
+  const calculateLeftDay = () => {
+    const start = new Date(travelInfo.startDate);
+    const now = new Date();
+    const diff = start - now;
+    const diffDays = Math.ceil(diff / (1000 * 60 * 60 * 24));
+
+    return diffDays;
   };
 
   return (
     <>
       <Header
         LeftIcon="Cancel"
-        Title="여행이름"
+        Title={travelInfo.title}
         onClick={handleLeftIconClick}
       />
-      <div style={{ marginTop: "6.67vw", cursor: "pointer" }}>
+      <div
+        style={{ marginTop: "6.67vw", cursor: "pointer" }}
+        onClick={handleDetailClick}
+      >
         <DoughnutChart percent={percent} />
         <div
           className={styles.detailParagraph}
-          onClick={handleDetailClick}
           style={{
             zIndex: "100",
             position: "relative",
@@ -68,7 +123,7 @@ export default function TripPage() {
         style={{ width: "100vw", display: "flex", justifyContent: "center" }}
       >
         <div className={styles.planBorder} onClick={handlePlanningClick}>
-          {false && (
+          {travelInfo.country === null && (
             <>
               <div
                 style={{
@@ -89,13 +144,16 @@ export default function TripPage() {
               </div>
             </>
           )}
-          {true && (
+          {travelInfo.country != null && (
             <>
               <div className={styles.infoContainer}>
-                <div className={styles.Dday}>D-27</div>
-                <div className={styles.day}>2024/03/15 ~ 2024/03/18</div>
+                <div className={styles.Dday}>D-{calculateLeftDay()}</div>
+                <div className={styles.day}>
+                  {travelInfo.startDate.split("T")[0]} ~{" "}
+                  {travelInfo.endDate.split("T")[0]}
+                </div>
                 <div className={styles.bottom}>
-                  <div className={styles.country}>일본</div>
+                  <div className={styles.country}>{travelInfo.country}</div>
                   <div className={styles.clickMessage}>여행계획 보러가기</div>
                 </div>
               </div>

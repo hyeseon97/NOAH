@@ -2,7 +2,13 @@ import { ReactComponent as Arrow } from "../../assets/Icon/Arrow.svg";
 import { ReactComponent as Cancel } from "../../assets/Icon/Cancel.svg";
 import { ReactComponent as Filter } from "../../assets/Icon/Filter.svg";
 
-export default function Header({ LeftIcon, Title, RightIcon, onClick }) {
+export default function Header({
+  LeftIcon,
+  Title,
+  RightIcon,
+  onClick,
+  onRightIconClick,
+}) {
   const headerBorderStyle = {
     width: "100vw",
     height: "16.67vw",
@@ -34,6 +40,17 @@ export default function Header({ LeftIcon, Title, RightIcon, onClick }) {
     color: "#000000",
   };
 
+  const headingSmallStyle = {
+    /* Heading/Large */
+    fontFamily: "Pretendard",
+    fontStyle: "normal",
+    fontWeight: "700",
+    fontSize: "3.35vw",
+    lineHeight: "140%",
+
+    color: "#000000",
+  };
+
   const headerContainer = {
     display: "flex",
     alignItems: "center",
@@ -55,10 +72,12 @@ export default function Header({ LeftIcon, Title, RightIcon, onClick }) {
             {LeftIcon === "Arrow" && <Arrow style={iconStyle} />}
             {LeftIcon === "Cancel" && <Cancel style={iconStyle} />}
           </div>
-          <div style={headingStyle}>{Title}</div>
+          <div style={Title.length <= 12 ? headingStyle : headingSmallStyle}>
+            {Title}
+          </div>
           <div>
             {RightIcon === "Filter" ? (
-              <Filter style={iconStyle} />
+              <Filter style={iconStyle} onClick={onRightIconClick} />
             ) : (
               <div style={iconStyle} /> // RightIcon이 없을 때 공간 차지
             )}

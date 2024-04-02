@@ -4,12 +4,18 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.noah.backend.domain.account.entity.Account;
 import com.noah.backend.domain.account.repository.AccountRepository;
 import com.noah.backend.domain.account.service.AccountService;
+import com.noah.backend.domain.bank.dto.requestDto.BankAccountBalanceCheckReqDto;
+import com.noah.backend.domain.bank.dto.requestDto.BankAccountDepositReqDto;
+import com.noah.backend.domain.bank.dto.requestDto.BankAccountWithdrawReqDto;
 import com.noah.backend.domain.bank.dto.requestDto.TransactionHistoryReqDto;
+import com.noah.backend.domain.bank.dto.responseDto.BankAccountBalanceCheckResDto;
 import com.noah.backend.domain.bank.dto.responseDto.TransactionHistoryResDto;
 import com.noah.backend.domain.bank.service.BankService;
 import com.noah.backend.domain.member.entity.Member;
 import com.noah.backend.domain.member.repository.MemberRepository;
 import com.noah.backend.domain.member.service.member.MemberService;
+import com.noah.backend.domain.memberTravel.Repository.MemberTravelRepository;
+import com.noah.backend.domain.memberTravel.entity.MemberTravel;
 import com.noah.backend.domain.trade.dto.requestDto.TradeGetReqDto;
 import com.noah.backend.domain.trade.dto.requestDto.TradePostReqDto;
 import com.noah.backend.domain.trade.dto.requestDto.TradeUpdateClassifyReqDto;
@@ -22,6 +28,7 @@ import com.noah.backend.domain.travel.entity.Travel;
 import com.noah.backend.domain.travel.repository.TravelRepository;
 import com.noah.backend.global.exception.account.AccountNotFoundException;
 import com.noah.backend.global.exception.member.MemberNotFoundException;
+import com.noah.backend.global.exception.membertravel.MemberTravelAccessException;
 import com.noah.backend.global.exception.trade.TradeNotFoundException;
 import com.noah.backend.global.exception.travel.TravelNotFoundException;
 import jakarta.transaction.Transactional;
@@ -50,29 +57,100 @@ public class TradeServiceImpl implements TradeService {
     private final AccountService accountService;
     private final TravelRepository travelRepository;
     private final TradeRepository tradeRepository;
+    private final MemberTravelRepository memberTravelRepository;
 
     @Override
-    public void createTrade(TradePostReqDto tradePostReqDto) {
+    public void createTrade(TradePostReqDto tradePostReqDto) throws IOException {
+
+        // 멤버와 사용할 계좌 조회
         Account account = accountRepository.findById(tradePostReqDto.getAccountId()).orElseThrow(AccountNotFoundException::new);
+        Member member = memberRepository.findById(account.getMember().getId()).orElseThrow(MemberNotFoundException::new);
+
+        Map<String, String> bankCodeMap = Map.of(
+            "한국은행", "001",
+            "산업은행", "002",
+            "기업은행", "003",
+            "국민은행", "004"
+        );
+
+        // 현재시간을 거래시간으로
+        LocalDateTime now = LocalDateTime.now();
+
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmmss");
+
+        String createdDate = now.format(dateTimeFormatter);
+        String createdTime = now.format(timeFormatter);
+
+        // 계좌 잔액 조회
+        BankAccountBalanceCheckReqDto dto = BankAccountBalanceCheckReqDto.builder()
+                                                                         .userKey(member.getUserKey())
+                                                                         .bankCode(bankCodeMap.get((account.getBankName())))
+                                                                         .accountNo(account.getAccountNumber())
+                                                                         .build();
+        BankAccountBalanceCheckResDto amountDto = bankService.bankAccountBalanceCheck(dto);
+        int amount = amountDto.getAccountBalance();
+
+        // 입금1이면 잔액에 더하고 , 출금2이면 잔액에서 빼고
+        if (tradePostReqDto.getTradeType() == 1) {
+            amount += tradePostReqDto.getCost();
+        } else {
+            amount -= tradePostReqDto.getCost();
+        }
+
+        // 거래내역 생성
         Trade trade = Trade.builder()
-                .type(tradePostReqDto.getTradeType())
-                .name(tradePostReqDto.getName())
-                .date(tradePostReqDto.getDate())
-                .time(tradePostReqDto.getTime())
-                .cost(tradePostReqDto.getCost())
-                .amount(tradePostReqDto.getAmount())
-                .account(account)
-                .build();
+                           .type(tradePostReqDto.getTradeType())
+                           .name(tradePostReqDto.getName())
+                           .date(createdDate)
+                           .time(createdTime)
+                           .cost(tradePostReqDto.getCost())
+                           .amount(amount)
+                           .account(account)
+                           .build();
+
         tradeRepository.save(trade);
+
+        // 싸피금융망에도 입금이나 출금 처리
+        if (tradePostReqDto.getTradeType() == 1) {
+            BankAccountDepositReqDto deposit = BankAccountDepositReqDto.builder()
+                                                                  .userKey(member.getUserKey())
+                                                                  .bankCode(bankCodeMap.get((account.getBankName())))
+                                                                  .accountNo(account.getAccountNumber())
+                                                                  .transactionBalance(tradePostReqDto.getCost())
+                                                                  .transactionSummary(tradePostReqDto.getName())
+                                                                  .build();
+            bankService.bankAccountDeposit(deposit);
+
+        } else {
+            BankAccountWithdrawReqDto withdraw = BankAccountWithdrawReqDto.builder()
+                                                                          .userKey(member.getUserKey())
+                                                                          .bankCode(bankCodeMap.get((account.getBankName())))
+                                                                          .accountNo(account.getAccountNumber())
+                                                                          .transactionBalance(tradePostReqDto.getCost())
+                                                                          .transactionSummary(tradePostReqDto.getName())
+                                                                          .build();
+            bankService.bankAccountWithdraw(withdraw);
+
+        }
+
         return;
     }
 
 
     @Transactional
     @Override
-    public List<TradeGetResDto> getTradeList(Long travelId) throws IOException {
+    public List<TradeGetResDto> getTradeList(String email, Long travelId) throws IOException {
+
+        /* 접근권한 */
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), travelId).orElseThrow(
+            MemberTravelAccessException::new);
+        /* ------ */
+
         Travel travel = travelRepository.findById(travelId).orElseThrow(TravelNotFoundException::new);
-        Account account = accountRepository.findById(travel.getGroupAccount().getAccount().getId()).orElseThrow(AccountNotFoundException::new);
+        Account account = accountRepository.findById(travel.getGroupAccount().getAccount().getId())
+                                           .orElseThrow(AccountNotFoundException::new);
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmmss");
@@ -101,23 +179,23 @@ public class TradeServiceImpl implements TradeService {
     private void fetchAndSaveTradeHistory(Account account, String startDate, String endDate) throws IOException {
         /* 은행 코드 */
         Map<String, String> bankCodeMap = Map.of(
-                "한국은행", "001",
-                "산업은행", "002",
-                "기업은행", "003",
-                "국민은행", "004"
+            "한국은행", "001",
+            "산업은행", "002",
+            "기업은행", "003",
+            "국민은행", "004"
         );
         String bankCode = bankCodeMap.get(account.getBankName());
 
         /* 은행 메서드를 사용하기 위한 reqDto 생성 */
         TransactionHistoryReqDto transactionHistoryReqDto = TransactionHistoryReqDto.builder()
-                .userKey(account.getMember().getUserKey())
-                .bankCode(bankCode)
-                .accountNo(account.getAccountNumber())
-                .startDate(startDate)
-                .endDate(endDate)
-                .transactionType("A")
-                .orderByType("ASC")
-                .build();
+                                                                                    .userKey(account.getMember().getUserKey())
+                                                                                    .bankCode(bankCode)
+                                                                                    .accountNo(account.getAccountNumber())
+                                                                                    .startDate(startDate)
+                                                                                    .endDate(endDate)
+                                                                                    .transactionType("A")
+                                                                                    .orderByType("ASC")
+                                                                                    .build();
 
 
         /* 은행에서 가져온 내역 */
@@ -129,17 +207,28 @@ public class TradeServiceImpl implements TradeService {
         }
 
         for (TransactionHistoryResDto bankTrade : bankTradeHistory) {
-            Optional<TradeDateAndTime> existingTrade = tradeRepository.getTradeDateAndTime(bankTrade.getDate(), bankTrade.getTime());
+            Optional<TradeDateAndTime> existingTrade = tradeRepository.getTradeDateAndTime(bankTrade.getDate(),
+                                                                                           bankTrade.getTime());
             if (existingTrade.isEmpty()) {
                 Trade trade = Trade.builder()
-                        .type(bankTrade.getType())
-                        .name(bankTrade.getName())
-                        .date(bankTrade.getDate())
-                        .time(bankTrade.getTime())
-                        .cost(bankTrade.getCost())
-                        .amount(bankTrade.getAmount())
-                        .account(account)
-                        .build();
+                                   .type(bankTrade.getType())
+                                   .name(bankTrade.getName())
+                                   .date(bankTrade.getDate())
+                                   .time(bankTrade.getTime())
+                                   .cost(bankTrade.getCost())
+                                   .amount(bankTrade.getAmount())
+                                   .account(account)
+                                   .build();
+
+                Member usedMember = null;
+                if (bankTrade.getType() == 1) {
+                    usedMember = memberRepository.findByNameAndAccountId(bankTrade.getName(), account.getId()).orElse(null);
+                }
+
+                if (usedMember != null) {
+                    trade.setMember(usedMember);
+                }
+
                 tradeRepository.save(trade);
 
                 // 잔액 최신화 부분
@@ -150,16 +239,34 @@ public class TradeServiceImpl implements TradeService {
     }
 
     @Override
-    public List<TradeGetResDto> getTradeListByMemberAndConsumeType(Long travelId, List<Long> memberIds, List<String> consumeTypes) {
+    public List<TradeGetResDto> getTradeListByMemberAndConsumeType(String email, Long travelId, List<Long> memberIds,
+                                                                   List<String> consumeTypes) {
+
+        /* 접근권한 */
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), travelId).orElseThrow(
+            MemberTravelAccessException::new);
+        /* ------ */
+
         Travel travel = travelRepository.findById(travelId).orElseThrow(TravelNotFoundException::new);
-        Account account = accountRepository.findById(travel.getGroupAccount().getAccount().getId()).orElseThrow(AccountNotFoundException::new);
-        List<TradeGetResDto> tradeGetResDtos = tradeRepository.getTradeListByMemberAndConsumeType(account.getId(), memberIds, consumeTypes).orElseThrow(TradeNotFoundException::new);
+        Account account = accountRepository.findById(travel.getGroupAccount().getAccount().getId())
+                                           .orElseThrow(AccountNotFoundException::new);
+        List<TradeGetResDto> tradeGetResDtos = tradeRepository.getTradeListByMemberAndConsumeType(account.getId(), memberIds,
+                                                                                                  consumeTypes)
+                                                              .orElseThrow(TradeNotFoundException::new);
         return tradeGetResDtos;
     }
 
+    @Transactional
     @Override
-    public Long updateTradeClassify(Long tradeId, TradeUpdateClassifyReqDto tradeUpdateClassifyReqDto) {
-        Trade trade = tradeRepository.findById(tradeId).orElseThrow(TradeNotFoundException::new);
+    public Long updateTradeClassify(String email, TradeUpdateClassifyReqDto tradeUpdateClassifyReqDto) {
+
+        /* 접근권한 */
+        Member loginMember = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+//        tradeRepository.isAccessTrade(loginMember.getId(), tradeUpdateClassifyReqDto.getTradeId());
+        /* ------ */
+
+        Trade trade = tradeRepository.findById(tradeUpdateClassifyReqDto.getTradeId()).orElseThrow(TradeNotFoundException::new);
         Long memberId = tradeUpdateClassifyReqDto.getMemberId();
         String consumeType = tradeUpdateClassifyReqDto.getConsumeType();
         if (memberId != null) {
@@ -169,26 +276,41 @@ public class TradeServiceImpl implements TradeService {
         if (consumeType != null) {
             trade.setConsumeType(consumeType);
         }
-        tradeRepository.save(trade);
+
         return trade.getId();
     }
 
+    @Transactional
     @Override
-    public Long updateTradeContain(Long tradeId) {
+    public Long updateTradeContain(String email, Long tradeId) {
+
+        /* 접근권한 */
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        tradeRepository.isAccessTrade(member.getId(), tradeId);
+        /* ------ */
+
         Trade trade = tradeRepository.findById(tradeId).orElseThrow(TradeNotFoundException::new);
         if (trade.isContained()) {
             trade.setContained(false);
         } else {
             trade.setContained(true);
         }
-        tradeRepository.save(trade);
+
         return trade.getId();
     }
 
     @Override
-    public List<TradeGetResDto> getHideTradeList(Long travelId) {
+    public List<TradeGetResDto> getHideTradeList(String email, Long travelId) {
+
+        /* 접근권한 */
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), travelId).orElseThrow(
+            MemberTravelAccessException::new);
+        /* ------ */
+
         Travel travel = travelRepository.findById(travelId).orElseThrow(TravelNotFoundException::new);
-        Account account = accountRepository.findById(travel.getGroupAccount().getAccount().getId()).orElseThrow(AccountNotFoundException::new);
+        Account account = accountRepository.findById(travel.getGroupAccount().getAccount().getId())
+                                           .orElseThrow(AccountNotFoundException::new);
         List<TradeGetResDto> result = tradeRepository.getHideTradeList(account.getId()).orElseThrow(TradeNotFoundException::new);
         return result;
     }

@@ -27,7 +27,8 @@ public class MemberTravelRepositoryImpl implements MemberTravelRepositoryCustom 
                 .select(Projections.constructor(MemberTravelListGetDto.class,
                         memberTravel.payment_amount,
                         memberTravel.member.id,
-                        memberTravel.member.nickname))
+                        memberTravel.member.nickname,
+                        memberTravel.member.email))
                 .from(memberTravel)
                 .where(memberTravel.travel.id.eq(travelId))
                 .fetch();
@@ -83,6 +84,30 @@ public class MemberTravelRepositoryImpl implements MemberTravelRepositoryCustom 
                                        .from(memberTravel)
                                        .where(memberTravel.member.id.eq(memberId).and(memberTravel.travel.id.eq(travelId).and(memberTravel.isDeleted.eq(false))))
                                        .fetchOne());
+    }
+
+    @Override
+    public Optional<Integer> getTotalPeople(Long travelId) {
+        return Optional.ofNullable(query.select(memberTravel.id.count().intValue())
+                                       .from(memberTravel)
+                                       .where(memberTravel.travel.id.eq(travelId))
+                                       .fetchOne());
+    }
+
+    @Override
+    public Optional<List<Long>> findByMemberId(Long memberId) {
+        return Optional.ofNullable(query.select(memberTravel.id)
+                                       .from(memberTravel)
+                                       .where(memberTravel.member.id.eq(memberId))
+                                       .fetch());
+    }
+
+    @Override
+    public Optional<MemberTravel> isAutoTransfer(Long memberId, Long travelId, Long accountId) {
+        return Optional.ofNullable(query.select(memberTravel)
+                                .from(memberTravel)
+                                .where(memberTravel.member.id.eq(memberId).and(memberTravel.travel.id.eq(travelId)).and(memberTravel.account.id.eq(accountId)))
+                                .fetchOne());
     }
 
 

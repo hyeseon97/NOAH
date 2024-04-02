@@ -141,6 +141,33 @@ public class SwaggerConfig {
 
     }
 
+    @Bean
+    public GroupedOpenApi csvGroup() {
+        return GroupedOpenApi.builder()
+                .group("csv")
+                .pathsToMatch("/api/v1/csv/**")
+                .build();
+
+    }
+
+    @Bean
+    public GroupedOpenApi exchangeGroup() {
+        return GroupedOpenApi.builder()
+                             .group("환전환율")
+                             .pathsToMatch("/api/v1/exchange/**")
+                             .build();
+
+    }
+
+    @Bean
+    public GroupedOpenApi QrcodeGroup() {
+        return GroupedOpenApi.builder()
+                             .group("QR코드")
+                             .pathsToMatch("/api/v1/qrcode/**")
+                             .build();
+
+    }
+
 //    @Bean
 //    public GroupedOpenApi flightGroup() {
 //        return GroupedOpenApi.builder()

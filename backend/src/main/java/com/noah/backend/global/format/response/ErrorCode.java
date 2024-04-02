@@ -38,6 +38,7 @@ public enum ErrorCode {
 
     /* 거래내역(Trade) */
     TRADE_NOT_FOUND(HttpStatus.NOT_FOUND, "거래내역을 찾을 수 없습니다."),
+    TRADE_ACCESS_DENIED(HttpStatus.BAD_REQUEST, "거래내역을 수정할 수 없습니다."),
 
     /* 환전 */
     EXCHANGE_NOT_FOUND(HttpStatus.NOT_FOUND, "환전내용을 찾을 수 없습니다."),
@@ -49,6 +50,7 @@ public enum ErrorCode {
 
     // 항공(flight)
     REQUIRED_FIELD_FAILED(HttpStatus.BAD_REQUEST, "필수 입력을 모두 입력하지 않았습니다."),
+    DEPARTURE_DATE_ERROR(HttpStatus.FORBIDDEN, "여행 출발 날짜는 오늘부터 가능합니다."),
     EXTERNAL_TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "외부 API 토큰이 만료되었습니다."),
     AIRPORT_NOT_FOUND_DEP(HttpStatus.NOT_FOUND, "출발 공항을 찾을 수 없습니다."),
     AIRPORT_NOT_FOUND_DES(HttpStatus.NOT_FOUND, "도착 공항을 찾을 수 없습니다."),
@@ -74,6 +76,7 @@ public enum ErrorCode {
     PLAN_PERMISSION_DENIED (HttpStatus.FORBIDDEN, "계획 수정 권한이 없습니다."),
     PLAN_UPDATE_FAILED (HttpStatus.BAD_REQUEST, "계획 업데이트에 실패했습니다."),
     PLAN_DELETE_FAILED (HttpStatus.INTERNAL_SERVER_ERROR, "계획 삭제에 실패했습니다."),
+    PLAN_ACCESS_DENIED(HttpStatus.BAD_REQUEST, "여행계획을 수정할 수 없습니다."),
 
     /*세부계획(DetailPlan)*/
     DETAILPLAN_NOT_FOUNT(HttpStatus.NOT_FOUND,"세부계획을 찾을 수 없습니다."),
@@ -127,7 +130,10 @@ public enum ErrorCode {
 
     /* 제안(suggest) */
     SUGGEST_NOT_EXISTS(HttpStatus.BAD_REQUEST, "리뷰가 존재하지 않습니다."),
-    LOWER_THAN_PRICE_NOT_EXISTS(HttpStatus.BAD_REQUEST, "인당 가격보다 낮은 리뷰가 존재하지 않습니다.");
+    LOWER_THAN_PRICE_NOT_EXISTS(HttpStatus.BAD_REQUEST, "인당 가격보다 낮은 리뷰가 존재하지 않습니다."),
+
+    /* 더미데이터 생성(csv) */
+    DUMMYDATA_CREATE_FAILED(HttpStatus.BAD_REQUEST, "더미데이터 생성에 실패하였습니다");
     private final HttpStatus status;
     private final String message;
 

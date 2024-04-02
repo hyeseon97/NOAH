@@ -8,6 +8,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -31,12 +32,16 @@ public class ForeignCurrencyService {
 //    @Scheduled(fixedRate = 5000) // 테스트용 5초마다
 //    @Scheduled(cron = "0 * * * * *") // 매 분의 0초마다 실행
 //    @Scheduled(cron = "0 */2 * * * *") // 매 짝수 분에 실행됨
+    @Scheduled(cron = "0 0 11 ? * *") // 매일 오전 11시에 실행
     public void saveExchangeRate() throws IOException, InterruptedException {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmm");
         String timePart = now.format(timeFormatter);
         int time = Integer.parseInt(timePart);
         if (time < 1100) return;
+
+        DayOfWeek day = now.getDayOfWeek();
+        if (day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY) return;
 
         HttpClient httpClient = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
@@ -45,6 +50,10 @@ public class ForeignCurrencyService {
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         JSONArray jsonArray = new JSONArray(response.body());
+        if (jsonArray.isEmpty()) {
+            log.info("수출입은행 비영업일");
+            return;
+        }
         JSONObject yuan = (JSONObject) jsonArray.get(6);
         JSONObject euro = (JSONObject) jsonArray.get(8);
         JSONObject yen = (JSONObject) jsonArray.get(12);

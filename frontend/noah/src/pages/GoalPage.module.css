@@ -3,6 +3,12 @@
     padding-left: 7.78vw;
     padding-right: 7.78vw;
 }
+.containerHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 5vw;
+}
 .labelMedium{
     font-Family: "Pretendard";
     font-Style: normal;
@@ -44,7 +50,7 @@
 }
 .amount{
     display: flex;
-    width: 30vw;
+    width: 35vw;
     justify-content: space-between;
     align-items: center;
     gap: 1vw;
@@ -81,7 +87,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    width: 18vw;
+    width: 15vw;
     height: 18vw;
 }
 .iconPeople{
@@ -95,4 +101,23 @@
     font-size: 3.33vw;
     line-height: 160%;
     color: #000000;
+}
+.inputBox{
+    border: 0;
+    font-Family: "Pretendard";
+    font-Style: normal;
+    font-Weight: 600;
+    font-Size: 4.45vw;
+    line-Height: 150%;
+    color: #000000;
+    text-align: right;
+}
+.labelSmallCheck{
+    font-Family: "Pretendard";
+    font-Style: normal;
+    font-Weight: 600;
+    font-Size: 3.35vw;
+    line-Height: 150%;
+    color: #000000;
+    text-decoration: underline;
 }

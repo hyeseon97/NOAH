@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as Plus } from "../../assets/Icon/Plus.svg";
+import ClipLoader from "react-spinners/ClipLoader";
+import showToast from "../common/Toast";
 
 const borderStyle = {
   border: "0.277vw solid #E1E1E1",
@@ -63,6 +65,13 @@ const paragraphSmall = {
   textAlign: "center",
 };
 
+const loadingStyle = {
+  ...borderStyle,
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+};
+
 export default function Trip({
   onClick,
   isLast = false,
@@ -74,6 +83,7 @@ export default function Trip({
   accountNumber,
   amount,
   targetAmount,
+  isLoading = false,
 }) {
   const navigate = useNavigate();
   const handleAccountClick = (e) => {
@@ -94,10 +104,30 @@ export default function Trip({
       }
     : {};
 
+  if (isLoading) {
+    return (
+      <>
+        <div style={loadingStyle}>
+          <ClipLoader />
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       {isLast ? (
-        <div style={lastTripStyle} onClick={() => navigate("/tripcreate")}>
+        <div
+          style={lastTripStyle}
+          onClick={() => {
+            if (localStorage.getItem === null) {
+              showToast("로그인 후 이용해보세요.");
+              navigate("/login");
+              return;
+            }
+            navigate("/tripcreate");
+          }}
+        >
           <Plus style={iconStyle} />
           <div>여행 계획을 세우고, 자금을 모아보세요</div>
         </div>
@@ -113,10 +143,7 @@ export default function Trip({
             </div>
           )}
           {!fromHome && (
-            <div
-              style={{ ...paragraphSmall, color: "#898989" }}
-              onClick={handleAccountClick}
-            >
+            <div style={{ ...paragraphSmall, color: "#898989" }}>
               {bankName} {accountNumber}
             </div>
           )}

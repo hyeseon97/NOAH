@@ -55,9 +55,23 @@ public class GroupAccountController {
 
         BankAccountCreateReqDto bankAccountCreateReqDto = BankAccountCreateReqDto.builder()
                 .userKey(memberService.searchMember(authentication).getUserKey())
-                .bankType(groupAccountRequestDto.getType())
                 .travelId(groupAccountRequestDto.getTravelId())
                 .build();
+
+        switch (groupAccountRequestDto.getType()){
+            case "한국은행":
+                bankAccountCreateReqDto.setBankType("001");
+                break;
+            case "산업은행":
+                bankAccountCreateReqDto.setBankType("002");
+                break;
+            case "기업은행":
+                bankAccountCreateReqDto.setBankType("003");
+                break;
+            case "국민은행":
+                bankAccountCreateReqDto.setBankType("004");
+                break;
+        }
 
         /* 은행에서 계좌 생성 */
         BankAccountCreateResDto bankAccountCreateResDto = bankService.bankAccountCreate(bankAccountCreateReqDto);
@@ -80,10 +94,17 @@ public class GroupAccountController {
         return response.success(ResponseCode.GROUP_ACCOUNT_CREATED, groupAccountId);
     }
 
-    @Operation(summary = "모임 단건 통장 조회", description = "모임 통장 단건 조회")
-    @GetMapping("/{groupAccountId}")
-    public ResponseEntity<?> getGroupAccount(@Parameter(hidden = true) Authentication authentication, @PathVariable(name = "groupAccountId") Long groupAccountId) {
-        GroupAccountInfoDto groupAccountInfoDto = groupAccountService.groupAccountInfo(authentication.getName(), groupAccountId);
+//    @Operation(summary = "모임 단건 통장 조회", description = "모임 통장 단건 조회")
+//    @GetMapping("/{groupAccountId}")
+//    public ResponseEntity<?> getGroupAccount(@Parameter(hidden = true) Authentication authentication, @PathVariable(name = "groupAccountId") Long groupAccountId) {
+//        GroupAccountInfoDto groupAccountInfoDto = groupAccountService.groupAccountInfo(authentication.getName(), groupAccountId);
+//        return response.success(ResponseCode.GROUP_ACCOUNT_INFO_FETCHED, groupAccountInfoDto);
+//    }
+
+    @Operation(summary = "여행 아이디로 모임 통장 조회", description = "여행 아이디로 모임 통장 단건 조회")
+    @GetMapping("/{travelId}")
+    public ResponseEntity<?> getGroupAccountByTravelId(@Parameter(hidden = true) Authentication authentication, @PathVariable(name = "travelId") Long travelId) {
+        GroupAccountInfoDto groupAccountInfoDto = groupAccountService.groupAccountInfoByTravelId(authentication.getName(), travelId);
         return response.success(ResponseCode.GROUP_ACCOUNT_INFO_FETCHED, groupAccountInfoDto);
     }
 

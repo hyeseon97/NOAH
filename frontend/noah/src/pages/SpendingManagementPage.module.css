@@ -39,7 +39,7 @@
 .line {
   width: 100vw;
   height: 0px;
-  border: 0.277vw solid rgba(137, 137, 137, 0.3);
+  border: 0.277vw rgba(137, 137, 137, 0.3);
 }
 .tradeBox {
   height: 33.33vw;
@@ -79,4 +79,43 @@
   display: flex;
   gap: 2.5vw;
   align-items: center;
+}
+
+.container {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.topContainer {
+  display: flex;
+  gap: 6.67vw;
+  align-items: center;
+  margin-top: 4.44vw;
+  margin-bottom: 8.89vw;
+}
+
+.menuSelect {
+  display: flex;
+  gap: 22.2vw;
+  margin-bottom: 4.44vw;
+}
+
+.graphContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sumContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.line {
+  width: 100vw;
+  height: 0px;
+  border: 0.277vw solid rgba(137, 137, 137, 0.3);
 }

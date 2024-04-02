@@ -14,9 +14,8 @@ public class DetailPlanDto {
     private int day;
     private int sequence;
     private String place;
-    private double pinX;
-    private double pinY;
     private String memo;
     private String time;
+    private String imageUrl;
 
 }

@@ -23,6 +23,7 @@ import com.noah.backend.global.exception.membertravel.MemberTravelAccessExceptio
 import com.noah.backend.global.exception.plan.PlanNotFound;
 import com.noah.backend.global.exception.plan.PlanUpdateFailed;
 import com.noah.backend.global.exception.travel.TravelNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -68,41 +69,54 @@ public class PlanServiceImpl implements PlanService {
         return planGetDto;
     }
 
+    @Transactional
     @Override
-    public Long createPlan(PlanPostDto planDto) {
-        Travel travel = travelRepository.findById(planDto.getTravel_id()).orElseThrow(TravelNotFoundException::new);
+    public Long createPlan(String email, PlanPostDto planDto) {
+
+        /* 접근권한 */
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), planDto.getTravelId()).orElseThrow(
+            MemberTravelAccessException::new);
+        /* ------ */
+
+        Travel travel = travelRepository.findById(planDto.getTravelId()).orElseThrow(TravelNotFoundException::new);
         Plan plan = Plan.builder()
-                .startDate(planDto.getStart_date())
-                .endDate(planDto.getEnd_date())
-                .travelStart(planDto.isTravel_start())
+                .startDate(planDto.getStartDate())
+                .endDate(planDto.getEndDate())
+                .travelStart(false)
                 .country(planDto.getCountry())
                 .travel(travel)
                 .build();
         return planRepository.save(plan).getId();
     }
 
+    @Transactional
     @Override
-    public Long updatePlan(Long planId, PlanUpdateDto planDto) {
-        Plan currentPlan = planRepository.findById(planId).orElseThrow(PlanUpdateFailed::new);
+    public Long updatePlan(String email, PlanUpdateDto planDto) {
+
+        /* 접근권한 */
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        planRepository.isAccessPlan(member.getId(), planDto.getPlanId());
+        /* ------ */
+
+        Plan currentPlan = planRepository.findById(planDto.getPlanId()).orElseThrow(PlanUpdateFailed::new);
         currentPlan.setStartDate(planDto.getStart_date());
         currentPlan.setEndDate(planDto.getEnd_date());
         currentPlan.setCountry(planDto.getCountry());
 
-        planRepository.save(currentPlan);
-
         return currentPlan.getId();
     }
 
+    @Transactional
     public boolean changeStart(Long planId, PlanUpdateDto planDto){
         Plan currentPlan = planRepository.findById(planId).orElseThrow(PlanNotFound::new);
         boolean changePlanStart = !currentPlan.isTravelStart();
         currentPlan.setTravelStart(changePlanStart);
 
-        planRepository.save(currentPlan);
-
         return currentPlan.isTravelStart();
     }
 
+    @Transactional
     @Override
     public void deletePlan(Long planId) {
         planRepository.deleteById(planId);

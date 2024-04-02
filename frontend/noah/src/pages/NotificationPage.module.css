@@ -1,0 +1,18 @@
+.labelLarge{
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 5.92vw;
+    line-height: 150%;
+    color: #000000;
+}
+.headingLarge{
+    margin-top: 50vw;
+    text-align: center;
+    font-Family: "Pretendard";
+    font-Style: normal;
+    font-Weight: 700;
+    font-Size: 5.92vw;
+    line-Height: 140%;
+    color: #000000;
+}

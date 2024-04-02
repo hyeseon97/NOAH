@@ -26,10 +26,10 @@ self.addEventListener("push", function (e) {
   self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
-self.addEventListener('install', (event) => {
-  console.log('Service Worker installing.');
+self.addEventListener("install", (event) => {
+  console.log("Service Worker installing.");
 });
-
+/*
 self.addEventListener('activate', (event) => {
   console.log('Service Worker activated.');
   // 캐시 버전 관리 및 이전 캐시 삭제
@@ -62,3 +62,4 @@ self.addEventListener('fetch', (event) => {
   );
 });
 
+*/

@@ -15,7 +15,8 @@ export default function Input({
     fontSize: "4.44vw",
     lineHeight: "150%",
     color: "#000000",
-    marginBottom: "2vw",
+    marginBottom: "8vw",
+    padding: "1vw",
   };
 
   return (

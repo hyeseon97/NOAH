@@ -40,7 +40,7 @@ export async function createReview(object) {
 /* 리뷰 목록 조회 */
 export async function getReviewList() {
   try {
-    const res = await axiosAPI.put(commonUrl + `/list`);
+    const res = await axiosAPI.get(commonUrl + `/list`);
     return res.data;
   } catch (error) {
     throw error;

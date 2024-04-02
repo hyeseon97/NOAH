@@ -16,6 +16,11 @@ export default function LoginPage() {
     password: "",
   });
 
+  const regex = {
+    email: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+    password: /^(?=.*[a-z])(?=.*\d)[a-zA-Z\d!@$%^&]{3,20}$/,
+  };
+
   /* 값을 입력함과 동시에 form 데이터 동시에 갱신 */
   function handleChange(e) {
     setFormData((prevFormData) => ({
@@ -26,10 +31,19 @@ export default function LoginPage() {
 
   //formData 전송
   const handleLoginClick = async () => {
-    console.log(formData);
+    if (!regex.password.test(formData.password)) {
+      setLoginFailedMessage(
+        "비밀번호는 최소 하나의 영소문자, 숫자를 포함한 3~20자 입니다."
+      );
+      return;
+    }
+
+    const firebaseToken = localStorage.getItem("firebaseToken");
+    console.log(firebaseToken);
+
     /* 로그인 API 작성 + 유효성 검사 */
     try {
-      const res = await login(formData);
+      const res = await login({ ...formData, firebaseToken: firebaseToken });
       if (res.status === "SUCCESS") {
         localStorage.setItem("accessToken", res.data.token);
         await setUser({
@@ -39,7 +53,6 @@ export default function LoginPage() {
           name: res.data.memberInfo.name,
         });
         navigate("/home");
-        // 전역 상태 지정 코드
       } else {
         setLoginFailedMessage("입력 정보를 확인해주세요.");
       }

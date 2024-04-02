@@ -30,3 +30,13 @@ export async function deleteAutoTransfer(travelId) {
     throw error;
   }
 }
+
+/* 내 계좌 조회 + 여행에 해당하는 자동이체 계좌 조회 */
+export async function getAutoTransfer(travelId) {
+  try {
+    const response = await axiosAPI.get(commonUrl + `/auto/${travelId}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}

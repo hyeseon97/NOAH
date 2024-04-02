@@ -24,7 +24,11 @@ public Optional<Airport> findByName(String name) {
     return Optional.ofNullable(
         query.selectFrom(airport)
             .where(airport.airportKo.like("%"+name+"%"))
+<<<<<<< HEAD
                 .limit(1)
+=======
+            .limit(1)
+>>>>>>> 540f63570b9f423246c6421aac88511d3ef84bb9
             .fetchOne()
     );
 }

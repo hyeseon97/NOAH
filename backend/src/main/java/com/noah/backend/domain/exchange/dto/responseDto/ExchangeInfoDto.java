@@ -7,5 +7,5 @@ import lombok.Getter;
 @Builder
 public class ExchangeInfoDto {
     String currency;
-    int exchangeAmount;
+    Double exchangeAmount;
 }

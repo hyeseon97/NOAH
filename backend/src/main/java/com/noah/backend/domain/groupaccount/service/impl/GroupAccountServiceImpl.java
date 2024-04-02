@@ -83,7 +83,7 @@ public class GroupAccountServiceImpl implements GroupAccountService {
                     .build();
             int amount = bankService.bankAccountBalanceCheck(bankAccountBalanceCheckReqDto).getAccountBalance();
             account.setAmount(amount);
-            accountRepository.save(account);
+//            accountRepository.save(account);
         }
         // 통장정보 반환
         return groupAccountRepository.getGroupAccountListByMemberId(memberId).orElseThrow(GroupAccountNotFoundException::new);
@@ -113,6 +113,21 @@ public class GroupAccountServiceImpl implements GroupAccountService {
         /* ------ */
 
         GroupAccountInfoDto groupAccountInfoDto = groupAccountRepository.getGroupAccountInfo(groupAccountId).orElseThrow(GroupAccountNotFoundException::new);
+
+        return groupAccountInfoDto;
+    }
+    @Override
+    public GroupAccountInfoDto groupAccountInfoByTravelId(String email, Long travelId) {
+
+        /* 접근권한 */
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        Travel travel = travelRepository.findById(travelId).orElseThrow(TravelNotFoundException::new);
+        GroupAccount groupAccount = groupAccountRepository.findById(travel.getGroupAccount().getId()).orElseThrow(GroupAccountNotFoundException::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), groupAccount.getTravel().getId()).orElseThrow(
+            MemberTravelAccessException::new);
+        /* ------ */
+
+        GroupAccountInfoDto groupAccountInfoDto = groupAccountRepository.getGroupAccountInfoByTravelId(travelId).orElseThrow(GroupAccountNotFoundException::new);
 
         return groupAccountInfoDto;
     }
@@ -217,8 +232,8 @@ public class GroupAccountServiceImpl implements GroupAccountService {
                 .transactionBalance(amount)
                 .withdrawalBankCode(depositBankCode)
                 .withdrawalAccountNo(account.getAccountNumber())
-                .depositTransactionSummary("D:"+ userName + "/"+ "B" + amount)
-                .withdrawalTransactionSummary("W:" + userName + "/"+"B" + amount)
+                .depositTransactionSummary(userName)
+                .withdrawalTransactionSummary(userName)
                 .build();
         bankService.bankAccountTransfer(bankAccountTransferReqDto);
 

@@ -3,10 +3,14 @@ package com.noah.backend.domain.exchange.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.noah.backend.domain.account.entity.Account;
 import com.noah.backend.domain.account.repository.AccountRepository;
+import com.noah.backend.domain.apis.dto.CurrencyDto;
+import com.noah.backend.domain.apis.service.ForeignCurrencyService;
 import com.noah.backend.domain.bank.dto.requestDto.BankAccountWithdrawReqDto;
 import com.noah.backend.domain.bank.service.BankService;
+import com.noah.backend.domain.exchange.dto.requestDto.ExchangeRatePutDto;
 import com.noah.backend.domain.exchange.dto.requestDto.ExchangeReqDto;
 import com.noah.backend.domain.exchange.dto.responseDto.ExchangeInfoDto;
+import com.noah.backend.domain.exchange.dto.responseDto.ExchangeRateGetDto;
 import com.noah.backend.domain.exchange.entity.Exchange;
 import com.noah.backend.domain.exchange.repository.ExchangeRepository;
 import com.noah.backend.domain.exchange.service.ExchangeService;
@@ -27,6 +31,7 @@ import com.noah.backend.global.exception.member.MemberNotFoundException;
 import com.noah.backend.global.exception.membertravel.MemberTravelAccessException;
 import com.noah.backend.global.exception.travel.TravelNotFoundException;
 import jakarta.transaction.Transactional;
+import java.util.Currency;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -47,6 +52,7 @@ public class ExchangeServiceImpl implements ExchangeService {
     private final AccountRepository accountRepository;
     private final MemberRepository memberRepository;
     private final MemberTravelRepository memberTravelRepository;
+    private final ForeignCurrencyService foreignCurrencyService;
 
     @Override
     public Long createExchange(String email, ExchangeReqDto exchangeReqDto) throws IOException {
@@ -78,29 +84,9 @@ public class ExchangeServiceImpl implements ExchangeService {
                 .bankCode(bankCode)
                 .accountNo(account.getAccountNumber())
                 .transactionBalance(amount)
-                .transactionSummary("E" + currencyName + "M:" + amount)
+                .transactionSummary(currencyName + " 환전")
                 .build();
         bankService.bankAccountWithdraw(bankAccountWithdrawReqDto);
-
-        int currencyCode;
-
-        switch (currencyName) {
-            case "달러":
-                currencyCode = 0;
-                break;
-            case "엔화":
-                currencyCode = 1;
-                break;
-            case "위안화":
-                currencyCode = 2;
-                break;
-            case "유로":
-                currencyCode = 3;
-                break;
-            default:
-                throw new ExchangeCurrencyNotAcceptableException();
-
-        }
 
         Long exchangeId = exchangeRepository.getExchangeIdByTravelId(travel.getId());
 
@@ -109,7 +95,7 @@ public class ExchangeServiceImpl implements ExchangeService {
             // 환전 생성
 
             Exchange exchange = Exchange.builder()
-                    .currency(currencyCode)
+                    .currency(exchangeReqDto.getCurrency())
                     .exchangeAmount(exchangeReqDto.getExchangeAmount())
                     .groupAccount(groupAccount)
                     .build();
@@ -119,14 +105,13 @@ public class ExchangeServiceImpl implements ExchangeService {
             // 기존 환전 내역이 있다면
         } else {
             Exchange exchange = exchangeRepository.findById(exchangeId).orElseThrow(ExchangeNotFoundException::new);
-            if (exchange.getCurrency() != currencyCode) {
+            if (!exchange.getCurrency().equals(exchangeReqDto.getCurrency())) {
                 throw new ExchangeFailedException();
             }
-            int previousAmount = exchange.getExchangeAmount();
-            int currentAmount = exchangeReqDto.getExchangeAmount();
-            int total = previousAmount + currentAmount;
+            Double previousAmount = exchange.getExchangeAmount();
+            Double currentAmount = exchangeReqDto.getExchangeAmount();
+            Double total = previousAmount + currentAmount;
             exchange.setExchangeAmount(total);
-            exchangeRepository.save(exchange);
 
             return exchange.getId();
         }
@@ -148,33 +133,55 @@ public class ExchangeServiceImpl implements ExchangeService {
         } else {
             Exchange exchange = exchangeRepository.findById(exchangeId).orElseThrow(ExchangeNotFoundException::new);
 
-            int currencyCode = exchange.getCurrency();
-            String currencyName;
-
-            switch (currencyCode) {
-                case 0:
-                    currencyName = "달러";
-                    break;
-                case 1:
-                    currencyName = "엔화";
-                    break;
-                case 2:
-                    currencyName = "위안화";
-                    break;
-                case 3:
-                    currencyName = "유로";
-                    break;
-                default:
-                    throw new ExchangeCurrencyNotAcceptableException();
-
-            }
-
             ExchangeInfoDto exchangeInfoDto = ExchangeInfoDto.builder()
-                    .currency(currencyName)
+                    .currency(exchange.getCurrency())
                     .exchangeAmount(exchange.getExchangeAmount())
                     .build();
 
             return exchangeInfoDto;
         }
+    }
+
+    @Override
+    public ExchangeRateGetDto getExchangeRate() {
+
+        CurrencyDto currencyDto = foreignCurrencyService.getExchangeRate();
+        ExchangeRateGetDto exchangeRateGetDto = ExchangeRateGetDto
+            .builder()
+            .USD(currencyDto.getBuyDollar())
+            .JPY(currencyDto.getBuyYen())
+            .CNY(currencyDto.getBuyYuan())
+            .EUR(currencyDto.getBuyEuro()).build();
+
+        return exchangeRateGetDto;
+    }
+
+    @Override
+    public Long updateTargetExchangeRate(String email, ExchangeRatePutDto exchangeRatePutDto) {
+
+        /* 접근권한 */
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), exchangeRatePutDto.getTravelId()).orElseThrow(
+            MemberTravelAccessException::new);
+        /* ------ */
+
+        Exchange exchange = exchangeRepository.getExchangeByTravelId(exchangeRatePutDto.getTravelId()).orElse(null);
+
+        if(exchange == null){
+            exchange = Exchange.builder()
+                .currency(null)
+                .exchangeAmount(0.0)
+                .targetExchangeCurrency(exchangeRatePutDto.getTargetExchangeCurrency())
+                .targetExchangeRate(exchangeRatePutDto.getTargetExchangeRate())
+                .build();
+            Exchange savedExchange = exchangeRepository.save(exchange);
+            return savedExchange.getId();
+
+        } else{
+            exchange.setTargetExchangeCurrency(exchangeRatePutDto.getTargetExchangeCurrency());
+            exchange.setTargetExchangeRate(exchangeRatePutDto.getTargetExchangeRate());
+            return exchange.getId();
+        }
+
     }
 }

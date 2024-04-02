@@ -6,6 +6,11 @@ import { ReactComponent as TrashCan } from "./../assets/Icon/TrashCan.svg";
 import { ReactComponent as Plus } from "./../assets/Icon/Plus.svg";
 import { ReactComponent as Edit } from "./../assets/Icon/Edit.svg";
 import { ReactComponent as Mark } from "./../assets/Icon/Mark.svg";
+// import DayCalculate from "../components/trip/DayCalculate";
+import { useParams } from "react-router-dom";
+import style from "./PlanningPage.module.css";
+import { format } from "date-fns";
+import EditModal from '../components/trip/EditModal'; // 수정을 위한 모달 컴포넌트
 
 import {
   getDetailPlan,
@@ -15,163 +20,13 @@ import {
   createDetailPlan,
 } from "../api/detailplan/DetailPlan";
 
-// const imgStyle = {
-//   width: "90px",
-//   height: "90px",
-//   margin: "20px"
-// }
+import { updatePlan } from "../api/plan/Plan";
 
-// const boxStyle = {
-//   display: "flex",
-//   flexDirection: "row",
-//   justifyContent: "center",
-//   alignItems: "beetween",
-//   border: "gray",
-//   radius: "5px"
-// }
+import { getPlanDetail } from "../api/plan/Plan";
 
-const headStyle = {
-  height: "50px",
-  margin: "10px",
-  marginTop: "15px",
-  marginBottom: "15px",
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "space-between",
-  alignItems: "beetween",
-  // backgroundColor: "coral",
-};
+import { getTicketList, deleteTicket } from "../api/ticket/Ticket";
 
-const bigFont = {
-  fontFamily: "Pretendard",
-  fontStyle: "normal",
-  fontWeight: "700",
-  fontSize: "5.2vw",
-  lineHeight: "140%",
-};
-
-const middleFont = {
-  fontFamily: "Pretendard",
-  fontStyle: "normal",
-  fontWeight: "700",
-  fontSize: "4.6vw",
-  lineHeight: "140%",
-};
-
-const smallFont = {
-  fontFamily: "Pretendard",
-  fontStyle: "normal",
-  fontWeight: "500",
-  fontSize: "3.9vw",
-  lineHeight: "140%",
-};
-
-const smallBoldFont = {
-  fontFamily: "Pretendard",
-  fontStyle: "normal",
-  fontWeight: "700",
-  fontSize: "3.9vw",
-  lineHeight: "140%",
-};
-
-const midStyle = {
-  height: "50px",
-  margin: "10px",
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "space-between",
-  alignItems: "center",
-  // fontFamily: "Pretendard",
-  // fontStyle: "normal",
-  // backgroundColor: "blue",
-};
-
-const boxStyle = {
-  display: "flex",
-  alignItems: "center",
-  border: "1px solid gray",
-  padding: "0px",
-  margin: "10px",
-  borderRadius: "10px",
-  // justifyContent: "space-between"
-};
-
-const planeBoxStyle = {
-  display: "flex",
-  alignItems: "center",
-  border: "1px solid gray",
-  padding: "0px",
-  margin: "10px",
-  borderRadius: "10px",
-  justifyContent: "space-between",
-  margin: "10px",
-  padding: "25px",
-  height: "100px",
-};
-
-// 새로운 계획 추가 버튼 스타일
-const addDetailPlanStyle = {
-  display: "flex",
-  justifyContent: "center", // 수평 중앙 정렬
-  alignItems: "center", // 추가: 수직 중앙 정렬
-  flexDirection: "column",
-  padding: "23px",
-  margin: "10px",
-  border: "1px solid gray",
-  cursor: "pointer",
-  borderRadius: "10px",
-  marginTop: "0px",
-  // backgroundColor: "#f0f0f0",
-  // marginBottom: "10px",
-  // height: "50px",
-};
-
-const placeInfoStyle = {
-  marginLeft: "15px",
-  width: "170px",
-  // backgroundColor: "RED",
-};
-
-// 이미지 스타일에 border-radius 추가하여 모서리를 둥글게
-const imgStyle = {
-  width: "90px",
-  height: "90px",
-  margin: "10px",
-  borderRadius: "5px",
-};
-
-const privousButton = {
-  transform: "rotate(90deg)",
-};
-
-const nextButton = {
-  transform: "rotate(270deg)",
-};
-
-const editButton = {
-  marginTop: "23px",
-  width: "25px",
-  height: "25px",
-};
-
-const trashCanButton = {
-  width: "20px",
-  height: "20px",
-  marginTop: "50px",
-  marginLeft: "10px",
-};
-
-const smallPlaneStyle = {
-  width: "30px",
-  height: "30px",
-  // backgroundColor: "green",
-};
-
-const planeInfo = {
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-};
+import { useNavigate } from "react-router-dom";
 
 const getTimeFromString = (dateTimeString) => {
   const date = new Date(dateTimeString);
@@ -181,112 +36,355 @@ const getTimeFromString = (dateTimeString) => {
 };
 
 export default function PlanningPage() {
-  const [plan, setPlan] = useState({
-    id: 1,
-    title: "오사카 일본",
-    start_date: "2024/03/21",
-    end_date: "2024/03/24",
-    travel_start: false,
-    country: "일본",
-    travel_id: 1,
-  });
+  const navigate = useNavigate();
+  // const { planId } = useParams();
+  const [currentDay, setCurrentDay] = useState(1);
+  let { travelId, planId } = useParams();
+  const [currentSelectedDate, setCurrentSelectedDate] = useState("");
+  const [plan, setPlan] = useState({});
+  const [plane, setPlane] = useState([]);
+  const [detailPlans, setDetailPlans] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPlan, setCurrentPlan] = useState(null);
 
-  const [plane, setPlane] = useState({
-    id: 1,
-    departure: "2024/03/24/16:30",
-    d_airport: "인천",
-    d_gate: 3,
-    arrival: "2024/03/24/19:30",
-    a_airport: "오사카",
-    travel_id: 1,
-  });
+  const filteredDetailPlans = detailPlans.filter(
+    (detailPlan) => detailPlan.day === currentDay
+  );
 
-  const [day, setDay] = useState({
-    detailday: 24,
-    detailweekday: "일요일",
-    sqday: 2,
-  });
+  const handleAddPlanClick = () => {
+    navigate("planningTest", {
+      state: { planId: planId, day: currentDay, date: currentSelectedDate },
+    });
+  };
 
-  const [detailPlans, setDetailPlans] = useState([
-    {
-      place: "이토모리 신사",
-      city: "교토, 일본",
-      rate: 4.5,
-      url: "https://a.cdn-hotels.com/gdcs/production147/d1285/0745ceba-e251-44dd-900d-758bd7078d8a.jpg?impolicy=fcrop&w=800&h=533&q=medium",
-    },
-    {
-      place: "이토모리 호텔",
-      city: "교토, 일본",
-      rate: 4.2,
-      url: "https://a.cdn-hotels.com/gdcs/production147/d1285/0745ceba-e251-44dd-900d-758bd7078d8a.jpg?impolicy=fcrop&w=800&h=533&q=medium",
-    },
-    {
-      place: "이토모리 음식점",
-      city: "교토, 일본",
-      rate: 4.1,
-      url: "https://a.cdn-hotels.com/gdcs/production147/d1285/0745ceba-e251-44dd-900d-758bd7078d8a.jpg?impolicy=fcrop&w=800&h=533&q=medium",
-    },
-    {
-      place: "독도는 우리땅",
-      city: "교토, 일본",
-      rate: 5.0,
-      url: "https://a.cdn-hotels.com/gdcs/production147/d1285/0745ceba-e251-44dd-900d-758bd7078d8a.jpg?impolicy=fcrop&w=800&h=533&q=medium",
-    },
-  ]);
+  function removeDuplicates(detailPlans) {
+    const unique = detailPlans.reduce((acc, current) => {
+      const x = acc.find((item) => item.detailPlanId === current.detailPlanId);
+      if (!x) {
+        return acc.concat([current]);
+      } else {
+        return acc;
+      }
+    }, []);
+    return unique;
+  }
+
+  function removeTicketDuplicates(tickets) {
+    const uniqueTickets = [];
+    const uniqueKeySet = new Set();
+
+    tickets.forEach((ticket) => {
+      // 중복 판단을 위한 고유 키 생성 (예: 출발-도착 시간 조합)
+      const uniqueKey = `${ticket.departure}-${ticket.arrival}`;
+      if (!uniqueKeySet.has(uniqueKey)) {
+        uniqueTickets.push(ticket);
+        uniqueKeySet.add(uniqueKey);
+      }
+    });
+
+    return uniqueTickets;
+  }
+
+  const loadPlan = async () => {
+    try {
+      const response = await getPlanDetail(travelId);
+      console.log(JSON.stringify(response) + " 확인용"); // response 객체 로깅
+      if (response) {
+        // 단순히 response 객체가 있는지만 확인
+        setPlan(response); // response 객체를 직접 상태로 설정
+      } else {
+        console.error("Plan data is missing or status is not SUCCESS");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const loadDetailPlan = async () => {
+    try {
+      const response = await getDetailPlanList(planId);
+      console.log(response); // 전체 응답 로깅
+      if (response.status === "SUCCESS" && Array.isArray(response.data)) {
+        const uniqueDetailPlans = removeDuplicates(response.data);
+        setDetailPlans(uniqueDetailPlans);
+      } else {
+        console.error(
+          "detailplan is not an array or status is not SUCCESS",
+          response
+        );
+      }
+    } catch (error) {
+      console.error("Error fetching detail plan list:", error);
+    }
+  };
+
+  const loadTicketList = async () => {
+    try {
+      const response = await getTicketList(travelId);
+      if (response.status === "SUCCESS" && Array.isArray(response.data)) {
+        const uniqueTickets = removeTicketDuplicates(response.data); // 중복 제거 함수 호출
+        setPlane(uniqueTickets); // 중복이 제거된 데이터로 상태 업데이트
+      } else {
+        console.error("ticket is not an array or status is not SUCCESS");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDayChange = (newDay) => {
+    setCurrentDay(newDay.day); // 현재 날짜 인덱스 업데이트
+    setCurrentSelectedDate(newDay.date); // 현재 선택된 날짜를 상태로 저장
+  };
+
+  // 상태 업데이트 후 확인을 위한 useEffect
+  useEffect(() => {
+    console.log(JSON.stringify(plane), "plane updated"); // 상태가 업데이트된 후의 값을 로깅
+  }, [plane]);
+
+  useEffect(() => {
+    setCurrentSelectedDate(plan.start_date);
+    loadDetailPlan();
+    loadTicketList();
+    loadPlan();
+    console.log(JSON.stringify(currentPlan) + "이거 한버넹 들어가냐")
+  }, [plan.start_date]);
+
+  const handleDeleteDetailPlan = async (detailPlanId) => {
+    try {
+      await deleteDetailPlan(detailPlanId);
+      setDetailPlans((prevDetailPlans) =>
+        prevDetailPlans.filter((plan) => plan.detailPlanId !== detailPlanId)
+      );
+    } catch (error) {
+      console.error("삭제 작업 중 오류가 발생했습니다.", error);
+    }
+  };
+
+  const handleDeleteTicket = async (ticketId) => {
+    try {
+      console.log(ticketId);
+      await deleteTicket(ticketId);
+      setPlane((prevTickets) =>
+        prevTickets.filter((flight) => flight.id !== ticketId)
+      );
+    } catch (error) {
+      console.error("삭제 작업 중 오류가 발생했습니다.", error);
+    }
+  };
+
+  const handleEditClick = (plan) => {
+    setCurrentPlan(plan); // 수정할 계획의 정보 설정
+    setIsModalOpen(true); // 모달 열기
+  };
+
+  const handleSubmit = async (updatedPlan) => {
+    try {
+      console.log(updatedPlan);
+      await updatePlan(planId, updatedPlan);
+      setIsModalOpen(false); // 모달 닫기
+  
+      loadPlan();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+
+  const filteredPlanes = plane.filter((flight) => {
+    // 출발 날짜가 유효한지 확인합니다.
+    if (!flight.departure) {
+      return false; // 유효하지 않은 경우, 이 항공편을 결과 배열에 포함시키지 않습니다.
+    }
+    const flightDate = flight.departure.split("T")[0]; // 'YYYY-MM-DD' 형식으로 날짜 추출
+    return flightDate === currentSelectedDate;
+  });
 
   return (
     <>
       <Header LeftIcon="Arrow" Title="계획" />
-      <div style={headStyle}>
+      <div className={style.headStyle}>
         <div>
-          <div style={bigFont}>{plan.title}</div>
-          <div style={middleFont}>
-            {plan.start_date} ~ {plan.end_date}
+          <div className={style.bigFont}>{plan.country}</div>
+          <div className={style.middleFont}>
+            {new Date(plan.startDate)
+              .toLocaleDateString("ko-KR", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+              })
+              .replace(/\.\s?/g, "-")
+              .slice(0, -1)}{" "}
+            ~{" "}
+            {new Date(plan.endDate)
+              .toLocaleDateString("ko-KR", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+              })
+              .replace(/\.\s?/g, "-")
+              .slice(0, -1)}
           </div>
         </div>
-        <Edit style={editButton} />
+        <Edit
+          className={style.editButton}
+          onClick={() => handleEditClick(plan)}
+        />
+        {isModalOpen && (
+          <EditModal
+            plan={currentPlan}
+            onSubmit={handleSubmit}
+            onClose={() => setIsModalOpen(false)}
+          />
+        )}
       </div>
-      <div style={midStyle}>
-        <Next style={privousButton} />
+      {/* <div className={style.midStyle}>
+        <Next className={style.privousButton} />
         <div>
-          <div style={smallFont}>
+          <div className={style.smallFont}>
             {day.detailday} {day.detailweekday}
           </div>
-          <div style={bigFont}>DAY {day.sqday}</div>
+          <div className={style.bigFont}>DAY {day.sqday}</div>
         </div>
-        <Next style={nextButton} />
-      </div>
+        <Next className={style.nextButton} />
+      </div> */}
+      <DayCalculate
+        startDate={plan.startDate}
+        endDate={plan.endDate}
+        onDayChange={handleDayChange}
+      />
       <div>
         <div>
-          <div style={planeBoxStyle}>
-            <div style={planeInfo}>
-              <div style={middleFont}>{plane.a_airport}</div>
+          {filteredPlanes.map((flight) => (
+            <div key={flight.ticket_id} className={style.planeBoxStyle}>
+              <div className={style.planeInfo}>
+                <div className={style.middleFont}>{flight.a_airport}</div>
 
-              <div style={smallFont}>{getTimeFromString(plane.arrival)}</div>
-            </div>
-            <SmallPlane style={smallPlaneStyle} />
-            <div style={planeInfo}>
-              <div style={middleFont}>{plane.d_airport}</div>
-              <div style={smallFont}>{getTimeFromString(plane.departure)}</div>
-            </div>
-          </div>
-          {detailPlans.map((detailPlan, index) => (
-            <div key={index} style={boxStyle}>
-              <img src={detailPlan.url} style={imgStyle} />
-              <div style={placeInfoStyle}>
-                <div style={smallBoldFont}>{detailPlan.place}</div>
-                <div style={smallFont}>{detailPlan.city}</div>
-                <div style={smallFont}>사용자 평점 {detailPlan.rate}</div>
+                <div className={style.smallFont}>
+                  {getTimeFromString(flight.arrival)}
+                </div>
               </div>
-              <TrashCan style={trashCanButton} />
+              <SmallPlane className={style.smallPlaneStyle} />
+              <div className={style.planeInfo}>
+                <div className={style.middleFont}>{flight.d_airport}</div>
+                <div className={style.smallFont}>
+                  {getTimeFromString(flight.departure)}
+                </div>
+              </div>
+              <TrashCan
+                className={style.trashCanButton}
+                onClick={() => handleDeleteTicket(flight.id)}
+              />
             </div>
           ))}
+          <div>
+            {filteredDetailPlans.map((detailPlan) => (
+              <div key={detailPlan.detailPlanId} className={style.boxStyle}>
+                <img
+                  src={detailPlan.imageUrl}
+                  alt="Detail Plan"
+                  className={style.imgStyle}
+                />
+                <div className={style.placeInfoStyle}>
+                  <div className={style.smallBoldFont}>{detailPlan.place}</div>
+                  <div className={style.smallFont}>{detailPlan.memo}</div>
+                  <div className={style.smallFont}>
+                    사용자 평점 {detailPlan.time}
+                  </div>
+                </div>
+                <TrashCan
+                  className={style.trashCanButton}
+                  onClick={() =>
+                    handleDeleteDetailPlan(detailPlan.detailPlanId)
+                  }
+                />
+              </div>
+            ))}
+            {/* 새로운 계획 추가 버튼 등 나머지 UI 요소 */}
+          </div>
         </div>
-        <div style={addDetailPlanStyle}>
+        <div className={style.addDetailPlanStyle} onClick={handleAddPlanClick}>
           <Plus />
-          <div style={middleFont}>새로운 계획 추가</div>
+          <div className={style.middleFont}>새로운 계획 추가</div>
         </div>
       </div>
     </>
   );
 }
+
+const DayCalculate = ({
+  startDate: initialStartDate,
+  endDate: initialEndDate,
+  onDayChange,
+}) => {
+  const [currentDayIndex, setCurrentDayIndex] = useState(0);
+  const [daysList, setDaysList] = useState([]);
+
+  const calculateDays = () => {
+    if (!initialStartDate || !initialEndDate) return;
+
+    const startDate = new Date(initialStartDate);
+    const endDate = new Date(initialEndDate);
+    const oneDay = 24 * 60 * 60 * 1000;
+    let current = new Date(startDate);
+    const newDaysList = [];
+
+    // 'current' 날짜가 'endDate' 이전 또는 같은 동안 반복합니다.
+    while (current <= endDate) {
+      newDaysList.push({
+        day: newDaysList.length + 1,
+        date: `${current.getFullYear()}-${String(
+          current.getMonth() + 1
+        ).padStart(2, "0")}-${String(current.getDate()).padStart(2, "0")}`,
+      });
+      // 'current' 날짜를 다음 날로 업데이트합니다.
+      current = new Date(current.setDate(current.getDate() + 1));
+    }
+
+    setDaysList(newDaysList);
+    setCurrentDayIndex(0);
+    if (newDaysList.length > 0) {
+      onDayChange(newDaysList[0]); // 첫 번째 day 객체 전달
+    }
+  };
+
+  useEffect(() => {
+    calculateDays();
+  }, [initialStartDate, initialEndDate]);
+
+  const goToPreviousDay = () => {
+    setCurrentDayIndex((prev) => {
+      const newIndex = prev > 0 ? prev - 1 : prev;
+      onDayChange(daysList[newIndex]); // 여기에서 현재 선택된 날짜를 상위 컴포넌트로 전달
+      return newIndex;
+    });
+  };
+
+  const goToNextDay = () => {
+    const newIndex =
+      currentDayIndex < daysList.length - 1
+        ? currentDayIndex + 1
+        : currentDayIndex;
+    setCurrentDayIndex(newIndex);
+    onDayChange(daysList[newIndex]); // 현재 선택된 날짜를 상위 컴포넌트로 전달
+  };
+
+  return (
+    <>
+      {daysList.length > 0 && (
+        <div className={style.midStyle}>
+          <Next className={style.previousButton} onClick={goToPreviousDay} />
+          <div>
+            <div className={style.bigFont}>
+              DAY {daysList[currentDayIndex].day}
+            </div>
+            <div className={style.smallFont}>
+              {daysList[currentDayIndex].date}
+            </div>
+          </div>
+          <Next className={style.nextButton} onClick={goToNextDay} />
+        </div>
+      )}
+    </>
+  );
+};

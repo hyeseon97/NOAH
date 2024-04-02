@@ -5,10 +5,13 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Header from "../components/common/Header";
 import { ReactComponent as Mark } from "./../assets/Icon/Mark.svg";
-import styles from './GoogleMapSearch.module.css';
+import styles from "./GoogleMapSearch.module.css";
 
 import Rating from "react-rating";
 import { FaStar } from "react-icons/fa";
+import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import {
   getDetailPlan,
@@ -17,207 +20,6 @@ import {
   deleteDetailPlan,
   createDetailPlan,
 } from "../api/detailplan/DetailPlan";
-
-// const containerStyle = {
-//   width: "100vw",
-//   height: "65vh",
-//   backgroundColor: "transparent",
-// };
-
-// const listSearch = {
-//   // backgroundColor: "coral",
-//   // margin: "10px",
-//   display: "flex",
-//   // justifyContent: "center",
-//   // alignItems: "center",
-//   // textAlign: "center",
-//   width: "90vw",
-//   marginBottom: "20px",
-//   fontFamily: "Pretendard",
-//   fontStyle: "normal",
-//   fontWeight: "700",
-//   fontSize: "3.4vw",
-//   lineHeight: "200%",
-//   margin: "17px",
-//   border: "1px solid grey",
-// };
-
-// const buttonStyle = {
-//   width: "60vw",
-//   height: "8vh",
-//   border: "none",
-//   marginLeft: "20px",
-// };
-
-// const listResult = {
-//   // backgroundColor: "pink",
-//   display: "flex",
-//   flexDirection: "column",
-//   height: "80vh",
-//   margin: "10px",
-// };
-
-// const placeOrTicket = {
-//   height: "8vh",
-//   display: "flex",
-//   flexDirection: "row",
-//   justifyContent: "space-evenly",
-//   marginLeft: "20px",
-//   marginRight: "20px",
-//   alignItems: "center",
-// };
-
-// const searchPlace = {
-//   height: "8vh",
-//   display: "flex",
-//   flexDirection: "row",
-//   justifyContent: "center",
-//   alignItems: "center",
-//   border: "1px solid gray",
-//   borderRadius: "5px",
-//   margin: "10px",
-// };
-
-// const placeNameStyle = {
-//   display: "flex",
-//   margin: "0px",
-//   fontFamily: "Pretendard",
-//   fontStyle: "normal",
-//   fontWeight: "700",
-//   fontSize: "4.4vw",
-//   lineHeight: "200%",
-// };
-
-// const ratingStyle = {
-//   display: "flex",
-//   fontFamily: "Pretendard",
-//   fontStyle: "normal",
-//   fontWeight: "700",
-//   fontSize: "3.4vw",
-//   lineHeight: "200%",
-// };
-
-// const placeAddressStyle = {
-//   display: "flex",
-//   textAlign: "left",
-//   fontFamily: "Pretendard",
-//   fontStyle: "normal",
-//   fontWeight: "700",
-//   fontSize: "3.4vw",
-//   lineHeight: "200%",
-// };
-
-// const placeNumberStyle = {
-//   display: "flex",
-//   fontFamily: "Pretendard",
-//   fontStyle: "normal",
-//   fontWeight: "700",
-//   fontSize: "3.4vw",
-//   lineHeight: "200%",
-// };
-// const placeOpenSytle = {
-//   display: "flex",
-//   fontFamily: "Pretendard",
-//   fontStyle: "normal",
-//   fontWeight: "700",
-//   fontSize: "3.4vw",
-//   lineHeight: "200%",
-// };
-
-// const placeWeekTimeToggleStyle = {
-//   fontFamily: "Pretendard",
-//   fontStyle: "normal",
-//   fontWeight: "700",
-//   fontSize: "3.4vw",
-//   lineHeight: "200%",
-// };
-
-// const placeWeekTimeDetailInfoSytle = {
-//   display: "flex",
-//   flexDirection: "column",
-//   textAlign: "left",
-//   fontFamily: "Pretendard",
-//   fontStyle: "normal",
-//   fontWeight: "700",
-//   fontSize: "3.4vw",
-//   lineHeight: "200%",
-// };
-
-// const webSiteStyle = {
-//   display: "flex",
-//   textAlign: "left",
-//   fontFamily: "Pretendard",
-//   fontStyle: "normal",
-//   fontWeight: "700",
-//   fontSize: "3.4vw",
-//   lineHeight: "200%",
-//   wordWrap: "break-word",
-//   overflowWrap: "break-word",
-//   whiteSpace: "normal",
-// };
-
-// const moreInfoStyle = {
-//   display: "flex",
-//   margin: "10px",
-//   justifyContent: "center",
-//   textAlign: "center",
-//   fontFamily: "Pretendard",
-//   fontStyle: "normal",
-//   fontWeight: "700",
-//   fontSize: "3.4vw",
-//   lineHeight: "200%",
-// };
-
-// const moreInfoDetailStyle = {
-//   display: "flex",
-//   flexDirection: "column",
-//   // justifyContent: "center",
-//   // alignContent : "center",
-//   // alignItems: "center",
-//   textAlign: "left",
-//   height: "50vh",
-//   overflow: "auto", // 내용이 넘치면 스크롤 허용
-// };
-
-// const imgStyle = {
-//   display: "flex",
-//   justifyContent: "center",
-//   alignItems: "center",
-//   padding: "10px",
-//   marginTop: "10px",
-// };
-
-// const smallTextStyle = {
-//   fontFamily: "Pretendard",
-//   fontStyle: "normal",
-//   fontWeight: "700",
-//   fontSize: "3.6vw",
-//   lineHeight: "200%",
-//   color: "gray",
-// };
-
-// const reviewStyle = {
-//   display: "flex",
-//   flexDirection: "column",
-//   width: "90vw",
-//   margin: "10px",
-//   alignItems: "flex-start", // 왼쪽 정렬을 위해 변경
-//   fontFamily: "Pretendard",
-//   fontStyle: "normal",
-//   fontWeight: "700",
-//   fontSize: "2.7vw",
-//   lineHeight: "200%",
-// };
-
-// // 더보기 버튼과 리뷰 텍스트를 같은 줄에 위치시키기 위한 스타일
-// const reviewContentStyle = {
-//   display: "flex",
-//   width: "100%",
-//   justifyContent: "space-between",
-//   alignItems: "center",
-//   marginBottom: "10px", // 리뷰간의 간격을 조정하기 위해 추가
-//   overflow: "scroll",
-// };
 
 const Review = ({ review }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -299,8 +101,10 @@ export default function GoogleMapSearch() {
   const [infoToggle, setInpoToggle] = useState(false);
   const [detailToggle, setDetailToggle] = useState(false);
   const [isWeekTime, setIsWeekTime] = useState(false);
-
-  
+  // const { planId } = useParams();
+  const location = useLocation();
+  const { planId, day, date } = location.state;
+  const navigate = useNavigate();
 
   const onLoad = (map) => {
     mapRef.current = map;
@@ -317,21 +121,29 @@ export default function GoogleMapSearch() {
 
   const [size, setSize] = useState(getSize());
 
+  const handleCreateDetail = async (name, vicinity, lat, lng, rating, url) => {
+    try {
+      await createdetail(name, vicinity, lat, lng, rating, url);
+      console.log(url)
+      navigate(-1);
+    } catch (error) {
+      // 에러 처리
+      console.error("계획 추가 중 오류 발생", error);
+    }
+  };
+
   function getSize() {
     const widthVW = window.innerWidth * 0.8; // 뷰포트의 80%
     const heightVH = window.innerHeight * 0.4; // 뷰포트의 40%
     return `${Math.round(widthVW)}x${Math.round(heightVH)}`;
   }
 
-  const apiKey = "AIzaSyDQuG0EPBRz632DtyOLTtopsQ97Uun8ybM"; // 여기에 실제 API 키를 입력해주세요.
-  // const center = `${outPlace.geometry.location.lat()},${outPlace.geometry.location.lng()}`;
+  const apiKey = "AIzaSyDQuG0EPBRz632DtyOLTtopsQ97Uun8ybM";
 
   const zoom = 14;
   const widthVW = window.innerWidth * 1; // 뷰포트의 80%
   const heightVH = window.innerHeight * 0.5; // 뷰포트의 40%
-  // const size = `${Math.round(widthVW)}x${Math.round(heightVH)}`;
   const mapType = "roadMap";
-  const markersw = "color:blue%7Clabel:S%7C37.5665,126.9780";
   const [mapUrl, setMapUrl] = useState("");
 
   useEffect(() => {
@@ -375,7 +187,6 @@ export default function GoogleMapSearch() {
   };
 
   useEffect(() => {
-    // 클릭 이벤트 리스너를 document에 추가
     const handleClickOutside = (event) => {
       if (
         searchResultsRef.current &&
@@ -383,7 +194,7 @@ export default function GoogleMapSearch() {
         toggleButtonRef.current &&
         !toggleButtonRef.current.contains(event.target)
       ) {
-        setShowList(false); // 상세 정보 창 외부 클릭 시 숨김
+        setShowList(false);
         setSuggestions([]);
         setOutPlace([]);
       }
@@ -391,24 +202,9 @@ export default function GoogleMapSearch() {
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      // 컴포넌트 언마운트 시 이벤트 리스너 제거
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [searchResultsRef, toggleButtonRef]);
-
-  // 검색 결과 및 상세 정보를 보여주는 영역을 제어하는 스타일 추가
-  // const searchResultsStyle = {
-  //   position: "absolute", // 절대 위치 지정
-  //   // display: "flex",
-  //   bottom: 0, // 하단에 위치
-  //   width: "100%", // 너비는 전체 차지
-  //   height: "71vh", // 높이는 70vh
-  //   backgroundColor: "#fff", // 배경색 지정
-  //   overflowY: "scroll", // 내용이 많을 경우 스크롤
-  //   display: showList ? "block" : "none", // showList 상태에 따라 보여주기/숨기기
-  //   alignItems: "center",
-  //   textAlign: "center",
-  // };
 
   useEffect(() => {
     if (search.length > 0) {
@@ -439,12 +235,15 @@ export default function GoogleMapSearch() {
         getCurrentLocation(); // 컴포넌트가 마운트될 때 사용자의 현재 위치를 가져옵니다.
       }
     }, 1000);
-    // console.log(googleMapApiKey);
     return () => clearTimeout(timeoutId);
   }, []);
 
+  useEffect(() => {
+    console.log(planId, day);
+  }, []);
+
   const handleSelect = (placeId, event) => {
-    event.preventDefault(); // 추가: 클릭 이벤트의 기본 동작 방지
+    event.preventDefault();
     const placesService = new window.google.maps.places.PlacesService(
       mapRef.current
     );
@@ -452,9 +251,9 @@ export default function GoogleMapSearch() {
       if (status === window.google.maps.places.PlacesServiceStatus.OK) {
         const { lat, lng } = place.geometry.location;
         setMarkers([{ lat: lat(), lng: lng() }]);
-        mapRef.current.panTo({ lat: lat(), lng: lng() }); // 지도 중심 이동
+        mapRef.current.panTo({ lat: lat(), lng: lng() });
         mapRef.current.setZoom(5);
-        console.log(place); // 선택한 장소의 상세 정보 출력
+        console.log(place);
         setOutPlace(place);
         setReviews(place.reviews);
         setPhotos(place.photos || []);
@@ -471,10 +270,10 @@ export default function GoogleMapSearch() {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
-          setMarkers([currentPosition]); // 현재 위치에 마커 설정
-          mapRef.current.panTo(currentPosition); // 지도 중심을 현재 위치로 이동
+          setMarkers([currentPosition]);
+          mapRef.current.panTo(currentPosition);
           console.log(currentPosition);
-          mapRef.current.setZoom(5); // 줌 레벨 조정
+          mapRef.current.setZoom(5);
         },
         () => {
           alert("위치 정보를 가져올 수 없습니다.");
@@ -492,6 +291,7 @@ export default function GoogleMapSearch() {
     }
   }, [mapRef.current]);
 
+<<<<<<< HEAD
   // const myStyle = {
   //   display: "none",
   //   flexDirection: "column",
@@ -503,14 +303,33 @@ export default function GoogleMapSearch() {
   //   height: "5vh",
   // };
 
+=======
+  const handleMapLoad = (map) => {
+    mapRef.current = map;
+  };
+
+  const createdetail = async (name, formatted_address, lat, lng, rating, url) => {
+    const object = {
+      day: day,
+      sequence: 1,
+      place: name,
+      pinX: lat,
+      pinY: lng,
+      memo: formatted_address,
+      time: rating,
+      imageUrl: url,
+    };
+    try {
+      const response = await createDetailPlan(planId, object);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+>>>>>>> 540f63570b9f423246c6421aac88511d3ef84bb9
 
   return (
     <>
-      {/* <Header LeftIcon="Arrow" Title="장소 검색" />
-      <div style={placeOrTicket} onClick={() => setShowList(false)}>
-        <div>장소</div>
-        <div>항공권</div>
-      </div> */}
       <div className={styles.searchPlace} onClick={() => setShowList(false)}>
         <Mark />
         <input
@@ -519,11 +338,9 @@ export default function GoogleMapSearch() {
           onChange={handleSearchChange}
           placeholder="장소 검색..."
         />
-        {/* <button onClick={getCurrentLocation}>현재 위치 가져오기</button> */}
       </div>
       <LoadScript googleMapsApiKey={googleMapApiKey} libraries={["places"]}>
         <GoogleMap
-          // mapContainerStyle={containerStyle}
           center={center}
           zoom={10}
           onLoad={onLoad}
@@ -535,7 +352,10 @@ export default function GoogleMapSearch() {
         </GoogleMap>
       </LoadScript>
       {outPlace && showList && search.length != 0 && (
-        <div className={styles.searchResultsStyle} style={{ display: showList ? 'block' : 'none' }}>
+        <div
+          className={styles.searchResultsStyle}
+          style={{ display: showList ? "block" : "none" }}
+        >
           <div className={styles.listSearch}>
             {suggestions && suggestions.length > 0 && (
               <ul>
@@ -565,6 +385,21 @@ export default function GoogleMapSearch() {
               <div className={styles.placeNameStyle}>
                 {outPlace.name} {outPlace.types[0]}
               </div>
+              <div
+                onClick={() =>
+                  handleCreateDetail(
+                    outPlace.name,
+                    outPlace.vicinity,
+                    outPlace.lat,
+                    outPlace.lng,
+                    outPlace.rating,
+                    outPlace.photos[0].getUrl(),
+                  )
+                }
+              >
+                계획 추가
+              </div>
+
               <div className={styles.ratingStyle}>
                 {outPlace.rating && (
                   <>
@@ -578,7 +413,9 @@ export default function GoogleMapSearch() {
                   </>
                 )}
               </div>
-              <div className={styles.placeAddressStyle}>{outPlace.formatted_address}</div>
+              <div className={styles.placeAddressStyle}>
+                {outPlace.formatted_address}
+              </div>
               <div className={styles.placeNumberStyle}>
                 {outPlace.international_phone_number}
               </div>
@@ -622,7 +459,10 @@ export default function GoogleMapSearch() {
                 </div>
               )}
 
-              <div className={styles.moreInfoStyle} onClick={changeDetailToggle}>
+              <div
+                className={styles.moreInfoStyle}
+                onClick={changeDetailToggle}
+              >
                 {detailToggle ? "줄이기" : "더보기"}
               </div>
               {detailToggle && (

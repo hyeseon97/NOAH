@@ -10,9 +10,13 @@ public interface NotificationService {
 
     void paymentNotify();
 
+    void exchangeNotify();
+
     Long inviteAccept(String email, Long notificationId);
 
     void inviteRefuse(String email, Long notificationId);
 
     boolean sendNotificationByToken(String token, String title, String body);
+
+    void deleteNotification(String email, Long notificationId);
 }

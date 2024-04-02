@@ -22,11 +22,19 @@ public class Exchange extends BaseEntity {
     private Long id;
 
     @Column(name = "currency")
-    private int currency;
+    private String currency;
 
     @Setter
     @Column(name = "exchange_amount")
-    private int exchangeAmount;
+    private Double exchangeAmount;
+
+    @Setter
+    @Column(name = "target_exchange_currency")
+    public String targetExchangeCurrency;
+
+    @Setter
+    @Column(name = "target_exchange_rate", nullable = true)
+    private Double targetExchangeRate;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     @JoinColumn(name = "group_account_id")
