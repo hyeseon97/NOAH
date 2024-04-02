@@ -37,10 +37,7 @@ public class SuggestServiceImpl implements SuggestService {
 	private final ImageRepository imageRepository;
 
 	@Override
-	public List<SuggestListResDto> getSuggestList(Long travelId, int page) {
-
-		/* Pageable 객체 생성 */
-		Pageable pageable = PageRequest.of(page, 10);
+	public List<SuggestListResDto> loginGetSuggestList(Long travelId) {
 
 		int total = memberTravelRepository.totalPeople(travelId).orElse(0);
 		//이우진 교보재
@@ -53,7 +50,7 @@ public class SuggestServiceImpl implements SuggestService {
 			return makeRandomSuggestList(reviewCount);
 		} else{//목표금액이 존재하면 targetAmount/total로 인당 가격을 환산하여 여행후기 추천
 			int priceOfPerson = targetAmount/total;
-			List<SuggestListResDto> reviewlist = reviewRepository.getSuggestReviewList(priceOfPerson, pageable).orElse(null);
+			List<SuggestListResDto> reviewlist = reviewRepository.getSuggestReviewList(priceOfPerson).orElse(null);
 
 			if(reviewlist == null || reviewlist.size()==0){
 				System.out.println("왜왜왜");
@@ -106,7 +103,17 @@ public class SuggestServiceImpl implements SuggestService {
 		return result;
 	}
 
-//------------------------------------------------------------------------------------------------------
+	@Override
+	public SuggestListResDto nonLoginGetSuggestList() {
+
+		int reviewCount = reviewRepository.getRandomSuggestId().orElse(0);
+		if(reviewCount==0){
+			throw new SuggestNotExists();
+		}
+		return makeRandomSuggestOne(reviewCount);
+	}
+
+	//------------------------------------------------------------------------------------------------------
 	//랜덤 제안리스트를 만드는 메소드
 	public List<SuggestListResDto> makeRandomSuggestList(int reviewCount){
 		if(reviewCount==0){
@@ -114,7 +121,7 @@ public class SuggestServiceImpl implements SuggestService {
 		}else{
 			List<SuggestListResDto> list = new ArrayList<>();
 			HashSet<Long> hm = new HashSet<>();
-			while(hm.size()<=9){
+			while(hm.size()<=29){
 				long num = ThreadLocalRandom.current().nextInt(1, reviewCount);
 				hm.add(num);
 			}
