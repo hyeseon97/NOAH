@@ -76,13 +76,14 @@
 }
 
 .review {
-  width: 40vw;
+  width: 85vw;
+  height: 50vh;
   cursor: pointer;
 }
 
 .reviewImage {
   width: 100%;
-  height: 27.77vw;
+  height: 37.77vw;
   border-radius: 2.77vw;
   object-fit: cover;
 }
@@ -97,20 +98,20 @@
   color: "#000000";
   margin-top: 0.5vw;
 }
-.reviewHeaderContainer{
+.reviewHeaderContainer {
   margin-top: 5vw;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.labelSmallReview{
-  font-Family: "Pretendard";
-    font-Style: normal;
-    font-Weight: 600;
-    font-Size: 3.35vw;
-    line-Height: 150%;
-    color: #898989;
-    margin-top: 2.5vw;
-    margin-right: 10vw;
-    text-decoration: underline;
+.labelSmallReview {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 3.35vw;
+  line-height: 150%;
+  color: #898989;
+  margin-top: 2.5vw;
+  margin-right: 10vw;
+  text-decoration: underline;
 }
