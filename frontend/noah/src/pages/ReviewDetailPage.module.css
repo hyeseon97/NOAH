@@ -58,10 +58,16 @@
 .imgBox{
     margin-bottom: 5vw;
     width: 100%;
-    height: 80vw;
+    height: 100%;
     display: grid;
     justify-content: center;
     grid-template-columns: repeat(2, 1fr);
+}
+.singleImage{
+    width: 80vw; /* 이미지 너비 */
+    height: auto; /* 이미지 높이를 자동으로 설정하여 비율을 유지 */
+    margin: auto; /* 이미지를 가운데 정렬 */
+    display: block; 
 }
 .reviewImage {
     max-width: 100%; /* 컨테이너 너비를 넘지 않도록 최대 너비 설정 */

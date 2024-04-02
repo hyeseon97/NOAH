@@ -1,3 +1,7 @@
+import { useState } from "react";
+import { uplodaImage } from "../../api/image/Image";
+import { createReview } from "../../api/review/Review";
+
 const container = {
   width: "100vw",
   height: "27.7vw",
@@ -52,6 +56,33 @@ function convertDateFormat(dateStr) {
 }
 
 export default function TravelHistory({ travel }) {
+  const [files, setFiles] = useState(null);
+
+  const handleFileChange = (event) => {
+    setFiles(event.target.files);
+  };
+
+  const upload = async () => {
+    const formData = new FormData();
+    formData.append("images", files[0]);
+    const res = await uplodaImage(formData);
+    console.log(res);
+
+    const handleCreateReview = async () => {
+      const object = {
+        travelId: travel.travelId,
+        imageIdList: res.imageIds,
+      };
+      try {
+        const response = await createReview(object);
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    handleCreateReview();
+  };
+
   return (
     <>
       <div style={container}>
@@ -76,11 +107,16 @@ export default function TravelHistory({ travel }) {
             )}
           </div>
           <div style={flexContainer}>
+            <input type="file" onChange={handleFileChange} multiple></input>
             <div style={labelSmall}>
               {travel.country && <span>{travel.country}, </span>}
               {travel.people}명
             </div>
-            {travel.planId === null && <div style={review}>후기 작성</div>}
+            {travel.planId === null && (
+              <div style={review} onClick={upload}>
+                후기 작성
+              </div>
+            )}
             {travel.planId !== null && <div style={review}>후기 확인</div>}
           </div>
         </div>
