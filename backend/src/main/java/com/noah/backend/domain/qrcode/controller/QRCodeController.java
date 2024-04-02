@@ -47,8 +47,7 @@ public class QRCodeController {
         // QR 정보
         int width = 200;
         int height = 200;
-//        String url = "http://localhost:8080/api/v1/qrcode/test?memberId=" + memberId + "&travelId=" + travelId;
-        String url = "http://j10b106.p.ssafy.io/signup";
+        String url = "http://j10b106.p.ssafy.io/market?memberId=" + memberId + "&travelId=" + travelId;
 
         // QR Code - BitMatrix: qr code 정보 생성
         BitMatrix encode = new MultiFormatWriter()
@@ -72,10 +71,4 @@ public class QRCodeController {
         return null;
     }
 
-    @GetMapping("/test")
-    public String test(@RequestParam(name = "memberId")Long memberId, @RequestParam(name = "travelId")Long travelId){
-
-
-        return "큐아아아아아알 memberId = " + memberId + "  travelId = " + travelId;
-    }
 }
