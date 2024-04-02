@@ -12,9 +12,9 @@ export async function getComment(commentId) {
 }
 
 /* 코멘트 목록 조회 */
-export async function getCommentList(travelId) {
+export async function getCommentList(reviewId) {
   try {
-    const response = await axiosAPI.get(commonUrl + `/list/${travelId}`);
+    const response = await axiosAPI.get(commonUrl + `/list/${reviewId}`);
     return response.data;
   } catch (error) {
     throw error;
