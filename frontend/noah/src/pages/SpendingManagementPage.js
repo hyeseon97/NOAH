@@ -2,16 +2,23 @@ import Header from "../components/common/Header";
 import styles from "./SpendingManagementPage.module.css";
 import { ReactComponent as CancelGrey } from "./../assets/Icon/CancelGrey.svg";
 import AOS from "aos";
+import ClipLoader from "react-spinners/ClipLoader";
 import "aos/dist/aos.css";
 import { useState, useEffect } from "react";
 import Spending from "../components/SpendingManagement/Spending";
 import DoughnutChartSmall from "../components/SpendingManagement/DoughnutChartSmall";
 import SumBox from "../components/SpendingManagement/SumBox";
+import SpendingHeader from "../components/SpendingManagement/SpedingHeader";
+import { getAllTrade } from "../api/trade/Trade";
+import { useParams } from "react-router-dom";
 
 export default function SpendingManagemnetPage() {
+  const { travelId } = useParams();
   const [isFilter, setIsFilter] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [currentViewInFilter, setCurrentViewInFilter] =
     useState("participants");
+  const [allSpendingHistory, setAllSpendingHistory] = useState([]);
 
   useEffect(() => {
     AOS.init({
@@ -22,6 +29,19 @@ export default function SpendingManagemnetPage() {
   const handleRightIconClick = () => {
     setIsFilter((prev) => !prev);
   };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await getAllTrade(travelId);
+        console.log(res);
+      } catch (e) {
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, []);
+
   return (
     <>
       <Header
@@ -30,20 +50,26 @@ export default function SpendingManagemnetPage() {
         RightIcon="Filter"
         onRightIconClick={handleRightIconClick}
       />
-      {!isFilter && (
+      {!isFilter && !isLoading && (
         <>
-          <div className={styles.tradeHeader}>
-            <div className={styles.labelMedium}>2024.03.19</div>
-            <div className={styles.headerRight}>
-              <div className={styles.labelSmallGray}>사용금액</div>
-              <div className={styles.labelSmall}>395,374원</div>
-            </div>
+          <SpendingHeader />
+          <Spending />
+          <Spending />
+          <Spending />
+        </>
+      )}
+      {!isFilter && isLoading && (
+        <>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "80vh",
+            }}
+          >
+            <ClipLoader />
           </div>
-          <div className={styles.line}></div>
-
-          <Spending />
-          <Spending />
-          <Spending />
         </>
       )}
       {isFilter && (
