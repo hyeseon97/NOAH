@@ -13,6 +13,11 @@ export default function ReviewDetailPage() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [imgList, setImgList] = useState([]);
+  const [expandedImg, setExpandedImg] = useState(null); // 확대된 이미지 상태 관리
+
+  const handleImageClick = (imgUrl) => {
+    setExpandedImg(imgUrl);
+  };
 
   function calculateDays(startDate, endDate) {
     const start = new Date(startDate);
@@ -91,15 +96,35 @@ export default function ReviewDetailPage() {
           </div>
         </div>
         <div className={styles.imgBox}>
-          {imgList.map((img, index) => (
+          {imgList.length === 1 ? (
+            // 이미지가 하나일 경우
             <img
-              key={index}
-              src={img.url}
-              alt={`Review Image ${index}`}
-              className={styles.reviewImage}
+              src={imgList[0].url}
+              alt="Review Image"
+              className={styles.singleImage} // 새로운 스타일 적용
+              onClick={() => handleImageClick(imgList[0].url)}
             />
-          ))}
+          ) : (
+            // 이미지가 여러 개일 경우
+            imgList.map((img, index) => (
+              <img
+                key={index}
+                src={img.url}
+                alt={`Review ${index}`}
+                className={styles.reviewImage}
+                onClick={() => handleImageClick(img.url)}
+              />
+            ))
+          )}
         </div>
+        {expandedImg && (
+          <div
+            className={styles.expandedImgModal}
+            onClick={() => setExpandedImg(null)} // 모달 바깥을 클릭하면 닫힘
+          >
+            <img src={expandedImg} className={styles.expandedImg} />
+          </div>
+        )}
         <div className={styles.commentContainer}>
           <div className={styles.commentHead}>
             <Comment />
