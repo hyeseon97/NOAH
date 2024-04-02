@@ -19,6 +19,7 @@ export default function SpendingManagemnetPage() {
   const [currentViewInFilter, setCurrentViewInFilter] =
     useState("participants");
   const [allSpendingHistory, setAllSpendingHistory] = useState([]);
+  const [groupedByDate, setGroupedByDate] = useState([]);
 
   useEffect(() => {
     AOS.init({
@@ -30,14 +31,45 @@ export default function SpendingManagemnetPage() {
     setIsFilter((prev) => !prev);
   };
 
+  function groupTransactionsByDate(transactions) {
+    const groupedByDate = transactions.reduce((acc, cur) => {
+      // 현재 항목의 날짜를 키로 사용합니다.
+      const date = cur.date;
+
+      // 해당 날짜의 그룹이 없으면 새로 만들어줍니다.
+      if (!acc[date]) {
+        acc[date] = {
+          transactions: [], // 해당 날짜의 모든 트랜잭션을 저장합니다.
+          totalCost: 0, // 해당 날짜의 amount 합산값을 저장합니다. 여기서는 type 2인 경우만 더합니다.
+        };
+      }
+
+      // 현재 트랜잭션을 해당 날짜의 배열에 추가합니다.
+      acc[date].transactions.push(cur);
+
+      // 현재 트랜잭션의 type이 2(출금)인 경우만 amount를 합산값에 추가합니다.
+      if (cur.type === 2) {
+        acc[date].totalCost += cur.cost;
+      }
+
+      return acc;
+    }, {});
+
+    return groupedByDate;
+  }
+
   useEffect(() => {
     (async () => {
       try {
         const res = await getAllTrade(travelId);
-        console.log(res);
+
+        setAllSpendingHistory(res.data);
+        setGroupedByDate(groupTransactionsByDate(res.data));
       } catch (e) {
       } finally {
-        setIsLoading(false);
+        setTimeout(() => setIsLoading(false), 500);
+        console.log(allSpendingHistory);
+        console.log(groupedByDate);
       }
     })();
   }, []);
@@ -52,10 +84,19 @@ export default function SpendingManagemnetPage() {
       />
       {!isFilter && !isLoading && (
         <>
-          <SpendingHeader />
-          <Spending />
-          <Spending />
-          <Spending />
+          {Object.entries(groupedByDate).map(([date, data]) => (
+            <div key={date}>
+              <SpendingHeader date={date} totalCost={data.totalCost} />
+              {data.transactions.map((transaction) => (
+                <Spending key={transaction.tradeId} transaction={transaction} />
+              ))}
+            </div>
+          ))}
+          {groupedByDate.length === 0 && (
+            <>
+              <div className={styles.nonHistory}>조회된 내역이 없습니다.</div>
+            </>
+          )}
         </>
       )}
       {!isFilter && isLoading && (
