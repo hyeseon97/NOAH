@@ -20,4 +20,6 @@ public interface TradeRepositoryCustom {
     void isAccessTrade(Long memberId, Long tradeId);
 
     Optional<Integer> getTotalExpense(Long travelId);
+
+    Optional<Integer> getTotalDeposit(Long accountId);
 }

@@ -162,4 +162,12 @@ public class TradeRepositoryImpl implements TradeRepositoryCustom {
                                        .fetchOne());
 
     }
+
+    @Override
+    public Optional<Integer> getTotalDeposit(Long accountId) {
+        return Optional.ofNullable(query.select(trade.cost.sum())
+                                       .from(trade)
+                                       .where(trade.account.id.eq(accountId).and(trade.type.eq(1)).and(trade.isContained.isTrue()))
+                                       .fetchOne());
+    }
 }
