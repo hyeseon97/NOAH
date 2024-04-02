@@ -5,10 +5,11 @@ import { ReactComponent as SmallCalendar } from "./../assets/Icon/SmallCalendar.
 import { ReactComponent as SmallBill } from "./../assets/Icon/SmallBill.svg";
 import styles from "./ReviewPage.module.css";
 import { getRecommendReviewList } from "../api/suggest/Suggest";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
 export default function ReviewPage() {
+  const navigate = useNavigate();
   const [reviewInfo, setReviewInfo] = useState([]);
   const { travelId } = useParams();
 
@@ -24,6 +25,7 @@ export default function ReviewPage() {
         const res = await getRecommendReviewList(travelId);
         if (res.status === "SUCCESS") {
           setReviewInfo(res.data);
+          console.log(res.data);
         }
       } catch (error) {
         console.log(error);
@@ -44,7 +46,10 @@ export default function ReviewPage() {
       <div className={styles.reviewContainer}>
         {reviewInfo.map((review, index) => (
           <div key={index} data-aos="fade-down">
-            <div className={styles.reviewBox}>
+            <div
+              onClick={() => navigate(`${review.id}`)}
+              className={styles.reviewBox}
+            >
               <img
                 src={review.imageList[0]?.imageUrl}
                 alt="여행지 사진"

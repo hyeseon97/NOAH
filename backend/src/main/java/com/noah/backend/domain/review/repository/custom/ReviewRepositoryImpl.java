@@ -67,7 +67,8 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom{
 
             List<CommentListGetDto> commentDtos = query
                     .select(Projections.constructor(CommentListGetDto.class,
-//                            comment.id,
+                            comment.id,
+                            comment.member.id,
                             comment.content))
                     .from(comment)
                     .where(comment.review.id.eq(reviewId))
