@@ -298,6 +298,19 @@ export default function GoogleMapSearch() {
     }
   }, [mapRef.current]);
 
+<<<<<<< HEAD
+  // const myStyle = {
+  //   display: "none",
+  //   flexDirection: "column",
+  //   alignItems: "center",
+  // };
+
+  // const searchList = {
+  //   backgroundColor: "orange",
+  //   height: "5vh",
+  // };
+
+=======
   const handleMapLoad = (map) => {
     mapRef.current = map;
   };
@@ -327,6 +340,7 @@ export default function GoogleMapSearch() {
       console.error(error);
     }
   };
+>>>>>>> 540f63570b9f423246c6421aac88511d3ef84bb9
 
   return (
     <>
