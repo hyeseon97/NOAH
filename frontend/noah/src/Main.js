@@ -57,7 +57,7 @@ export default function Main() {
             />
             <Route path="payment" element={<PaymentPage />} />
             <Route path="planningcreate" element={<PlanningCreatePage />} />
-            <Route path="planning">
+            <Route path="planning/:planId">
               <Route index element={<PlanningPage />} />
               <Route path="planningTest" element={<PlanningTestPage />} />
             </Route>
