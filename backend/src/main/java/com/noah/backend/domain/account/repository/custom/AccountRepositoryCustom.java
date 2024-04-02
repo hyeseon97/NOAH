@@ -11,4 +11,6 @@ public interface AccountRepositoryCustom {
     Optional<List<AccountInfoDto>> getMyAccountByMemberId(Long memberId);
 
     Optional<List<AccountIncludeIsAutoTransfer>> getAccountListIncludeIsAutoTransfer(Long memberId, Long travelId);
+
+    Optional<Account> findAccountBytravelId(Long travelId);
 }
