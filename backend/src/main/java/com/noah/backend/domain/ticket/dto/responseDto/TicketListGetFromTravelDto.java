@@ -11,7 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TicketListGetFromTravelDto {
-//    private Long ticket_id;
+    private Long ticket_id;
     private Date departure;
     private Date arrival;
     private String d_airport;
