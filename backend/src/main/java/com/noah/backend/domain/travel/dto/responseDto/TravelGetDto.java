@@ -24,10 +24,24 @@ public class TravelGetDto {
 
     private Long accountId;
     private int accountAmount;
+    private int depositTotal;
 
     private Long planId;
     private Date startDate;
     private Date endDate;
     private String country;
 
+    public TravelGetDto(Long travelId, String title, Long groupAccountId, int targetAmount, Long accountId, int accountAmount,
+                        Long planId, Date startDate, Date endDate, String country) {
+        this.travelId = travelId;
+        this.title = title;
+        this.groupAccountId = groupAccountId;
+        this.targetAmount = targetAmount;
+        this.accountId = accountId;
+        this.accountAmount = accountAmount;
+        this.planId = planId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.country = country;
+    }
 }

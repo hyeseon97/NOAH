@@ -15,6 +15,7 @@ import com.noah.backend.global.format.response.ResponseCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -51,7 +52,7 @@ public class TravelController {
     @Operation(summary = "여행 선택 조회", description = "목표금액 그래프, 날짜별 장소 리스트(사진포함) 조회하는 페이지 요청용")
     @GetMapping("{travelId}")
     public ResponseEntity<?> getTravelSelect(@Parameter(hidden = true) Authentication authentication,
-                                             @PathVariable(value = "travelId") Long travelId) {
+                                             @PathVariable(value = "travelId") Long travelId) throws IOException {
         TravelGetDto selectTravel = travelService.getTravelSelect(authentication.getName(), travelId);
         return response.success(ResponseCode.TRAVEL_INFO_FETCHED, selectTravel);
     }
