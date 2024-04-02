@@ -42,7 +42,11 @@ export default function MyPage() {
 
   return (
     <>
-      <Header LeftIcon="Cancel" Title="마이페이지" />
+      <Header
+        LeftIcon="Cancel"
+        Title="마이페이지"
+        onClick={navigate("/home")}
+      />
       <div
         style={{
           display: "flex",

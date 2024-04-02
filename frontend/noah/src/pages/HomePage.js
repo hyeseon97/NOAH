@@ -11,6 +11,7 @@ import { getAllGroupAccount } from "../api/groupaccount/GroupAccount";
 import showToast from "../components/common/Toast";
 import { getExchangeRate } from "../api/exchange/Exchange";
 import ClipLoader from "react-spinners/ClipLoader";
+import { getRecommendReviewInfo } from "../api/suggest/Suggest";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -20,6 +21,9 @@ export default function HomePage() {
   const [krwAmount, setKrwAmount] = useState();
   const [foreignAmount, setForeignAmount] = useState("1");
   const [currency, setCurrency] = useState("USD");
+  const [travelId, setTravelId] = useState("");
+  const [recommendReviewInfo, setRecommendReviewInfo] = useState([]);
+  const [isImageLoading, SetIsImageLoading] = useState(true);
 
   const handleNotificationClick = () => {
     if (localStorage.getItem("accessToken") === null) {
@@ -106,16 +110,13 @@ export default function HomePage() {
       } catch (error) {
         setTrips([]);
       } finally {
-        setIsLoading(false);
       }
     };
-
     fetchGroupAccounts();
 
     const fetchExchangeRate = async () => {
       try {
         const res = await getExchangeRate();
-        console.log(res.data);
         setExchangeRate(res.data);
       } catch (error) {
         console.log(error);
@@ -123,6 +124,23 @@ export default function HomePage() {
       }
     };
     fetchExchangeRate();
+
+    const fetchGetRecommendReviewInfo = async () => {
+      try {
+        const res = await getRecommendReviewInfo();
+        if (res.status === "SUCCESS") {
+          console.log("성공", res.data);
+          setRecommendReviewInfo(res.data[0]);
+        } else {
+          console.log(res);
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setTimeout(() => setIsLoading(false), 100);
+      }
+    };
+    fetchGetRecommendReviewInfo();
   }, []);
 
   return (
@@ -200,31 +218,23 @@ export default function HomePage() {
           <div className={styles.paragraphSmall}>
             {formatTime(new Date())} 환율 기준
           </div>
-          <div className={styles.reviewHeader}>추천 후기</div>
+          <div className={styles.reviewHeaderContainer}>
+            <div className={styles.reviewHeader}>추천 후기</div>
+            <div
+              className={styles.labelSmallReview}
+              onClick={() => navigate(`/trip/${travelId}/review`)}
+            >
+              리뷰 보러가기
+            </div>
+          </div>
           <div className={styles.reviewContainer}>
             <div className={styles.review}>
               <img
-                src={sample1}
+                src={recommendReviewInfo.imageUrl}
                 alt="Sample 1"
                 className={styles.reviewImage}
               />
-              <div className={styles.place}>준규모리현 벚꽃공원</div>
-            </div>
-            <div className={styles.review}>
-              <img
-                src={sample2}
-                alt="Sample 2"
-                className={styles.reviewImage}
-              />
-              <div className={styles.place}>오오건건현 스마트료칸</div>
-            </div>
-            <div className={styles.review}>
-              <img
-                src={sample1}
-                alt="Sample 1"
-                className={styles.reviewImage}
-              />
-              <div className={styles.place}>준규모리현 벚꽃공원</div>
+              <div className={styles.place}>{recommendReviewInfo.country}</div>
             </div>
           </div>
         </>

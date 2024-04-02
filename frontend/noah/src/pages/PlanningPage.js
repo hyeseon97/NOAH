@@ -7,7 +7,7 @@ import { ReactComponent as Plus } from "./../assets/Icon/Plus.svg";
 import { ReactComponent as Edit } from "./../assets/Icon/Edit.svg";
 import { ReactComponent as Mark } from "./../assets/Icon/Mark.svg";
 // import DayCalculate from "../components/trip/DayCalculate";
-
+import { useParams } from "react-router-dom";
 import style from "./PlanningPage.module.css";
 
 import {
@@ -19,164 +19,6 @@ import {
 } from "../api/detailplan/DetailPlan";
 import { useNavigate } from "react-router-dom";
 
-// const imgStyle = {
-//   width: "90px",
-//   height: "90px",
-//   margin: "20px"
-// }
-
-// const boxStyle = {
-//   display: "flex",
-//   flexDirection: "row",
-//   justifyContent: "center",
-//   alignItems: "beetween",
-//   border: "gray",
-//   radius: "5px"
-// }
-
-// const headStyle = {
-//   height: "50px",
-//   margin: "10px",
-//   marginTop: "15px",
-//   marginBottom: "15px",
-//   display: "flex",
-//   flexDirection: "row",
-//   justifyContent: "space-between",
-//   alignItems: "beetween",
-//   // backgroundColor: "coral",
-// };
-
-// const bigFont = {
-//   fontFamily: "Pretendard",
-//   fontStyle: "normal",
-//   fontWeight: "700",
-//   fontSize: "5.2vw",
-//   lineHeight: "140%",
-// };
-
-// const middleFont = {
-//   fontFamily: "Pretendard",
-//   fontStyle: "normal",
-//   fontWeight: "700",
-//   fontSize: "4.6vw",
-//   lineHeight: "140%",
-// };
-
-// const smallFont = {
-//   fontFamily: "Pretendard",
-//   fontStyle: "normal",
-//   fontWeight: "500",
-//   fontSize: "3.9vw",
-//   lineHeight: "140%",
-// };
-
-// const smallBoldFont = {
-//   fontFamily: "Pretendard",
-//   fontStyle: "normal",
-//   fontWeight: "700",
-//   fontSize: "3.9vw",
-//   lineHeight: "140%",
-// };
-
-// const midStyle = {
-//   height: "50px",
-//   margin: "10px",
-//   display: "flex",
-//   flexDirection: "row",
-//   justifyContent: "space-between",
-//   alignItems: "center",
-//   // fontFamily: "Pretendard",
-//   // fontStyle: "normal",
-//   // backgroundColor: "blue",
-// };
-
-// const boxStyle = {
-//   display: "flex",
-//   alignItems: "center",
-//   border: "1px solid gray",
-//   padding: "0px",
-//   margin: "10px",
-//   borderRadius: "10px",
-//   // justifyContent: "space-between"
-// };
-
-// const planeBoxStyle = {
-//   display: "flex",
-//   alignItems: "center",
-//   border: "1px solid gray",
-//   padding: "0px",
-//   margin: "10px",
-//   borderRadius: "10px",
-//   justifyContent: "space-between",
-//   margin: "10px",
-//   padding: "25px",
-//   height: "100px",
-// };
-
-// // 새로운 계획 추가 버튼 스타일
-// const addDetailPlanStyle = {
-//   display: "flex",
-//   justifyContent: "center", // 수평 중앙 정렬
-//   alignItems: "center", // 추가: 수직 중앙 정렬
-//   flexDirection: "column",
-//   padding: "23px",
-//   margin: "10px",
-//   border: "1px solid gray",
-//   cursor: "pointer",
-//   borderRadius: "10px",
-//   marginTop: "0px",
-//   // backgroundColor: "#f0f0f0",
-//   // marginBottom: "10px",
-//   // height: "50px",
-// };
-
-// const placeInfoStyle = {
-//   marginLeft: "15px",
-//   width: "170px",
-//   // backgroundColor: "RED",
-// };
-
-// // 이미지 스타일에 border-radius 추가하여 모서리를 둥글게
-// const imgStyle = {
-//   width: "90px",
-//   height: "90px",
-//   margin: "10px",
-//   borderRadius: "5px",
-// };
-
-// const privousButton = {
-//   transform: "rotate(90deg)",
-// };
-
-// const nextButton = {
-//   transform: "rotate(270deg)",
-// };
-
-// const editButton = {
-//   marginTop: "23px",
-//   width: "25px",
-//   height: "25px",
-// };
-
-// const trashCanButton = {
-//   width: "20px",
-//   height: "20px",
-//   marginTop: "50px",
-//   marginLeft: "10px",
-// };
-
-// const smallPlaneStyle = {
-//   width: "30px",
-//   height: "30px",
-//   // backgroundColor: "green",
-// };
-
-// const planeInfo = {
-//   display: "flex",
-//   flexDirection: "column",
-//   alignItems: "center",
-// };
-
 const getTimeFromString = (dateTimeString) => {
   const date = new Date(dateTimeString);
   // 옵션을 설정하여 시간과 분만 표시하도록 합니다.
@@ -186,8 +28,9 @@ const getTimeFromString = (dateTimeString) => {
 
 export default function PlanningPage() {
   const navigate = useNavigate();
-
+  // const { planId } = useParams();
   const [currentDay, setCurrentDay] = useState(1);
+  let { travelId, planId } = useParams();
   const [currentDate, setCurrentDate] = useState("");
 
   const [plan, setPlan] = useState({
@@ -210,36 +53,7 @@ export default function PlanningPage() {
     travel_id: 1,
   });
 
-  const [detailPlans, setDetailPlans] = useState([
-    {
-      place: "이토모리 신사",
-      day: 1,
-      city: "교토, 일본",
-      rate: 4.5,
-      url: "https://a.cdn-hotels.com/gdcs/production147/d1285/0745ceba-e251-44dd-900d-758bd7078d8a.jpg?impolicy=fcrop&w=800&h=533&q=medium",
-    },
-    {
-      place: "이토모리 호텔",
-      day: 2,
-      city: "교토, 일본",
-      rate: 4.2,
-      url: "https://a.cdn-hotels.com/gdcs/production147/d1285/0745ceba-e251-44dd-900d-758bd7078d8a.jpg?impolicy=fcrop&w=800&h=533&q=medium",
-    },
-    {
-      place: "이토모리 음식점",
-      day: 3,
-      city: "교토, 일본",
-      rate: 4.1,
-      url: "https://a.cdn-hotels.com/gdcs/production147/d1285/0745ceba-e251-44dd-900d-758bd7078d8a.jpg?impolicy=fcrop&w=800&h=533&q=medium",
-    },
-    {
-      place: "독도는 우리땅",
-      day: 4,
-      city: "교토, 일본",
-      rate: 5.0,
-      url: "https://a.cdn-hotels.com/gdcs/production147/d1285/0745ceba-e251-44dd-900d-758bd7078d8a.jpg?impolicy=fcrop&w=800&h=533&q=medium",
-    },
-  ]);
+  const [detailPlans, setDetailPlans] = useState([]);
 
   const getFormattedDate = (dateString) => {
     const date = new Date(dateString);
@@ -269,20 +83,59 @@ export default function PlanningPage() {
     setCurrentDay(newDay);
   };
 
-  const handleNavigation = () => {
-    // 현재 URL을 가져옵니다.
-    const currentUrl = window.location.href;
-  
-    // 기존 URL에서 '/planning' 부분을 'planningTest'로 변경합니다.
-    const newUrl = currentUrl.replace('/planning', '/planningTest');
-  
-    // 새로운 URL로 이동합니다.
-    window.location.href = newUrl;
-  };
-  
   const handleAddPlanClick = () => {
-    // 'add-plan' 경로로 이동하며 planId와 현재 선택된 day를 상태로 전달
     navigate("planningTest", { state: { planId: plan.id, day: currentDay } });
+  };
+
+  function removeDuplicates(detailPlans) {
+    const unique = detailPlans.reduce((acc, current) => {
+      const x = acc.find((item) => item.detailPlanId === current.detailPlanId);
+      if (!x) {
+        return acc.concat([current]);
+      } else {
+        return acc;
+      }
+    }, []);
+    return unique;
+  }
+
+  const loadDetailPlan = async () => {
+    try {
+      const response = await getDetailPlanList(planId);
+      if (
+        response.status === "SUCCESS" &&
+        Array.isArray(response.data.detailPlanList)
+      ) {
+        // 중복을 제거한 데이터로 상태 업데이트
+        const uniqueDetailPlans = removeDuplicates(
+          response.data.detailPlanList
+        );
+        setDetailPlans(uniqueDetailPlans);
+      } else {
+        console.error(
+          "detailPlanList is not an array or status is not SUCCESS"
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    loadDetailPlan();
+  }, []);
+
+  const handleDeleteDetailPlan = async (detailPlanId) => {
+    try {
+      // deleteDetailPlan 함수가 성공적으로 수행되었다고 가정
+      await deleteDetailPlan(detailPlanId);
+      // 삭제 후 detailPlans 상태 업데이트
+      setDetailPlans((prevDetailPlans) =>
+        prevDetailPlans.filter((plan) => plan.detailPlanId !== detailPlanId)
+      );
+    } catch (error) {
+      console.error("삭제 작업 중 오류가 발생했습니다.", error);
+    }
   };
 
   return (
@@ -331,8 +184,8 @@ export default function PlanningPage() {
             </div>
           </div>
           <div>
-            {filteredDetailPlans.map((detailPlan, index) => (
-              <div key={index} className={style.boxStyle}>
+            {filteredDetailPlans.map((detailPlan) => (
+              <div key={detailPlan.detailPlanId} className={style.boxStyle}>
                 <img
                   src={detailPlan.url}
                   alt="Detail Plan"
@@ -340,21 +193,26 @@ export default function PlanningPage() {
                 />
                 <div className={style.placeInfoStyle}>
                   <div className={style.smallBoldFont}>{detailPlan.place}</div>
-                  <div className={style.smallFont}>{detailPlan.city}</div>
+                  <div className={style.smallFont}>{detailPlan.memo}</div>
                   <div className={style.smallFont}>
-                    사용자 평점 {detailPlan.rate}
+                    사용자 평점 {detailPlan.time}
                   </div>
                 </div>
-                <TrashCan className={style.trashCanButton} />
+                <TrashCan
+                  className={style.trashCanButton}
+                  onClick={() =>
+                    handleDeleteDetailPlan(detailPlan.detailPlanId)
+                  }
+                />
               </div>
             ))}
             {/* 새로운 계획 추가 버튼 등 나머지 UI 요소 */}
           </div>
         </div>
         <div className={style.addDetailPlanStyle} onClick={handleAddPlanClick}>
-        <Plus />
-        <div className={style.middleFont}>새로운 계획 추가</div>
-      </div>
+          <Plus />
+          <div className={style.middleFont}>새로운 계획 추가</div>
+        </div>
       </div>
     </>
   );
