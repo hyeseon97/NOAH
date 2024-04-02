@@ -37,8 +37,9 @@ public class SuggestController {
 	//여행 썸네일은 메소드만 만들었습니다.
 	@Operation(summary = "여행 추천 목록 조회", description = "여행 추천 목록 조회")
 	@GetMapping("/{travelId}")
-	public ResponseEntity<?> getSuggestList(@PathVariable(name = "travelId") Long travelId) {
-		List<SuggestListResDto> suggestList = suggestService.getSuggestList(travelId);
+	public ResponseEntity<?> getSuggestList(@PathVariable(name = "travelId") Long travelId,
+											@RequestParam(name = "page") int page) {
+		List<SuggestListResDto> suggestList = suggestService.getSuggestList(travelId, page);
 		return response.success(ResponseCode.SUGGEST_FETCHED, suggestList);
 	}
 }

@@ -61,10 +61,10 @@ export default function Main() {
               <Route index element={<PlanningPage />} />
               <Route path="planningTest" element={<PlanningTestPage />} />
             </Route>
-          </Route>
-          <Route path="review">
-            <Route index element={<ReviewPage />} />
-            <Route path=":reviewId" element={<ReviewDetailPage />}></Route>
+            <Route path="review">
+              <Route index element={<ReviewPage />} />
+              <Route path=":reviewId" element={<ReviewDetailPage />}></Route>
+            </Route>
           </Route>
           <Route path="createreview/:travelId" element={<ReviewCreatePage />} />
           {/* <Route path="googlemap" element={<GoogleMapSearch />} />

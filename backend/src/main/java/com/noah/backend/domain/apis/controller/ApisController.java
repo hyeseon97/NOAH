@@ -46,6 +46,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -102,14 +103,16 @@ public class ApisController {
 
     @GetMapping("flight-offers")
     @Operation(summary = "항공권 탐색")
-    public ResponseEntity findFlightOffers(@RequestBody FlightOffersDto flightOffersDto) throws IOException, InterruptedException {
-//        // test code
-//        flightOffersDto = FlightOffersDto.builder()
-//            .originLocationCode("인천")
-//            .destinationLocationCode("후쿠")
-//            .departureDate(LocalDate.of(2024, 5, 12).toString())
-//            .build();
-//        //
+    public ResponseEntity findFlightOffers(@RequestParam String originLocationCode,
+                                            @RequestParam String destinationLocationCode,
+                                            @RequestParam String departureDate) throws IOException, InterruptedException {
+
+        FlightOffersDto flightOffersDto = FlightOffersDto.builder()
+            .originLocationCode(originLocationCode)
+            .destinationLocationCode(destinationLocationCode)
+            .departureDate(LocalDate.parse(departureDate))
+            .build();
+
         List<ResponseFlightOffersDto> list;
         try {
             list = flightService.findFlightOffers(accesstoken, flightOffersDto);

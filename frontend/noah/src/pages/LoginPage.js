@@ -39,6 +39,7 @@ export default function LoginPage() {
     }
 
     const firebaseToken = localStorage.getItem("firebaseToken");
+    console.log(firebaseToken);
 
     /* 로그인 API 작성 + 유효성 검사 */
     try {

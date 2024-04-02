@@ -159,6 +159,15 @@ public class SwaggerConfig {
 
     }
 
+    @Bean
+    public GroupedOpenApi QrcodeGroup() {
+        return GroupedOpenApi.builder()
+                             .group("QR코드")
+                             .pathsToMatch("/api/v1/qrcode/**")
+                             .build();
+
+    }
+
 //    @Bean
 //    public GroupedOpenApi flightGroup() {
 //        return GroupedOpenApi.builder()

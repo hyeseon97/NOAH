@@ -258,4 +258,9 @@ public class MemberServiceImpl implements MemberService {
         return searchMember;
     }
 
+    @Override
+    public Long findMemberId(String email) {
+        return memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new).getId();
+    }
+
 }

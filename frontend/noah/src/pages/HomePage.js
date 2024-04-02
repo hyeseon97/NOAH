@@ -11,6 +11,7 @@ import { getAllGroupAccount } from "../api/groupaccount/GroupAccount";
 import showToast from "../components/common/Toast";
 import { getExchangeRate } from "../api/exchange/Exchange";
 import ClipLoader from "react-spinners/ClipLoader";
+import { getRecommendReviewInfo } from "../api/suggest/Suggest";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -20,6 +21,11 @@ export default function HomePage() {
   const [krwAmount, setKrwAmount] = useState();
   const [foreignAmount, setForeignAmount] = useState("1");
   const [currency, setCurrency] = useState("USD");
+  const [travelId, setTravelId] = useState(0);
+  const [recommendReviewInfo, setRecommendReviewInfo] = useState([]);
+  const [recommendReviews, setRecommendReviews] = useState([]);
+  const [idx, setIdx] = useState(0);
+  const [isImageLoading, SetIsImageLoading] = useState(true);
 
   const handleNotificationClick = () => {
     if (localStorage.getItem("accessToken") === null) {
@@ -59,6 +65,12 @@ export default function HomePage() {
       // 이동 거리가 충분히 길거나 이동 시간이 150ms 이상인 경우 스와이프로 판단
       if (containerRef.current) {
         const direction = moveDistance > 0 ? 1 : -1;
+        if (moveDistance > 0) {
+          if (idx < trips.length) setIdx((prev) => prev + 1);
+        } else if (moveDistance < 0) {
+          if (idx > 0) setIdx((prev) => prev - 1);
+        }
+
         containerRef.current.scrollTo({
           left:
             containerRef.current.scrollLeft +
@@ -102,20 +114,21 @@ export default function HomePage() {
       try {
         const response = await getAllGroupAccount();
         if (response.data === null) setTrips([]);
-        else setTrips(response.data); // API로부터 받아온 여행 데이터를 상태에 저장
+        else {
+          setTrips(response.data); // API로부터 받아온 여행 데이터를 상태에 저장
+          setTravelId(response.data[0]?.travelId);
+        }
       } catch (error) {
         setTrips([]);
       } finally {
-        setIsLoading(false);
+        setTimeout(() => setIsLoading(false), 100);
       }
     };
-
     fetchGroupAccounts();
 
     const fetchExchangeRate = async () => {
       try {
         const res = await getExchangeRate();
-        console.log(res.data);
         setExchangeRate(res.data);
       } catch (error) {
         console.log(error);
@@ -123,7 +136,41 @@ export default function HomePage() {
       }
     };
     fetchExchangeRate();
+
+    const fetchGetRecommendReviewInfo = async () => {
+      try {
+        const res = await getRecommendReviewInfo();
+        if (res.status === "SUCCESS") {
+          setRecommendReviews(res.data);
+          setRecommendReviewInfo(res.data[0]);
+          console.log(res.data);
+        } else {
+        }
+      } catch (error) {
+      } finally {
+        setTimeout(() => SetIsImageLoading(false), 200);
+      }
+    };
+    fetchGetRecommendReviewInfo();
   }, []);
+
+  useEffect(() => {
+    if (recommendReviews.length === 0) return;
+    if (idx === recommendReviews.length) return;
+
+    setRecommendReviewInfo(recommendReviews[idx]);
+    if (trips.length > 0) setTravelId(trips[idx]?.travelId);
+  }, [idx]);
+
+  const handleReviewClick = () => {
+    if (localStorage.getItem("accessToken") === null) {
+      showToast("로그인 후 이용해보세요.");
+      navigate("/login");
+      return;
+    }
+
+    navigate(`/trip/${travelId}/review`);
+  };
 
   return (
     <>
@@ -200,31 +247,48 @@ export default function HomePage() {
           <div className={styles.paragraphSmall}>
             {formatTime(new Date())} 환율 기준
           </div>
-          <div className={styles.reviewHeader}>추천 후기</div>
+          <div className={styles.reviewHeaderContainer}>
+            <div className={styles.reviewHeader}>추천 후기</div>
+            <div
+              className={styles.labelSmallReview}
+              onClick={() => handleReviewClick()}
+            >
+              리뷰 보러가기
+            </div>
+          </div>
           <div className={styles.reviewContainer}>
             <div className={styles.review}>
-              <img
-                src={sample1}
-                alt="Sample 1"
-                className={styles.reviewImage}
-              />
-              <div className={styles.place}>준규모리현 벚꽃공원</div>
-            </div>
-            <div className={styles.review}>
-              <img
-                src={sample2}
-                alt="Sample 2"
-                className={styles.reviewImage}
-              />
-              <div className={styles.place}>오오건건현 스마트료칸</div>
-            </div>
-            <div className={styles.review}>
-              <img
-                src={sample1}
-                alt="Sample 1"
-                className={styles.reviewImage}
-              />
-              <div className={styles.place}>준규모리현 벚꽃공원</div>
+              {isImageLoading && (
+                <>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <ClipLoader />
+                  </div>
+                </>
+              )}
+              {!isImageLoading && (
+                <>
+                  <img
+                    src={recommendReviewInfo?.imageUrl}
+                    alt="Sample 1"
+                    className={styles.reviewImage}
+                  />
+                </>
+              )}
+              <div className={styles.place} style={{ fontSize: "4.44vw" }}>
+                {recommendReviewInfo?.country}
+              </div>
+              <div className={styles.place}>
+                {new Intl.NumberFormat("ko-KR").format(
+                  recommendReviewInfo?.expense
+                )}{" "}
+                원
+              </div>
             </div>
           </div>
         </>

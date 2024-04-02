@@ -25,4 +25,6 @@ public interface MemberService {
 
     MemberSearchDto searchMember(Authentication authentication);
 
+    Long findMemberId(String email);
+
 }
