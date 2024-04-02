@@ -35,4 +35,83 @@
 .tripContainer {
   display: flex;
   gap: 4.44vw;
+  margin-bottom: 12.22vw;
+}
+
+.exchangeContainer {
+  margin-left: 8.87vw;
+}
+
+.paragraphSmall {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 3.33vw;
+  line-height: 160%;
+  color: #898989;
+  text-align: "center";
+  margin-left: 68.5vw;
+  margin-top: 1vw;
+}
+
+.reviewHeader {
+  /* Label/Large */
+
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 5.92vw;
+  line-height: 150%;
+  color: #000000;
+  margin-left: 8.87vw;
+  margin-top: 3.2vw;
+  margin-bottom: 1.11vw;
+}
+
+.reviewContainer {
+  display: flex;
+  gap: 3.33vw;
+  margin-left: 7.7vw;
+  width: 500vw;
+}
+
+.review {
+  width: 85vw;
+  height: 50vh;
+  cursor: pointer;
+}
+
+.reviewImage {
+  width: 100%;
+  height: 37.77vw;
+  border-radius: 2.77vw;
+  object-fit: cover;
+}
+
+.place {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 2.77vw;
+  line-height: 150%;
+  text-align: left;
+  color: "#000000";
+  margin-top: 0.5vw;
+}
+.reviewHeaderContainer {
+  margin-top: 5vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.labelSmallReview {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 3.35vw;
+  line-height: 150%;
+  color: #898989;
+  margin-top: 2.5vw;
+  margin-right: 10vw;
+  text-decoration: underline;
 }

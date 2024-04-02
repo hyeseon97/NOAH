@@ -263,7 +263,7 @@ public class TradeServiceImpl implements TradeService {
 
         /* 접근권한 */
         Member loginMember = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
-        tradeRepository.isAccessTrade(loginMember.getId(), tradeUpdateClassifyReqDto.getTradeId());
+//        tradeRepository.isAccessTrade(loginMember.getId(), tradeUpdateClassifyReqDto.getTradeId());
         /* ------ */
 
         Trade trade = tradeRepository.findById(tradeUpdateClassifyReqDto.getTradeId()).orElseThrow(TradeNotFoundException::new);

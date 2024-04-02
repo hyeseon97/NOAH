@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as Plus } from "../../assets/Icon/Plus.svg";
+import ClipLoader from "react-spinners/ClipLoader";
+import showToast from "../common/Toast";
 
 const borderStyle = {
   border: "0.277vw solid #E1E1E1",
@@ -63,11 +65,36 @@ const paragraphSmall = {
   textAlign: "center",
 };
 
-export default function Trip({ onClick, isLast = false, fromHome = false }) {
+const loadingStyle = {
+  ...borderStyle,
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+};
+
+export default function Trip({
+  onClick,
+  isLast = false,
+  fromHome = false,
+  groupAccountId,
+  travelId,
+  title,
+  bankName,
+  accountNumber,
+  amount,
+  targetAmount,
+  isLoading = false,
+}) {
   const navigate = useNavigate();
   const handleAccountClick = (e) => {
     e.stopPropagation();
-    navigate("/transfer");
+    navigate(`/transfer/${travelId}`, {
+      state: {
+        title,
+        bankName,
+        accountNumber,
+      },
+    });
   };
   const accountStyle = fromHome
     ? {
@@ -77,38 +104,55 @@ export default function Trip({ onClick, isLast = false, fromHome = false }) {
       }
     : {};
 
+  if (isLoading) {
+    return (
+      <>
+        <div style={loadingStyle}>
+          <ClipLoader />
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       {isLast ? (
-        <div style={lastTripStyle} onClick={() => navigate("/tripcreate")}>
+        <div
+          style={lastTripStyle}
+          onClick={() => {
+            if (localStorage.getItem("accessToken") === null) {
+              showToast("로그인 후 이용해보세요.");
+              navigate("/login");
+              return;
+            }
+            navigate("/tripcreate");
+          }}
+        >
           <Plus style={iconStyle} />
           <div>여행 계획을 세우고, 자금을 모아보세요</div>
         </div>
       ) : (
         <div style={borderStyle} onClick={onClick}>
-          <div style={{ ...labelMedium, marginTop: "3.33vw" }}>
-            B106 여행가자
-          </div>
+          <div style={{ ...labelMedium, marginTop: "3.33vw" }}>{title}</div>
           {fromHome && (
             <div
               style={{ ...paragraphSmall, ...accountStyle }}
               onClick={handleAccountClick}
             >
-              기업 178298390192 입금
+              {bankName} {accountNumber} 입금
             </div>
           )}
           {!fromHome && (
-            <div
-              style={{ ...paragraphSmall, color: "#898989" }}
-              onClick={handleAccountClick}
-            >
-              기업 178298390192
+            <div style={{ ...paragraphSmall, color: "#898989" }}>
+              {bankName} {accountNumber}
             </div>
           )}
           <div style={{ ...labelXL, marginTop: "5vw", marginBottom: "6vw" }}>
-            650,000원
+            {new Intl.NumberFormat("ko-KR").format(amount)}원
           </div>
-          <div style={paragraphSmall}>목표금액: 1,000,000원</div>
+          <div style={paragraphSmall}>
+            목표금액: {new Intl.NumberFormat("ko-KR").format(targetAmount)}원
+          </div>
         </div>
       )}
     </>

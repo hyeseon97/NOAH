@@ -1,0 +1,53 @@
+.inputBorder {
+  border-radius: 2.7vw;
+  border: 0.277vw solid #e1e1e1;
+  backdrop-filter: blur(0.277vw);
+  width: 82.3vw;
+  margin-bottom: 2vw;
+  margin-left: 8.2vw;
+  height: 23.72vw;
+}
+
+.label {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 4vw;
+  line-height: 100%;
+  color: #898989;
+  margin-top: 2.22vw;
+  margin-left: 4.44vw;
+  width: 25.45vw;
+  height: 4.45vw;
+}
+
+.input {
+  outline: none;
+  border: none;
+  text-align: right;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 5.92vw;
+  line-height: 150%;
+}
+
+.button {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 5.92vw;
+  line-height: 150%; /* Heading/Large 경우는 line-height: 140%로 변경 */
+  background-color: #000000;
+  color: white;
+  text-align: center;
+  width: 82.3vw;
+  height: 10vw;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 1.33vw;
+  margin-top: 3.33vw;
+}

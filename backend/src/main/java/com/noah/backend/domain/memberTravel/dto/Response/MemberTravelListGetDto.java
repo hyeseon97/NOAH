@@ -14,7 +14,6 @@ public class MemberTravelListGetDto {
     private Long member_id;
 
     private String memberNickname;
-
     private String memberName;
 //    private Long travel_id;
 

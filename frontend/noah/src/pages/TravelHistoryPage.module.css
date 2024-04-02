@@ -1,0 +1,14 @@
+.headingLarge {
+  margin-top: 50vw;
+  text-align: center;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 5.92vw;
+  line-height: 140%;
+  color: #000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+}

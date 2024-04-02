@@ -49,6 +49,32 @@ public class GroupAccountRepositoryImpl implements GroupAccountRepositoryCustom 
     }
 
     @Override
+    public Optional<GroupAccountInfoDto> getGroupAccountInfoByTravelId(Long travelId) {
+        return Optional.ofNullable(query.select(Projections.constructor(
+                        GroupAccountInfoDto.class,
+                        groupAccount.id.as("groupAccountId"),
+                        groupAccount.travel.id,
+                        groupAccount.travel.title.as("title"),
+                        groupAccount.account.bankName.as("bankName"),
+                        groupAccount.account.accountNumber.as("accountNumber"),
+                        groupAccount.account.amount.as("amount"),
+                        groupAccount.usedAmount,
+                        groupAccount.targetAmount,
+                        groupAccount.targetDate,
+                        groupAccount.perAmount,
+                        groupAccount.paymentDate
+                ))
+                .from(groupAccount)
+                .leftJoin(travel).on(travel.id.eq(groupAccount.travel.id))
+                .leftJoin(account).on(account.id.eq(groupAccount.account.id))
+                .where(groupAccount.travel.id.eq(travelId)
+                        .and(groupAccount.isDeleted.eq(false))
+                        .and(account.isDeleted.eq(false))
+                        .and(travel.isDeleted.eq(false)))
+                .fetchOne());
+    }
+
+    @Override
     public Optional<List<GroupAccountInfoDto>> getGroupAccountListByMemberId(Long memberId) {
         List<Long> travelIds = query.select(memberTravel.travel.id)
                 .from(memberTravel)

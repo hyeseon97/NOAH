@@ -1,0 +1,135 @@
+.tradeHeader {
+  height: 9.86vw;
+  display: flex;
+  align-items: center;
+  padding-left: 3.33vw;
+  padding-right: 3.33vw;
+  gap: 32.67vw;
+  width: 100%;
+}
+.labelMedium {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 4.45vw;
+  line-height: 150%;
+  color: #000000;
+}
+.headerRight {
+  display: flex;
+  justify-content: space-between;
+  width: 35.33vw;
+}
+.labelSmallGray {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 3.35vw;
+  line-height: 150%;
+  color: #898989;
+}
+.labelSmall {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 3.35vw;
+  line-height: 150%;
+  color: #000000;
+}
+.line {
+  width: 100vw;
+  height: 0px;
+  border: 0.277vw rgba(137, 137, 137, 0.3);
+}
+.tradeBox {
+  height: 33.33vw;
+  padding-left: 4.44vw;
+  padding-right: 3.33vw;
+  padding-top: 3.33vw;
+}
+.tradeBoxTop {
+  display: flex;
+  justify-content: space-between;
+}
+.paragraphSmall {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 3.33vw;
+  line-height: 160%;
+  color: #898989;
+}
+.icon {
+  height: 4vw;
+  width: 4vw;
+}
+.tradeBoxMiddle {
+  padding-top: 3.33vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.tradeBoxBottom {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5.55vw;
+  align-items: center;
+}
+.tradeBoxBottomLeft {
+  display: flex;
+  gap: 2.5vw;
+  align-items: center;
+}
+
+.container {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.topContainer {
+  display: flex;
+  gap: 6.67vw;
+  align-items: center;
+  margin-top: 4.44vw;
+  margin-bottom: 8.89vw;
+}
+
+.menuSelect {
+  display: flex;
+  gap: 22.2vw;
+  margin-bottom: 4.44vw;
+}
+
+.graphContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sumContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.line {
+  width: 100vw;
+  height: 0px;
+  border: 0.277vw solid rgba(137, 137, 137, 0.3);
+}
+
+.nonHistory {
+  width: 100vw;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 5.9vw;
+  line-height: 150%;
+  color: #000000;
+}

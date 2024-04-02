@@ -1,0 +1,123 @@
+.goalPageContainer{
+    margin-top: 7.22vw;
+    padding-left: 7.78vw;
+    padding-right: 7.78vw;
+}
+.containerHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 5vw;
+}
+.labelMedium{
+    font-Family: "Pretendard";
+    font-Style: normal;
+    font-Weight: 600;
+    font-Size: 4.45vw;
+    line-Height: 150%;
+    color: #000000;
+}
+.goalContainer{
+    margin-top: 2.22vw;
+    margin-bottom: 5.55vw;
+    border: 0.277vw solid #e1e1e1;
+    backdrop-filter: blur(0.277vw);
+    border-radius: 2.77vw;
+    width: 83vw; 
+    height: 56vw;
+    margin-bottom: 8vw;
+    cursor: pointer;
+    padding-top: 5vw;
+    padding-left: 5vw;
+    padding-right: 5vw;
+}
+.goalColumn{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    height: 11.11vw;
+    margin-top: 1vw;
+    margin-bottom: 1vw;
+}
+
+.labelSmall{
+    font-Family: "Pretendard";
+    font-Style: normal;
+    font-Weight: 600;
+    font-Size: 3.35vw;
+    line-Height: 150%;
+    color: #898989;
+}
+.amount{
+    display: flex;
+    width: 35vw;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1vw;
+    margin-bottom: 1vw;
+}
+.icon{
+    width: 4.44vw;
+    height: 4.44vw;
+}
+.line{
+    margin-top: 1vw;
+    margin-bottom: 1vw;
+    width: 100vw;
+    height: 0px;
+    border: 0.277vw solid rgba(137, 137, 137, 0.3);
+}
+.memberContainer{
+    margin-top: 2.22vw;
+    margin-bottom: 21vw;
+    border: 0.277vw solid #e1e1e1;
+    backdrop-filter: blur(0.277vw);
+    border-radius: 2.77vw;
+    width: 83vw; 
+    height: 55vw;
+    cursor: pointer;
+    padding-top: 4vw;
+    padding-left: 5vw;
+    padding-right: 5vw;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.item{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 15vw;
+    height: 18vw;
+}
+.iconPeople{
+    width: 10vw;
+    height: 10vw;
+}
+.paragraphSmall{
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 3.33vw;
+    line-height: 160%;
+    color: #000000;
+}
+.inputBox{
+    border: 0;
+    font-Family: "Pretendard";
+    font-Style: normal;
+    font-Weight: 600;
+    font-Size: 4.45vw;
+    line-Height: 150%;
+    color: #000000;
+    text-align: right;
+}
+.labelSmallCheck{
+    font-Family: "Pretendard";
+    font-Style: normal;
+    font-Weight: 600;
+    font-Size: 3.35vw;
+    line-Height: 150%;
+    color: #000000;
+    text-decoration: underline;
+}

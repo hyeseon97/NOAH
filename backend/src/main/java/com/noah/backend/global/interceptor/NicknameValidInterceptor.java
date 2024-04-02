@@ -19,6 +19,8 @@ public class NicknameValidInterceptor implements HandlerInterceptor {
         String path = request.getRequestURI();
         UriTemplate template = new UriTemplate("/api/v1/member/nickname");
 
+
+
         if (template.matches(path)) {
             Map<String, String> pathVariables = template.match(path);
             String nickname = pathVariables.get("nickname");

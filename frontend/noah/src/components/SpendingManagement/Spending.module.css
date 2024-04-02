@@ -1,0 +1,62 @@
+.labelMedium {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 4.45vw;
+  line-height: 150%;
+  color: #000000;
+}
+
+.labelSmallGray {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 3.35vw;
+  line-height: 150%;
+  color: #898989;
+}
+
+.line {
+  width: 100vw;
+  height: 0px;
+  border: 0.277vw solid rgba(137, 137, 137, 0.3);
+}
+.tradeBox {
+  height: 33.33vw;
+  padding-left: 4.44vw;
+  padding-right: 3.33vw;
+  padding-top: 3.33vw;
+}
+.tradeBoxTop {
+  display: flex;
+  justify-content: space-between;
+}
+.paragraphSmall {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 3.33vw;
+  line-height: 160%;
+  color: #898989;
+}
+.icon {
+  height: 4vw;
+  width: 4vw;
+}
+.tradeBoxMiddle {
+  padding-top: 3.33vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.tradeBoxBottom {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5.55vw;
+  align-items: center;
+}
+.tradeBoxBottomLeft {
+  display: flex;
+  gap: 2.5vw;
+  align-items: center;
+}

@@ -1,0 +1,77 @@
+.amount {
+  /* label/XXL */
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 7.87vw;
+  line-height: 150%;
+  color: #000000;
+  text-align: center;
+  margin-top: 22.2vw;
+}
+
+.keypad {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 7.87vw;
+  line-height: 150%;
+  color: #000000;
+  text-align: center;
+  width: 17.78vw;
+  height: 17.78vw;
+  border: 1px solid rgba(137, 137, 137, 0.3);
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.keypadLine {
+  display: flex;
+  gap: 8.89vw;
+  margin-bottom: 4.44vw;
+}
+
+.keypadContainer {
+  margin-top: 16.67vw;
+  margin-left: 14.44vw;
+}
+
+.paragraphMedium {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 4.43vw;
+  line-height: 160%;
+  color: black;
+}
+
+.labelLarge {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 5.92vw;
+  line-height: 150%;
+  color: black;
+}
+
+.informationContainer {
+  margin-top: 16.67vw;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.accountBorder {
+  width: 88.8vw;
+  height: 24.4vw;
+  border: 0.277vw solid rgba(137, 137, 137, 0.3);
+  border-radius: 1.38vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 5.57vw;
+}

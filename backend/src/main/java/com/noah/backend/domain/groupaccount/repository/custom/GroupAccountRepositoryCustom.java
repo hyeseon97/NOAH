@@ -11,6 +11,8 @@ public interface GroupAccountRepositoryCustom {
 
     Optional<GroupAccountInfoDto> getGroupAccountInfo(Long groupAccountId);
 
+    Optional<GroupAccountInfoDto> getGroupAccountInfoByTravelId(Long travelId);
+
     Optional<List<GroupAccountInfoDto>> getGroupAccountListByMemberId(Long memberId);
 
     Optional<List<Long>> getGroupAccountIdsByMemberId(Long memberId);

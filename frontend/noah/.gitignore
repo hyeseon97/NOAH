@@ -26,3 +26,55 @@ yarn-error.log*
 *:Zone.Identifier
 *.Zone.Identifier
 *Zone.Identifier
+
+### 노드서버 ###
+data-source.ts
+data-source.js
+
+### 백엔드 ###
+
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+/src/main/resources/application-*.yml
+/src/main/resources/firebase/noah-511a6-firebase-adminsdk-axl07-5b624e81fd.json
+
+/src/main/generated
+
+
+

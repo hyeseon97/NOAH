@@ -1,0 +1,38 @@
+/* DoughnutChart.module.css 수정 */
+.doughnut {
+  width: 50vw;
+  padding-bottom: 50vw; /* 도넛 높이 */
+  margin: 0 auto;
+  border-radius: 50%;
+  position: relative;
+  text-align: center;
+}
+
+.percent {
+  color: black;
+  width: 90%;
+  background: #fff;
+  border-radius: 50%;
+  position: absolute;
+  left: 5%;
+  top: 5%;
+  display: block;
+  margin: auto;
+  font-family: "Pretendard";
+  font-weight: 800;
+  font-size: 7.87vw;
+  padding: calc(45% - 4.47vw) 0;
+  content: ""; /* 이 부분은 더 이상 필요 없으므로 제거 */
+  transform: skew(-0.03deg);
+
+  /* 윗 부분은 아무것도 건들지 않아도 된다. */
+}
+
+.labelXL {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 7.87vw;
+  line-height: 150%;
+  color: #000000;
+}

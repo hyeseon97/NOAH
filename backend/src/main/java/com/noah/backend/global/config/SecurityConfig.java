@@ -34,9 +34,9 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
 
         security
-            .httpBasic(basic -> basic.disable())
-            .csrf(csrf -> csrf.disable())
-            .cors(cors -> cors.disable())
+                .httpBasic(basic -> basic.disable())
+                .csrf(csrf -> csrf.disable())
+//                .cors(cors -> cors.disable())
         ;
 
         security
@@ -69,20 +69,20 @@ public class SecurityConfig {
         ;
 
         security
-            .sessionManagement(sessionManager -> {
-                sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-            })
+                .sessionManagement(sessionManager -> {
+                    sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                })
         ;
 
         security
-            .addFilterBefore(emailVerificationFilter,
-                             UsernamePasswordAuthenticationFilter.class)
-            .addFilterBefore(tokenRefreshRequestFilter,
-                             UsernamePasswordAuthenticationFilter.class)
-            .addFilterBefore(jwtAuthenticationFilter,
-                             UsernamePasswordAuthenticationFilter.class)
-            .addFilterBefore(tokenExceptionFilter,
-                             UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(emailVerificationFilter,
+                        UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(tokenRefreshRequestFilter,
+                        UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter,
+                        UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(tokenExceptionFilter,
+                        UsernamePasswordAuthenticationFilter.class)
         ;
 
         security.exceptionHandling(handlingConfigurer -> {

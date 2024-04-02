@@ -50,6 +50,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         log.info("URI: {} {}", request.getMethod(), request.getRequestURI());
 
+
         /* 토큰 필터 패스: 정의된 URL 패턴에 맞는 경우 토큰 검사를 건너뜁니다. */
         if (shouldFilter(request.getRequestURI())) {
             filterChain.doFilter(request, response);
@@ -57,6 +58,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         String accessToken = tokenService.extractAccessToken(request);
+        System.out.println("토큰"+request + " " + accessToken);
         String refreshToken = cookieUtil.getRefreshTokenValue(request);
 
         boolean accessTokenValid = (accessToken != null) && tokenProvider.validateToken(accessToken);
