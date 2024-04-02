@@ -34,12 +34,17 @@ public class SuggestController {
 		return response.success(ResponseCode.SUGGEST_FETCHED, result);
 	}
 
-	//여행 썸네일은 메소드만 만들었습니다.
-	@Operation(summary = "여행 추천 목록 조회", description = "여행 추천 목록 조회")
+	@Operation(summary = "여행 추천 목록 조회(로그인)", description = "여행 추천 목록 조회(로그인)")
 	@GetMapping("/{travelId}")
-	public ResponseEntity<?> getSuggestList(@PathVariable(name = "travelId") Long travelId,
-											@RequestParam(name = "page") int page) {
-		List<SuggestListResDto> suggestList = suggestService.getSuggestList(travelId, page);
+	public ResponseEntity<?> loginGetSuggestList(@PathVariable(name = "travelId") Long travelId) {
+		List<SuggestListResDto> suggestList = suggestService.loginGetSuggestList(travelId);
 		return response.success(ResponseCode.SUGGEST_FETCHED, suggestList);
+	}
+
+	@Operation(summary = "여행 추천 목록 조회(비로그인)", description = "여행 추천 목록 조회(비로그인)")
+	@GetMapping("/nonlogin")
+	public ResponseEntity<?> nonLoginGetSuggestList() {
+		SuggestListResDto suggestOne = suggestService.nonLoginGetSuggestList();
+		return response.success(ResponseCode.SUGGEST_FETCHED, suggestOne);
 	}
 }
