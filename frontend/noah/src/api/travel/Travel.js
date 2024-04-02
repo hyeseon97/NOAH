@@ -27,3 +27,12 @@ export async function travelMemberInvite(object) {
     throw error;
   }
 }
+
+export async function getAllTravel() {
+  try {
+    const response = await axiosAPI.get(commonUrl);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}

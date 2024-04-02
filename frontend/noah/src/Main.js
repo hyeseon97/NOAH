@@ -29,6 +29,7 @@ import MyAccountPage from "./pages/MyAccountPage";
 import ReviewPage from "./pages/ReviewPage";
 import ReviewDetailPage from "./pages/ReviewDetailPage";
 import ReviewCreatePage from "./pages/ReviewCreatePage";
+import MarketPage from "./pages/MarketPage";
 
 export default function Main() {
   return (
@@ -78,7 +79,9 @@ export default function Main() {
             element={<AutomaticWithdrawalSettingPage />}
           />
         </Route>
+        <Route path="error" element={<ErrorPage />}></Route>
         <Route path="*" element={<WelcomePage />}></Route>
+        <Route path="market" element={<MarketPage />}></Route>
       </Routes>
     </BrowserRouter>
   );
