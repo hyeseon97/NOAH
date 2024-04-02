@@ -22,7 +22,7 @@ public class Image extends BaseEntity {
     @Column(name = "image_id")
     private Long id;
 
-    @Column(name = "url")
+    @Column(name = "url", length = 3000)
     private String url;
 
     @Setter
