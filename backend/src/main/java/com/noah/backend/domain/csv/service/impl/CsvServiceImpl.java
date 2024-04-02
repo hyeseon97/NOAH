@@ -42,16 +42,24 @@ public class CsvServiceImpl implements CsvService {
 					.startDate(dateFormat.parse(line[3]))
 					.endDate(dateFormat.parse(line[4]))
 					.build();
-			Image image = Image.builder()
-					.review(review)
-					.url(line[5])
-					.build();
-			System.out.println(String.join(",", line));
+
 			try {
 				reviewRepository.save(review);
-				imageRepository.save(image);
-			}catch (Exception e){
+			} catch (Exception e) {
 				throw new CsvCreateFailedException(); //리뷰 또는 이미지가 저장되지않았다면 예외 발생
+			}
+
+			for(int i=5; i<8; i++) {
+				Image image = Image.builder()
+						.review(review)
+						.url(line[i])
+						.build();
+				System.out.println(String.join(",", line));
+				try {
+					imageRepository.save(image);
+				} catch (Exception e) {
+					throw new CsvCreateFailedException(); //리뷰 또는 이미지가 저장되지않았다면 예외 발생
+				}
 			}
 		}
 	}
