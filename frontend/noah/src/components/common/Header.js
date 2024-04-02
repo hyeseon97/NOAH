@@ -71,6 +71,7 @@ export default function Header({
           <div onClick={handleLeftIconClick}>
             {LeftIcon === "Arrow" && <Arrow style={iconStyle} />}
             {LeftIcon === "Cancel" && <Cancel style={iconStyle} />}
+            {LeftIcon === "none" && <div style={iconStyle} />}
           </div>
           <div style={Title.length <= 12 ? headingStyle : headingSmallStyle}>
             {Title}

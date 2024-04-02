@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Header from "./../components/common/Header";
 
 export default function MarketPage() {
   const [name, setName] = useState("");
@@ -18,6 +19,7 @@ export default function MarketPage() {
 
   return (
     <>
+      <Header LeftIcon="none" Title="결제 승인" />
       <input onChange={handleNameChange} value={name} />
       <input onChang={handlePriceChange} value={price} />
       <div onClick={handleClickPayment}>결제</div>

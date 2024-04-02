@@ -80,8 +80,8 @@ export default function Main() {
           />
         </Route>
         <Route path="error" element={<ErrorPage />}></Route>
-        <Route path="*" element={<WelcomePage />}></Route>
         <Route path="market" element={<MarketPage />}></Route>
+        <Route path="*" element={<WelcomePage />}></Route>
       </Routes>
     </HashRouter>
   );

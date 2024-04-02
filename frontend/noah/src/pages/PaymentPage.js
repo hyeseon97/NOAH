@@ -12,6 +12,8 @@ export default function PaymentPage() {
   useEffect(() => {
     const getQR = async () => {
       const res = await getQRImage(travelId);
+      setImageUrl(`data:image/png;base64,${res}`);
+      console.log(res);
     };
 
     getQR();
