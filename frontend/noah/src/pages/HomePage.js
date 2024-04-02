@@ -21,7 +21,7 @@ export default function HomePage() {
   const [krwAmount, setKrwAmount] = useState();
   const [foreignAmount, setForeignAmount] = useState("1");
   const [currency, setCurrency] = useState("USD");
-  const [travelId, setTravelId] = useState("");
+  const [travelId, setTravelId] = useState(0);
   const [recommendReviewInfo, setRecommendReviewInfo] = useState([]);
   const [recommendReviews, setRecommendReviews] = useState([]);
   const [idx, setIdx] = useState(0);
@@ -66,9 +66,9 @@ export default function HomePage() {
       if (containerRef.current) {
         const direction = moveDistance > 0 ? 1 : -1;
         if (moveDistance > 0) {
-          setIdx((prev) => prev + 1);
+          if (idx < trips.length) setIdx((prev) => prev + 1);
         } else if (moveDistance < 0) {
-          setIdx((prev) => prev - 1);
+          if (idx > 0) setIdx((prev) => prev - 1);
         }
 
         containerRef.current.scrollTo({
@@ -114,7 +114,10 @@ export default function HomePage() {
       try {
         const response = await getAllGroupAccount();
         if (response.data === null) setTrips([]);
-        else setTrips(response.data); // API로부터 받아온 여행 데이터를 상태에 저장
+        else {
+          setTrips(response.data); // API로부터 받아온 여행 데이터를 상태에 저장
+          setTravelId(response.data[0]?.travelId);
+        }
       } catch (error) {
         setTrips([]);
       } finally {
@@ -140,23 +143,34 @@ export default function HomePage() {
         if (res.status === "SUCCESS") {
           setRecommendReviews(res.data);
           setRecommendReviewInfo(res.data[0]);
+          console.log(res.data);
         } else {
         }
       } catch (error) {
       } finally {
-        SetIsImageLoading(false);
+        setTimeout(() => SetIsImageLoading(false), 200);
       }
     };
     fetchGetRecommendReviewInfo();
   }, []);
 
   useEffect(() => {
-    console.log(idx);
     if (recommendReviews.length === 0) return;
     if (idx === recommendReviews.length) return;
 
     setRecommendReviewInfo(recommendReviews[idx]);
+    if (trips.length > 0) setTravelId(trips[idx]?.travelId);
   }, [idx]);
+
+  const handleReviewClick = () => {
+    if (localStorage.getItem("accessToken") === null) {
+      showToast("로그인 후 이용해보세요.");
+      navigate("/login");
+      return;
+    }
+
+    navigate(`/trip/${travelId}/review`);
+  };
 
   return (
     <>
@@ -237,7 +251,7 @@ export default function HomePage() {
             <div className={styles.reviewHeader}>추천 후기</div>
             <div
               className={styles.labelSmallReview}
-              onClick={() => navigate(`/trip/${travelId}/review`)}
+              onClick={() => handleReviewClick()}
             >
               리뷰 보러가기
             </div>
@@ -251,7 +265,6 @@ export default function HomePage() {
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                      height: "10vh",
                     }}
                   >
                     <ClipLoader />
@@ -261,14 +274,21 @@ export default function HomePage() {
               {!isImageLoading && (
                 <>
                   <img
-                    src={recommendReviewInfo.imageUrl}
+                    src={recommendReviewInfo?.imageUrl}
                     alt="Sample 1"
                     className={styles.reviewImage}
                   />
                 </>
               )}
-
-              <div className={styles.place}>{recommendReviewInfo.country}</div>
+              <div className={styles.place} style={{ fontSize: "4.44vw" }}>
+                {recommendReviewInfo?.country}
+              </div>
+              <div className={styles.place}>
+                {new Intl.NumberFormat("ko-KR").format(
+                  recommendReviewInfo?.expense
+                )}{" "}
+                원
+              </div>
             </div>
           </div>
         </>
