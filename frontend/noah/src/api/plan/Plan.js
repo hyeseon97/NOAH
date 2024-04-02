@@ -21,7 +21,7 @@ export async function updatePlanStart(planId, object) {
   }
 }
 /* 계획 작성 */
-export async function cretePlan(object) {
+export async function createPlan(object) {
   try {
     const res = await axiosAPI.post(commonUrl, object);
     return res.data;
