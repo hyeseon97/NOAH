@@ -13,6 +13,7 @@ export default function PaymentPage() {
     const getQR = async () => {
       const res = await getQRImage(travelId);
       setImageUrl(`data:image/png;base64,${res}`);
+      console.log(res);
     };
 
     getQR();
@@ -21,7 +22,6 @@ export default function PaymentPage() {
   return (
     <>
       <Header LeftIcon="Arrow" Title="결제" />
-      <div>{imageUrl}</div>
       {imageUrl !== null && (
         <>
           <div>
