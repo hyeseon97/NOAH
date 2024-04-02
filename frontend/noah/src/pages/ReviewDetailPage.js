@@ -96,15 +96,26 @@ export default function ReviewDetailPage() {
           </div>
         </div>
         <div className={styles.imgBox}>
-          {imgList.map((img, index) => (
+          {imgList.length === 1 ? (
+            // 이미지가 하나일 경우
             <img
-              key={index}
-              src={img.url}
-              alt={`Review ${index}`}
-              className={styles.reviewImage}
-              onClick={() => handleImageClick(img.url)} // 이미지 클릭 시 핸들러 호출
+              src={imgList[0].url}
+              alt="Review Image"
+              className={styles.singleImage} // 새로운 스타일 적용
+              onClick={() => handleImageClick(imgList[0].url)}
             />
-          ))}
+          ) : (
+            // 이미지가 여러 개일 경우
+            imgList.map((img, index) => (
+              <img
+                key={index}
+                src={img.url}
+                alt={`Review ${index}`}
+                className={styles.reviewImage}
+                onClick={() => handleImageClick(img.url)}
+              />
+            ))
+          )}
         </div>
         {expandedImg && (
           <div
