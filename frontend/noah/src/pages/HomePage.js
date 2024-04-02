@@ -264,7 +264,14 @@ export default function HomePage() {
             </div>
           </div>
           <div className={styles.reviewContainer}>
-            <div className={styles.review}>
+            <div
+              className={styles.review}
+              onClick={() =>
+                navigate(
+                  `/trip/${travelId}/review/${recommendReviewInfo.reviewId}`
+                )
+              }
+            >
               {isImageLoading && (
                 <>
                   <div
