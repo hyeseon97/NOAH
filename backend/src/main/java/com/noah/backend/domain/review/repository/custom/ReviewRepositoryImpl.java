@@ -99,9 +99,21 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
         return reviewCount;
     }
 
-    //인당 환산값보다 낮은 리뷰를 제공
+    //인당 환산값보다 낮은 리뷰 한개를 제공
     @Override
-    public Optional<List<SuggestListResDto>> getSuggestReview(int priceOfPerson, Pageable pageable) {
+    public Optional<SuggestListResDto> getSuggestReviewOne(int priceOfPerson) {
+        return  Optional.ofNullable(query.select(
+                        Projections.constructor(SuggestListResDto.class, review.id, review.expense, review.country, review.people,
+                                review.startDate, review.endDate))
+                .from(review)
+                .where(review.expense.divide(review.people).loe(priceOfPerson))
+                .orderBy(review.expense.divide(review.people).desc())
+                .fetchFirst());
+    }
+
+    //인당 환산값보다 낮은 리뷰 여러개를 제공
+    @Override
+    public Optional<List<SuggestListResDto>> getSuggestReviewList(int priceOfPerson, Pageable pageable) {
 
         return Optional.ofNullable(query.select(
                                             Projections.constructor(SuggestListResDto.class, review.id, review.expense, review.country, review.people,
