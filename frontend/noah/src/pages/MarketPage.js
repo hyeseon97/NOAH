@@ -77,7 +77,7 @@ export default function MarketPage() {
           justifyContent: "center",
           alignItems: "center",
           width: "100vw",
-          height: "40vh",
+          height: "30vh",
         }}
       >
         <Store style={{ width: "35.5vw", height: "35.5vw" }} />
