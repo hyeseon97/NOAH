@@ -130,15 +130,14 @@ export default function HomePage() {
         const res = await getRecommendReviewInfo();
         if (res.status === "SUCCESS") {
           console.log("성공", res.data);
-          setRecommendReviewInfo(res.data);
+          setRecommendReviewInfo(res.data[0]);
         } else {
           console.log(res);
         }
       } catch (error) {
         console.log(error);
       } finally {
-        setTimeout(() => setIsLoading(false), 1000);
-        console.log("실험용" + recommendReviewInfo);
+        setTimeout(() => setIsLoading(false), 100);
       }
     };
     fetchGetRecommendReviewInfo();
