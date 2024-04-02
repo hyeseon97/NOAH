@@ -3,6 +3,12 @@
     padding-left: 7.78vw;
     padding-right: 7.78vw;
 }
+.containerHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 5vw;
+}
 .labelMedium{
     font-Family: "Pretendard";
     font-Style: normal;
@@ -105,4 +111,13 @@
     line-Height: 150%;
     color: #000000;
     text-align: right;
+}
+.labelSmallCheck{
+    font-Family: "Pretendard";
+    font-Style: normal;
+    font-Weight: 600;
+    font-Size: 3.35vw;
+    line-Height: 150%;
+    color: #000000;
+    text-decoration: underline;
 }

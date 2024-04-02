@@ -14,7 +14,7 @@ public interface TicketService {
 
     TicketGetDto getTicketSelect(Long ticketId);
 
-    Long createTicket(TicketPostDto ticketDto);
+    Long createTicket(TicketPostDto ticketDto, Long travelId);
 
     Long updateTicket(Long ticketId, TicketUpdateDto ticketDto);
 

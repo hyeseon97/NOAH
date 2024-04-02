@@ -102,11 +102,13 @@ export default function TripPage() {
         Title={travelInfo.title}
         onClick={handleLeftIconClick}
       />
-      <div style={{ marginTop: "6.67vw", cursor: "pointer" }}>
+      <div
+        style={{ marginTop: "6.67vw", cursor: "pointer" }}
+        onClick={handleDetailClick}
+      >
         <DoughnutChart percent={percent} />
         <div
           className={styles.detailParagraph}
-          onClick={handleDetailClick}
           style={{
             zIndex: "100",
             position: "relative",

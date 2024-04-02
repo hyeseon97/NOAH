@@ -1,7 +1,15 @@
 import Stick from "../common/Stick";
 import Dropdown from "../common/Dropdown";
 import { useState, useEffect } from "react";
-export default function Exchange() {
+export default function Exchange({
+  exchangeRateInfo,
+  krwAmount,
+  foreignAmount,
+  setKrwAmount,
+  setForeignAmount,
+  currency,
+  setCurrency,
+}) {
   const borderStyle = {
     border: "0.277vw solid #E1E1E1",
     backdropFilter: "blur(0.277vw)",
@@ -64,17 +72,13 @@ export default function Exchange() {
     textAlign: "right",
   };
 
-  const [currency, setCurrency] = useState("USD");
-  const [krwAmount, setKrwAmount] = useState("1350.01");
-  const [foreignAmount, setForeignAmount] = useState("1");
-
   // KRW 1원일 때의 환율
   const exchangeRates = {
-    USD: 0.00074,
+    USD: 1 / exchangeRateInfo.usd,
     KRW: 1,
-    CNY: 0.0054,
-    EUR: 0.00068,
-    JPY: 0.11,
+    CNY: 1 / exchangeRateInfo.cny,
+    EUR: 1 / exchangeRateInfo.eur,
+    JPY: 1 / exchangeRateInfo.jpy,
   };
 
   // 화폐 단위 표시를 위한 데이터
@@ -118,14 +122,16 @@ export default function Exchange() {
   };
 
   useEffect(() => {
-    // 환율정보 받아오는 API
-  }, []);
+    console.log(exchangeRateInfo.usd);
+    setKrwAmount(exchangeRateInfo.usd);
+    setForeignAmount("1");
+  }, []); // `exchangeRateInfo` 상태가 변경될 때마다 이 효과를 재실행
 
   useEffect(() => {
     const newKrwAmount =
       foreignAmount / exchangeRates[currency] / exchangeRates["KRW"];
     setKrwAmount(newKrwAmount.toFixed(2));
-  }, [currency]);
+  }, [currency, exchangeRates.USD]);
 
   return (
     <>
