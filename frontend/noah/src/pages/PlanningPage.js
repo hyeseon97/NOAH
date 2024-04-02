@@ -18,6 +18,7 @@ import {
   createDetailPlan,
 } from "../api/detailplan/DetailPlan";
 import { useNavigate } from "react-router-dom";
+import { getPlanDetail } from "../api/plan/Plan";
 
 const getTimeFromString = (dateTimeString) => {
   const date = new Date(dateTimeString);
@@ -33,15 +34,7 @@ export default function PlanningPage() {
   let { travelId, planId } = useParams();
   const [currentDate, setCurrentDate] = useState("");
 
-  const [plan, setPlan] = useState({
-    id: 1,
-    title: "오사카 일본",
-    start_date: "2024/03/21",
-    end_date: "2024/03/24",
-    travel_start: false,
-    country: "일본",
-    travel_id: 1,
-  });
+  const [plan, setPlan] = useState({});
 
   const [plane, setPlane] = useState({
     id: 1,
@@ -122,6 +115,20 @@ export default function PlanningPage() {
   };
 
   useEffect(() => {
+    const fetchPlanInfo = async () => {
+      try {
+        const res = await getPlanDetail(travelId);
+        if (res.status === "SUCCESS") {
+          console.log(res.data);
+          setPlan(res.data);
+        } else {
+          console.log(res);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchPlanInfo();
     loadDetailPlan();
   }, []);
 
@@ -143,9 +150,10 @@ export default function PlanningPage() {
       <Header LeftIcon="Arrow" Title="계획" />
       <div className={style.headStyle}>
         <div>
-          <div className={style.bigFont}>{plan.title}</div>
+          <div className={style.bigFont}>{plan.country}</div>
           <div className={style.middleFont}>
-            {plan.start_date} ~ {plan.end_date}
+            {getFormattedDate(plan.startDate)} ~{" "}
+            {getFormattedDate(plan.endDate)}
           </div>
         </div>
         <Edit className={style.editButton} />
@@ -161,8 +169,8 @@ export default function PlanningPage() {
         <Next className={style.nextButton} />
       </div> */}
       <DayCalculate
-        startDate={plan.start_date}
-        endDate={plan.end_date}
+        startDate={plan.startDate}
+        endDate={plan.endDate}
         onDayChange={handleDayChange}
       />
       <div>

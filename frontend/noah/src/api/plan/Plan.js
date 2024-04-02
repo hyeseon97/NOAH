@@ -30,9 +30,9 @@ export async function createPlan(object) {
   }
 }
 /* 계획 상세 조회 */
-export async function getPlanDetail(planId) {
+export async function getPlanDetail(travelId) {
   try {
-    const res = await axiosAPI.get(commonUrl + `/${planId}`);
+    const res = await axiosAPI.get(commonUrl + `/${travelId}`);
     return res.data;
   } catch (error) {
     throw error;
