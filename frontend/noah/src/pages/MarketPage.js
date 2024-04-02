@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import Header from "./../components/common/Header";
 import { ReactComponent as Store } from "./../assets/Icon/Store.svg";
-import Button from "../components/common/Button";
 import styles from "./MarketPage.module.css";
 import showToast from "../components/common/Toast";
 import { withdrawByQR } from "../api/payment/Payment";
@@ -10,6 +9,7 @@ export default function MarketPage() {
   const [name, setName] = useState("");
   const [rawPrice, setRawPrice] = useState(""); // 실제 숫자 값을 저장하는 상태
   const [displayPrice, setDisplayPrice] = useState(""); // 화면에 표시될 포맷된 값
+  const [warningText, setWarningText] = useState("");
 
   useEffect(() => {
     // rawPrice가 변경될 때마다 displayPrice를 업데이트
@@ -25,7 +25,6 @@ export default function MarketPage() {
   const handleNameChange = (e) => {
     const value = e.target.value;
     if (value.length > 20) {
-      showToast("20자 까지만 입력 가능합니다.");
       return;
     }
 
@@ -37,22 +36,36 @@ export default function MarketPage() {
     if (name.length === 0 || rawPrice.length === 0) {
       return;
     }
+    const hash = window.location.hash;
 
-    const queryString = window.location.search;
+    const queryString = hash.substring(hash.indexOf("?") + 1);
 
-    const urlParams = new URLSearchParams(queryString);
+    const params = new URLSearchParams(queryString);
 
-    const memberId = urlParams.get("memberId");
-    const travelId = urlParams.get("travelId");
+    const memberId = params.get("memberId");
+    const travelId = params.get("travelId");
 
     const res = await withdrawByQR({
       memberId: memberId,
       travelId: travelId,
-      transactioinBalance: name,
-      transactionSummary: rawPrice,
+      transactionBalance: rawPrice,
+      transactionSummary: name,
     });
-
     console.log(res);
+    if (res.status === "SUCCESS") {
+      setWarningText("");
+    } else {
+      setWarningText("결제가 거절되었습니다.");
+    }
+  };
+
+  const warningStyle = {
+    fontFamily: "Pretendard",
+    fontStyle: "normal",
+    lineHeight: "160%",
+    color: "#E11900",
+    fontSize: "3.3vw",
+    marginLeft: "8vw",
   };
 
   return (
@@ -98,6 +111,8 @@ export default function MarketPage() {
           <div style={{ height: "100%", width: "4.44vw" }}></div>
         </div>
       </div>
+
+      <div style={warningStyle}>{warningText}</div>
       <div className={styles.button} onClick={handleClickPayment}>
         결제 승인
       </div>
