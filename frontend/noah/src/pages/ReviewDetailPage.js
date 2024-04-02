@@ -109,7 +109,7 @@ export default function ReviewDetailPage() {
           <div className={styles.line}></div>
           <div className={styles.commentBox}>
             <User />
-            <div className={styles.labelSmall}>{comment[0].content}</div>
+            <div className={styles.labelSmall}>{comment[0]?.content}</div>
           </div>
         </div>
       </div>
