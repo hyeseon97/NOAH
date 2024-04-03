@@ -1,36 +1,46 @@
+.planContainer{
+  margin-top: 6vw;
+  margin-left: 4.17vw;
+  margin-right: 4.17vw;
+}
 .headStyle {
-  height: 50px;
-  margin: 10px;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-left: 4.17vw;
+  margin-right: 4.17vw;
+  margin-bottom: 4.44vw;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  align-items: beetween;
+  align-items: center;
 }
 
-.bigFont {
+.labelLarge{
   font-family: "Pretendard";
   font-style: normal;
-  font-weight: 700;
-  font-size: 5.2vw;
-  line-height: 140%;
+  font-weight: 600;
+  font-size: 5.92vw;
+  line-height: 150%;
+  color: #000000;
+}
+.labelMedium{
+  font-Family: "Pretendard";
+  font-Style: normal;
+  font-Weight: 600;
+  font-Size: 4.45vw;
+  line-Height: 150%;
+  color: #000000;
 }
 
-.middleFont {
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 4.6vw;
-  line-height: 140%;
+.editButton{
+  width: 5vw;
+  height: 5vw;
 }
 
-.smallFont {
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 3.0vw;
-  line-height: 140%;
+.labelSmall{
+  font-Family: "Pretendard";
+  font-Style: normal;
+  font-Weight: 600;
+  font-Size: 3.35vw;
+  line-Height: 150%;
+  color: #000000;
 }
 
 .smallBoldFont {
@@ -40,7 +50,15 @@
   font-size: 3.9vw;
   line-height: 140%;
 }
-
+.dayBox{
+  text-align: center;
+}
+.previousButton {
+  transform: rotate(90deg);
+}
+.nextButton {
+  transform: rotate(270deg);
+}
 .midStyle {
   height: 50px;
   margin: 10px;
@@ -100,19 +118,7 @@
   border-radius: 5px;
 }
 
-.previousButton {
-  transform: rotate(90deg);
-}
 
-.nextButton {
-  transform: rotate(270deg);
-}
-
-.editButton {
-  margin-top: 23px;
-  width: 25px;
-  height: 25px;
-}
 
 .boxStyle .trashCanButton {
   position: absolute; /* 절대 위치 설정 */

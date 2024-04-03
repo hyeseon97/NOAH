@@ -31,7 +31,7 @@ export default function PlaneSearchPage() {
     setDepartureAirPort(value);
   };
   const handleDate = (e) => {
-     const value = e.target.value
+    const value = e.target.value;
     setBoarderDate(value);
   };
 
@@ -84,7 +84,12 @@ export default function PlaneSearchPage() {
     const departureDate = new Date(departureTime).toISOString();
     const arrivalDate = new Date(arrivalTime).toISOString();
 
-    console.log(departureDate, arrivalDate, departureAirport, arrivalAirport + "testestestset" + " travelId" + travelId);
+    console.log(
+      departureDate,
+      arrivalDate,
+      departureAirport,
+      arrivalAirport + "testestestset" + " travelId" + travelId
+    );
 
     const object = {
       departure: date,
@@ -166,15 +171,15 @@ export default function PlaneSearchPage() {
               </div>
               <div className={styles.middleStyle}>
                 <div>
-                  <div>{plane.a_airport}</div>
-                  <div>{extractTime(plane.a_time)} 출발</div>
+                  <div>{plane.d_airport}</div>
+                  <div>{extractTime(plane.d_time)} 출발</div>
                 </div>
                 <div>
                   <SmallPlane />
                 </div>
                 <div>
-                  <div>{plane.d_airport}</div>
-                  <div>{extractTime(plane.d_time)} 도착</div>
+                  <div>{plane.a_airport}</div>
+                  <div>{extractTime(plane.a_time)} 도착</div>
                 </div>
               </div>
               <div
