@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { uplodaImage } from "../../api/image/Image";
 import { createReview } from "../../api/review/Review";
 import showToast from "../common/Toast";
 import ReviewModal from "../trip/ReviewModal";
 import { useNavigate } from "react-router-dom";
+import { useRef } from "react";
 
 const container = {
   width: "100vw",
@@ -63,9 +64,13 @@ export default function TravelHistory({ travel, fetchTravels }) {
   const [files, setFiles] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
+  const fileInputRef = useRef(null); // 파일 입력을 위한 ref 추가
 
   const handleFileChange = (event) => {
     setFiles(event.target.files);
+  };
+  const handleFileSelectClick = () => {
+    fileInputRef.current.click(); // 파일 입력 클릭 이벤트를 실제로 발생시킴
   };
 
   const handleReviewNav = () => {
@@ -75,25 +80,29 @@ export default function TravelHistory({ travel, fetchTravels }) {
   const upload = async () => {
     const formData = new FormData();
 
-    if (!files) {
-      showToast("사진을 함께 넣어주세요.");
-      return;
-    } else {
-      formData.append("images", files[0]);
-    }
+    formData.append("images", files[0]);
+
     try {
       const res = await uplodaImage(formData);
       const object = {
         travelId: travel.travelId,
         imageIdList: res.imageIds,
       };
-      const response = await createReview(object);
+      await createReview(object);
       fetchTravels();
+      showToast("후기가 성공적으로 업로드되었습니다."); // 성공 메시지 추가
     } catch (error) {
       showToast("계획을 설정하지 않은 여행은 후기를 작성할 수 없습니다.");
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    // 파일이 선택된 후에만 업로드를 시도합니다.
+    if (files) {
+      upload();
+    }
+  }, [files]);
 
   const handleReviewClick = () => {
     setIsModalOpen(true);
@@ -128,10 +137,13 @@ export default function TravelHistory({ travel, fetchTravels }) {
               {travel.people}명
             </div>
             {travel.reviewId === null && (
-              <div style={review} onClick={upload}>
+              <div style={review} onClick={handleFileSelectClick}>
+                {" "}
+                {/* 파일 선택을 위한 클릭 이벤트 핸들러 업데이트 */}
                 후기 작성
                 <input
                   type="file"
+                  ref={fileInputRef}
                   onChange={handleFileChange}
                   multiple
                   style={{ display: "none" }}
