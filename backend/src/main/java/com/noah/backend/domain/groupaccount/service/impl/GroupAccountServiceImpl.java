@@ -22,6 +22,8 @@ import com.noah.backend.domain.memberTravel.Repository.MemberTravelRepository;
 import com.noah.backend.domain.memberTravel.dto.Response.GetTravelListResDto;
 import com.noah.backend.domain.memberTravel.dto.Response.MemberTravelListGetDto;
 import com.noah.backend.domain.memberTravel.entity.MemberTravel;
+import com.noah.backend.domain.trade.entity.Trade;
+import com.noah.backend.domain.trade.repository.TradeRepository;
 import com.noah.backend.domain.travel.entity.Travel;
 import com.noah.backend.domain.travel.repository.TravelRepository;
 import com.noah.backend.global.exception.account.AccountNotFoundException;
@@ -33,6 +35,8 @@ import com.noah.backend.global.exception.membertravel.MemberTravelNotFoundExcept
 import com.noah.backend.global.exception.travel.TravelMemberNotFoundException;
 import com.noah.backend.global.exception.travel.TravelNotFoundException;
 import jakarta.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -58,6 +62,7 @@ public class GroupAccountServiceImpl implements GroupAccountService {
     private final MemberRepository memberRepository;
     private final BankService bankService;
     private final AccountService accountService;
+    private final TradeRepository tradeRepository;
 
     @Transactional
     @Override
@@ -242,6 +247,32 @@ public class GroupAccountServiceImpl implements GroupAccountService {
         int total = previous + amount;
         memberTravel.setPayment_amount(total);
         memberTravelRepository.save(memberTravel);
+
+
+        // ====================================================
+        // 거래내역 바로 생성
+
+        LocalDateTime now = LocalDateTime.now();
+
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmmss");
+
+        String createdDate = now.format(dateTimeFormatter);
+        String createdTime = now.format(timeFormatter);
+
+        Trade trade = Trade.builder()
+            .type(1)
+            .name(member.getName())
+            .member(member)
+            .date(createdDate)
+            .time(createdTime)
+            .cost(depositReqDto.getAmount())
+            .amount(account.getAmount()+depositReqDto.getAmount())
+            .account(account)
+            .build();
+        tradeRepository.save(trade);
+
+        // ====================================================
     }
 
     // 자동계좌이체

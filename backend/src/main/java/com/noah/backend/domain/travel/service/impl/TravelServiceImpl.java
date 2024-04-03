@@ -83,7 +83,7 @@ public class TravelServiceImpl implements TravelService {
         // 조회 시점
         String endDate = LocalDateTime.now().format(dateTimeFormatter);
 
-        tradeService.fetchAndSaveTradeHistory(account, createdDate, endDate);
+//        tradeService.fetchAndSaveTradeHistory(account, createdDate, endDate);
 
         TravelGetDto travelGetDto = travelRepository.getTravelSelect(travelId).orElseThrow(TravelNotFoundException::new);
 
