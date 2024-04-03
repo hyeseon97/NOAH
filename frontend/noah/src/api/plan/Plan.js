@@ -4,7 +4,7 @@ const commonUrl = "/api/v1/plan";
 /* 계획 수정 */
 export async function updatePlan(object) {
   try {
-    console.log(object + "test")
+    console.log(object)
     const res = await axiosAPI.put(commonUrl, object);
     return res.data;
   } catch (error) {

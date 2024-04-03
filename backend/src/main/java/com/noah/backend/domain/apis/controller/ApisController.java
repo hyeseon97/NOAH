@@ -46,14 +46,10 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
-<<<<<<< HEAD
-import org.springframework.web.bind.annotation.*;
-=======
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
->>>>>>> 540f63570b9f423246c6421aac88511d3ef84bb9
 
 @RestController
 @RequiredArgsConstructor
@@ -63,11 +59,7 @@ public class ApisController {
     private final ApiResponse apiResponse;
     private final FlightService flightService;
     private final ForeignCurrencyService foreignCurrencyService;
-<<<<<<< HEAD
-    private String accesstoken = "MApQcubtgysc6kap9jjMLkk6IWUg";
-=======
     private String accesstoken = "BgvYFm1UjQPnyKOMdzrG1hZYI8nQ";
->>>>>>> 540f63570b9f423246c6421aac88511d3ef84bb9
 
     @Scheduled(fixedDelay = 1500000)
     @Operation(summary = "아마데우스 토큰 갱신")
@@ -111,22 +103,6 @@ public class ApisController {
 //        accesstoken = jsonObject.getString("access_token");
     }
 
-<<<<<<< HEAD
-    @GetMapping("/flight-offers")
-    public ResponseEntity findFlightOffers(@RequestBody FlightOffersDto flightOffersDto) throws IOException, InterruptedException {
-        // test code
-//        FlightOffersDto flightOffersDto = FlightOffersDto.builder()
-//            .originLocationCode("인천")
-//            .destinationLocationCode("후쿠오카")
-//            .departureDate(LocalDate.of(2024, 5, 12))
-//            .adults(3)
-//            .build();
-//        //
-        JSONObject jsonObject;
-        try {
-            jsonObject = flightService.findFlightOffers(accesstoken, flightOffersDto);
-            System.out.println(jsonObject.toString());
-=======
     @GetMapping("flight-offers")
     @Operation(summary = "항공권 탐색")
     public ResponseEntity findFlightOffers(@RequestParam String originLocationCode,
@@ -142,7 +118,6 @@ public class ApisController {
         List<ResponseFlightOffersDto> list;
         try {
             list = flightService.findFlightOffers(accesstoken, flightOffersDto);
->>>>>>> 540f63570b9f423246c6421aac88511d3ef84bb9
         }
         catch (RequiredFilledException e) {
             e.printStackTrace();
@@ -170,11 +145,7 @@ public class ApisController {
         return Files.readAllBytes(Path.of(resource.getURI()));
     }
 //    @GetMapping("flight-offers")
-<<<<<<< HEAD
-//    public ResponseEntity getFlightOffers(@RequestBody FlightOffersDto flightOffersDto) throws IOException, InterruptedException {
-=======
 //    public ResponseEntity getFlightOffers(FlightOffersDto flightOffersDto) throws IOException, InterruptedException {
->>>>>>> 540f63570b9f423246c6421aac88511d3ef84bb9
 //        // 프론트 dto 임시 제작
 //        List<String> a = new ArrayList<>();
 //        a.add("T6");
