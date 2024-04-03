@@ -29,7 +29,6 @@ export async function createDetailPlan(planId, object) {
   const urlWithQueryParam = `${commonUrl}?planId=${planId}`;
   try {
     console.log(object);
-    console.log(planId + "test");
     const res = await axiosAPI.post(urlWithQueryParam, object, {
       // headers: {
       //   'Content-Type': 'application/json',

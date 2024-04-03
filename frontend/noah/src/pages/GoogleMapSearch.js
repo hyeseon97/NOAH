@@ -155,14 +155,15 @@ export default function GoogleMapSearch() {
   const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 
   const zoom = 14;
-  const widthVW = window.innerWidth * 1; // 뷰포트의 80%
-  const heightVH = window.innerHeight * 0.5; // 뷰포트의 40%
+  const widthVW = Math.round(window.innerWidth * 1); // 뷰포트의 100%를 사용하고 반올림
+  const heightVH = Math.round(window.innerHeight * 0.5); // 뷰포트의 50%를 사용하고 반올림
   const mapType = "roadMap";
   const [mapUrl, setMapUrl] = useState("");
 
   useEffect(() => {
     if (outPlace?.geometry?.location) {
       const lat = outPlace.geometry.location.lat();
+      
       const lng = outPlace.geometry.location.lng();
       const newMapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=${zoom}&size=${widthVW}x${heightVH}&maptype=${mapType}&markers=color:blue%7Clabel:S%7C${lat},${lng}&key=${apiKey}`;
       setMapUrl(newMapUrl);
