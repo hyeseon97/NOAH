@@ -60,93 +60,62 @@
   transform: rotate(270deg);
 }
 .midStyle {
-  height: 50px;
-  margin: 10px;
+  padding: 2vw;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
 }
 
-.boxStyle {
-  position: relative; 
+.planeBoxStyle{
   display: flex;
+  flex-wrap: wrap;
+  height: 33vw;
+  justify-content: center;
   align-items: center;
-  border: 1px solid gray;
-  padding: 0px;
-  margin: 10px;
-  height: 18vh;
-  border-radius: 10px;
+  gap: 10vw;
+  border-top: 0.377vw solid rgba(137, 137, 137, 0.3);
+  border-bottom: 0.377vw solid rgba(137, 137, 137, 0.3);
 }
 
-.planeBoxStyle {
+.boxStyle{
   display: flex;
-  align-items: center;
-  border: 1px solid gray;
-  margin: 10px;
-  border-radius: 10px;
   justify-content: space-between;
-  padding: 0 10px; /* 컨테이너의 양쪽에 패딩을 추가하여 내용이 테두리에 닿지 않도록 함 */
-  height: 18vh;
-  position: relative;
+  height: 31vw;
+  align-items: center;
+  gap: 10vw;
+  border-top: 0.377vw solid rgba(137, 137, 137, 0.3);
+  border-bottom: 0.377vw solid rgba(137, 137, 137, 0.3);
 }
-
-
-
-.addDetailPlanStyle {
+.boxLeft{
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  padding: 23px;
-  margin: 10px;
-  border: 1px solid gray;
-  cursor: pointer;
-  border-radius: 10px;
-  margin-top: 0px;
+  height: 29vw;
+  width: 60vw;
+}
+.imgStyle{
+  width: 46vw;
+  height: 29vw;
+  object-fit: cover;
+  border-radius: 1vw;
+}
+.planInfoBox{
+  width: 45vw;
 }
 
-.placeInfoStyle {
-  margin-left: 15px;
-  width: 170px;
-}
-
-.imgStyle {
-  width: 90px;
-  height: 90px;
-  margin: 10px;
-  border-radius: 5px;
-}
-
-
-
-.boxStyle .trashCanButton {
-  position: absolute; /* 절대 위치 설정 */
-  z-index: 10;
-  width: 20px;
-  height: 20px;
-  bottom: 10px;
-  right: 10px;
-}
-
-.planeBoxStyle .trashCanButton {
-  position: absolute; /* 절대 위치 설정 */
-  z-index: 10;
-  width: 20px;
-  height: 20px;
-  bottom: 10px;
-  right: 10px;
-}
-
-.smallPlaneStyle {
-  width: 30px;
-  height: 30px;
-}
-
-.planeInfo {
+.addBox{
   display: flex;
-  flex-direction: column;
+  height: 33vw;
+  justify-content: center;
   align-items: center;
-  flex: 1; /* 비행기 아이콘을 제외한 각 항목이 flex 컨테이너 내에서 동일한 공간을 차지하도록 함 */
-  text-align: center; /* 텍스트를 중앙 정렬 */
+  border-top: 0.377vw solid rgba(137, 137, 137, 0.3);
+  border-bottom: 0.377vw solid rgba(137, 137, 137, 0.3);
+  margin-bottom: 20vw;
 }
+
+
+
+
+
+
+

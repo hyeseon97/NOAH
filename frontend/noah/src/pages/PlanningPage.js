@@ -16,6 +16,7 @@ import { updatePlan } from "../api/plan/Plan";
 import { getPlanDetail } from "../api/plan/Plan";
 import { getTicketList, deleteTicket } from "../api/ticket/Ticket";
 import { useNavigate } from "react-router-dom";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const DayCalculate = ({
   startDate: initialStartDate,
@@ -111,6 +112,7 @@ export default function PlanningPage() {
   const [detailPlans, setDetailPlans] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPlan, setCurrentPlan] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const filteredDetailPlans = detailPlans.filter(
     (detailPlan) => detailPlan.day === currentDay
@@ -202,6 +204,7 @@ export default function PlanningPage() {
 
   // 상태 업데이트 후 확인을 위한 useEffect
   useEffect(() => {
+    setIsLoading(true);
     loadTicketList();
     const fetchPlanInfo = async () => {
       try {
@@ -217,13 +220,16 @@ export default function PlanningPage() {
     };
     fetchPlanInfo();
     loadDetailPlan();
+    setTimeout(() => setIsLoading(false), 100);
   }, []);
 
   useEffect(() => {
+    setIsLoading(true);
     setCurrentSelectedDate(plan.start_date);
     loadDetailPlan();
     loadTicketList();
     loadPlan();
+    setTimeout(() => setIsLoading(false), 100);
   }, [plan.start_date]);
 
   const handleDeleteDetailPlan = async (detailPlanId) => {
@@ -280,105 +286,121 @@ export default function PlanningPage() {
           navigate(`/trip/${travelId}`);
         }}
       />
-      <div className={styles.planContainer}>
-        <div className={styles.headStyle}>
+      {isLoading && (
+        <>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "80vh",
+            }}
+          >
+            <ClipLoader />
+          </div>
+        </>
+      )}
+      {!isLoading && (
+        <div className={styles.planContainer}>
+          <div className={styles.headStyle}>
+            <div>
+              <div className={styles.labelLarge}>{plan.country}</div>
+              <div className={styles.labelMedium}>
+                {new Date(plan.startDate)
+                  .toLocaleDateString("ko-KR", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                  })
+                  .replace(/\.\s?/g, "-")
+                  .slice(0, -1)}{" "}
+                ~{" "}
+                {new Date(plan.endDate)
+                  .toLocaleDateString("ko-KR", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                  })
+                  .replace(/\.\s?/g, "-")
+                  .slice(0, -1)}
+              </div>
+            </div>
+            <Edit
+              className={styles.editButton}
+              onClick={() => handleEditClick(plan)}
+            />
+            {isModalOpen && (
+              <EditModal
+                plan={currentPlan}
+                onSubmit={handleSubmit}
+                onClose={() => setIsModalOpen(false)}
+              />
+            )}
+          </div>
+          <DayCalculate
+            startDate={plan.startDate}
+            endDate={plan.endDate}
+            onDayChange={handleDayChange}
+          />
           <div>
-            <div className={styles.labelLarge}>{plan.country}</div>
-            <div className={styles.labelMedium}>
-              {new Date(plan.startDate)
-                .toLocaleDateString("ko-KR", {
-                  year: "numeric",
-                  month: "2-digit",
-                  day: "2-digit",
-                })
-                .replace(/\.\s?/g, "-")
-                .slice(0, -1)}{" "}
-              ~{" "}
-              {new Date(plan.endDate)
-                .toLocaleDateString("ko-KR", {
-                  year: "numeric",
-                  month: "2-digit",
-                  day: "2-digit",
-                })
-                .replace(/\.\s?/g, "-")
-                .slice(0, -1)}
+            <div>
+              {filteredPlanes.map((flight) => (
+                <div key={flight.ticket_id} className={styles.planeBoxStyle}>
+                  <div className={styles.planeInfo}>
+                    <div className={styles.labelMedium}>{flight.a_airport}</div>
+                    <div className={styles.labelSmall}>
+                      {getTimeFromString(flight.arrival)}
+                    </div>
+                  </div>
+                  <SmallPlane className={styles.smallPlaneStyle} />
+                  <div className={styles.planeInfo}>
+                    <div className={styles.labelMedium}>{flight.d_airport}</div>
+                    <div className={styles.labelSmall}>
+                      {getTimeFromString(flight.departure)}
+                    </div>
+                  </div>
+                  {/* <TrashCan
+                    className={styles.trashCanButton}
+                    onClick={() => handleDeleteTicket(flight.ticket_id)}
+                  /> */}
+                </div>
+              ))}
+              {filteredDetailPlans.map((detailPlan) => (
+                <div key={detailPlan.detailPlanId} className={styles.boxStyle}>
+                  {/* <TrashCan
+                    className={styles.trashCanButton}
+                    onClick={() =>
+                      handleDeleteDetailPlan(detailPlan.detailPlanId)
+                    }
+                  /> */}
+
+                  <div className={styles.boxLeft}>
+                    <img
+                      src={detailPlan.imageUrl}
+                      alt="Detail Plan"
+                      className={styles.imgStyle}
+                    />
+                  </div>
+                  <div className={styles.planInfoBox}>
+                    <div className={styles.labelMedium}>{detailPlan.place}</div>
+                    <div className={styles.labelSmall}>{detailPlan.memo}</div>
+                    <div className={styles.labelSmall}>
+                      {detailPlan.time
+                        ? `사용자 평점 ${detailPlan.time}`
+                        : "평점 정보 없음"}
+                    </div>
+                  </div>
+                </div>
+              ))}
+              {/* 새로운 계획 추가 버튼 등 나머지 UI 요소 */}
+            </div>
+            <div className={styles.addBox} onClick={handleAddPlanClick}>
+              <Plus />
+              <div className={styles.labelMedium}>새로운 계획 추가</div>
             </div>
           </div>
-          <Edit
-            className={styles.editButton}
-            onClick={() => handleEditClick(plan)}
-          />
-          {isModalOpen && (
-            <EditModal
-              plan={currentPlan}
-              onSubmit={handleSubmit}
-              onClose={() => setIsModalOpen(false)}
-            />
-          )}
         </div>
-        <DayCalculate
-          startDate={plan.startDate}
-          endDate={plan.endDate}
-          onDayChange={handleDayChange}
-        />
-        <div>
-          <div>
-            {filteredPlanes.map((flight) => (
-              <div key={flight.ticket_id} className={styles.planeBoxStyle}>
-                <div className={styles.planeInfo}>
-                  <div className={styles.labelMedium}>{flight.a_airport}</div>
-                  <div className={styles.labelSmall}>
-                    {getTimeFromString(flight.arrival)}
-                  </div>
-                </div>
-                <SmallPlane className={styles.smallPlaneStyle} />
-                <div className={styles.planeInfo}>
-                  <div className={styles.labelMedium}>{flight.d_airport}</div>
-                  <div className={styles.labelSmall}>
-                    {getTimeFromString(flight.departure)}
-                  </div>
-                </div>
-                <TrashCan
-                  className={styles.trashCanButton}
-                  onClick={() => handleDeleteTicket(flight.ticket_id)}
-                />
-              </div>
-            ))}
-            {filteredDetailPlans.map((detailPlan) => (
-              <div key={detailPlan.detailPlanId} className={styles.boxStyle}>
-                <img
-                  src={detailPlan.imageUrl}
-                  alt="Detail Plan"
-                  className={styles.imgStyle}
-                />
-                <div className={styles.placeInfoStyle}>
-                  <div className={styles.smallBoldFont}>{detailPlan.place}</div>
-                  <div className={styles.smallFont}>{detailPlan.memo}</div>
-                  <div className={styles.smallFont}>
-                    {detailPlan.time
-                      ? `사용자 평점 ${detailPlan.time}`
-                      : "평점 정보 없음"}
-                  </div>
-                </div>
-                <TrashCan
-                  className={styles.trashCanButton}
-                  onClick={() =>
-                    handleDeleteDetailPlan(detailPlan.detailPlanId)
-                  }
-                />
-              </div>
-            ))}
-            {/* 새로운 계획 추가 버튼 등 나머지 UI 요소 */}
-          </div>
-          <div
-            className={styles.addDetailPlanStyle}
-            onClick={handleAddPlanClick}
-          >
-            <Plus />
-            <div className={styles.middleFont}>새로운 계획 추가</div>
-          </div>
-        </div>
-      </div>
+      )}
     </>
   );
 }
