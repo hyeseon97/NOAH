@@ -2,6 +2,7 @@ import DoughnutChart from "../components/common/DoughnutChart";
 import Header from "./../components/common/Header";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import ClipLoader from "react-spinners/ClipLoader";
 import styles from "./TripPage.module.css";
 
 import { ReactComponent as Change } from "./../assets/Icon/Change.svg";
@@ -14,6 +15,7 @@ export default function TripPage() {
   const navigate = useNavigate();
   const { travelId } = useParams();
   const [percent, setPercent] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   const [travelInfo, setTravelInfo] = useState({
     accountAmount: null,
     accountId: null,
@@ -28,7 +30,8 @@ export default function TripPage() {
   });
 
   useEffect(() => {
-    (async () => {
+    setIsLoading(true);
+    const fetchTravelInfo = async () => {
       try {
         const res = await getTravelInfo(travelId);
         console.log(res.data);
@@ -40,7 +43,9 @@ export default function TripPage() {
       } catch (e) {
         console.log(e);
       }
-    })();
+    };
+    fetchTravelInfo();
+    setTimeout(() => setIsLoading(false), 200);
   }, []);
 
   useEffect(() => {
@@ -106,110 +111,144 @@ export default function TripPage() {
         Title={travelInfo.title}
         onClick={handleLeftIconClick}
       />
-      <div
-        style={{ marginTop: "6.67vw", cursor: "pointer" }}
-        onClick={handleDetailClick}
-      >
-        <DoughnutChart percent={percent} />
-        <div
-          className={styles.detailParagraph}
-          style={{
-            zIndex: "100",
-            position: "relative",
-            left: "38vw",
-            bottom: "17vw",
-          }}
-        >
-          클릭하여 상세보기
-        </div>
-      </div>
-      <div
-        style={{ width: "100vw", display: "flex", justifyContent: "center" }}
-      >
-        <div className={styles.planBorder}>
-          {travelInfo.country === null && (
-            <div onClick={handleCreatePlanningClick}>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  marginTop: "7.2vw",
-                }}
-              >
-                <Plan style={{ width: "13.3vw", height: "13.3vw" }} />
-                <div
-                  className={styles.labelSmall}
-                  style={{ marginTop: "4.44vw" }}
-                >
-                  구체적인 여행 계획을 세워보세요
-                </div>
-                <div
-                  className={styles.detailParagraph}
-                  onClick={handleCreatePlanningClick}
-                >
-                  클릭하여 계획작성
-                </div>
-              </div>
-            </div>
-          )}
-          {travelInfo.country != null && (
-            <>
-              <div
-                className={styles.infoContainer}
-                onClick={handlePlanningClick}
-              >
-                <div className={styles.Dday}>D-{calculateLeftDay()}</div>
-                <div className={styles.day}>
-                  {travelInfo.startDate.split("T")[0]} ~{" "}
-                  {travelInfo.endDate.split("T")[0]}
-                </div>
-                <div className={styles.bottom}>
-                  <div className={styles.country}>{travelInfo.country}</div>
-                  <div className={styles.clickMessage}>여행계획 보러가기</div>
-                </div>
-              </div>
-            </>
-          )}
-        </div>
-      </div>
-      <div
-        style={{ width: "100vw", display: "flex", justifyContent: "center" }}
-      >
-        <div className={styles.menuContainer}>
-          <div className={styles.menu} onClick={() => handleMenuClick("결제")}>
-            <div>
-              <QR className={styles.icon} />
-            </div>
-            <div>결제</div>
+      {isLoading && (
+        <>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "80vh",
+            }}
+          >
+            <ClipLoader />
           </div>
+        </>
+      )}
+      {!isLoading && (
+        <>
+          <div
+            style={{ marginTop: "6.67vw", cursor: "pointer" }}
+            onClick={handleDetailClick}
+          >
+            <DoughnutChart percent={percent} />
+            <div
+              className={styles.detailParagraph}
+              style={{
+                zIndex: "100",
+                position: "relative",
+                left: "38vw",
+                bottom: "17vw",
+              }}
+            >
+              클릭하여 상세보기
+            </div>
+          </div>
+          <div
+            style={{
+              width: "100vw",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <div className={styles.planBorder}>
+              {travelInfo.country === null && (
+                <div onClick={handleCreatePlanningClick}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      marginTop: "7.2vw",
+                    }}
+                  >
+                    <Plan style={{ width: "13.3vw", height: "13.3vw" }} />
+                    <div
+                      className={styles.labelSmall}
+                      style={{ marginTop: "4.44vw" }}
+                    >
+                      구체적인 여행 계획을 세워보세요
+                    </div>
+                    <div
+                      className={styles.detailParagraph}
+                      onClick={handleCreatePlanningClick}
+                    >
+                      클릭하여 계획작성
+                    </div>
+                  </div>
+                </div>
+              )}
+              {travelInfo.country != null && (
+                <>
+                  <div
+                    className={styles.infoContainer}
+                    onClick={handlePlanningClick}
+                  >
+                    <div className={styles.Dday}>D-{calculateLeftDay()}</div>
+                    <div className={styles.day}>
+                      {travelInfo.startDate.split("T")[0]} ~{" "}
+                      {travelInfo.endDate.split("T")[0]}
+                    </div>
+                    <div className={styles.bottom}>
+                      <div className={styles.country}>{travelInfo.country}</div>
+                      <div className={styles.clickMessage}>
+                        여행계획 보러가기
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+          <div
+            style={{
+              width: "100vw",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <div className={styles.menuContainer}>
+              <div
+                className={styles.menu}
+                onClick={() => handleMenuClick("결제")}
+              >
+                <div>
+                  <QR className={styles.icon} />
+                </div>
+                <div>결제</div>
+              </div>
 
-          <div className={styles.menu} onClick={() => handleMenuClick("환전")}>
-            <div>
-              <Change className={styles.icon} />
+              <div
+                className={styles.menu}
+                onClick={() => handleMenuClick("환전")}
+              >
+                <div>
+                  <Change className={styles.icon} />
+                </div>
+                <div>환전</div>
+              </div>
+              <div
+                className={styles.menu}
+                onClick={() => handleMenuClick("소비관리")}
+              >
+                <div>
+                  <Pig className={styles.icon} />
+                </div>
+                <div>소비관리</div>
+              </div>
+              <div
+                className={styles.menu}
+                onClick={() => handleMenuClick("인원관리")}
+              >
+                <div>
+                  <Person className={styles.icon} />
+                </div>
+                <div>인원관리</div>
+              </div>
             </div>
-            <div>환전</div>
           </div>
-          <div
-            className={styles.menu}
-            onClick={() => handleMenuClick("소비관리")}
-          >
-            <div>
-              <Pig className={styles.icon} />
-            </div>
-            <div>소비관리</div>
-          </div>
-          <div
-            className={styles.menu}
-            onClick={() => handleMenuClick("인원관리")}
-          >
-            <div>
-              <Person className={styles.icon} />
-            </div>
-            <div>인원관리</div>
-          </div>
-        </div>
-      </div>
+        </>
+      )}
     </>
   );
 }
