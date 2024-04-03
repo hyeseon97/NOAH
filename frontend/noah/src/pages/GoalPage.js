@@ -142,7 +142,7 @@ export default function GoalPage() {
 
   return (
     <>
-      <Header LeftIcon="Arrow" Title="여행 이름" />
+      <Header LeftIcon="Arrow" Title="여행 목표" />
       {isLoading && (
         <>
           <div

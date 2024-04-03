@@ -65,12 +65,10 @@ public class PlanRepositoryImpl implements PlanRepositoryCustom {
                                                 detailPlan.memo,
                                                 detailPlan.time,
                                                 image.url
-
                 ))
                 .from(detailPlan)
                 .leftJoin(plan).on(detailPlan.plan.id.eq(plan.id))
-                    .leftJoin(image).on(image.detailPlan.id.eq(detailPlan.id))
-
+                .leftJoin(image).on(image.detailPlan.id.eq(detailPlan.id))
                 .orderBy(detailPlan.day.asc(), detailPlan.sequence.asc())
                 .fetch();
             planDto.setDetailPlanList(detailDtos);

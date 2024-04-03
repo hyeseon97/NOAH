@@ -11,6 +11,7 @@ import SumBox from "../components/SpendingManagement/SumBox";
 import SpendingHeader from "../components/SpendingManagement/SpedingHeader";
 import { getAllTrade } from "../api/trade/Trade";
 import { useParams } from "react-router-dom";
+import { getGroupAccountMemberAndTotalDue } from "../api/groupaccount/GroupAccount";
 
 export default function SpendingManagemnetPage() {
   const { travelId } = useParams();
@@ -20,6 +21,7 @@ export default function SpendingManagemnetPage() {
     useState("participants");
   const [allSpendingHistory, setAllSpendingHistory] = useState([]);
   const [groupedByDate, setGroupedByDate] = useState([]);
+  const [people, setPeople] = useState([]); // 여행에 속한 사람의 이름, id
 
   useEffect(() => {
     AOS.init({
@@ -62,13 +64,18 @@ export default function SpendingManagemnetPage() {
     (async () => {
       try {
         const res = await getAllTrade(travelId);
+        const peopleRes = await getGroupAccountMemberAndTotalDue(travelId);
 
+        const idAndNames = peopleRes.data.map((member) => ({
+          id: member.member_id,
+          name: member.memberName,
+        }));
+        setPeople(idAndNames);
         setAllSpendingHistory(res.data);
         setGroupedByDate(groupTransactionsByDate(res.data));
       } catch (e) {
       } finally {
         setTimeout(() => setIsLoading(false), 500);
-        console.log(allSpendingHistory);
         console.log(groupedByDate);
       }
     })();
@@ -88,7 +95,11 @@ export default function SpendingManagemnetPage() {
             <div key={date}>
               <SpendingHeader date={date} totalCost={data.totalCost} />
               {data.transactions.map((transaction) => (
-                <Spending key={transaction.tradeId} transaction={transaction} />
+                <Spending
+                  key={transaction.tradeId}
+                  transaction={transaction}
+                  people={people}
+                />
               ))}
             </div>
           ))}

@@ -71,7 +71,7 @@ public class TravelServiceImpl implements TravelService {
         /* ------ */
 
         Travel travel = travelRepository.findById(travelId).orElseThrow(TravelNotFoundException::new);
-        Account account = accountRepository.findById(travel.getGroupAccount().getAccount().getId())
+        Account account = accountRepository.findAccountBytravelId(travelId)
                                            .orElseThrow(AccountNotFoundException::new);
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
