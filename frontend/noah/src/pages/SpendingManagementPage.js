@@ -12,6 +12,8 @@ import SpendingHeader from "../components/SpendingManagement/SpedingHeader";
 import { getAllTrade } from "../api/trade/Trade";
 import { useParams } from "react-router-dom";
 import { getGroupAccountMemberAndTotalDue } from "../api/groupaccount/GroupAccount";
+import SumBoxAll from "./../components/SpendingManagement/SumBoxAll";
+import SumBoxType from "../components/SpendingManagement/SumBoxType";
 
 export default function SpendingManagemnetPage() {
   const { travelId } = useParams();
@@ -25,7 +27,6 @@ export default function SpendingManagemnetPage() {
   const [isDetailClick, setIsDetailClick] = useState(false);
   const [selectedSpendingHistory, setSelectedSpendingHistory] = useState([]);
   const [peopleHistory, setPeopleHistory] = useState([]);
-
   const [selectedNames, setSelectedNames] = useState([]);
   const [selectedConsumeTypes, setSelectedConsumeTypes] = useState([
     "공통",
@@ -36,6 +37,7 @@ export default function SpendingManagemnetPage() {
     "쇼핑",
     "기타",
   ]);
+
   const [totalAmountByConsumeType, setTotalAmountByConsumeType] = useState({});
   const [allPeopleDeposit, setAllPeopleDeposit] = useState(0);
   const [allPeopleExpense, setAllPeopleExpense] = useState(0);
@@ -188,12 +190,13 @@ export default function SpendingManagemnetPage() {
   }, [selectedNames]);
 
   useEffect(() => {
+    setDepositPercent(0);
     if (allPeopleDeposit !== 0) {
-      setDepositPercent((depositSum / allPeopleDeposit) * 100);
+      setDepositPercent(Math.ceil((depositSum / allPeopleDeposit) * 100));
     }
 
     if (allPeopleExpense !== 0) {
-      setExpensePercent((expenseSum / allPeopleExpense) * 100);
+      setExpensePercent(Math.ceil((expenseSum / allPeopleExpense) * 100));
     }
   }, [depositSum, expenseSum]);
 
@@ -338,6 +341,9 @@ export default function SpendingManagemnetPage() {
                     title={person.name}
                     sum={person.amount}
                     setDepositSum={setDepositSum}
+                    selectedNames={selectedNames}
+                    setSelectedNames={setSelectedNames}
+                    type="name"
                   />
                 ))}
               </>
@@ -353,11 +359,14 @@ export default function SpendingManagemnetPage() {
                 />
                 <div className={styles.line}></div>
                 {Object.entries(totalAmountByConsumeType).map(
-                  ([consumeType, amount]) => (
-                    <SumBox
+                  ([consumeType, amount, index]) => (
+                    <SumBoxType
                       key={consumeType}
                       title={consumeType}
                       sum={amount}
+                      setExpenseSum={setExpenseSum}
+                      selectedConsumeTypes={selectedConsumeTypes}
+                      setSelectedConsumeTypes={setSelectedConsumeTypes}
                     />
                   )
                 )}

@@ -1,30 +1,30 @@
 import { useEffect, useState } from "react";
 import { ReactComponent as WhiteArrow } from "../../assets/Icon/WhiteArrow.svg";
 
-export default function SumBox({
+export default function SumBoxType({
   title,
   sum,
-  selectedNames,
-  setSelectedNames,
-  setDepositSum,
+  selectedConsumeTypes,
+  setSelectedConsumeTypes,
+  setExpenseSum,
 }) {
   const [isClicked, setIsClicked] = useState(true);
 
   useEffect(() => {
-    if (selectedNames?.includes(title)) {
+    if (selectedConsumeTypes?.includes(title)) {
       setIsClicked(true);
     } else {
       setIsClicked(false);
     }
-  }, [selectedNames]);
+  }, [selectedConsumeTypes]);
 
   const handleSumBoxClick = () => {
     if (isClicked) {
-      setDepositSum((prev) => prev - sum);
-      setSelectedNames((prev) => prev.filter((name) => name !== title));
+      setExpenseSum((prev) => prev - sum);
+      setSelectedConsumeTypes((prev) => prev.filter((type) => type !== title));
     } else {
-      setDepositSum((prev) => prev + sum);
-      setSelectedNames((prev) => [...prev, title]);
+      setExpenseSum((prev) => prev + sum);
+      setSelectedConsumeTypes((prev) => [...prev, title]);
     }
   };
 
