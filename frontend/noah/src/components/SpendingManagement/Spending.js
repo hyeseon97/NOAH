@@ -33,7 +33,6 @@ export default function Spending({ transaction, people }) {
       memberId: memberId,
       consumeType: consumeType,
     });
-    console.log(res);
   }, [person, consumeType]);
 
   return (

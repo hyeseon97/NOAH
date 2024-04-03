@@ -23,7 +23,6 @@ export default function InviteButton({ buttonText, warningText }) {
     lineHeight: "160%",
     color: "#E11900",
     fontSize: "3.3vw",
-    marginLeft: "6vw",
   };
 
   return (

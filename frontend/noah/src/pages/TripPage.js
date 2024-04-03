@@ -64,7 +64,7 @@ export default function TripPage() {
   };
 
   const handlePlanningClick = () => {
-    navigate(`/trip/${travelId}/planning`); // 3은 travelId
+    navigate(`/trip/${travelId}/planning/${travelInfo.planId}`); // 3은 travelId
   };
 
   const handleCreatePlanningClick = () => {

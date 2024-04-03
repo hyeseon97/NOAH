@@ -7,204 +7,20 @@ import styles from "./PlaneSearchPage.module.css";
 import { getFlightInfo } from "../api/flight/flight";
 import { createTicket } from "../api/ticket/Ticket";
 import { useParams } from "react-router-dom";
-
-// const wholeStyle = {
-//   display: "flex",
-//   flexDirection: "column",
-//   border: "1px solid grey",
-//   margin: "10px",
-//   borderRadius: "5px",
-//   padding: "10px",
-// };
-
-// const upperStyle = {
-//   display: "flex",
-//   flexDirection: "row",
-//   justifyContent: "space-between",
-//   margin: "10px",
-//   fontFamily: "Pretendard",
-//   fontStyle: "normal",
-//   fontWeight: "700",
-//   fontSize: "3.4vw",
-//   lineHeight: "200%",
-// };
-
-// const middleStyle = {
-//   display: "flex",
-//   flexDirection: "row",
-//   justifyContent: "space-evenly",
-//   margin: "0px",
-//   fontFamily: "Pretendard",
-//   fontStyle: "normal",
-//   fontWeight: "700",
-//   fontSize: "4.0vw",
-//   lineHeight: "200%",
-// };
-
-// const lowerStyle = {
-//   display: "flex",
-//   flexDirection: "column",
-//   textAlign: "center",
-//   color: "blue",
-//   marginTop: "10px",
-//   fontFamily: "Pretendard",
-//   fontStyle: "normal",
-//   fontWeight: "700",
-//   fontSize: "4.4vw",
-//   lineHeight: "200%",
-// };
-
-// const wholeBox = {
-//   display: "flex",
-//   flexDirection: "row",
-//   justifyContent: "space-between",
-//   margin: "20px",
-//   border: "1px solid grey",
-//   textAlign: "center",
-//   alignItems: "center",
-//   borderRadius: "5px",
-// };
-// const boxLeft = {
-//   display: "flex",
-//   flexDirection: "row",
-//   margin: "15px",
-//   fontFamily: "Pretendard",
-//   fontStyle: "normal",
-//   fontWeight: "700",
-//   fontSize: "3.4vw",
-//   lineHeight: "200%",
-// };
-
-// const inputStyle = {
-//   border: "none",
-//   fontFamily: "Pretendard",
-//   fontStyle: "normal",
-//   fontWeight: "700",
-//   fontSize: "4.0vw",
-//   lineHeight: "200%",
-// };
-// const boxRight = {
-//   marginRight: "10px",
-//   fontFamily: "Pretendard",
-//   fontStyle: "normal",
-//   fontWeight: "700",
-//   fontSize: "3.8vw",
-//   lineHeight: "200%",
-// };
-
-// const lowerButtonStyle = {
-//   display: "flex",
-//   justifyContent: "center",
-//   marginBottom: "20px",
-//   fontFamily: "Pretendard",
-//   fontStyle: "normal",
-//   fontWeight: "700",
-//   fontSize: "3.4vw",
-//   lineHeight: "200%",
-// };
-
-// const buttonStyle = {
-//   width: "90vw",
-//   height: "7vh",
-//   alignItems: "center",
-//   borderRadius: "10px",
-//   border: "none",
-//   backgroundColor: "black",
-//   color: "white",
-//   fontFamily: "Pretendard",
-//   fontStyle: "normal",
-//   fontWeight: "550",
-//   fontSize: "4.8vw",
-//   lineHeight: "200%",
-// };
-
-// const placeOrTicket = {
-//   height: "8vh",
-//   // backgroundColor: "red",
-//   display: "flex",
-//   flexDirection: "row",
-//   justifyContent: "space-evenly",
-//   marginLeft: "20px",
-//   marginRight: "20px",
-//   alignItems: "center",
-// };
-
-// const resultList = {
-//   // margin: "10px",
-//   marginLeft: "20px",
-//   fontFamily: "Pretendard",
-//   fontStyle: "normal",
-//   fontWeight: "550",
-//   fontSize: "3.8vw",
-//   lineHeight: "200%",
-// };
-
-// const noResultStyle = {
-//   fontFamily: "Pretendard",
-//   fontStyle: "normal",
-//   fontWeight: "550",
-//   fontSize: "3.8vw",
-//   lineHeight: "200%",
-//   margin: "10px",
-//   textAlign: "center",
-//   border: "1px solid grey",
-//   padding: "10px"
-// };
+import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 export default function PlaneSearchPage() {
-  const [planeList, setPlaneList] = useState([
-    {
-      a_airport: "인천공항",
-      d_airport: "나리타공항",
-      a_time: "2024-04-01 07:57",
-      d_time: "2024-04-01 09:17",
-      price: 248000,
-      airLine: "싸피항공",
-      code: "7C115",
-    },
-    {
-      a_airport: "인천공항",
-      d_airport: "나리타공항",
-      a_time: "2024-04-01 07:57",
-      d_time: "2024-04-01 09:17",
-      price: 248000,
-      airLine: "싸피항공",
-      code: "7C115",
-    },
-    {
-      a_airport: "인천공항",
-      d_airport: "나리타공항",
-      a_time: "2024-04-01 07:57",
-      d_time: "2024-04-01 09:17",
-      price: 248000,
-      airLine: "싸피항공",
-      code: "7C115",
-    },
-    {
-      a_airport: "인천공항",
-      d_airport: "나리타공항",
-      a_time: "2024-04-01 07:57",
-      d_time: "2024-04-01 09:17",
-      price: 248000,
-      airLine: "싸피항공",
-      code: "7C115",
-    },
-    {
-      a_airport: "인천공항",
-      d_airport: "나리타공항",
-      a_time: "2024-04-01 07:57",
-      d_time: "2024-04-01 09:17",
-      price: 248000,
-      airLine: "싸피항공",
-      code: "7C115",
-    },
-  ]);
+  const [planeList, setPlaneList] = useState([]);
   // const [planeList, setPlaneList] = useState([]);
-  const { travelId } = useParams();
-
+  const { travelId, planId } = useParams();
+  const navigate = useNavigate();
   const [arrivalAirPort, setArrivalAirPort] = useState();
   const [departureAirPort, setDepartureAirPort] = useState();
   const [boarderDate, setBoarderDate] = useState();
+  const location = useLocation();
+  const { planId2, day, date } = location.state;
 
   const handleArrival = (e) => {
     const value = e.target.value;
@@ -215,29 +31,44 @@ export default function PlaneSearchPage() {
     setDepartureAirPort(value);
   };
   const handleDate = (e) => {
-    const value = e.target.value;
+     const value = e.target.value
     setBoarderDate(value);
   };
 
-  const postPlaneDate = () => {
-    const postDate = { departureAirPort, arrivalAirPort, boarderDate };
-    setDepartureAirPort("");
-    setArrivalAirPort("");
-    setBoarderDate("");
+  // const postPlaneDate = () => {
+  //   const postDate = { departureAirPort, arrivalAirPort, boarderDate };
+  //   setDepartureAirPort("");
+  //   setArrivalAirPort("");
+  //   setBoarderDate("");
+  // };
+
+  const handleCreateTicket = async (
+    departureTime,
+    arrivalTime,
+    departureAirport,
+    arrivalAirport
+  ) => {
+    try {
+      await selectPlane(
+        departureTime,
+        arrivalTime,
+        departureAirport,
+        arrivalAirport
+      );
+      navigate(-1);
+    } catch (error) {
+      // 에러 처리
+      console.error("계획 추가 중 오류 발생", error);
+    }
   };
 
   const getPlaneList = () => {
-    // const object = {
-    //   originLocationCode: arrivalAirPort,
-    //   destinationLocationCode: departureAirPort,
-    //   departureDate: boarderDate,
-    // };
     // console.log(arrivalAirPort, departureAirPort, boarderDate);
     getFlightInfo(arrivalAirPort, departureAirPort, boarderDate)
       .then((data) => {
         console.log(data); // API 호출 결과를 여기에서 사용할 수 있습니다.
-        console.log(data.Object);
-        // 필요한 로직을 추가하세요.
+        setPlaneList(data.data);
+        console.log(planeList);
       })
       .catch((error) => {
         console.error(error); // 오류 처리
@@ -253,16 +84,16 @@ export default function PlaneSearchPage() {
     const departureDate = new Date(departureTime).toISOString();
     const arrivalDate = new Date(arrivalTime).toISOString();
 
-    console.log(departureDate, arrivalDate, departureAirport, arrivalAirport);
+    console.log(departureDate, arrivalDate, departureAirport, arrivalAirport + "testestestset" + " travelId" + travelId);
 
     const object = {
-      departure: departureDate,
+      departure: date,
       arrival: arrivalDate,
       d_airport: departureAirport,
       a_airport: arrivalAirport,
       d_gate: 0,
     };
-    createTicket(object, travelId);
+    createTicket(travelId, object);
   };
 
   function extractTime(dateTime) {
@@ -308,7 +139,7 @@ export default function PlaneSearchPage() {
             <Mark />
             <input
               className={styles.inputStyle}
-              placeholder="탑승 날짜"
+              placeholder={date}
               value={boarderDate}
               onChange={handleDate}
             ></input>
@@ -348,12 +179,14 @@ export default function PlaneSearchPage() {
               </div>
               <div
                 className={styles.lowerStyle}
-                onClick={() => selectPlane(
-                  plane.d_time,
-                  plane.a_time,
-                  plane.d_airport,
-                  plane.a_airport
-                )}
+                onClick={() =>
+                  handleCreateTicket(
+                    plane.d_time,
+                    plane.a_time,
+                    plane.d_airport,
+                    plane.a_airport
+                  )
+                }
               >
                 항공권 선택
               </div>

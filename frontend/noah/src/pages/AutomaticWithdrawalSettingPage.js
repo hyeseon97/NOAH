@@ -74,8 +74,7 @@ export default function AutomaticWithdrawalSettingPage() {
       try {
         const response = await getAllGroupAccount();
         if (response.data === null) setTrips([]);
-        else setTrips([]);
-        //else setTrips(response.data); // API로부터 받아온 여행 데이터를 상태에 저장
+        else setTrips(response.data); // API로부터 받아온 여행 데이터를 상태에 저장
       } catch (error) {
         setTrips([]);
       } finally {

@@ -78,7 +78,7 @@ export default function Exchange({
     KRW: 1,
     CNY: 1 / exchangeRateInfo.cny,
     EUR: 1 / exchangeRateInfo.eur,
-    JPY: 1 / exchangeRateInfo.jpy,
+    JPY: 1 / (exchangeRateInfo.jpy / 100),
   };
 
   // 화폐 단위 표시를 위한 데이터

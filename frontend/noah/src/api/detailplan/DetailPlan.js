@@ -14,9 +14,9 @@ export async function getDetailPlan(detailPlanId) {
 /* 상세계획 목록 조회 */
 export async function getDetailPlanList(planId) {
   try {
-    console.log(commonUrl + `/${planId}`);
+    // console.log(commonUrl + `/${planId}` + "%353532523423423");
     const res = await axiosAPI.get(commonUrl + `/${planId}`); // await 키워드 추가
-    console.log(res.data);
+    // console.log(res.data, "이거 보이냐?");
     return res.data;
   } catch (error) {
     console.error(error); // 오류 출력 변경
@@ -37,6 +37,7 @@ export async function createDetailPlan(planId, object) {
     });
     return res.data;
   } catch (error) {
+    console.log(error)
     throw error;
   }
 }

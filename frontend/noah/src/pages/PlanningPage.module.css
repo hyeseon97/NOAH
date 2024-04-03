@@ -29,7 +29,7 @@
   font-family: "Pretendard";
   font-style: normal;
   font-weight: 500;
-  font-size: 3.9vw;
+  font-size: 3.0vw;
   line-height: 140%;
 }
 
@@ -51,11 +51,13 @@
 }
 
 .boxStyle {
+  position: relative; 
   display: flex;
   align-items: center;
   border: 1px solid gray;
   padding: 0px;
   margin: 10px;
+  height: 18vh;
   border-radius: 10px;
 }
 
@@ -63,13 +65,12 @@
   display: flex;
   align-items: center;
   border: 1px solid gray;
-  padding: 0px;
   margin: 10px;
   border-radius: 10px;
   justify-content: space-between;
-  margin: 10px;
-  padding: 25px;
-  height: 100px;
+  padding: 0 10px; /* 컨테이너의 양쪽에 패딩을 추가하여 내용이 테두리에 닿지 않도록 함 */
+  height: 18vh;
+  position: relative;
 }
 
 
@@ -113,11 +114,22 @@
   height: 25px;
 }
 
-.trashCanButton {
+.boxStyle .trashCanButton {
+  position: absolute; /* 절대 위치 설정 */
+  z-index: 10;
   width: 20px;
   height: 20px;
-  margin-top: 50px;
-  margin-left: 10px;
+  bottom: 10px;
+  right: 10px;
+}
+
+.planeBoxStyle .trashCanButton {
+  position: absolute; /* 절대 위치 설정 */
+  z-index: 10;
+  width: 20px;
+  height: 20px;
+  bottom: 10px;
+  right: 10px;
 }
 
 .smallPlaneStyle {
@@ -129,4 +141,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex: 1; /* 비행기 아이콘을 제외한 각 항목이 flex 컨테이너 내에서 동일한 공간을 차지하도록 함 */
+  text-align: center; /* 텍스트를 중앙 정렬 */
 }

@@ -9,6 +9,8 @@ import { ReactComponent as Mark } from "./../assets/Icon/Mark.svg";
 // import DayCalculate from "../components/trip/DayCalculate";
 import { useParams } from "react-router-dom";
 import style from "./PlanningPage.module.css";
+import { format } from "date-fns";
+import EditModal from "../components/trip/EditModal"; // 수정을 위한 모달 컴포넌트
 
 import {
   getDetailPlan,
@@ -17,6 +19,13 @@ import {
   deleteDetailPlan,
   createDetailPlan,
 } from "../api/detailplan/DetailPlan";
+
+import { updatePlan } from "../api/plan/Plan";
+
+import { getPlanDetail } from "../api/plan/Plan";
+
+import { getTicketList, deleteTicket } from "../api/ticket/Ticket";
+
 import { useNavigate } from "react-router-dom";
 
 const getTimeFromString = (dateTimeString) => {
@@ -31,29 +40,12 @@ export default function PlanningPage() {
   // const { planId } = useParams();
   const [currentDay, setCurrentDay] = useState(1);
   let { travelId, planId } = useParams();
-  const [currentDate, setCurrentDate] = useState("");
-
-  const [plan, setPlan] = useState({
-    id: 1,
-    title: "오사카 일본",
-    start_date: "2024/03/21",
-    end_date: "2024/03/24",
-    travel_start: false,
-    country: "일본",
-    travel_id: 1,
-  });
-
-  const [plane, setPlane] = useState({
-    id: 1,
-    departure: "2024/03/24/16:30",
-    d_airport: "인천",
-    d_gate: 3,
-    arrival: "2024/03/24/19:30",
-    a_airport: "오사카",
-    travel_id: 1,
-  });
-
+  const [currentSelectedDate, setCurrentSelectedDate] = useState("");
+  const [plan, setPlan] = useState({});
+  const [plane, setPlane] = useState([]);
   const [detailPlans, setDetailPlans] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPlan, setCurrentPlan] = useState(null);
 
   const getFormattedDate = (dateString) => {
     const date = new Date(dateString);
@@ -63,28 +55,14 @@ export default function PlanningPage() {
     )}/${String(date.getDate()).padStart(2, "0")}`;
   };
 
-  // // 현재 선택된 날짜로부터 YYYY/MM/DD 형태의 문자열을 얻습니다.
-  // useEffect(() => {
-  //   if (daysList.length > 0 && currentDayIndex >= 0) {
-  //     // 선택된 day 인덱스를 실제 날짜로 변환합니다.
-  //     const startDate = new Date(plan.start_date);
-  //     const currentDate = new Date(
-  //       startDate.setDate(startDate.getDate() + currentDayIndex)
-  //     );
-  //     setCurrentDate(getFormattedDate(currentDate));
-  //   }
-  // }, [currentDayIndex, daysList, plan.start_date]);
-
   const filteredDetailPlans = detailPlans.filter(
     (detailPlan) => detailPlan.day === currentDay
   );
 
-  const handleDayChange = (newDay) => {
-    setCurrentDay(newDay);
-  };
-
   const handleAddPlanClick = () => {
-    navigate("planningTest", { state: { planId: plan.id, day: currentDay } });
+    navigate("planningTest", {
+      state: { planId: planId, day: currentDay, date: currentSelectedDate },
+    });
   };
 
   function removeDuplicates(detailPlans) {
@@ -99,37 +77,110 @@ export default function PlanningPage() {
     return unique;
   }
 
-  const loadDetailPlan = async () => {
+  function removeTicketDuplicates(tickets) {
+    const uniqueTickets = [];
+    const uniqueKeySet = new Set();
+
+    tickets.forEach((ticket) => {
+      // 중복 판단을 위한 고유 키 생성 (예: 출발-도착 시간 조합)
+      const uniqueKey = `${ticket.departure}-${ticket.arrival}`;
+      if (!uniqueKeySet.has(uniqueKey)) {
+        uniqueTickets.push(ticket);
+        uniqueKeySet.add(uniqueKey);
+      }
+    });
+
+    return uniqueTickets;
+  }
+
+  const loadPlan = async () => {
     try {
-      const response = await getDetailPlanList(planId);
-      if (
-        response.status === "SUCCESS" &&
-        Array.isArray(response.data.detailPlanList)
-      ) {
-        // 중복을 제거한 데이터로 상태 업데이트
-        const uniqueDetailPlans = removeDuplicates(
-          response.data.detailPlanList
-        );
-        setDetailPlans(uniqueDetailPlans);
+      const response = await getPlanDetail(travelId);
+      console.log(JSON.stringify(response) + " 확인용"); // response 객체 로깅
+      if (response) {
+        // 단순히 response 객체가 있는지만 확인
+        setPlan(response); // response 객체를 직접 상태로 설정
       } else {
-        console.error(
-          "detailPlanList is not an array or status is not SUCCESS"
-        );
+        console.error("Plan data is missing or status is not SUCCESS");
       }
     } catch (error) {
       console.error(error);
     }
   };
 
+  const loadDetailPlan = async () => {
+    try {
+      const response = await getDetailPlanList(planId);
+      console.log(response); // 전체 응답 로깅
+      if (response.status === "SUCCESS" && Array.isArray(response.data)) {
+        const uniqueDetailPlans = removeDuplicates(response.data);
+        setDetailPlans(uniqueDetailPlans);
+      } else {
+        console.error(
+          "detailplan is not an array or status is not SUCCESS",
+          response
+        );
+      }
+    } catch (error) {
+      console.error("Error fetching detail plan list:", error);
+    }
+  };
+
+  const loadTicketList = async () => {
+    try {
+      const response = await getTicketList(travelId);
+      if (response.status === "SUCCESS" && Array.isArray(response.data)) {
+        const uniqueTickets = removeTicketDuplicates(response.data); // 중복 제거 함수 호출
+        setPlane(uniqueTickets); // 중복이 제거된 데이터로 상태 업데이트
+      } else {
+        console.error("ticket is not an array or status is not SUCCESS");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDayChange = (newDay) => {
+    setCurrentDay(newDay.day); // 현재 날짜 인덱스 업데이트
+    setCurrentSelectedDate(newDay.date); // 현재 선택된 날짜를 상태로 저장
+  };
+
+  // 상태 업데이트 후 확인을 위한 useEffect
   useEffect(() => {
+    console.log(JSON.stringify(plane), "plane updated"); // 상태가 업데이트된 후의 값을 로깅
+  }, [plane]);
+
+  // 상태 업데이트 후 확인을 위한 useEffect
+  useEffect(() => {
+    loadTicketList();
+    const fetchPlanInfo = async () => {
+      try {
+        const res = await getPlanDetail(travelId);
+        if (res.status === "SUCCESS") {
+          console.log(res.data);
+          setPlan(res.data);
+        } else {
+          console.log(res);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchPlanInfo();
     loadDetailPlan();
   }, []);
 
+  useEffect(() => {
+    setCurrentSelectedDate(plan.start_date);
+    loadDetailPlan();
+    loadTicketList();
+    loadPlan();
+    console.log(JSON.stringify(currentPlan) + "이거 한버넹 들어가냐");
+  }, [plan.start_date]);
+
   const handleDeleteDetailPlan = async (detailPlanId) => {
     try {
-      // deleteDetailPlan 함수가 성공적으로 수행되었다고 가정
       await deleteDetailPlan(detailPlanId);
-      // 삭제 후 detailPlans 상태 업데이트
       setDetailPlans((prevDetailPlans) =>
         prevDetailPlans.filter((plan) => plan.detailPlanId !== detailPlanId)
       );
@@ -138,17 +189,87 @@ export default function PlanningPage() {
     }
   };
 
+  const handleDeleteTicket = async (ticketId) => {
+    try {
+      console.log(ticketId);
+      await deleteTicket(ticketId);
+      await loadTicketList(); // 티켓 리스트를 다시 불러옴
+    } catch (error) {
+      console.error("삭제 작업 중 오류가 발생했습니다.", error);
+    }
+  };
+
+  const handleEditClick = (plan) => {
+    setCurrentPlan(plan);
+    setIsModalOpen(true);
+  };
+
+  const handleSubmit = async (updatedPlan) => {
+    try {
+      console.log(updatedPlan);
+      await updatePlan(updatedPlan);
+      setIsModalOpen(false); // 모달 닫기
+
+      loadPlan();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const filteredPlanes = plane.filter((flight) => {
+    // 출발 날짜가 유효한지 확인합니다.
+    if (!flight.departure) {
+      return false; // 유효하지 않은 경우, 이 항공편을 결과 배열에 포함시키지 않습니다.
+    }
+    const flightDate = flight.departure.split("T")[0]; // 'YYYY-MM-DD' 형식으로 날짜 추출
+    return flightDate === currentSelectedDate;
+  });
+
   return (
     <>
-      <Header LeftIcon="Arrow" Title="계획" />
+      <Header
+        LeftIcon="Arrow"
+        Title="계획"
+        onClick={() => {
+          navigate(`/trip/${travelId}`);
+        }}
+      />
       <div className={style.headStyle}>
         <div>
-          <div className={style.bigFont}>{plan.title}</div>
+          <div className={style.bigFont}>{plan.country}</div>
           <div className={style.middleFont}>
-            {plan.start_date} ~ {plan.end_date}
+            {new Date(plan.startDate)
+              .toLocaleDateString("ko-KR", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+              })
+              .replace(/\.\s?/g, "-")
+              .slice(0, -1)}{" "}
+            ~{" "}
+            {new Date(plan.endDate)
+              .toLocaleDateString("ko-KR", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+              })
+              .replace(/\.\s?/g, "-")
+              .slice(0, -1)}
+            {/* {getFormattedDate(plan.startDate)} ~{" "}
+            {getFormattedDate(plan.endDate)} */}
           </div>
         </div>
-        <Edit className={style.editButton} />
+        <Edit
+          className={style.editButton}
+          onClick={() => handleEditClick(plan)}
+        />
+        {isModalOpen && (
+          <EditModal
+            plan={currentPlan}
+            onSubmit={handleSubmit}
+            onClose={() => setIsModalOpen(false)}
+          />
+        )}
       </div>
       {/* <div className={style.midStyle}>
         <Next className={style.privousButton} />
@@ -161,53 +282,57 @@ export default function PlanningPage() {
         <Next className={style.nextButton} />
       </div> */}
       <DayCalculate
-        startDate={plan.start_date}
-        endDate={plan.end_date}
+        startDate={plan.startDate}
+        endDate={plan.endDate}
         onDayChange={handleDayChange}
       />
       <div>
         <div>
-          <div className={style.planeBoxStyle}>
-            <div className={style.planeInfo}>
-              <div className={style.middleFont}>{plane.a_airport}</div>
+          {filteredPlanes.map((flight) => (
+            <div key={flight.ticket_id} className={style.planeBoxStyle}>
+              <div className={style.planeInfo}>
+                <div className={style.middleFont}>{flight.a_airport}</div>
 
-              <div className={style.smallFont}>
-                {getTimeFromString(plane.arrival)}
-              </div>
-            </div>
-            <SmallPlane className={style.smallPlaneStyle} />
-            <div className={style.planeInfo}>
-              <div className={style.middleFont}>{plane.d_airport}</div>
-              <div className={style.smallFont}>
-                {getTimeFromString(plane.departure)}
-              </div>
-            </div>
-          </div>
-          <div>
-            {filteredDetailPlans.map((detailPlan) => (
-              <div key={detailPlan.detailPlanId} className={style.boxStyle}>
-                <img
-                  src={detailPlan.url}
-                  alt="Detail Plan"
-                  className={style.imgStyle}
-                />
-                <div className={style.placeInfoStyle}>
-                  <div className={style.smallBoldFont}>{detailPlan.place}</div>
-                  <div className={style.smallFont}>{detailPlan.memo}</div>
-                  <div className={style.smallFont}>
-                    사용자 평점 {detailPlan.time}
-                  </div>
+                <div className={style.smallFont}>
+                  {getTimeFromString(flight.arrival)}
                 </div>
-                <TrashCan
-                  className={style.trashCanButton}
-                  onClick={() =>
-                    handleDeleteDetailPlan(detailPlan.detailPlanId)
-                  }
-                />
               </div>
-            ))}
-            {/* 새로운 계획 추가 버튼 등 나머지 UI 요소 */}
-          </div>
+              <SmallPlane className={style.smallPlaneStyle} />
+              <div className={style.planeInfo}>
+                <div className={style.middleFont}>{flight.d_airport}</div>
+                <div className={style.smallFont}>
+                  {getTimeFromString(flight.departure)}
+                </div>
+              </div>
+              <TrashCan
+                className={style.trashCanButton}
+                onClick={() => handleDeleteTicket(flight.ticket_id)}
+              />
+            </div>
+          ))}
+          {filteredDetailPlans.map((detailPlan) => (
+            <div key={detailPlan.detailPlanId} className={style.boxStyle}>
+              <img
+                src={detailPlan.imageUrl}
+                alt="Detail Plan"
+                className={style.imgStyle}
+              />
+              <div className={style.placeInfoStyle}>
+                <div className={style.smallBoldFont}>{detailPlan.place}</div>
+                <div className={style.smallFont}>{detailPlan.memo}</div>
+                <div className={style.smallFont}>
+                  {detailPlan.time
+                    ? `사용자 평점 ${detailPlan.time}`
+                    : "평점 정보 없음"}
+                </div>
+              </div>
+              <TrashCan
+                className={style.trashCanButton}
+                onClick={() => handleDeleteDetailPlan(detailPlan.detailPlanId)}
+              />
+            </div>
+          ))}
+          {/* 새로운 계획 추가 버튼 등 나머지 UI 요소 */}
         </div>
         <div className={style.addDetailPlanStyle} onClick={handleAddPlanClick}>
           <Plus />
@@ -223,51 +348,56 @@ const DayCalculate = ({
   endDate: initialEndDate,
   onDayChange,
 }) => {
-  // useState를 이용하여 초기 상태 설정
   const [currentDayIndex, setCurrentDayIndex] = useState(0);
   const [daysList, setDaysList] = useState([]);
 
-  // 시작 날짜와 종료 날짜를 이용하여 daysList를 계산하는 함수
   const calculateDays = () => {
     if (!initialStartDate || !initialEndDate) return;
 
-    const start = new Date(initialStartDate);
-    const end = new Date(initialEndDate);
+    const startDate = new Date(initialStartDate);
+    const endDate = new Date(initialEndDate);
     const oneDay = 24 * 60 * 60 * 1000;
-    const differenceInTime = end - start;
-    const differenceInDays = Math.round(differenceInTime / oneDay);
-
+    let current = new Date(startDate);
     const newDaysList = [];
-    for (let i = 0; i <= differenceInDays; i++) {
-      newDaysList.push(i + 1); // 실제 day 값은 1부터 시작
+
+    // 'current' 날짜가 'endDate' 이전 또는 같은 동안 반복합니다.
+    while (current <= endDate) {
+      newDaysList.push({
+        day: newDaysList.length + 1,
+        date: `${current.getFullYear()}-${String(
+          current.getMonth() + 1
+        ).padStart(2, "0")}-${String(current.getDate()).padStart(2, "0")}`,
+      });
+      // 'current' 날짜를 다음 날로 업데이트합니다.
+      current = new Date(current.setDate(current.getDate() + 1));
     }
 
     setDaysList(newDaysList);
-    setCurrentDayIndex(0); // 컴포넌트 내부 인덱스는 0으로 초기화
-    onDayChange(1); // 부모 컴포넌트에는 실제 day 값을 전달
+    setCurrentDayIndex(0);
+    if (newDaysList.length > 0) {
+      onDayChange(newDaysList[0]); // 첫 번째 day 객체 전달
+    }
   };
 
-  // 컴포넌트 마운트 후 calculateDays 함수를 실행
   useEffect(() => {
     calculateDays();
   }, [initialStartDate, initialEndDate]);
 
-  // 이전 Day로 이동
   const goToPreviousDay = () => {
     setCurrentDayIndex((prev) => {
       const newIndex = prev > 0 ? prev - 1 : prev;
-      onDayChange(newIndex + 1); // 실제 day 값으로 업데이트
+      onDayChange(daysList[newIndex]); // 여기에서 현재 선택된 날짜를 상위 컴포넌트로 전달
       return newIndex;
     });
   };
 
-  // 다음 Day로 이동
   const goToNextDay = () => {
-    setCurrentDayIndex((prev) => {
-      const newIndex = prev < daysList.length - 1 ? prev + 1 : prev;
-      onDayChange(newIndex + 1); // 실제 day 값으로 업데이트
-      return newIndex;
-    });
+    const newIndex =
+      currentDayIndex < daysList.length - 1
+        ? currentDayIndex + 1
+        : currentDayIndex;
+    setCurrentDayIndex(newIndex);
+    onDayChange(daysList[newIndex]); // 현재 선택된 날짜를 상위 컴포넌트로 전달
   };
 
   return (
@@ -275,7 +405,14 @@ const DayCalculate = ({
       {daysList.length > 0 && (
         <div className={style.midStyle}>
           <Next className={style.previousButton} onClick={goToPreviousDay} />
-          <div className={style.bigFont}>DAY {daysList[currentDayIndex]}</div>
+          <div>
+            <div className={style.bigFont}>
+              DAY {daysList[currentDayIndex].day}
+            </div>
+            <div className={style.smallFont}>
+              {daysList[currentDayIndex].date}
+            </div>
+          </div>
           <Next className={style.nextButton} onClick={goToNextDay} />
         </div>
       )}
