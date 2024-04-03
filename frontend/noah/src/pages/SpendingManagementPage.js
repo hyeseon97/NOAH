@@ -2,16 +2,26 @@ import Header from "../components/common/Header";
 import styles from "./SpendingManagementPage.module.css";
 import { ReactComponent as CancelGrey } from "./../assets/Icon/CancelGrey.svg";
 import AOS from "aos";
+import ClipLoader from "react-spinners/ClipLoader";
 import "aos/dist/aos.css";
 import { useState, useEffect } from "react";
 import Spending from "../components/SpendingManagement/Spending";
 import DoughnutChartSmall from "../components/SpendingManagement/DoughnutChartSmall";
 import SumBox from "../components/SpendingManagement/SumBox";
+import SpendingHeader from "../components/SpendingManagement/SpedingHeader";
+import { getAllTrade } from "../api/trade/Trade";
+import { useParams } from "react-router-dom";
+import { getGroupAccountMemberAndTotalDue } from "../api/groupaccount/GroupAccount";
 
 export default function SpendingManagemnetPage() {
+  const { travelId } = useParams();
   const [isFilter, setIsFilter] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [currentViewInFilter, setCurrentViewInFilter] =
     useState("participants");
+  const [allSpendingHistory, setAllSpendingHistory] = useState([]);
+  const [groupedByDate, setGroupedByDate] = useState([]);
+  const [people, setPeople] = useState([]); // 여행에 속한 사람의 이름, id
 
   useEffect(() => {
     AOS.init({
@@ -22,6 +32,55 @@ export default function SpendingManagemnetPage() {
   const handleRightIconClick = () => {
     setIsFilter((prev) => !prev);
   };
+
+  function groupTransactionsByDate(transactions) {
+    const groupedByDate = transactions.reduce((acc, cur) => {
+      // 현재 항목의 날짜를 키로 사용합니다.
+      const date = cur.date;
+
+      // 해당 날짜의 그룹이 없으면 새로 만들어줍니다.
+      if (!acc[date]) {
+        acc[date] = {
+          transactions: [], // 해당 날짜의 모든 트랜잭션을 저장합니다.
+          totalCost: 0, // 해당 날짜의 amount 합산값을 저장합니다. 여기서는 type 2인 경우만 더합니다.
+        };
+      }
+
+      // 현재 트랜잭션을 해당 날짜의 배열에 추가합니다.
+      acc[date].transactions.push(cur);
+
+      // 현재 트랜잭션의 type이 2(출금)인 경우만 amount를 합산값에 추가합니다.
+      if (cur.type === 2) {
+        acc[date].totalCost += cur.cost;
+      }
+
+      return acc;
+    }, {});
+
+    return groupedByDate;
+  }
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await getAllTrade(travelId);
+        const peopleRes = await getGroupAccountMemberAndTotalDue(travelId);
+
+        const idAndNames = peopleRes.data.map((member) => ({
+          id: member.member_id,
+          name: member.memberName,
+        }));
+        setPeople(idAndNames);
+        setAllSpendingHistory(res.data);
+        setGroupedByDate(groupTransactionsByDate(res.data));
+      } catch (e) {
+      } finally {
+        setTimeout(() => setIsLoading(false), 500);
+        console.log(groupedByDate);
+      }
+    })();
+  }, []);
+
   return (
     <>
       <Header
@@ -30,20 +89,39 @@ export default function SpendingManagemnetPage() {
         RightIcon="Filter"
         onRightIconClick={handleRightIconClick}
       />
-      {!isFilter && (
+      {!isFilter && !isLoading && (
         <>
-          <div className={styles.tradeHeader}>
-            <div className={styles.labelMedium}>2024.03.19</div>
-            <div className={styles.headerRight}>
-              <div className={styles.labelSmallGray}>사용금액</div>
-              <div className={styles.labelSmall}>395,374원</div>
+          {Object.entries(groupedByDate).map(([date, data]) => (
+            <div key={date}>
+              <SpendingHeader date={date} totalCost={data.totalCost} />
+              {data.transactions.map((transaction) => (
+                <Spending
+                  key={transaction.tradeId}
+                  transaction={transaction}
+                  people={people}
+                />
+              ))}
             </div>
+          ))}
+          {groupedByDate.length === 0 && (
+            <>
+              <div className={styles.nonHistory}>조회된 내역이 없습니다.</div>
+            </>
+          )}
+        </>
+      )}
+      {!isFilter && isLoading && (
+        <>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "80vh",
+            }}
+          >
+            <ClipLoader />
           </div>
-          <div className={styles.line}></div>
-
-          <Spending />
-          <Spending />
-          <Spending />
         </>
       )}
       {isFilter && (

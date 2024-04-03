@@ -6,10 +6,12 @@ import { ReactComponent as SmallBill } from "./../assets/Icon/SmallBill.svg";
 import styles from "./ReviewPage.module.css";
 import { getRecommendReviewList } from "../api/suggest/Suggest";
 import { useNavigate, useParams } from "react-router-dom";
+import ClipLoader from "react-spinners/ClipLoader";
 import AOS from "aos";
 import "aos/dist/aos.css";
 export default function ReviewPage() {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
   const [reviewInfo, setReviewInfo] = useState([]);
   const { travelId } = useParams();
 
@@ -25,13 +27,13 @@ export default function ReviewPage() {
         const res = await getRecommendReviewList(travelId);
         if (res.status === "SUCCESS") {
           setReviewInfo(res.data);
-          console.log(res.data);
         }
       } catch (error) {
         console.log(error);
       }
     };
     fetchReviewInfo();
+    setTimeout(() => setIsLoading(false), 1000);
   }, []);
   function calculateDays(startDate, endDate) {
     const start = new Date(startDate);
@@ -43,43 +45,62 @@ export default function ReviewPage() {
   return (
     <>
       <Header LeftIcon="Arrow" Title="추천 후기" />
-      <div className={styles.reviewContainer}>
-        {reviewInfo.map((review, index) => (
-          <div key={index} data-aos="fade-down">
-            <div
-              onClick={() => navigate(`${review.id}`)}
-              className={styles.reviewBox}
-            >
-              <img
-                src={review.imageList[0]?.imageUrl}
-                alt="여행지 사진"
-                className={styles.reviewImg}
-              />
-              <div className={styles.boxRight}>
-                <div className={styles.headingLarge}>{review.country}</div>
-                <div className={styles.boxRightRow}>
-                  <SmallPeople className={styles.icon} />
-                  <div className={styles.labelSmall}> {review.people} 명</div>
+      {isLoading && (
+        <>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "80vh",
+            }}
+          >
+            <ClipLoader />
+          </div>
+        </>
+      )}
+      {!isLoading && (
+        <div className={styles.reviewContainer}>
+          {reviewInfo.map((review, index) => (
+            <div key={index} data-aos="fade-down">
+              <div
+                onClick={() => navigate(`${review.id}`)}
+                className={styles.reviewBox}
+                style={{ display: "flex" }}
+              >
+                <div>
+                  <img
+                    src={review.imageList[0]?.imageUrl}
+                    alt="여행지 사진"
+                    className={styles.reviewImg}
+                  />
                 </div>
-                <div className={styles.boxRightRow}>
-                  <SmallBill className={styles.icon} />
-                  <div className={styles.labelSmall}>
-                    {" "}
-                    {new Intl.NumberFormat("ko-KR").format(review.expense)} 원
+                <div className={styles.boxRight}>
+                  <div className={styles.headingLarge}>{review.country}</div>
+                  <div className={styles.boxRightRow}>
+                    <SmallPeople className={styles.icon} />
+                    <div className={styles.labelSmall}> {review.people} 명</div>
                   </div>
-                </div>
-                <div className={styles.boxRightRow}>
-                  <SmallCalendar className={styles.icon} />
-                  <div className={styles.labelSmall}>
-                    {calculateDays(review.startDate, review.endDate)}일
+                  <div className={styles.boxRightRow}>
+                    <SmallBill className={styles.icon} />
+                    <div className={styles.labelSmall}>
+                      {" "}
+                      {new Intl.NumberFormat("ko-KR").format(review.expense)} 원
+                    </div>
+                  </div>
+                  <div className={styles.boxRightRow}>
+                    <SmallCalendar className={styles.icon} />
+                    <div className={styles.labelSmall}>
+                      {calculateDays(review.startDate, review.endDate)}일
+                    </div>
                   </div>
                 </div>
               </div>
+              <div className={styles.line}></div>
             </div>
-            <div className={styles.line}></div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </>
   );
 }

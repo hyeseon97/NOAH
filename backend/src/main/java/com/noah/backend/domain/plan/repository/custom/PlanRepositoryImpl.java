@@ -62,14 +62,13 @@ public class PlanRepositoryImpl implements PlanRepositoryCustom {
                                                 detailPlan.day,
                                                 detailPlan.sequence,
                                                 detailPlan.place,
-                                                detailPlan.pinX,
-                                                detailPlan.pinY,
                                                 detailPlan.memo,
-                                                detailPlan.time
+                                                detailPlan.time,
+                                                image.url
                 ))
                 .from(detailPlan)
-                .leftJoin(plan)
-                .on(detailPlan.plan.id.eq(plan.id))
+                .leftJoin(plan).on(detailPlan.plan.id.eq(plan.id))
+                .leftJoin(image).on(image.detailPlan.id.eq(detailPlan.id))
                 .orderBy(detailPlan.day.asc(), detailPlan.sequence.asc())
                 .fetch();
             planDto.setDetailPlanList(detailDtos);
@@ -91,7 +90,7 @@ public class PlanRepositoryImpl implements PlanRepositoryCustom {
 
     @Override
     public void isAccessPlan(Long memberId, Long planId) {
-        Optional.ofNullable(query.select()
+        Optional.ofNullable(query.select(plan)
                                 .from(plan)
                                 .leftJoin(travel).on(plan.travel.id.eq(travel.id))
                                 .leftJoin(memberTravel).on(memberTravel.travel.id.eq(travel.id))

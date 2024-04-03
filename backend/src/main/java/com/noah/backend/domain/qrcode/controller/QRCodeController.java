@@ -10,6 +10,7 @@ import com.noah.backend.domain.member.repository.MemberRepository;
 import com.noah.backend.domain.member.service.member.MemberService;
 import com.noah.backend.global.exception.member.MemberNotFoundException;
 import io.swagger.v3.oas.annotations.Parameter;
+import java.util.Base64;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -40,14 +41,14 @@ public class QRCodeController {
     private final MemberService memberService;
 
     @GetMapping("/image/{travelId}")
-    public ResponseEntity<byte[]> qrToTistory(@Parameter(hidden = true)Authentication authentication, @PathVariable(name = "travelId") Long travelId) throws WriterException, IOException {
+    public ResponseEntity<String> qrToTistory(@Parameter(hidden = true)Authentication authentication, @PathVariable(name = "travelId") Long travelId) throws WriterException, IOException {
 
         Long memberId = memberService.findMemberId(authentication.getName());
 
         // QR 정보
         int width = 200;
         int height = 200;
-        String url = "http://j10b106.p.ssafy.io/market?memberId=" + memberId + "&travelId=" + travelId;
+        String url = "http://j10b106.p.ssafy.io/#/market?memberId=" + memberId + "&travelId=" + travelId;
 
         // QR Code - BitMatrix: qr code 정보 생성
         BitMatrix encode = new MultiFormatWriter()
@@ -61,10 +62,10 @@ public class QRCodeController {
 
             //Bitmatrix, file.format, outputStream
             MatrixToImageWriter.writeToStream(encode, "PNG", out);
+            String base64Image = Base64.getEncoder().encodeToString(out.toByteArray());
 
             return ResponseEntity.ok()
-                                 .contentType(MediaType.IMAGE_PNG)
-                                 .body(out.toByteArray());
+                                 .body(base64Image);
 
         }catch (Exception e){log.warn("QR Code OutputStream 도중 Excpetion 발생, {}", e.getMessage());}
 

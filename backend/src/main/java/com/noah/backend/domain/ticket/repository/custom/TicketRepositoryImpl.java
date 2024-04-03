@@ -23,7 +23,7 @@ public class TicketRepositoryImpl implements TicketRepositoryCustom {
     public Optional<List<TicketListGetFromTravelDto>> getTicketList(Long travelId) {
         List<TicketListGetFromTravelDto> ticketDtos = query
                 .select(constructor(TicketListGetFromTravelDto.class,
-//                        ticket.id,
+                        ticket.id,
                         ticket.departure,
                         ticket.arrival,
                         ticket.aAirport,

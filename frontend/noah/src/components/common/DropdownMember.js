@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function Dropdown({ selected, setSelected }) {
+function DropdownMember({ selected, setSelected, people }) {
   const handleChange = (event) => {
     setSelected(event.target.value); // 선택된 옵션의 value로 상태 업데이트
   };
@@ -24,13 +24,15 @@ function Dropdown({ selected, setSelected }) {
   return (
     <div style={{ position: "relative" }}>
       <select value={selected} onChange={handleChange} style={dropdownStyle}>
-        <option value="강준규">강준규</option>
-        <option value="여진구">여진구</option>
-        <option value="박혜선">박혜선</option>
-        <option value="이우진">이우진</option>
+        <option value="공통">공통</option>
+        {people.map((person, index) => (
+          <option key={index} value={person.name}>
+            {person.name}
+          </option>
+        ))}
       </select>
     </div>
   );
 }
 
-export default Dropdown;
+export default DropdownMember;

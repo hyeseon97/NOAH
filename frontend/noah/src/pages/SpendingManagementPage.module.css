@@ -119,3 +119,17 @@
   height: 0px;
   border: 0.277vw solid rgba(137, 137, 137, 0.3);
 }
+
+.nonHistory {
+  width: 100vw;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 5.9vw;
+  line-height: 150%;
+  color: #000000;
+}

@@ -28,7 +28,7 @@ public class MemberTravelRepositoryImpl implements MemberTravelRepositoryCustom 
                         memberTravel.payment_amount,
                         memberTravel.member.id,
                         memberTravel.member.nickname,
-                        memberTravel.member.email))
+                        memberTravel.member.name))
                 .from(memberTravel)
                 .where(memberTravel.travel.id.eq(travelId))
                 .fetch();

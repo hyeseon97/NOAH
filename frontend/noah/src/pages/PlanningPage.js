@@ -47,6 +47,14 @@ export default function PlanningPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPlan, setCurrentPlan] = useState(null);
 
+  const getFormattedDate = (dateString) => {
+    const date = new Date(dateString);
+    return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(
+      2,
+      "0"
+    )}/${String(date.getDate()).padStart(2, "0")}`;
+  };
+
   const filteredDetailPlans = detailPlans.filter(
     (detailPlan) => detailPlan.day === currentDay
   );
@@ -145,6 +153,21 @@ export default function PlanningPage() {
   // 상태 업데이트 후 확인을 위한 useEffect
   useEffect(() => {
     loadTicketList();
+    const fetchPlanInfo = async () => {
+      try {
+        const res = await getPlanDetail(travelId);
+        if (res.status === "SUCCESS") {
+          console.log(res.data);
+          setPlan(res.data);
+        } else {
+          console.log(res);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchPlanInfo();
+    loadDetailPlan();
   }, []);
 
   useEffect(() => {
@@ -226,6 +249,8 @@ export default function PlanningPage() {
               })
               .replace(/\.\s?/g, "-")
               .slice(0, -1)}
+            {getFormattedDate(plan.startDate)} ~{" "}
+            {getFormattedDate(plan.endDate)}
           </div>
         </div>
         <Edit

@@ -14,6 +14,7 @@ export default function TravelHistoryPage() {
       try {
         const res = await getAllTravel();
         if (res.status === "SUCCESS") {
+          console.log(res.data);
           setTravels(res.data);
         }
       } catch (e) {
@@ -47,7 +48,7 @@ export default function TravelHistoryPage() {
       )}
       {!isLoading && travels.length > 0 && <></>}
       {travels.map((travel) => (
-        <TravelHistory key={travel.travelId} />
+        <TravelHistory key={travel.travelId} travel={travel} />
       ))}
     </>
   );

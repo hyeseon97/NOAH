@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, HashRouter } from "react-router-dom";
 import ScrollToTop from "./components/common/ScrollToTop";
 import App from "./App";
 import WelcomePage from "./pages/WelcomgPage";
@@ -33,7 +33,7 @@ import MarketPage from "./pages/MarketPage";
 
 export default function Main() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<App />}>
@@ -80,9 +80,9 @@ export default function Main() {
           />
         </Route>
         <Route path="error" element={<ErrorPage />}></Route>
-        <Route path="*" element={<WelcomePage />}></Route>
         <Route path="market" element={<MarketPage />}></Route>
+        <Route path="*" element={<WelcomePage />}></Route>
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }

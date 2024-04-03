@@ -29,7 +29,7 @@ public class CsvServiceImpl implements CsvService {
 
 	//리뷰,이미지 더미데이터 저장
 	public void readCsvAndSaveReviewAndImage() throws CsvValidationException, IOException, ParseException {
-		ClassPathResource resource = new ClassPathResource("csv/review_and_image.csv");
+		ClassPathResource resource = new ClassPathResource("csv/review_and_additional_image.csv");
 		CSVReader csvReader = new CSVReader(new FileReader(resource.getFile()));
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 		String[] line;
@@ -42,16 +42,24 @@ public class CsvServiceImpl implements CsvService {
 					.startDate(dateFormat.parse(line[3]))
 					.endDate(dateFormat.parse(line[4]))
 					.build();
-			Image image = Image.builder()
-					.review(review)
-					.url(line[5])
-					.build();
-			System.out.println(String.join(",", line));
+
 			try {
 				reviewRepository.save(review);
-				imageRepository.save(image);
-			}catch (Exception e){
+			} catch (Exception e) {
 				throw new CsvCreateFailedException(); //리뷰 또는 이미지가 저장되지않았다면 예외 발생
+			}
+
+			for(int i=5; i<=8; i++) {
+				Image image = Image.builder()
+						.review(review)
+						.url(line[i])
+						.build();
+				System.out.println(String.join(",", line));
+				try {
+					imageRepository.save(image);
+				} catch (Exception e) {
+					throw new CsvCreateFailedException(); //리뷰 또는 이미지가 저장되지않았다면 예외 발생
+				}
 			}
 		}
 	}

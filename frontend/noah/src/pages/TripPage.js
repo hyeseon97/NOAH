@@ -52,8 +52,8 @@ export default function TripPage() {
       return;
     }
 
-    setPercent((travelInfo.accountAmount / travelInfo.targetAmount) * 100);
-  }, [travelInfo.accountAmount, travelInfo.targetAmount]);
+    setPercent((travelInfo.depositTotal / travelInfo.targetAmount) * 100);
+  }, [travelInfo.depositTotal, travelInfo.targetAmount]);
 
   const handleLeftIconClick = () => {
     navigate("/home");
@@ -64,7 +64,11 @@ export default function TripPage() {
   };
 
   const handlePlanningClick = () => {
-    navigate(`/trip/${travelId}/planning`); // 3은 travelId
+    navigate(`/trip/${travelId}/planning/${travelInfo.planId}`); // 3은 travelId
+  };
+
+  const handleCreatePlanningClick = () => {
+    navigate(`/trip/${travelId}/planningcreate`);
   };
 
   const handleMenuClick = (menu) => {
@@ -122,9 +126,9 @@ export default function TripPage() {
       <div
         style={{ width: "100vw", display: "flex", justifyContent: "center" }}
       >
-        <div className={styles.planBorder} onClick={handlePlanningClick}>
+        <div className={styles.planBorder}>
           {travelInfo.country === null && (
-            <>
+            <div onClick={handleCreatePlanningClick}>
               <div
                 style={{
                   display: "flex",
@@ -140,13 +144,21 @@ export default function TripPage() {
                 >
                   구체적인 여행 계획을 세워보세요
                 </div>
-                <div className={styles.detailParagraph}>클릭하여 계획작성</div>
+                <div
+                  className={styles.detailParagraph}
+                  onClick={handleCreatePlanningClick}
+                >
+                  클릭하여 계획작성
+                </div>
               </div>
-            </>
+            </div>
           )}
           {travelInfo.country != null && (
             <>
-              <div className={styles.infoContainer}>
+              <div
+                className={styles.infoContainer}
+                onClick={handlePlanningClick}
+              >
                 <div className={styles.Dday}>D-{calculateLeftDay()}</div>
                 <div className={styles.day}>
                   {travelInfo.startDate.split("T")[0]} ~{" "}
