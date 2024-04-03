@@ -64,17 +64,19 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 0.377vw solid rgba(137, 137, 137, 0.3);
 }
-
+.planeBox{
+  height: 33vw;
+  border-bottom: 0.377vw solid rgba(137, 137, 137, 0.3);
+}
 .planeBoxStyle{
+  margin-top: 5vw;
   display: flex;
   flex-wrap: wrap;
-  height: 33vw;
   justify-content: center;
   align-items: center;
   gap: 10vw;
-  border-top: 0.377vw solid rgba(137, 137, 137, 0.3);
-  border-bottom: 0.377vw solid rgba(137, 137, 137, 0.3);
 }
 
 .boxStyle{
@@ -112,10 +114,13 @@
   border-bottom: 0.377vw solid rgba(137, 137, 137, 0.3);
   margin-bottom: 20vw;
 }
-
-
-
-
-
-
-
+.iconBox{
+  padding-top: 0.5vw;
+  padding-right: 0.5vw;
+  display: flex;
+  justify-content: right;
+}
+.removeIcon{
+  width: 3.5vw;
+  height: 3.5vw;
+}
