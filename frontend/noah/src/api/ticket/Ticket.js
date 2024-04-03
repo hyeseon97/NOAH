@@ -34,9 +34,8 @@ export async function deleteTicket(ticketId) {
 export async function createTicket(travelId, object) {
   const urlWithQueryParam = `${commonUrl}?travelId=${travelId}`;
   try {
-    console.log(travelId)
+    console.log(travelId);
     const res = await axiosAPI.post(urlWithQueryParam, object);
-    console.log(res);
     return res.data;
   } catch (error) {
     console.log(test);
@@ -48,7 +47,6 @@ export async function getTicketList(travelId) {
   const urlWithQueryParam = `${commonUrl}/list?travelId=${travelId}`;
   try {
     const res = await axiosAPI.get(urlWithQueryParam);
-    console.log(res.data);
     return res.data;
   } catch (error) {
     throw error;

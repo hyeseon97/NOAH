@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Header from "../components/common/Header";
+import { ReactComponent as Search } from "./../assets/Icon/Search.svg";
 import { ReactComponent as Mark } from "./../assets/Icon/Mark.svg";
 import styles from "./GoogleMapSearch.module.css";
 
@@ -27,13 +28,21 @@ const Review = ({ review }) => {
 
   return (
     <div className={styles.reviewContentStyle}>
-      <div style={{ flex: 1 }}>
-        {review.author_name?.length < 10
-          ? review.author_name
-          : `${review.author_name.substring(0, 10)}...`}
-        / 평점 : {review.rating}
+      <div className={styles.reviewAuthor}>
+        <div className={styles.labelMedium}>
+          {review.author_name?.length < 10
+            ? review.author_name
+            : `${review.author_name.substring(0, 10)}...`}
+        </div>
+        <Rating
+          emptySymbol={<FaStar color="gray" />}
+          fullSymbol={<FaStar color="gold" />}
+          initialRating={review.rating}
+          readonly
+        />
+        <div className={styles.labelSmallGrey}>({review.rating})</div>
       </div>
-      <div style={{ marginRight: "20px" }}>
+      <div className={styles.labelSmall}>
         {isExpanded
           ? review.text
           : review.text?.length > 15
@@ -44,6 +53,7 @@ const Review = ({ review }) => {
       {showToggle && review.text?.length > 15 && (
         <div
           onClick={() => setIsExpanded(!isExpanded)}
+          className={styles.labelSmallOpen}
           style={{ cursor: "pointer" }}
         >
           <span>{isExpanded ? "접기" : "더 보기"}</span>
@@ -74,7 +84,6 @@ const PhotoSlider = ({ photos }) => {
               width: "40vw",
               height: "20vh",
               objectFit: "cover",
-              marginLeft: "10px",
             }}
             alt="장소 사진"
           />
@@ -324,7 +333,7 @@ export default function GoogleMapSearch() {
   return (
     <>
       <div className={styles.searchPlace} onClick={() => setShowList(false)}>
-        <Mark />
+        <Search className={styles.searchIcon} />
         <input
           className={styles.buttonStyle}
           value={search}
@@ -351,24 +360,21 @@ export default function GoogleMapSearch() {
         >
           {showList && suggestions?.length > 0 && (
             <div className={styles.listSearch}>
-              <ul>
-                {suggestions &&
-                  suggestions.map((suggestion) => (
-                    <li
-                      key={suggestion.place_id}
-                      onClick={(event) =>
-                        handleSelect(suggestion.place_id, event)
-                      }
-                      style={{ margin: "13px 0px" }}
-                    >
-                      <div>
-                        <Mark style={{ height: "13px" }} />
+              {suggestions &&
+                suggestions.map((suggestion) => (
+                  <div
+                    key={suggestion.place_id}
+                    onClick={(event) =>
+                      handleSelect(suggestion.place_id, event)
+                    }
+                    className={styles.contentsBox}
+                  >
+                    <Mark className={styles.markIcon} />
+                    <div className={styles.contents}>
+                      <div className={styles.placeTitle}>
                         {suggestion.structured_formatting.main_text}
                       </div>
-                      <div
-                        className={styles.smallTextStyle}
-                        style={{ marginLeft: "10px", marginTop: "8px" }}
-                      >
+                      <div className={styles.labelSmallGrey}>
                         {suggestion.structured_formatting.secondary_text
                           ?.length > 20
                           ? `${suggestion.structured_formatting.secondary_text.substring(
@@ -377,9 +383,9 @@ export default function GoogleMapSearch() {
                             )}...`
                           : suggestion.structured_formatting.secondary_text}
                       </div>
-                    </li>
-                  ))}
-              </ul>
+                    </div>
+                  </div>
+                ))}
             </div>
           )}
           {mapUrl !== "" && (
@@ -392,25 +398,27 @@ export default function GoogleMapSearch() {
           )}
           {outPlace && outPlace.name && (
             <div className={styles.listResult}>
-              <div className={styles.placeNameStyle}>
-                {outPlace.name} {outPlace.types[0]}
-              </div>
-              <div
-                onClick={() =>
-                  handleCreateDetail(
-                    outPlace.name,
-                    outPlace.vicinity,
-                    outPlace.lat,
-                    outPlace.lng,
-                    outPlace.rating,
-                    outPlace.photos && outPlace.photos?.length > 0
-                      ? outPlace.photos[0].getUrl()
-                      : DEFAULT_IMAGE_URL
-                  )
-                }
-                className={styles.createPlan}
-              >
-                계획 추가
+              <div className={styles.resultHead}>
+                <div className={styles.labelLarge}>
+                  {outPlace.name} {outPlace.types[0]}
+                </div>
+                <div
+                  onClick={() =>
+                    handleCreateDetail(
+                      outPlace.name,
+                      outPlace.vicinity,
+                      outPlace.lat,
+                      outPlace.lng,
+                      outPlace.rating,
+                      outPlace.photos && outPlace.photos?.length > 0
+                        ? outPlace.photos[0].getUrl()
+                        : DEFAULT_IMAGE_URL
+                    )
+                  }
+                  className={styles.addButton}
+                >
+                  계획 추가
+                </div>
               </div>
 
               <div className={styles.ratingStyle}>
@@ -422,14 +430,16 @@ export default function GoogleMapSearch() {
                       initialRating={outPlace.rating}
                       readonly
                     />
-                    <div>{outPlace.rating}</div>
+                    <div className={styles.labelSmallGrey}>
+                      ({outPlace.rating})
+                    </div>
                   </>
                 )}
               </div>
-              <div className={styles.placeAddressStyle}>
+              <div className={styles.labelMedium}>
                 {outPlace.formatted_address}
               </div>
-              <div className={styles.placeNumberStyle}>
+              <div className={styles.labelSmall}>
                 {outPlace.international_phone_number}
               </div>
 
@@ -438,27 +448,30 @@ export default function GoogleMapSearch() {
                 onClick={() => setIsWeekTime(!isWeekTime)}
               >
                 <div className={styles.placeOpenSytle}>
-                  <div
-                    style={{
-                      color: outPlace.current_opening_hours ? "green" : "red",
-                    }}
-                  >
-                    {outPlace.current_opening_hours?.open_now !== undefined
-                      ? outPlace.current_opening_hours.open_now
-                        ? "영업 중"
-                        : "영업 종료"
-                      : "영업 시간 정보 없음"}
-                  </div>
-                  <div style={{ marginLeft: "10px" }}>
-                    {outPlace.current_opening_hours?.weekday_text
-                      ? isWeekTime
-                        ? "접기"
-                        : "펼치기"
-                      : ""}
+                  <div className={styles.open}>
+                    <div
+                      className={styles.openingTime}
+                      style={{
+                        color: outPlace.current_opening_hours ? "green" : "red",
+                      }}
+                    >
+                      {outPlace.current_opening_hours?.open_now !== undefined
+                        ? outPlace.current_opening_hours.open_now
+                          ? "영업 중"
+                          : "영업 종료"
+                        : "영업 시간 정보 없음"}
+                    </div>
+                    <div className={styles.labelSmallOpen}>
+                      {outPlace.current_opening_hours?.weekday_text
+                        ? isWeekTime
+                          ? "접기"
+                          : "보기"
+                        : ""}
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className={styles.placeWeekTimeDetailInfoSytle}>
+              <div className={styles.labelMedium}>
                 {isWeekTime &&
                   outPlace.current_opening_hours?.weekday_text &&
                   outPlace.current_opening_hours.weekday_text.map(
@@ -471,12 +484,14 @@ export default function GoogleMapSearch() {
                   href={outPlace.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={styles.webSiteStyle}
+                  className={styles.website}
                 >
-                  웹사이트 :{" "}
-                  {outPlace.website?.length > 30
-                    ? `${outPlace.website?.substring(0, 30)}...`
-                    : outPlace.website}
+                  <div className={styles.labelSmall}>웹사이트 : </div>
+                  <div className={styles.labelSmallGrey}>
+                    {outPlace.website?.length > 30
+                      ? `${outPlace.website?.substring(0, 35)}...`
+                      : outPlace.website}
+                  </div>
                 </div>
               )}
 
@@ -484,11 +499,10 @@ export default function GoogleMapSearch() {
                 className={styles.moreInfoStyle}
                 onClick={changeDetailToggle}
               >
-                {detailToggle ? "줄이기" : "더보기"}
+                {detailToggle ? "줄이기" : "리뷰 더보기"}
               </div>
               {detailToggle && (
                 <div className={styles.moreInfoDetailStyle}>
-                  <div className={styles.smallTextStyle}>Review</div>
                   <div className={styles.reviewStyle}>
                     {reviews &&
                       reviews?.length > 0 &&
@@ -496,7 +510,6 @@ export default function GoogleMapSearch() {
                         <Review key={index} review={review} />
                       ))}
                   </div>
-                  <div className={styles.smallTextStyle}>Photo</div>
                   <div className={styles.imgStyle}>
                     {photos && photos?.length > 0 && (
                       <PhotoSlider photos={photos} />

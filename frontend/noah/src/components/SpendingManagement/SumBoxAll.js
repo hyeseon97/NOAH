@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ReactComponent as WhiteArrow } from "../../assets/Icon/WhiteArrow.svg";
 
-export default function SumBox({
+export default function SumBoxAll({
   title,
   sum,
   selectedNames,

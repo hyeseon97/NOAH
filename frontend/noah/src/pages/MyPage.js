@@ -36,7 +36,8 @@ export default function MyPage() {
         throw new Error();
       }
     } catch (e) {
-      navigate("/error");
+      localStorage.clear();
+      navigate("/login");
     }
   };
 

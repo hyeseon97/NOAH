@@ -11,10 +11,14 @@ export default function DoughnutChartSmall({ percent, isRed = false }) {
 
   useEffect(() => {
     const donutAnimation = setInterval(() => {
-      if (t >= percent) {
-        clearInterval(donutAnimation);
+      if (t < percent) {
+        // percent가 t보다 큰 경우, t를 1씩 증가
+        setT((prevT) => prevT + 1);
+      } else if (t > percent) {
+        // percent가 t보다 작은 경우, t를 1씩 감소
+        setT((prevT) => prevT - 1);
       } else {
-        setT(t + 1);
+        clearInterval(donutAnimation);
       }
     }, 10);
 

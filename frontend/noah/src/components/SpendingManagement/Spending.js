@@ -54,6 +54,7 @@ export default function Spending({
           {transaction.type === 1 && (
             <>
               <div className={styles.labelMedium} style={{ color: "blue" }}>
+                <span>+ </span>
                 {new Intl.NumberFormat("ko-KR").format(transaction.cost)}원
               </div>
             </>
@@ -61,7 +62,7 @@ export default function Spending({
           {transaction.type === 2 && (
             <>
               <div className={styles.labelMedium}>
-                {new Intl.NumberFormat("ko-KR").format(transaction.cost)}원
+                - {new Intl.NumberFormat("ko-KR").format(transaction.cost)}원
               </div>
             </>
           )}
@@ -81,6 +82,7 @@ export default function Spending({
                 />
               </>
             )}
+            {transaction.type === 1 && <div className={styles.deposit}></div>}
           </div>
           <div className={styles.paragraphSmall}>
             잔액 {new Intl.NumberFormat("ko-KR").format(transaction.amount)}원

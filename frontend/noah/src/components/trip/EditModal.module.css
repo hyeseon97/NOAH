@@ -11,62 +11,70 @@
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
   }
-
+  .modalContent {
+    background-color: #fff;
+    padding: 15vw;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
   .innerContent {
     display: flex;
     flex-direction: column;
-    margin: 2px;
   }
 
   .twiceButton {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin: 2px;
+    justify-content: space-between;
   }
   
   /* 모달 내용 스타일 */
-  .modalContent {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
   
   /* 라벨 스타일 */
   .label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 1vw;
     font-weight: bold;
   }
   
   /* 입력 필드 스타일 */
   .inputField {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding:3.5vw;
+    border: 0.5vw solid #ccc;
+    border-radius: 1vw;
+
+    font-Family: "Pretendard";
+    font-Style: normal;
+    font-Weight: 600;
+    font-Size: 4.45vw;
+    line-Height: 150%;
+    color: #000000;
   }
   
   /* 버튼 스타일 */
   .button {
-    padding: 10px 20px;
+    padding: 2.5vw 9vw;
     border: none;
-    border-radius: 4px;
+    border-radius: 1vw;
     cursor: pointer;
-    margin-right: 10px;
+    margin: 1vw;
+    font-Family: "Pretendard";
+    font-Style: normal;
+    font-Weight: 600;
+    font-Size: 3.35vw;
+    line-Height: 150%;
+    color: #000000;
   }
   
   /* "닫기" 버튼 스타일 */
   .closeButton {
-    background-color: #f44336;
-    color: white;
+    background-color: #e8dfdf;
+    color: rgb(29, 27, 27);
   }
   
   /* "수정" 버튼 스타일 */
   .submitButton {
-    background-color: #4CAF50;
+    background-color: #313131;
     color: white;
   }
   
