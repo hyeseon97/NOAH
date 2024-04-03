@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import styles from "./TripPage.module.css";
-
 import { ReactComponent as Change } from "./../assets/Icon/Change.svg";
 import { ReactComponent as QR } from "./../assets/Icon/QR.svg";
 import { ReactComponent as Pig } from "./../assets/Icon/Pig.svg";
@@ -34,7 +33,6 @@ export default function TripPage() {
     const fetchTravelInfo = async () => {
       try {
         const res = await getTravelInfo(travelId);
-        console.log(res.data);
         if (res.status === "SUCCESS") {
           setTravelInfo(res.data);
         } else {
@@ -65,11 +63,11 @@ export default function TripPage() {
   };
 
   const handleDetailClick = () => {
-    navigate(`/trip/${travelId}/goal`); // 3은 travelId
+    navigate(`/trip/${travelId}/goal`);
   };
 
   const handlePlanningClick = () => {
-    navigate(`/trip/${travelId}/planning/${travelInfo.planId}`); // 3은 travelId
+    navigate(`/trip/${travelId}/planning/${travelInfo.planId}`);
   };
 
   const handleCreatePlanningClick = () => {

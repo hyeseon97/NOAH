@@ -4,7 +4,6 @@ const commonUrl = "/api/v1/plan";
 /* 계획 수정 */
 export async function updatePlan(object) {
   try {
-    console.log(object)
     const res = await axiosAPI.put(commonUrl, object);
     return res.data;
   } catch (error) {
@@ -16,7 +15,6 @@ export async function updatePlan(object) {
 export async function updatePlanStart(planId, object) {
   try {
     const res = await axiosAPI.put(commonUrl + `/change/${planId}`, object);
-    console.log(res)
     return res.data;
   } catch (error) {
     throw error;
@@ -37,7 +35,6 @@ export async function createPlan(object) {
 export async function getPlanDetail(travelId) {
   try {
     const res = await axiosAPI.get(commonUrl + `/${travelId}`);
-    console.log(res + "testestsetse")
     return res.data.data;
   } catch (error) {
     throw error;
