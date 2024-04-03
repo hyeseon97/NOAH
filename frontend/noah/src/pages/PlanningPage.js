@@ -10,7 +10,7 @@ import { ReactComponent as Mark } from "./../assets/Icon/Mark.svg";
 import { useParams } from "react-router-dom";
 import style from "./PlanningPage.module.css";
 import { format } from "date-fns";
-import EditModal from '../components/trip/EditModal'; // 수정을 위한 모달 컴포넌트
+import EditModal from "../components/trip/EditModal"; // 수정을 위한 모달 컴포넌트
 
 import {
   getDetailPlan,
@@ -142,12 +142,17 @@ export default function PlanningPage() {
     console.log(JSON.stringify(plane), "plane updated"); // 상태가 업데이트된 후의 값을 로깅
   }, [plane]);
 
+  // 상태 업데이트 후 확인을 위한 useEffect
+  useEffect(() => {
+    loadTicketList();
+  }, []);
+
   useEffect(() => {
     setCurrentSelectedDate(plan.start_date);
     loadDetailPlan();
     loadTicketList();
     loadPlan();
-    console.log(JSON.stringify(currentPlan) + "이거 한버넹 들어가냐")
+    console.log(JSON.stringify(currentPlan) + "이거 한버넹 들어가냐");
   }, [plan.start_date]);
 
   const handleDeleteDetailPlan = async (detailPlanId) => {
@@ -165,17 +170,15 @@ export default function PlanningPage() {
     try {
       console.log(ticketId);
       await deleteTicket(ticketId);
-      setPlane((prevTickets) =>
-        prevTickets.filter((flight) => flight.id !== ticketId)
-      );
+      await loadTicketList(); // 티켓 리스트를 다시 불러옴
     } catch (error) {
       console.error("삭제 작업 중 오류가 발생했습니다.", error);
     }
   };
 
   const handleEditClick = (plan) => {
-    setCurrentPlan(plan); // 수정할 계획의 정보 설정
-    setIsModalOpen(true); // 모달 열기
+    setCurrentPlan(plan); 
+    setIsModalOpen(true); 
   };
 
   const handleSubmit = async (updatedPlan) => {
@@ -183,13 +186,12 @@ export default function PlanningPage() {
       console.log(updatedPlan);
       await updatePlan(planId, updatedPlan);
       setIsModalOpen(false); // 모달 닫기
-  
+
       loadPlan();
     } catch (error) {
       console.error(error);
     }
   };
-  
 
   const filteredPlanes = plane.filter((flight) => {
     // 출발 날짜가 유효한지 확인합니다.
@@ -273,11 +275,10 @@ export default function PlanningPage() {
               </div>
               <TrashCan
                 className={style.trashCanButton}
-                onClick={() => handleDeleteTicket(flight.id)}
+                onClick={() => handleDeleteTicket(flight.ticket_id)}
               />
             </div>
           ))}
-          <div>
             {filteredDetailPlans.map((detailPlan) => (
               <div key={detailPlan.detailPlanId} className={style.boxStyle}>
                 <img
@@ -289,7 +290,7 @@ export default function PlanningPage() {
                   <div className={style.smallBoldFont}>{detailPlan.place}</div>
                   <div className={style.smallFont}>{detailPlan.memo}</div>
                   <div className={style.smallFont}>
-                    사용자 평점 {detailPlan.time}
+                  {detailPlan.time ? `사용자 평점 ${detailPlan.time}` : "평점 정보 없음"}
                   </div>
                 </div>
                 <TrashCan
@@ -301,7 +302,6 @@ export default function PlanningPage() {
               </div>
             ))}
             {/* 새로운 계획 추가 버튼 등 나머지 UI 요소 */}
-          </div>
         </div>
         <div className={style.addDetailPlanStyle} onClick={handleAddPlanClick}>
           <Plus />

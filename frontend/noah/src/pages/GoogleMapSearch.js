@@ -23,12 +23,12 @@ import {
 
 const Review = ({ review }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const showToggle = review.text.length > 20;
+  const showToggle = review.text?.length > 20;
 
   return (
     <div className={styles.reviewContentStyle}>
       <div style={{ flex: 1 }}>
-        {review.author_name.length < 10
+        {review.author_name?.length < 10
           ? review.author_name
           : `${review.author_name.substring(0, 10)}...`}
         / 평점 : {review.rating}
@@ -36,12 +36,12 @@ const Review = ({ review }) => {
       <div style={{ marginRight: "20px" }}>
         {isExpanded
           ? review.text
-          : review.text.length > 15
+          : review.text?.length > 15
           ? `${review.text.substring(0, 15)}...`
           : review.text}
       </div>
 
-      {showToggle && review.text.length > 15 && (
+      {showToggle && review.text?.length > 15 && (
         <div
           onClick={() => setIsExpanded(!isExpanded)}
           style={{ cursor: "pointer" }}
@@ -89,18 +89,16 @@ export default function GoogleMapSearch() {
   const [search, setSearch] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const mapRef = useRef(null);
-  const [outPlace, setOutPlace] = useState([]);
+  const [outPlace, setOutPlace] = useState({ website: "" });
   const [reviews, setReviews] = useState([]);
   const [photos, setPhotos] = useState([]);
   const [showList, setShowList] = useState(false);
   const searchResultsRef = useRef(null); // 상세 정보 창에 대한 ref
   const toggleButtonRef = useRef(null); // 토글 버튼에 대한 ref
-  const libraries = ["places"];
   const [center, setCenter] = useState({ lat: 37.5665, lng: 126.978 });
   const [infoToggle, setInpoToggle] = useState(false);
   const [detailToggle, setDetailToggle] = useState(false);
   const [isWeekTime, setIsWeekTime] = useState(false);
-  // const { planId } = useParams();
   const location = useLocation();
   const { planId, day, date } = location.state;
   const navigate = useNavigate();
@@ -144,7 +142,7 @@ export default function GoogleMapSearch() {
     const heightVH = window.innerHeight * 0.4; // 뷰포트의 40%
     return `${Math.round(widthVW)}x${Math.round(heightVH)}`;
   }
-  
+
   const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 
   const zoom = 14;
@@ -158,7 +156,6 @@ export default function GoogleMapSearch() {
       const lat = outPlace.geometry.location.lat();
       const lng = outPlace.geometry.location.lng();
       const newMapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=${zoom}&size=${widthVW}x${heightVH}&maptype=${mapType}&markers=color:blue%7Clabel:S%7C${lat},${lng}&key=${apiKey}`;
-      console.log(newMapUrl);
       setMapUrl(newMapUrl);
     }
   }, [outPlace, widthVW, heightVH, zoom, mapType, apiKey]);
@@ -176,13 +173,12 @@ export default function GoogleMapSearch() {
 
   const toggleShowList = () => {
     setShowList(!showList);
-    console.log(showList);
   };
 
   const handleSearchChange = (e) => {
     const value = e.target.value;
     setSearch(value);
-    if (value.length > 0) {
+    if (value?.length > 0) {
       setShowList(true); // 검색어가 있을 때 검색 결과창을 표시
     }
     setSuggestions([]);
@@ -214,7 +210,7 @@ export default function GoogleMapSearch() {
   }, [searchResultsRef, toggleButtonRef]);
 
   useEffect(() => {
-    if (search.length > 0) {
+    if (search?.length > 0) {
       const autocompleteService =
         new window.google.maps.places.AutocompleteService();
       autocompleteService.getPlacePredictions(
@@ -245,9 +241,7 @@ export default function GoogleMapSearch() {
     return () => clearTimeout(timeoutId);
   }, []);
 
-  useEffect(() => {
-    console.log(planId, day);
-  }, []);
+  useEffect(() => {}, []);
 
   const handleSelect = (placeId, event) => {
     event.preventDefault();
@@ -279,7 +273,6 @@ export default function GoogleMapSearch() {
           };
           setMarkers([currentPosition]);
           mapRef.current.panTo(currentPosition);
-          console.log(currentPosition);
           mapRef.current.setZoom(5);
         },
         () => {
@@ -327,7 +320,6 @@ export default function GoogleMapSearch() {
       console.error(error);
     }
   };
->>>>>>> 540f63570b9f423246c6421aac88511d3ef84bb9
 
   return (
     <>
@@ -352,27 +344,44 @@ export default function GoogleMapSearch() {
           ))}
         </GoogleMap>
       </LoadScript>
-      {outPlace && showList && search.length !== 0 && (
+      {outPlace && showList && search?.length !== 0 && (
         <div
           className={styles.searchResultsStyle}
           style={{ display: showList ? "block" : "none" }}
         >
-          <div className={styles.listSearch}>
-            {suggestions && suggestions.length > 0 && (
+          {showList && suggestions?.length > 0 && (
+            <div className={styles.listSearch}>
               <ul>
-                {suggestions.map((suggestion) => (
-                  <li
-                    key={suggestion.place_id}
-                    onClick={(event) =>
-                      handleSelect(suggestion.place_id, event)
-                    }
-                  >
-                    {suggestion.description}
-                  </li>
-                ))}
+                {suggestions &&
+                  suggestions.map((suggestion) => (
+                    <li
+                      key={suggestion.place_id}
+                      onClick={(event) =>
+                        handleSelect(suggestion.place_id, event)
+                      }
+                      style={{ margin: "13px 0px" }}
+                    >
+                      <div>
+                        <Mark style={{ height: "13px" }} />
+                        {suggestion.structured_formatting.main_text}
+                      </div>
+                      <div
+                        className={styles.smallTextStyle}
+                        style={{ marginLeft: "10px", marginTop: "8px" }}
+                      >
+                        {suggestion.structured_formatting.secondary_text
+                          ?.length > 20
+                          ? `${suggestion.structured_formatting.secondary_text.substring(
+                              0,
+                              20
+                            )}...`
+                          : suggestion.structured_formatting.secondary_text}
+                      </div>
+                    </li>
+                  ))}
               </ul>
-            )}
-          </div>
+            </div>
+          )}
           {mapUrl !== "" && (
             <img
               key={mapUrl}
@@ -394,11 +403,12 @@ export default function GoogleMapSearch() {
                     outPlace.lat,
                     outPlace.lng,
                     outPlace.rating,
-                    outPlace.photos && outPlace.photos.length > 0
+                    outPlace.photos && outPlace.photos?.length > 0
                       ? outPlace.photos[0].getUrl()
                       : DEFAULT_IMAGE_URL
                   )
                 }
+                className={styles.createPlan}
               >
                 계획 추가
               </div>
@@ -456,9 +466,17 @@ export default function GoogleMapSearch() {
                   )}
               </div>
 
-              {outPlace.website && (
-                <div href={outPlace.website} className={styles.webSiteStyle}>
-                  웹사이트 : {outPlace.website}
+              {outPlace?.website && (
+                <div
+                  href={outPlace.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.webSiteStyle}
+                >
+                  웹사이트 :{" "}
+                  {outPlace.website?.length > 30
+                    ? `${outPlace.website?.substring(0, 30)}...`
+                    : outPlace.website}
                 </div>
               )}
 
@@ -473,14 +491,14 @@ export default function GoogleMapSearch() {
                   <div className={styles.smallTextStyle}>Review</div>
                   <div className={styles.reviewStyle}>
                     {reviews &&
-                      reviews.length > 0 &&
+                      reviews?.length > 0 &&
                       reviews.map((review, index) => (
                         <Review key={index} review={review} />
                       ))}
                   </div>
                   <div className={styles.smallTextStyle}>Photo</div>
                   <div className={styles.imgStyle}>
-                    {photos && photos.length > 0 && (
+                    {photos && photos?.length > 0 && (
                       <PhotoSlider photos={photos} />
                     )}
                   </div>
