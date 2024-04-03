@@ -164,84 +164,84 @@ public class TradeServiceImpl implements TradeService {
         /* 만약 거래 조회 내역이 없으면(초기상태이면) */
         if (account.getEndDate() == null) {
             account.setEndDate(endDate);
-            fetchAndSaveTradeHistory(account, createdDate, endDate);
+//            fetchAndSaveTradeHistory(account, createdDate, endDate);
             List<TradeGetResDto> result = tradeRepository.getTradeList(account.getId()).orElseThrow(TradeNotFoundException::new);
             return result;
         } else {
             String startDate = account.getEndDate();
-            fetchAndSaveTradeHistory(account, startDate, endDate);
+//            fetchAndSaveTradeHistory(account, startDate, endDate);
             List<TradeGetResDto> result = tradeRepository.getTradeList(account.getId()).orElseThrow(TradeNotFoundException::new);
             return result;
         }
     }
 
     /* 은행에서 가져오고 저장하는 메서드 */
-    public void fetchAndSaveTradeHistory(Account account, String startDate, String endDate) throws IOException {
-        /* 은행 코드 */
-        Map<String, String> bankCodeMap = Map.of(
-            "한국은행", "001",
-            "산업은행", "002",
-            "기업은행", "003",
-            "국민은행", "004"
-        );
-        String bankCode = bankCodeMap.get(account.getBankName());
-
-        /* 은행 메서드를 사용하기 위한 reqDto 생성 */
-        TransactionHistoryReqDto transactionHistoryReqDto = TransactionHistoryReqDto.builder()
-                                                                                    .userKey(account.getMember().getUserKey())
-                                                                                    .bankCode(bankCode)
-                                                                                    .accountNo(account.getAccountNumber())
-                                                                                    .startDate(startDate)
-                                                                                    .endDate(endDate)
-                                                                                    .transactionType("A")
-                                                                                    .orderByType("ASC")
-                                                                                    .build();
-
-
-        /* 은행에서 가져온 내역 */
-        List<TransactionHistoryResDto> bankTradeHistory = bankService.transactionHistory(transactionHistoryReqDto);
-        /* 만약에 은행에서도 거래내역이 조회가 안되면 종료 */
-        if (bankTradeHistory == null) {
-            System.out.println("조회안됨");
-            return;
-        }
-
-        for (TransactionHistoryResDto bankTrade : bankTradeHistory) {
-            Optional<TradeDateAndTime> existingTrade = tradeRepository.getTradeDateAndTime(bankTrade.getDate(),
-                                                                                           bankTrade.getTime());
-            if (existingTrade.isEmpty()) {
-                Trade trade = Trade.builder()
-                                   .type(bankTrade.getType())
-                                   .name(bankTrade.getName())
-                                   .date(bankTrade.getDate())
-                                   .time(bankTrade.getTime())
-                                   .cost(bankTrade.getCost())
-                                   .amount(bankTrade.getAmount())
-                                   .account(account)
-                                   .build();
-
-                Member usedMember = null;
-                if (bankTrade.getType() == 1) {
-                    usedMember = memberRepository.findByNameAndAccountId(bankTrade.getName(), account.getId()).orElse(null);
-                }
-
-                if (usedMember != null) {
-                    trade.setMember(usedMember);
-                }
-
-                if(bankTrade.getName().contains("USD") || bankTrade.getName().contains("JPY") || bankTrade.getName().contains("CNY") || bankTrade.getName().contains("EUR")){
-                    trade.setConsumeType("환전");
-                    trade.setMember(null);
-                }
-
-                tradeRepository.save(trade);
-
-                // 잔액 최신화 부분
-//                account.setAmount(trade.getAmount());
-//                accountRepository.save(account);
-            }
-        }
-    }
+//    public void fetchAndSaveTradeHistory(Account account, String startDate, String endDate) throws IOException {
+//        /* 은행 코드 */
+//        Map<String, String> bankCodeMap = Map.of(
+//            "한국은행", "001",
+//            "산업은행", "002",
+//            "기업은행", "003",
+//            "국민은행", "004"
+//        );
+//        String bankCode = bankCodeMap.get(account.getBankName());
+//
+//        /* 은행 메서드를 사용하기 위한 reqDto 생성 */
+//        TransactionHistoryReqDto transactionHistoryReqDto = TransactionHistoryReqDto.builder()
+//                                                                                    .userKey(account.getMember().getUserKey())
+//                                                                                    .bankCode(bankCode)
+//                                                                                    .accountNo(account.getAccountNumber())
+//                                                                                    .startDate(startDate)
+//                                                                                    .endDate(endDate)
+//                                                                                    .transactionType("A")
+//                                                                                    .orderByType("ASC")
+//                                                                                    .build();
+//
+//
+//        /* 은행에서 가져온 내역 */
+//        List<TransactionHistoryResDto> bankTradeHistory = bankService.transactionHistory(transactionHistoryReqDto);
+//        /* 만약에 은행에서도 거래내역이 조회가 안되면 종료 */
+//        if (bankTradeHistory == null) {
+//            System.out.println("조회안됨");
+//            return;
+//        }
+//
+//        for (TransactionHistoryResDto bankTrade : bankTradeHistory) {
+//            Optional<TradeDateAndTime> existingTrade = tradeRepository.getTradeDateAndTime(bankTrade.getDate(),
+//                                                                                           bankTrade.getTime());
+//            if (existingTrade.isEmpty()) {
+//                Trade trade = Trade.builder()
+//                                   .type(bankTrade.getType())
+//                                   .name(bankTrade.getName())
+//                                   .date(bankTrade.getDate())
+//                                   .time(bankTrade.getTime())
+//                                   .cost(bankTrade.getCost())
+//                                   .amount(bankTrade.getAmount())
+//                                   .account(account)
+//                                   .build();
+//
+//                Member usedMember = null;
+//                if (bankTrade.getType() == 1) {
+//                    usedMember = memberRepository.findByNameAndAccountId(bankTrade.getName(), account.getId()).orElse(null);
+//                }
+//
+//                if (usedMember != null) {
+//                    trade.setMember(usedMember);
+//                }
+//
+//                if(bankTrade.getName().contains("USD") || bankTrade.getName().contains("JPY") || bankTrade.getName().contains("CNY") || bankTrade.getName().contains("EUR")){
+//                    trade.setConsumeType("환전");
+//                    trade.setMember(null);
+//                }
+//
+//                tradeRepository.save(trade);
+//
+//                // 잔액 최신화 부분
+////                account.setAmount(trade.getAmount());
+////                accountRepository.save(account);
+//            }
+//        }
+//    }
 
     @Override
     public List<TradeGetResDto> getTradeListByMemberAndConsumeType(String email, Long travelId, List<Long> memberIds,
