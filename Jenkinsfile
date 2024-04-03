@@ -91,7 +91,7 @@ pipeline {
                 cd /home/ubuntu &&
                 docker-compose down &&
                 docker-compose up -d &&
-                echo "last fixed: sacrifice for env2..."
+                echo "last fixed: .."
               "
           '''
         }
