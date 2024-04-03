@@ -24,6 +24,25 @@ export default function TravelHistoryPage() {
     })();
   }, []);
 
+  const fetchTravels = async () => {
+    setIsLoading(true);
+    try {
+      const res = await getAllTravel();
+      if (res.status === "SUCCESS") {
+        console.log(res.data);
+        setTravels(res.data);
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  useEffect(() => {
+    fetchTravels();
+  }, []);
+
   return (
     <>
       <Header LeftIcon="Arrow" Title="내 여행 기록" />
@@ -48,7 +67,7 @@ export default function TravelHistoryPage() {
       )}
       {!isLoading && travels.length > 0 && <></>}
       {travels.map((travel) => (
-        <TravelHistory key={travel.travelId} travel={travel} />
+        <TravelHistory key={travel.travelId} travel={travel} fetchTravels={fetchTravels}/>
       ))}
     </>
   );

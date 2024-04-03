@@ -22,6 +22,7 @@ export default function SpendingManagemnetPage() {
   const [allSpendingHistory, setAllSpendingHistory] = useState([]);
   const [groupedByDate, setGroupedByDate] = useState([]);
   const [people, setPeople] = useState([]); // 여행에 속한 사람의 이름, id
+  const [isDetailClick, setIsDetailClick] = useState(false);
 
   useEffect(() => {
     AOS.init({
@@ -57,10 +58,19 @@ export default function SpendingManagemnetPage() {
       return acc;
     }, {});
 
-    return groupedByDate;
+    const sortedByDate = Object.entries(groupedByDate).sort((a, b) =>
+      b[0].localeCompare(a[0])
+    );
+
+    return sortedByDate;
   }
 
   useEffect(() => {
+    if (isDetailClick) {
+      return;
+    }
+    setIsDetailClick(false);
+
     (async () => {
       try {
         const res = await getAllTrade(travelId);
@@ -69,6 +79,7 @@ export default function SpendingManagemnetPage() {
         const idAndNames = peopleRes.data.map((member) => ({
           id: member.member_id,
           name: member.memberName,
+          amount: member.payment_amount,
         }));
         setPeople(idAndNames);
         setAllSpendingHistory(res.data);
@@ -76,10 +87,9 @@ export default function SpendingManagemnetPage() {
       } catch (e) {
       } finally {
         setTimeout(() => setIsLoading(false), 500);
-        console.log(groupedByDate);
       }
     })();
-  }, []);
+  }, [isFilter]);
 
   return (
     <>
@@ -91,7 +101,7 @@ export default function SpendingManagemnetPage() {
       />
       {!isFilter && !isLoading && (
         <>
-          {Object.entries(groupedByDate).map(([date, data]) => (
+          {groupedByDate.map(([date, data]) => (
             <div key={date}>
               <SpendingHeader date={date} totalCost={data.totalCost} />
               {data.transactions.map((transaction) => (
@@ -99,6 +109,8 @@ export default function SpendingManagemnetPage() {
                   key={transaction.tradeId}
                   transaction={transaction}
                   people={people}
+                  setAllSpendingHistory={setAllSpendingHistory}
+                  travelId={travelId}
                 />
               ))}
             </div>
@@ -135,7 +147,10 @@ export default function SpendingManagemnetPage() {
                   className={styles.labelSmall}
                   style={{ marginTop: "1.11vw" }}
                 >
-                  15,000,000원
+                  {people
+                    .reduce((acc, curr) => acc + curr.amount, 0)
+                    .toLocaleString("ko-KR")}
+                  원
                 </div>
               </div>
               <div className={styles.graphContainer}>
@@ -157,6 +172,10 @@ export default function SpendingManagemnetPage() {
                     marginTop: "1vw",
                     color: "blue",
                     cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    setIsDetailClick(true);
+                    setIsFilter(false);
                   }}
                 >
                   내역 상세
@@ -194,12 +213,15 @@ export default function SpendingManagemnetPage() {
               </div>
             </div>
             <div className={styles.line}></div>
-            <SumBox title="전체" sum="8750000" />
+            <SumBox
+              title="전체"
+              sum={people.reduce((acc, curr) => acc + curr.amount, 0)}
+            />
             <div className={styles.line}></div>
-            <SumBox title="강준규" sum="1750000" isClicked={true} />
-            <SumBox title="박혜선" sum="2750000" />
-            <SumBox title="이우진" sum="3750000" isClicked={true} />
-            <SumBox title="전현철" sum="4750000" />
+            {/* 각 사람별 SumBox를 렌더링 */}
+            {people.map((person) => (
+              <SumBox key={person.id} title={person.name} sum={person.amount} />
+            ))}
           </div>
         </>
       )}
