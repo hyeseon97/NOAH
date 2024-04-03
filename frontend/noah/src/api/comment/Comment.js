@@ -24,8 +24,10 @@ export async function getCommentList(reviewId) {
 /* 코멘트 수정 */
 export async function updateComment(reviewId, content) {
   const object = { reviewId: reviewId, content: content };
+  console.log(object)
   try {
     const res = await axiosAPI.put(commonUrl, object);
+    console.log(res)
     return res.data;
   } catch (error) {
     throw error;

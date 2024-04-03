@@ -8,9 +8,14 @@ function ReviewModal({ isOpen, onRequestClose, travel }) {
   const [content, setContent] = useState("");
 
   const handleSubmit = async () => {
-    updateComment(travel.reviewId, content);
-    onRequestClose(); // 모달 닫기
+    try {
+      await updateComment(travel.reviewId, content); 
+      onRequestClose();
+    } catch (error) {
+      console.error(error);
+    }
   };
+  
 
   return (
     <Modal
