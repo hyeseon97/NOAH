@@ -14,4 +14,6 @@ public interface MemberRepositoryCustom {
     Optional<List<Long>> findByTravelId(Long travelId);
 
     Optional<Member> findByNameAndAccountId(String name, Long accountId);
+
+    Optional<Member> findMasterByAccountId(Long accountId);
 }
