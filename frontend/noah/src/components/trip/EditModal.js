@@ -36,44 +36,46 @@ function EditModal({ plan, onSubmit, onClose }) {
               name="country"
               value={updatedPlan.country}
               onChange={handleChange}
+              className={styles.inputField}
             />
             <br />
             <label htmlFor="start_date" className={styles.label}>
-              시작일:
+              시작일
             </label>
             <input
               id="start_date"
               name="start_date"
               value={updatedPlan.start_date}
               onChange={handleChange}
+              className={styles.inputField}
             />
             <br />
             <label htmlFor="end_date" className={styles.label}>
-              마지막 날:
+              마지막 날
             </label>
             <input
               id="end_date"
               name="end_date"
               value={updatedPlan.end_date}
               onChange={handleChange}
+              className={styles.inputField}
             />
             <br />
           </div>
           <div className={styles.twiceButton}>
-          <button
-            type="button"
-            onClick={onClose}
-            className={`${styles.button} ${styles.closeButton}`}
-          >
-            닫기
-          </button>
-          {/* "수정" 버튼은 form의 submit 이벤트를 통해 handleSubmit 함수를 호출 */}
-          <button
-            type="submit"
-            className={`${styles.button} ${styles.submitButton}`}
-          >
-            수정
-          </button>
+            <button
+              type="button"
+              onClick={onClose}
+              className={`${styles.button} ${styles.closeButton}`}
+            >
+              닫기
+            </button>
+            <button
+              type="submit"
+              className={`${styles.button} ${styles.submitButton}`}
+            >
+              수정
+            </button>
           </div>
         </form>
       </div>
