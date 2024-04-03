@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "./../components/common/Header";
 import { ReactComponent as Next } from "./../assets/Icon/Next.svg";
 import { ReactComponent as SmallPlane } from "./../assets/Icon/SmallPlane.svg";
-import { ReactComponent as TrashCan } from "./../assets/Icon/TrashCan.svg";
+import { ReactComponent as Cancel } from "./../assets/Icon/Cancel.svg";
 import { ReactComponent as Plus } from "./../assets/Icon/Plus.svg";
 import { ReactComponent as Edit } from "./../assets/Icon/Edit.svg";
 import { useParams } from "react-router-dom";
@@ -345,35 +345,36 @@ export default function PlanningPage() {
           <div>
             <div>
               {filteredPlanes.map((flight) => (
-                <div key={flight.ticket_id} className={styles.planeBoxStyle}>
-                  <div className={styles.planeInfo}>
-                    <div className={styles.labelMedium}>{flight.a_airport}</div>
-                    <div className={styles.labelSmall}>
-                      {getTimeFromString(flight.arrival)}
+                <div key={flight.ticket_id} className={styles.planeBox}>
+                  <div className={styles.iconBox}>
+                    <Cancel
+                      className={styles.removeIcon}
+                      onClick={() => handleDeleteTicket(flight.ticket_id)}
+                    />
+                  </div>
+                  <div className={styles.planeBoxStyle}>
+                    <div className={styles.planeInfo}>
+                      <div className={styles.labelMedium}>
+                        {flight.a_airport}
+                      </div>
+                      <div className={styles.labelSmall}>
+                        {getTimeFromString(flight.arrival)}
+                      </div>
+                    </div>
+                    <SmallPlane className={styles.smallPlaneStyle} />
+                    <div className={styles.planeInfo}>
+                      <div className={styles.labelMedium}>
+                        {flight.d_airport}
+                      </div>
+                      <div className={styles.labelSmall}>
+                        {getTimeFromString(flight.departure)}
+                      </div>
                     </div>
                   </div>
-                  <SmallPlane className={styles.smallPlaneStyle} />
-                  <div className={styles.planeInfo}>
-                    <div className={styles.labelMedium}>{flight.d_airport}</div>
-                    <div className={styles.labelSmall}>
-                      {getTimeFromString(flight.departure)}
-                    </div>
-                  </div>
-                  {/* <TrashCan
-                    className={styles.trashCanButton}
-                    onClick={() => handleDeleteTicket(flight.ticket_id)}
-                  /> */}
                 </div>
               ))}
               {filteredDetailPlans.map((detailPlan) => (
                 <div key={detailPlan.detailPlanId} className={styles.boxStyle}>
-                  {/* <TrashCan
-                    className={styles.trashCanButton}
-                    onClick={() =>
-                      handleDeleteDetailPlan(detailPlan.detailPlanId)
-                    }
-                  /> */}
-
                   <div className={styles.boxLeft}>
                     <img
                       src={detailPlan.imageUrl}
@@ -382,6 +383,14 @@ export default function PlanningPage() {
                     />
                   </div>
                   <div className={styles.planInfoBox}>
+                    <div className={styles.iconBox}>
+                      <Cancel
+                        className={styles.removeIcon}
+                        onClick={() =>
+                          handleDeleteDetailPlan(detailPlan.detailPlanId)
+                        }
+                      />
+                    </div>
                     <div
                       className={styles.labelMedium}
                       style={{
