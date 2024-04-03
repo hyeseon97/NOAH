@@ -1,6 +1,6 @@
 import { ReactComponent as WhiteArrow } from "../../assets/Icon/WhiteArrow.svg";
 
-export default function SumBox({ isClicked, title, sum }) {
+export default function SumBox({ isClicked, title, sum, onClick }) {
   const container = {
     width: "88.89vw",
     height: "10vw",

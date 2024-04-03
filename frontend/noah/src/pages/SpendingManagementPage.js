@@ -23,6 +23,63 @@ export default function SpendingManagemnetPage() {
   const [groupedByDate, setGroupedByDate] = useState([]);
   const [people, setPeople] = useState([]); // 여행에 속한 사람의 이름, id
   const [isDetailClick, setIsDetailClick] = useState(false);
+  const [selectedSpendingHistory, setSelectedSpendingHistory] = useState([]);
+  const [peopleHistory, setPeopleHistory] = useState([]);
+
+  const [selectedNames, setSelectedNames] = useState([]);
+  const [selectedConsumeTypes, setSelectedConsumeTypes] = useState([
+    "공통",
+    "식비",
+    "숙박",
+    "항공/교통",
+    "환전",
+    "쇼핑",
+    "기타",
+  ]);
+  const [totalAmountByConsumeType, setTotalAmountByConsumeType] = useState({});
+  const [allPeopleDeposit, setAllPeopleDeposit] = useState(0);
+  const [allPeopleExpense, setAllPeopleExpense] = useState(0);
+  const [depositPercent, setDepositPercent] = useState(0);
+  const [expensePercent, setExpensePercent] = useState(0);
+  const [depositSum, setDepositSum] = useState(0);
+  const [expenseSum, setExpenseSum] = useState(0);
+
+  function filterTransactions(selectedNames, selectedConsumeTypes) {
+    return allSpendingHistory.filter(
+      (transaction) =>
+        selectedNames.includes(transaction.name) &&
+        selectedConsumeTypes.includes(transaction.consumeType)
+    );
+  }
+
+  function calculateTotalAmountByConsumeType(filteredTransactions) {
+    // 초기 상태에서 모든 consumeType을 0으로 설정
+    const initialAcc = {
+      공통: 0,
+      식비: 0,
+      숙박: 0,
+      "항공/교통": 0,
+      환전: 0,
+      쇼핑: 0,
+      기타: 0,
+    };
+
+    return filteredTransactions?.reduce((acc, cur) => {
+      // cur.consumeType이 null이면 현재 항목을 계산에 포함시키지 않음
+      if (
+        cur.consumeType === null ||
+        !acc.hasOwnProperty(cur.consumeType) ||
+        cur.type === 1
+      ) {
+        return acc;
+      }
+
+      // 유효한 consumeType에 대해서만 금액을 누적
+      acc[cur.consumeType] += cur.cost; // 가정: transaction 객체에는 소비 금액을 나타내는 cost 속성이 있다.
+
+      return acc;
+    }, initialAcc); // 초기 상태를 reduce 함수에 전달
+  }
 
   useEffect(() => {
     AOS.init({
@@ -65,17 +122,37 @@ export default function SpendingManagemnetPage() {
     return sortedByDate;
   }
 
+  /* 초기 렌더링 */
   useEffect(() => {
     if (isDetailClick) {
+      setSelectedSpendingHistory(
+        filterTransactions(selectedNames, selectedConsumeTypes)
+      );
+      setGroupedByDate(groupTransactionsByDate(selectedSpendingHistory));
+
+      setIsDetailClick(false);
       return;
     }
-    setIsDetailClick(false);
 
     (async () => {
       try {
         const res = await getAllTrade(travelId);
         const peopleRes = await getGroupAccountMemberAndTotalDue(travelId);
+        const namesOnly = peopleRes.data.map((member) => member.memberName);
+        const totalPaymentAmount = peopleRes.data.reduce(
+          (total, member) => total + member.payment_amount,
+          0
+        );
 
+        const totalCostOfType2 = res.data
+          .filter((item) => item.type === 2) // type이 2인 요소들 필터링
+          .reduce((acc, item) => acc + item.cost, 0); // cost 합 구하기
+        setAllPeopleExpense(totalCostOfType2);
+        setExpenseSum(totalCostOfType2);
+
+        setAllPeopleDeposit(totalPaymentAmount);
+        setDepositSum(totalPaymentAmount);
+        setSelectedNames(namesOnly); // 처음엔 모든 이름을 선택
         const idAndNames = peopleRes.data.map((member) => ({
           id: member.member_id,
           name: member.memberName,
@@ -83,13 +160,42 @@ export default function SpendingManagemnetPage() {
         }));
         setPeople(idAndNames);
         setAllSpendingHistory(res.data);
-        setGroupedByDate(groupTransactionsByDate(res.data));
+        setSelectedSpendingHistory(res.data);
+        setPeopleHistory(res.data);
+        setGroupedByDate(groupTransactionsByDate(res.data)); // 처음 소비내역 보여주기 위함
       } catch (e) {
       } finally {
         setTimeout(() => setIsLoading(false), 500);
       }
     })();
   }, [isFilter]);
+
+  useEffect(() => {
+    setPeopleHistory(
+      filterTransactions(selectedNames, [
+        "공통",
+        "식비",
+        "숙박",
+        "항공/교통",
+        "환전",
+        "쇼핑",
+        "기타",
+      ])
+    );
+    setTotalAmountByConsumeType(
+      calculateTotalAmountByConsumeType(peopleHistory)
+    );
+  }, [selectedNames]);
+
+  useEffect(() => {
+    if (allPeopleDeposit !== 0) {
+      setDepositPercent((depositSum / allPeopleDeposit) * 100);
+    }
+
+    if (allPeopleExpense !== 0) {
+      setExpensePercent((expenseSum / allPeopleExpense) * 100);
+    }
+  }, [depositSum, expenseSum]);
 
   return (
     <>
@@ -142,30 +248,33 @@ export default function SpendingManagemnetPage() {
             <div className={styles.topContainer}>
               <div className={styles.graphContainer}>
                 <div className={styles.labelMedium}>입금</div>
-                <DoughnutChartSmall percent={85} />
+                <DoughnutChartSmall percent={depositPercent} />
                 <div
                   className={styles.labelSmall}
                   style={{ marginTop: "1.11vw" }}
                 >
-                  {people
-                    .reduce((acc, curr) => acc + curr.amount, 0)
-                    .toLocaleString("ko-KR")}
-                  원
+                  {new Intl.NumberFormat("ko-KR").format(depositSum)} 원
                 </div>
               </div>
               <div className={styles.graphContainer}>
                 <div className={styles.labelMedium}>지출</div>
-                <DoughnutChartSmall percent={70} isRed={true} />
+                <DoughnutChartSmall percent={expensePercent} isRed={true} />
                 <div
                   className={styles.labelSmall}
                   style={{ marginTop: "1.11vw" }}
                 >
-                  8,500,000원
+                  {new Intl.NumberFormat("ko-KR").format(expenseSum)} 원
                 </div>
               </div>
               <div className={styles.sumContainer}>
                 <div className={styles.labelSmall}>합계</div>
-                <div className={styles.labelSmall}>6,250,000원</div>
+                <div className={styles.labelSmall}>
+                  {" "}
+                  {new Intl.NumberFormat("ko-KR").format(
+                    depositSum - expenseSum
+                  )}{" "}
+                  원
+                </div>
                 <div
                   className={styles.labelMedium}
                   style={{
@@ -203,25 +312,57 @@ export default function SpendingManagemnetPage() {
                 style={{
                   cursor: "pointer",
                   color:
-                    currentViewInFilter === "expences" ? "black" : "#898989",
+                    currentViewInFilter === "expense" ? "black" : "#898989",
                   textDecoration:
-                    currentViewInFilter === "expences" ? "underline" : "none",
+                    currentViewInFilter === "expense" ? "underline" : "none",
                 }}
-                onClick={() => setCurrentViewInFilter("expences")}
+                onClick={() => {
+                  setCurrentViewInFilter("expense");
+                  console.log(totalAmountByConsumeType);
+                }}
               >
                 지출항목
               </div>
             </div>
             <div className={styles.line}></div>
-            <SumBox
-              title="전체"
-              sum={people.reduce((acc, curr) => acc + curr.amount, 0)}
-            />
-            <div className={styles.line}></div>
-            {/* 각 사람별 SumBox를 렌더링 */}
-            {people.map((person) => (
-              <SumBox key={person.id} title={person.name} sum={person.amount} />
-            ))}
+            {currentViewInFilter === "participants" && (
+              <>
+                <SumBox
+                  title="전체"
+                  sum={people.reduce((acc, curr) => acc + curr.amount, 0)}
+                />
+                <div className={styles.line}></div>
+                {people.map((person) => (
+                  <SumBox
+                    key={person.id}
+                    title={person.name}
+                    sum={person.amount}
+                    setDepositSum={setDepositSum}
+                  />
+                ))}
+              </>
+            )}
+            {currentViewInFilter === "expense" && (
+              <>
+                <SumBox
+                  title="전체"
+                  sum={Object.values(totalAmountByConsumeType).reduce(
+                    (acc, curr) => acc + curr,
+                    0
+                  )}
+                />
+                <div className={styles.line}></div>
+                {Object.entries(totalAmountByConsumeType).map(
+                  ([consumeType, amount]) => (
+                    <SumBox
+                      key={consumeType}
+                      title={consumeType}
+                      sum={amount}
+                    />
+                  )
+                )}
+              </>
+            )}
           </div>
         </>
       )}
