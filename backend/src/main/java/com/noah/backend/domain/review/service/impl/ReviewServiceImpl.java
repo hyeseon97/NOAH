@@ -105,6 +105,20 @@ public class ReviewServiceImpl implements ReviewService {
 
         }
 
+        // 여행에 포함된 멤버들의 코멘트 생성
+        // 우선 멤버여행 리스트 찾기
+        List<MemberTravel> memberTravelList = memberTravelRepository.findMemberTravelList(reviewPostDto.getTravelId()).orElse(null);
+        for(MemberTravel mt : memberTravelList){
+            Member m = memberRepository.findById(mt.getMember().getId()).orElseThrow(MemberNotFoundException::new);
+
+            Comment comment = Comment.builder()
+                .member(m)
+                .review(savedReview)
+                .content(null)
+                .build();
+            commentRepository.save(comment);
+        }
+
         return savedReview.getId();
     }
 

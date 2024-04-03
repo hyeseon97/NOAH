@@ -15,7 +15,8 @@ public class AccountInfoDto {
     private String type;
     private int amount;
 
-    public AccountInfoDto(String bankName, String accountNumber) {
+    public AccountInfoDto(Long accountId, String bankName, String accountNumber) {
+        this.accountId = accountId;
         this.bankName = bankName;
         this.accountNumber = accountNumber;
     }

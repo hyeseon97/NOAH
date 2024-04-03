@@ -198,9 +198,11 @@ public class SuggestServiceImpl implements SuggestService {
 			return makeRandomSuggestOne(reviewCount);
 		} else{//목표금액이 존재하면 targetAmount/total로 인당 가격을 환산하여 여행후기 추천
 			int priceOfPerson = targetAmount/total;
+			System.out.println(targetAmount + " " + total + " " + priceOfPerson);
 			SuggestListResDto review = reviewRepository.getSuggestReviewOne(priceOfPerson).orElse(null);
 
 			if(review == null){
+				System.out.println("리뷰가 널이야????");
 				int reviewCount = reviewRepository.getRandomSuggestId().orElse(0);
 				return makeRandomSuggestOne(reviewCount);
 			}
