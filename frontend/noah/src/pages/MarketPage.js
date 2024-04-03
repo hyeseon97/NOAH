@@ -9,6 +9,7 @@ export default function MarketPage() {
   const [rawPrice, setRawPrice] = useState(""); // 실제 숫자 값을 저장하는 상태
   const [displayPrice, setDisplayPrice] = useState(""); // 화면에 표시될 포맷된 값
   const [warningText, setWarningText] = useState("");
+  const [type, setType] = useState("공통");
 
   useEffect(() => {
     // rawPrice가 변경될 때마다 displayPrice를 업데이트
@@ -30,6 +31,12 @@ export default function MarketPage() {
     setName(value);
   };
 
+  const handleTypeChange = (e) => {
+    const value = e.target.value;
+
+    setType(value);
+  };
+
   const handleClickPayment = async () => {
     // 결제 요청 보내기
     if (name.length === 0 || rawPrice.length === 0) {
@@ -44,11 +51,20 @@ export default function MarketPage() {
     const memberId = params.get("memberId");
     const travelId = params.get("travelId");
 
+    console.log({
+      memberId: memberId,
+      travelId: travelId,
+      transactionBalance: rawPrice,
+      transactionSummary: name,
+      consumeType: type,
+    });
+
     const res = await withdrawByQR({
       memberId: memberId,
       travelId: travelId,
       transactionBalance: rawPrice,
       transactionSummary: name,
+      consumeType: "공통",
     });
     console.log(res);
     if (res.status === "SUCCESS") {
@@ -78,10 +94,10 @@ export default function MarketPage() {
           justifyContent: "center",
           alignItems: "center",
           width: "100vw",
-          height: "30vh",
+          height: "20vh",
         }}
       >
-        <Store style={{ width: "35.5vw", height: "35.5vw" }} />
+        <Store style={{ width: "22.2vw", height: "22.2vw" }} />
       </div>
 
       <div className={styles.inputBorder}>
@@ -109,6 +125,28 @@ export default function MarketPage() {
             value={displayPrice}
             onChange={handlePriceChange}
           ></input>
+          <div style={{ height: "100%", width: "4.44vw" }}></div>
+        </div>
+      </div>
+      <div className={styles.inputBorder}>
+        <div className={styles.label}>소비 분류</div>
+
+        <div style={{ display: "flex" }}>
+          <div>
+            <select
+              className={styles.dropdownStyle}
+              value={type}
+              onChange={handleTypeChange}
+            >
+              <option value="공통">공통</option>
+              <option value="식비">식비</option>
+              <option value="숙박">숙박</option>
+              <option value="항공/교통">항공/교통</option>
+              <option value="환전">환전</option>
+              <option value="쇼핑">쇼핑</option>
+              <option value="기타">기타</option>
+            </select>
+          </div>
           <div style={{ height: "100%", width: "4.44vw" }}></div>
         </div>
       </div>

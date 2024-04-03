@@ -200,14 +200,14 @@ export default function PlanningPage() {
   };
 
   const handleEditClick = (plan) => {
-    setCurrentPlan(plan); 
-    setIsModalOpen(true); 
+    setCurrentPlan(plan);
+    setIsModalOpen(true);
   };
 
   const handleSubmit = async (updatedPlan) => {
     try {
       console.log(updatedPlan);
-      await updatePlan( updatedPlan);
+      await updatePlan(updatedPlan);
       setIsModalOpen(false); // 모달 닫기
 
       loadPlan();
@@ -227,7 +227,13 @@ export default function PlanningPage() {
 
   return (
     <>
-      <Header LeftIcon="Arrow" Title="계획" />
+      <Header
+        LeftIcon="Arrow"
+        Title="계획"
+        onClick={() => {
+          navigate(`/trip/${travelId}`);
+        }}
+      />
       <div className={style.headStyle}>
         <div>
           <div className={style.bigFont}>{plan.country}</div>
@@ -304,29 +310,29 @@ export default function PlanningPage() {
               />
             </div>
           ))}
-            {filteredDetailPlans.map((detailPlan) => (
-              <div key={detailPlan.detailPlanId} className={style.boxStyle}>
-                <img
-                  src={detailPlan.imageUrl}
-                  alt="Detail Plan"
-                  className={style.imgStyle}
-                />
-                <div className={style.placeInfoStyle}>
-                  <div className={style.smallBoldFont}>{detailPlan.place}</div>
-                  <div className={style.smallFont}>{detailPlan.memo}</div>
-                  <div className={style.smallFont}>
-                  {detailPlan.time ? `사용자 평점 ${detailPlan.time}` : "평점 정보 없음"}
-                  </div>
+          {filteredDetailPlans.map((detailPlan) => (
+            <div key={detailPlan.detailPlanId} className={style.boxStyle}>
+              <img
+                src={detailPlan.imageUrl}
+                alt="Detail Plan"
+                className={style.imgStyle}
+              />
+              <div className={style.placeInfoStyle}>
+                <div className={style.smallBoldFont}>{detailPlan.place}</div>
+                <div className={style.smallFont}>{detailPlan.memo}</div>
+                <div className={style.smallFont}>
+                  {detailPlan.time
+                    ? `사용자 평점 ${detailPlan.time}`
+                    : "평점 정보 없음"}
                 </div>
-                <TrashCan
-                  className={style.trashCanButton}
-                  onClick={() =>
-                    handleDeleteDetailPlan(detailPlan.detailPlanId)
-                  }
-                />
               </div>
-            ))}
-            {/* 새로운 계획 추가 버튼 등 나머지 UI 요소 */}
+              <TrashCan
+                className={style.trashCanButton}
+                onClick={() => handleDeleteDetailPlan(detailPlan.detailPlanId)}
+              />
+            </div>
+          ))}
+          {/* 새로운 계획 추가 버튼 등 나머지 UI 요소 */}
         </div>
         <div className={style.addDetailPlanStyle} onClick={handleAddPlanClick}>
           <Plus />

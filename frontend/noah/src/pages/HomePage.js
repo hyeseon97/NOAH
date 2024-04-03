@@ -2,6 +2,8 @@ import styles from "./HomePage.module.css";
 import { useState, useRef, useEffect } from "react";
 import { ReactComponent as Notification } from "../assets/Icon/Notification.svg";
 import { ReactComponent as My } from "../assets/Icon/My.svg";
+import { ReactComponent as TravelPlace } from "../assets/Icon/TravelPlace.svg";
+import { ReactComponent as SmallBill } from "../assets/Icon/SmallBill.svg";
 import { useNavigate } from "react-router-dom";
 import Trip from "../components/trip/Trip";
 import Exchange from "./../components/exchange/Exchange";
@@ -144,13 +146,16 @@ export default function HomePage() {
         if (localStorage.getItem("accessToken") === null) {
           res = await getRecommendReviewInfoNonLogin();
         } else {
-          res = await getRecommendReviewInfo();
+          setTimeout(() => 500);
+          if (trips.length === 0) {
+            res = await getRecommendReviewInfoNonLogin();
+          } else {
+            res = await getRecommendReviewInfo();
+          }
         }
-
         if (res.status === "SUCCESS") {
           setRecommendReviews(res.data);
           setRecommendReviewInfo(res.data[0]);
-          console.log(res.data);
         } else {
         }
       } catch (error) {
@@ -294,14 +299,22 @@ export default function HomePage() {
                   />
                 </>
               )}
-              <div className={styles.place} style={{ fontSize: "4.44vw" }}>
-                {recommendReviewInfo?.country}
-              </div>
-              <div className={styles.place}>
-                {new Intl.NumberFormat("ko-KR").format(
-                  recommendReviewInfo?.expense
-                )}{" "}
-                원
+              <div className={styles.recommendReviewContents}>
+                <div className={styles.contentsTop}>
+                  <TravelPlace className={styles.reviewIcon} />
+                  <div className={styles.place} style={{ fontSize: "3.5vw" }}>
+                    {recommendReviewInfo?.country}
+                  </div>
+                </div>
+                <div className={styles.contentsBottom}>
+                  <SmallBill className={styles.reviewIcon} />
+                  <div className={styles.place}>
+                    {new Intl.NumberFormat("ko-KR").format(
+                      recommendReviewInfo?.expense
+                    )}{" "}
+                    원
+                  </div>
+                </div>
               </div>
             </div>
           </div>

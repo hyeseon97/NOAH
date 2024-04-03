@@ -55,4 +55,13 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
                                        .fetchOne());
     }
 
+    @Override
+    public Optional<Member> findMasterByAccountId(Long accountId) {
+        return Optional.ofNullable(query.select(member)
+                                       .from(member)
+                                       .leftJoin(account).on(account.member.id.eq(member.id))
+                                       .where(account.id.eq(accountId))
+                                       .fetchOne());
+    }
+
 }

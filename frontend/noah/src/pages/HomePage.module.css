@@ -88,13 +88,16 @@
   object-fit: cover;
 }
 
+.reviewIcon{
+  width: 5vw;
+  height: 5vw;
+}
 .place {
   font-family: "Pretendard";
   font-style: normal;
   font-weight: 600;
-  font-size: 2.77vw;
+  font-size: 3.1vw;
   line-height: 150%;
-  text-align: left;
   color: "#000000";
   margin-top: 0.5vw;
 }
@@ -114,4 +117,22 @@
   margin-top: 2.5vw;
   margin-right: 10vw;
   text-decoration: underline;
+}
+.recommendReviewContents{
+  margin-top: 2vw;
+}
+.contentsBottom{
+  margin-left: 58vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 1vw;
+}
+.contentsTop{
+  margin-left: 58vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2vw;
+  margin-right: 1vw;
 }
