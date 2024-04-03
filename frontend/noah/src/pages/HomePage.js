@@ -130,6 +130,7 @@ export default function HomePage() {
     const fetchExchangeRate = async () => {
       try {
         const res = await getExchangeRate();
+        console.log(res.data);
         setExchangeRate(res.data);
       } catch (error) {
         console.log(error);
@@ -144,8 +145,14 @@ export default function HomePage() {
         if (localStorage.getItem("accessToken") === null) {
           res = await getRecommendReviewInfoNonLogin();
         } else {
-          res = await getRecommendReviewInfo();
+          setTimeout(() => console.log(trips), 500);
+          if (trips.length === 0) {
+            res = await getRecommendReviewInfoNonLogin();
+          } else {
+            res = await getRecommendReviewInfo();
+          }
         }
+        console.log(res);
 
         if (res.status === "SUCCESS") {
           setRecommendReviews(res.data);

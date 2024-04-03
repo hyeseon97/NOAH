@@ -33,6 +33,7 @@ export default function PlanningCreatePage() {
       travelStart: true,
       country: place,
     };
+
     try {
       const res = await createPlan(object);
       if (res.status === "SUCCESS") {

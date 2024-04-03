@@ -57,7 +57,9 @@ export default function MyPage() {
       >
         <div className={styles.infoContainer}>
           <div className={styles.labelLarge}>{user.nickname}</div>
-          <div className={styles.labelSmall}>{user.email}</div>
+          <div className={styles.labelSmall} style={{ fontSize: "2.87vw" }}>
+            {user.email}
+          </div>
           <div className={styles.labelSmall}>{user.name}</div>
         </div>
         <Noah style={{ width: "40vw", height: "44vw", marginLeft: "10vw" }} />
