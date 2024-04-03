@@ -79,8 +79,10 @@ export default function GoalPage() {
         setEditModeTargetDate(false);
         setEditModePerAmount(false);
         setEditModePaymentDate(false);
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
         showToast("정보가 업데이트되었습니다.");
-        window.location.reload();
       } else if (res.status === "ERROR") {
         showToast("모임 통장의 소유주만 변경 가능합니다.");
         setTimeout(() => {

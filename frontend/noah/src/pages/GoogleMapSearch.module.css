@@ -1,4 +1,4 @@
- .searchPlace {
+.searchPlace {
   height: 16vw;
   display: flex;
   justify-content: center;
@@ -6,7 +6,7 @@
   border-top: 0.3vw solid gray;
   border-bottom: 0.3vw solid gray;
 }
-.searchIcon{
+.searchIcon {
   width: 8vw;
   height: 8vw;
 }
@@ -15,12 +15,12 @@
   height: 12vw;
   border: none;
   margin-left: 10vw;
-  
-  font-Family: "Pretendard";
-  font-Style: normal;
-  font-Weight: 600;
-  font-Size: 4.45vw;
-  line-Height: 150%;
+
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 4.45vw;
+  line-height: 150%;
   color: #000000;
 }
 .searchResultsStyle {
@@ -30,7 +30,7 @@
   align-items: center;
 }
 
-.contentsBox{
+.contentsBox {
   display: flex;
   align-items: center;
   gap: 8vw;
@@ -39,49 +39,49 @@
   height: 20vw;
   border-bottom: 0.3vw solid gray;
 }
-.placeTitle{
+.placeTitle {
   height: 12vw;
   display: flex;
   align-items: center;
-  font-Family: "Pretendard";
-    font-Style: normal;
-    font-Weight: 600;
-    font-Size: 4.45vw;
-    line-Height: 150%;
-    color: #000000;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 4.45vw;
+  line-height: 150%;
+  color: #000000;
 }
-.markIcon{
+.markIcon {
   width: 7vw;
   height: 7vw;
 }
 
-.labelSmall{
-  font-Family: "Pretendard";
-  font-Style: normal;
-  font-Weight: 600;
-  font-Size: 3.35vw;
-  line-Height: 150%;
+.labelSmall {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 3.35vw;
+  line-height: 150%;
   color: #000000;
 }
-.labelSmallGrey{
-  font-Family: "Pretendard";
-  font-Style: normal;
-  font-Weight: 600;
-  font-Size: 3.35vw;
-  line-Height: 150%;
+.labelSmallGrey {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 3.35vw;
+  line-height: 150%;
   color: #898989;
 }
 
-.listResult{
+.listResult {
   margin: 4vw;
 }
-.resultHead{
+.resultHead {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1vw;
 }
-.labelLarge{
+.labelLarge {
   font-family: "Pretendard";
   font-style: normal;
   font-weight: 600;
@@ -90,68 +90,69 @@
   color: #000000;
   width: 50vw;
 }
-.labelMedium{
-  font-Family: "Pretendard";
-  font-Style: normal;
-  font-Weight: 600;
-  font-Size: 4.45vw;
-  line-Height: 150%;
+.labelMedium {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 4.45vw;
+  line-height: 150%;
   color: #000000;
 }
-.addButton{
+.addButton {
   width: 28vw;
-    padding: 2.4vw 7vw;
-    border: none;
-    border-radius: 1vw;
-    cursor: pointer;
-    margin: 1vw;
-    font-Family: "Pretendard";
-    font-Style: normal;
-    font-Weight: 600;
-    font-Size: 3.5vw;
-    line-Height: 150%;
-    color: #000000;
-    background-color: #313131;
-    color: white;
+  padding: 2.4vw 7vw;
+  border: none;
+  border-radius: 1vw;
+  cursor: pointer;
+  margin: 1vw;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 3.5vw;
+  line-height: 150%;
+  color: #000000;
+  background-color: #313131;
+  color: white;
 }
-.ratingStyle{
+.ratingStyle {
   display: flex;
+  align-items: center;
   gap: 1vw;
 }
-.open{
+.open {
   display: flex;
   gap: 2vw;
   margin-bottom: 1vw;
 }
-.openingTime{
-  font-Family: "Pretendard";
-    font-Style: normal;
-    font-Weight: 600;
-    font-Size: 3.35vw;
-    line-Height: 150%;
-    color: #000000;
+.openingTime {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 3.35vw;
+  line-height: 150%;
+  color: #000000;
 }
-.labelSmallOpen{
-  font-Family: "Pretendard";
-    font-Style: normal;
-    font-Weight: 600;
-    font-Size: 3.35vw;
-    line-Height: 150%;
-    color: #000000;
-    text-decoration-line: underline;
+.labelSmallOpen {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 3.35vw;
+  line-height: 150%;
+  color: #000000;
+  text-decoration-line: underline;
 }
-.website{
+.website {
   display: flex;
   gap: 1vw;
 }
 
-.moreInfoStyle{
+.moreInfoStyle {
   margin-top: 1vw;
-  font-Family: "Pretendard";
-  font-Style: normal;
-  font-Weight: 600;
-  font-Size: 4.45vw;
-  line-Height: 150%;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 4.45vw;
+  line-height: 150%;
   color: #000000;
   text-decoration-line: underline;
 }
@@ -159,9 +160,14 @@
   width: 100%;
   align-items: center;
 }
-.reviewAuthor{
+.reviewAuthor {
   display: flex;
   gap: 1vw;
+}
+
+.star {
+  width: 4.4vw;
+  height: 4.4vw;
 }
 
 /*

@@ -413,7 +413,7 @@ export default function PlanningPage() {
               {/* 새로운 계획 추가 버튼 등 나머지 UI 요소 */}
             </div>
             <div className={styles.addBox} onClick={handleAddPlanClick}>
-              <Plus />
+              <Plus className={styles.icon} />
               <div className={styles.labelMedium}>새로운 계획 추가</div>
             </div>
           </div>

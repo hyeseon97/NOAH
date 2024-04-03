@@ -1,4 +1,4 @@
-.planContainer{
+.planContainer {
   margin-top: 6vw;
   margin-left: 4.17vw;
   margin-right: 4.17vw;
@@ -12,7 +12,7 @@
   align-items: center;
 }
 
-.labelLarge{
+.labelLarge {
   font-family: "Pretendard";
   font-style: normal;
   font-weight: 600;
@@ -20,26 +20,26 @@
   line-height: 150%;
   color: #000000;
 }
-.labelMedium{
-  font-Family: "Pretendard";
-  font-Style: normal;
-  font-Weight: 600;
-  font-Size: 4.45vw;
-  line-Height: 150%;
+.labelMedium {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 4.45vw;
+  line-height: 150%;
   color: #000000;
 }
 
-.editButton{
+.editButton {
   width: 5vw;
   height: 5vw;
 }
 
-.labelSmall{
-  font-Family: "Pretendard";
-  font-Style: normal;
-  font-Weight: 600;
-  font-Size: 3.35vw;
-  line-Height: 150%;
+.labelSmall {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 3.35vw;
+  line-height: 150%;
   color: #000000;
 }
 
@@ -50,14 +50,18 @@
   font-size: 3.9vw;
   line-height: 140%;
 }
-.dayBox{
+.dayBox {
   text-align: center;
 }
 .previousButton {
   transform: rotate(90deg);
+  width: 4.44vw;
+  height: 4.44vw;
 }
 .nextButton {
   transform: rotate(270deg);
+  width: 4.44vw;
+  height: 4.44vw;
 }
 .midStyle {
   padding: 2vw;
@@ -66,11 +70,11 @@
   align-items: center;
   border-bottom: 0.377vw solid rgba(137, 137, 137, 0.3);
 }
-.planeBox{
+.planeBox {
   height: 33vw;
   border-bottom: 0.377vw solid rgba(137, 137, 137, 0.3);
 }
-.planeBoxStyle{
+.planeBoxStyle {
   margin-top: 5vw;
   display: flex;
   flex-wrap: wrap;
@@ -79,7 +83,7 @@
   gap: 10vw;
 }
 
-.boxStyle{
+.boxStyle {
   display: flex;
   justify-content: space-between;
   height: 31vw;
@@ -88,24 +92,24 @@
   border-top: 0.377vw solid rgba(137, 137, 137, 0.3);
   border-bottom: 0.377vw solid rgba(137, 137, 137, 0.3);
 }
-.boxLeft{
+.boxLeft {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 29vw;
   width: 60vw;
 }
-.imgStyle{
+.imgStyle {
   width: 46vw;
   height: 29vw;
   object-fit: cover;
   border-radius: 1vw;
 }
-.planInfoBox{
+.planInfoBox {
   width: 45vw;
 }
 
-.addBox{
+.addBox {
   display: flex;
   height: 33vw;
   justify-content: center;
@@ -114,13 +118,18 @@
   border-bottom: 0.377vw solid rgba(137, 137, 137, 0.3);
   margin-bottom: 20vw;
 }
-.iconBox{
+.iconBox {
   padding-top: 0.5vw;
   padding-right: 0.5vw;
   display: flex;
   justify-content: right;
 }
-.removeIcon{
+.removeIcon {
   width: 3.5vw;
   height: 3.5vw;
+}
+
+.icon {
+  width: 4.44vw;
+  height: 4.44vw;
 }

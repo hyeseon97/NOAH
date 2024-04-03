@@ -425,8 +425,13 @@ export default function GoogleMapSearch() {
                 {outPlace.rating && (
                   <>
                     <Rating
-                      emptySymbol={<FaStar color="gray" />}
-                      fullSymbol={<FaStar color="gold" />}
+                      className={styles.rating}
+                      emptySymbol={
+                        <FaStar className={styles.star} color="gray" />
+                      }
+                      fullSymbol={
+                        <FaStar className={styles.star} color="gold" />
+                      }
                       initialRating={outPlace.rating}
                       readonly
                     />
