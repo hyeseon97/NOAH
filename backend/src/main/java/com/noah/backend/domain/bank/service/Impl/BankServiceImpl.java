@@ -547,8 +547,9 @@ public class BankServiceImpl implements BankService {
 		Member currentMember = memberRepository.findById(qrWithdrawReqDto.getMemberId()).orElseThrow(MemberNotFoundException::new);
 		Travel currentTravel = travelRepository.findById(qrWithdrawReqDto.getTravelId()).orElseThrow(TravelNotFoundException::new);
 		AccountInfoDto currentAccountInfoDto = groupAccountRepository.findByTravleId(currentTravel.getId()).orElseThrow(GroupAccountNotFoundException::new);
-		requestHeaderDto.setUserKey(currentMember.getUserKey()); //확인하려는 계좌의 주인의 유저키가 필요
-		System.out.println("UserKey : " + currentMember.getUserKey());
+		Member accountMaster = memberRepository.findMasterByAccountId(currentAccountInfoDto.getAccountId()).orElseThrow(MemberNotFoundException::new);
+		requestHeaderDto.setUserKey(accountMaster.getUserKey()); //확인하려는 계좌의 주인의 유저키가 필요
+		System.out.println("UserKey : " + accountMaster.getUserKey());
 		HashMap<String,String> result = objectMapper.convertValue(requestHeaderDto, HashMap.class);
 		String headerMessage = makeHeader(result);
 		HashMap<String,Object> bodyHm = new HashMap<>();
