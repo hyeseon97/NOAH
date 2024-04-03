@@ -137,7 +137,7 @@ public class GroupAccountRepositoryImpl implements GroupAccountRepositoryCustom 
     public Optional<Integer> findTargetAmount(Long travelId) {
         return Optional.ofNullable(query.select(groupAccount.targetAmount)
                 .from(groupAccount)
-                .where(groupAccount.id.eq(travelId))
+                .where(groupAccount.travel.id.eq(travelId))
                 .fetchOne());
     }
 
