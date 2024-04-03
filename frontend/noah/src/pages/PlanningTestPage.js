@@ -21,13 +21,19 @@ const PlanningTestPage = () => {
       <Header LeftIcon="Arrow" Title="검색" />
       <div style={placeOrTicketStyle}>
         <div
-          style={{ fontWeight: activeTab === "place" ? "bold" : "normal" }}
+          style={{
+            fontWeight: activeTab === "place" ? "bold" : "normal",
+            fontSize: "4.44vw",
+          }}
           onClick={() => setActiveTab("place")}
         >
           장소
         </div>
         <div
-          style={{ fontWeight: activeTab === "ticket" ? "bold" : "normal" }}
+          style={{
+            fontWeight: activeTab === "ticket" ? "bold" : "normal",
+            fontSize: "4.44vw",
+          }}
           onClick={() => setActiveTab("ticket")}
         >
           항공권

@@ -167,7 +167,9 @@ export default function PlaneSearchPage() {
                 <div>
                   {plane.airLine} {plane.code}
                 </div>
-                <div>{plane.price}원</div>
+                <div>
+                  {new Intl.NumberFormat("ko-KR").format(plane.price)} 원
+                </div>
               </div>
               <div className={styles.middleStyle}>
                 <div>

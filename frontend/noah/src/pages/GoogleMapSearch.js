@@ -343,6 +343,7 @@ export default function GoogleMapSearch() {
       </div>
       <LoadScript googleMapsApiKey={apiKey} libraries={["places"]}>
         <GoogleMap
+          className={styles.map}
           center={center}
           zoom={10}
           onLoad={onLoad}
