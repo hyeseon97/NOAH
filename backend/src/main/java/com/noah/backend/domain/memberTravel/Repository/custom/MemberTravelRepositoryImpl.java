@@ -96,7 +96,7 @@ public class MemberTravelRepositoryImpl implements MemberTravelRepositoryCustom 
 
     @Override
     public Optional<List<Long>> findByMemberId(Long memberId) {
-        return Optional.ofNullable(query.select(memberTravel.id)
+        return Optional.ofNullable(query.select(memberTravel.travel.id)
                                        .from(memberTravel)
                                        .where(memberTravel.member.id.eq(memberId))
                                        .fetch());

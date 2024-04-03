@@ -38,10 +38,10 @@ public class ExchangeRepositoryImpl implements ExchangeRepositoryCustom {
                                        .leftJoin(groupAccount).on(exchange.groupAccount.id.eq(groupAccount.id))
                                        .leftJoin(travel).on(groupAccount.travel.id.eq(travel.id))
                                        .leftJoin(memberTravel).on(memberTravel.travel.id.eq(travel.id))
-                                       .where((exchange.currency.eq("USD").and(exchange.targetExchangeRate.loe(currency.getBuyDollar())))
-                                                  .or((exchange.currency.eq("JPY").and(exchange.targetExchangeRate.loe(currency.getBuyYen()))))
-                                                  .or((exchange.currency.eq("CNY").and(exchange.targetExchangeRate.loe(currency.getBuyYuan()))))
-                                                  .or((exchange.currency.eq("EUR").and(exchange.targetExchangeRate.loe(currency.getBuyEuro())))))
+                                       .where((exchange.currency.eq("USD").and(exchange.targetExchangeRate.goe(currency.getBuyDollar())))
+                                                  .or((exchange.currency.eq("JPY").and(exchange.targetExchangeRate.goe(currency.getBuyYen()))))
+                                                  .or((exchange.currency.eq("CNY").and(exchange.targetExchangeRate.goe(currency.getBuyYuan()))))
+                                                  .or((exchange.currency.eq("EUR").and(exchange.targetExchangeRate.goe(currency.getBuyEuro())))))
                                        .fetch());
     }
 
