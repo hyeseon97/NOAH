@@ -155,20 +155,32 @@ export default function GoogleMapSearch() {
   const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 
   const zoom = 14;
-  const widthVW = Math.round(window.innerWidth * 1); // 뷰포트의 100%를 사용하고 반올림
-  const heightVH = Math.round(window.innerHeight * 0.5); // 뷰포트의 50%를 사용하고 반올림
+  // const widthVW = Math.round(window.innerWidth * 1); // 뷰포트의 100%를 사용하고 반올림
+  // const heightVH = Math.round(window.innerHeight * 0.5); // 뷰포트의 50%를 사용하고 반올림
+  // 너비와 높이를 계산하는 예제 코드
+const widthMap = window.innerWidth * 1.0; // 뷰포트의 80%를 사용하는 예시
+const heightMap = window.innerHeight * 0.5; // 뷰포트의 40%를 사용하는 예시
+
+// 소수점을 처리하여 정수로 만들기
+const width = Math.round(widthMap);
+const height = Math.round(heightMap);
+
+// `size` 파라미터에 적용
+const sizeToMap = `${width}x${height}`;
+
+  
   const mapType = "roadMap";
   const [mapUrl, setMapUrl] = useState("");
 
   useEffect(() => {
     if (outPlace?.geometry?.location) {
       const lat = outPlace.geometry.location.lat();
-      
+
       const lng = outPlace.geometry.location.lng();
-      const newMapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=${zoom}&size=${widthVW}x${heightVH}&maptype=${mapType}&markers=color:blue%7Clabel:S%7C${lat},${lng}&key=${apiKey}`;
+      const newMapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=${zoom}&size=${sizeToMap}&maptype=${mapType}&markers=color:blue%7Clabel:S%7C${lat},${lng}&key=${apiKey}`;
       setMapUrl(newMapUrl);
     }
-  }, [outPlace, widthVW, heightVH, zoom, mapType, apiKey]);
+  }, [outPlace, widthMap, heightMap, zoom, mapType, apiKey]);
 
   useEffect(() => {
     function handleResize() {
