@@ -145,7 +145,7 @@ export default function HomePage() {
         if (localStorage.getItem("accessToken") === null) {
           res = await getRecommendReviewInfoNonLogin();
         } else {
-          setTimeout(() => console.log(trips), 500);
+          setTimeout(() => console.log(trips), 1000);
           if (trips.length === 0) {
             res = await getRecommendReviewInfoNonLogin();
           } else {
