@@ -1,71 +1,179 @@
-.createPlan {
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 3.3vw;
-  line-height: 200%;
-  color: green;
-}
-
-.listSearch {
+ .searchPlace {
+  height: 16vw;
   display: flex;
-  width: 90vw;
-  height: 60vh;
-  margin-bottom: 20px;
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 3.6vw;
-  line-height: 200%;
-  padding: 10px;
-  margin: 17px;
-  /* border: 1px solid grey; */
+  justify-content: center;
+  align-items: center;
+  border-top: 0.3vw solid gray;
+  border-bottom: 0.3vw solid gray;
 }
-
+.searchIcon{
+  width: 8vw;
+  height: 8vw;
+}
 .buttonStyle {
-  width: 60vw;
-  height: 8vh;
+  width: 70vw;
+  height: 12vw;
   border: none;
-  margin-left: 20px;
+  margin-left: 10vw;
+  
+  font-Family: "Pretendard";
+  font-Style: normal;
+  font-Weight: 600;
+  font-Size: 4.45vw;
+  line-Height: 150%;
+  color: #000000;
 }
-
-.listResult {
+.searchResultsStyle {
   display: flex;
-  flex-direction: column;
-  height: 80vh;
-  margin: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 
+.contentsBox{
+  display: flex;
+  align-items: center;
+  gap: 8vw;
+  padding-left: 5vw;
+  padding-right: 5vw;
+  height: 20vw;
+  border-bottom: 0.3vw solid gray;
+}
+.placeTitle{
+  height: 12vw;
+  display: flex;
+  align-items: center;
+  font-Family: "Pretendard";
+    font-Style: normal;
+    font-Weight: 600;
+    font-Size: 4.45vw;
+    line-Height: 150%;
+    color: #000000;
+}
+.markIcon{
+  width: 7vw;
+  height: 7vw;
+}
+
+.labelSmall{
+  font-Family: "Pretendard";
+  font-Style: normal;
+  font-Weight: 600;
+  font-Size: 3.35vw;
+  line-Height: 150%;
+  color: #000000;
+}
+.labelSmallGrey{
+  font-Family: "Pretendard";
+  font-Style: normal;
+  font-Weight: 600;
+  font-Size: 3.35vw;
+  line-Height: 150%;
+  color: #898989;
+}
+
+.listResult{
+  margin: 4vw;
+}
+.resultHead{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1vw;
+}
+.labelLarge{
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 5.92vw;
+  line-height: 150%;
+  color: #000000;
+  width: 50vw;
+}
+.labelMedium{
+  font-Family: "Pretendard";
+  font-Style: normal;
+  font-Weight: 600;
+  font-Size: 4.45vw;
+  line-Height: 150%;
+  color: #000000;
+}
+.addButton{
+  width: 28vw;
+    padding: 2.4vw 7vw;
+    border: none;
+    border-radius: 1vw;
+    cursor: pointer;
+    margin: 1vw;
+    font-Family: "Pretendard";
+    font-Style: normal;
+    font-Weight: 600;
+    font-Size: 3.5vw;
+    line-Height: 150%;
+    color: #000000;
+    background-color: #313131;
+    color: white;
+}
+.ratingStyle{
+  display: flex;
+  gap: 1vw;
+}
+.open{
+  display: flex;
+  gap: 2vw;
+  margin-bottom: 1vw;
+}
+.openingTime{
+  font-Family: "Pretendard";
+    font-Style: normal;
+    font-Weight: 600;
+    font-Size: 3.35vw;
+    line-Height: 150%;
+    color: #000000;
+}
+.labelSmallOpen{
+  font-Family: "Pretendard";
+    font-Style: normal;
+    font-Weight: 600;
+    font-Size: 3.35vw;
+    line-Height: 150%;
+    color: #000000;
+    text-decoration-line: underline;
+}
+.website{
+  display: flex;
+  gap: 1vw;
+}
+
+.moreInfoStyle{
+  margin-top: 1vw;
+  font-Family: "Pretendard";
+  font-Style: normal;
+  font-Weight: 600;
+  font-Size: 4.45vw;
+  line-Height: 150%;
+  color: #000000;
+  text-decoration-line: underline;
+}
+.reviewContentStyle {
+  width: 100%;
+  align-items: center;
+}
+.reviewAuthor{
+  display: flex;
+  gap: 1vw;
+}
+
+/*
 .placeOrTicket {
   height: 8vh;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  margin-left: 20px;
-  margin-right: 20px;
   align-items: center;
 }
 
-.searchPlace {
-  height: 8vh;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid gray;
-  border-radius: 5px;
-  margin: 10px;
-}
 
-.placeNameStyle {
-  display: flex;
-  margin: 0px;
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 4.4vw;
-  line-height: 200%;
-}
 
 .ratingStyle {
   display: flex;
@@ -139,7 +247,6 @@
 
 .moreInfoStyle {
   display: flex;
-  margin: 10px;
   justify-content: center;
   text-align: center;
   font-family: "Pretendard";
@@ -157,56 +264,7 @@
   overflow: auto;
 }
 
-.imgStyle {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  margin-top: 10px;
-}
 
-.smallTextStyle {
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 3.1vw;
-  line-height: 200%;
-  color: gray;
-}
-
-.reviewStyle {
-  display: flex;
-  flex-direction: column;
-  width: 90vw;
-  margin: 10px;
-  align-items: flex-start;
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 2.7vw;
-  line-height: 200%;
-  /* height: auto; */
-}
-
-.reviewContentStyle {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-  overflow: scroll;
-}
-
-.searchResultsStyle {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 71vh;
-  background-color: #fff;
-  overflow-y: scroll;
-  align-items: center;
-  text-align: left;
-}
 
 .myStyle {
   display: none;
@@ -218,3 +276,29 @@
   background-color: orange;
   height: 5vh;
 }
+
+.smallTextStyle {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 3.1vw;
+  line-height: 200%;
+  color: gray;
+}
+.reviewStyle {
+  display: flex;
+  flex-direction: column;
+  width: 90vw;
+  align-items: flex-start;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 2.7vw;
+  line-height: 200%;
+  /* height: auto; */
+/* } */
+/* .imgStyle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}  */
