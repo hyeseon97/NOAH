@@ -134,7 +134,7 @@ export default function ReviewDetailPage() {
           <div>
             {comment.map((comment, index) => (
               <div className={styles.commentBox}>
-                <User />
+                {comment.content && <User />}
                 <div className={styles.labelSmall}>{comment?.content}</div>
               </div>
             ))}

@@ -3,7 +3,7 @@ import { uplodaImage } from "../../api/image/Image";
 import { createReview } from "../../api/review/Review";
 import showToast from "../common/Toast";
 import ReviewModal from "../trip/ReviewModal";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const container = {
   width: "100vw",
@@ -88,9 +88,9 @@ export default function TravelHistory({ travel, fetchTravels }) {
         imageIdList: res.imageIds,
       };
       const response = await createReview(object);
-      console.log(response.data);
       fetchTravels();
     } catch (error) {
+      showToast("계획을 설정하지 않은 여행은 후기를 작성할 수 없습니다.");
       console.log(error);
     }
   };
@@ -137,7 +137,9 @@ export default function TravelHistory({ travel, fetchTravels }) {
             )}
             {travel.reviewId !== null && (
               <div>
-                <div style={review} onClick={handleReviewNav}>후기 확인</div>
+                <div style={review} onClick={handleReviewNav}>
+                  후기 확인
+                </div>
                 <div style={review} onClick={handleReviewClick}>
                   댓글 입력
                 </div>
