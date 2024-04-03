@@ -143,16 +143,17 @@ export default function HomePage() {
     const fetchGetRecommendReviewInfo = async () => {
       try {
         let res = null;
-        if (localStorage.getItem("accessToken") === null) {
-          res = await getRecommendReviewInfoNonLogin();
-        } else {
-          setTimeout(() => 500);
-          if (trips.length === 0) {
-            res = await getRecommendReviewInfoNonLogin();
-          } else {
-            res = await getRecommendReviewInfo();
-          }
-        }
+        // if (localStorage.getItem("accessToken") === null) {
+        //   res = await getRecommendReviewInfoNonLogin();
+        // } else {
+        //   setTimeout(() => 500);
+        //   if (trips.length === 0) {
+        //     res = await getRecommendReviewInfoNonLogin();
+        //   } else {
+        //     res = await getRecommendReviewInfo();
+        //   }
+        // }
+        res = await getRecommendReviewInfo();
         if (res.status === "SUCCESS") {
           setRecommendReviews(res.data);
           setRecommendReviewInfo(res.data[0]);
