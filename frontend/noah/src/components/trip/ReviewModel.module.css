@@ -1,0 +1,62 @@
+/* ReviewModel.module.css */
+.title {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 4.45vw;
+  line-height: 150%;
+  margin-top: 10px;
+}
+.country {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 4.2vw;
+  line-height: 150%;
+  margin-bottom: 5px;
+}
+.date {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 3.5vw;
+  line-height: 150%;
+  margin-bottom: 5px;
+}
+.textarea {
+  margin-top: 20px;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 4.45vw;
+  line-height: 150%;
+  margin-bottom: 5px;
+}
+
+.button {
+    padding: 5px 10px;
+    font-family: "Pretendard";
+    font-size: 4.45vw; /* 기본 크기 */
+    font-weight: 600; /* 굵기 */
+    color: #FFFFFF; /* 글자 색상 */
+    background-color: #007BFF; /* 배경 색상 */
+    border: none; /* 테두리 제거 */
+    border-radius: 5px; /* 둥근 모서리 */
+    cursor: pointer; /* 마우스 오버 시 커서 변경 */
+    transition: background-color 0.3s ease; /* 부드러운 색상 변화 */
+    margin-top: 0.5vh
+  }
+  
+  .button:hover {
+    background-color: #0056b3; /* 마우스 오버 시 배경 색상 변경 */
+  }
+  
+  .button:active {
+    background-color: #004085; /* 클릭 시 배경 색상 */
+  }
+  
+  .button:focus {
+    outline: none; /* 포커스 시 외곽선 제거 */
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5); /* 포커스 시 그림자 효과 */
+  }
+  
