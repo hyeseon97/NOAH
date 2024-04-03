@@ -1,36 +1,46 @@
+.planContainer{
+  margin-top: 6vw;
+  margin-left: 4.17vw;
+  margin-right: 4.17vw;
+}
 .headStyle {
-  height: 50px;
-  margin: 10px;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-left: 4.17vw;
+  margin-right: 4.17vw;
+  margin-bottom: 4.44vw;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  align-items: beetween;
+  align-items: center;
 }
 
-.bigFont {
+.labelLarge{
   font-family: "Pretendard";
   font-style: normal;
-  font-weight: 700;
-  font-size: 5.2vw;
-  line-height: 140%;
+  font-weight: 600;
+  font-size: 5.92vw;
+  line-height: 150%;
+  color: #000000;
+}
+.labelMedium{
+  font-Family: "Pretendard";
+  font-Style: normal;
+  font-Weight: 600;
+  font-Size: 4.45vw;
+  line-Height: 150%;
+  color: #000000;
 }
 
-.middleFont {
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 4.6vw;
-  line-height: 140%;
+.editButton{
+  width: 5vw;
+  height: 5vw;
 }
 
-.smallFont {
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 3.0vw;
-  line-height: 140%;
+.labelSmall{
+  font-Family: "Pretendard";
+  font-Style: normal;
+  font-Weight: 600;
+  font-Size: 3.35vw;
+  line-Height: 150%;
+  color: #000000;
 }
 
 .smallBoldFont {
@@ -40,107 +50,72 @@
   font-size: 3.9vw;
   line-height: 140%;
 }
-
-.midStyle {
-  height: 50px;
-  margin: 10px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+.dayBox{
+  text-align: center;
 }
-
-.boxStyle {
-  position: relative; 
-  display: flex;
-  align-items: center;
-  border: 1px solid gray;
-  padding: 0px;
-  margin: 10px;
-  height: 18vh;
-  border-radius: 10px;
-}
-
-.planeBoxStyle {
-  display: flex;
-  align-items: center;
-  border: 1px solid gray;
-  margin: 10px;
-  border-radius: 10px;
-  justify-content: space-between;
-  padding: 0 10px; /* 컨테이너의 양쪽에 패딩을 추가하여 내용이 테두리에 닿지 않도록 함 */
-  height: 18vh;
-  position: relative;
-}
-
-
-
-.addDetailPlanStyle {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding: 23px;
-  margin: 10px;
-  border: 1px solid gray;
-  cursor: pointer;
-  border-radius: 10px;
-  margin-top: 0px;
-}
-
-.placeInfoStyle {
-  margin-left: 15px;
-  width: 170px;
-}
-
-.imgStyle {
-  width: 90px;
-  height: 90px;
-  margin: 10px;
-  border-radius: 5px;
-}
-
 .previousButton {
   transform: rotate(90deg);
 }
-
 .nextButton {
   transform: rotate(270deg);
 }
-
-.editButton {
-  margin-top: 23px;
-  width: 25px;
-  height: 25px;
-}
-
-.boxStyle .trashCanButton {
-  position: absolute; /* 절대 위치 설정 */
-  z-index: 10;
-  width: 20px;
-  height: 20px;
-  bottom: 10px;
-  right: 10px;
-}
-
-.planeBoxStyle .trashCanButton {
-  position: absolute; /* 절대 위치 설정 */
-  z-index: 10;
-  width: 20px;
-  height: 20px;
-  bottom: 10px;
-  right: 10px;
-}
-
-.smallPlaneStyle {
-  width: 30px;
-  height: 30px;
-}
-
-.planeInfo {
+.midStyle {
+  padding: 2vw;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  flex: 1; /* 비행기 아이콘을 제외한 각 항목이 flex 컨테이너 내에서 동일한 공간을 차지하도록 함 */
-  text-align: center; /* 텍스트를 중앙 정렬 */
 }
+
+.planeBoxStyle{
+  display: flex;
+  flex-wrap: wrap;
+  height: 33vw;
+  justify-content: center;
+  align-items: center;
+  gap: 10vw;
+  border-top: 0.377vw solid rgba(137, 137, 137, 0.3);
+  border-bottom: 0.377vw solid rgba(137, 137, 137, 0.3);
+}
+
+.boxStyle{
+  display: flex;
+  justify-content: space-between;
+  height: 31vw;
+  align-items: center;
+  gap: 10vw;
+  border-top: 0.377vw solid rgba(137, 137, 137, 0.3);
+  border-bottom: 0.377vw solid rgba(137, 137, 137, 0.3);
+}
+.boxLeft{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 29vw;
+  width: 60vw;
+}
+.imgStyle{
+  width: 46vw;
+  height: 29vw;
+  object-fit: cover;
+  border-radius: 1vw;
+}
+.planInfoBox{
+  width: 45vw;
+}
+
+.addBox{
+  display: flex;
+  height: 33vw;
+  justify-content: center;
+  align-items: center;
+  border-top: 0.377vw solid rgba(137, 137, 137, 0.3);
+  border-bottom: 0.377vw solid rgba(137, 137, 137, 0.3);
+  margin-bottom: 20vw;
+}
+
+
+
+
+
+
+
