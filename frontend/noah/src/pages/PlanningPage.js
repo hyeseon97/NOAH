@@ -249,8 +249,8 @@ export default function PlanningPage() {
               })
               .replace(/\.\s?/g, "-")
               .slice(0, -1)}
-            {getFormattedDate(plan.startDate)} ~{" "}
-            {getFormattedDate(plan.endDate)}
+            {/* {getFormattedDate(plan.startDate)} ~{" "}
+            {getFormattedDate(plan.endDate)} */}
           </div>
         </div>
         <Edit

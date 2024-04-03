@@ -23,7 +23,6 @@ export async function updateTicket(ticketId, object) {
 export async function deleteTicket(ticketId) {
   const deleteURL = `${commonUrl}/${ticketId}`;
   try {
-    console.log(deleteURL + "이거 읽어지긴하냐?")
     const res = await axiosAPI.delete(deleteURL);
     return res.data;
   } catch (error) {
