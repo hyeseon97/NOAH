@@ -60,3 +60,12 @@
   gap: 2.5vw;
   align-items: center;
 }
+
+.deposit {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 3.35vw;
+  line-height: 150%;
+  color: black;
+}

@@ -382,7 +382,16 @@ export default function PlanningPage() {
                     />
                   </div>
                   <div className={styles.planInfoBox}>
-                    <div className={styles.labelMedium}>{detailPlan.place}</div>
+                    <div
+                      className={styles.labelMedium}
+                      style={{
+                        textOverflow: "hidden",
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {detailPlan.place}
+                    </div>
                     <div className={styles.labelSmall}>{detailPlan.memo}</div>
                     <div className={styles.labelSmall}>
                       {detailPlan.time
