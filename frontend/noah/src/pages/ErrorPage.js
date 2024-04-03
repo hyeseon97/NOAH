@@ -19,11 +19,7 @@ export default function ErrorPage() {
   };
   return (
     <>
-      <h1>
-        이미지 테스트
-        <input type="file" onChange={handleFileChange} multiple></input>
-        <div onClick={upload}>업로드</div>
-      </h1>
+      <h1>이스터에그</h1>
     </>
   );
 }

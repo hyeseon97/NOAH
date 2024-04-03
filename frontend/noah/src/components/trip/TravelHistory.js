@@ -123,9 +123,6 @@ export default function TravelHistory({ travel, fetchTravels }) {
             )}
           </div>
           <div style={flexContainer}>
-            {travel.reviewId === null && (
-              <input type="file" onChange={handleFileChange} multiple></input>
-            )}
             <div style={labelSmall}>
               {travel.country && <span>{travel.country}, </span>}
               {travel.people}명
@@ -133,6 +130,12 @@ export default function TravelHistory({ travel, fetchTravels }) {
             {travel.reviewId === null && (
               <div style={review} onClick={upload}>
                 후기 작성
+                <input
+                  type="file"
+                  onChange={handleFileChange}
+                  multiple
+                  style={{ display: "none" }}
+                ></input>
               </div>
             )}
             {travel.reviewId !== null && (
