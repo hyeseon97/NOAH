@@ -147,8 +147,8 @@ export default function GoogleMapSearch() {
   };
 
   function getSize() {
-    const widthVW = window.innerWidth * 0.8; // 뷰포트의 80%
-    const heightVH = window.innerHeight * 0.4; // 뷰포트의 40%
+    const widthVW = Math.round(window.innerWidth * 0.8); // 뷰포트의 80%
+    const heightVH = Math.round(window.innerHeight * 0.4); // 뷰포트의 40%
     return `${Math.round(widthVW)}x${Math.round(heightVH)}`;
   }
 
