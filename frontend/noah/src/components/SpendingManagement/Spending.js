@@ -7,7 +7,11 @@ import DropdownMember from "../common/DropdownMember";
 import DropdownConsumeType from "../common/DropdownConsumeType";
 import { changeTrade } from "../../api/trade/Trade";
 
-export default function Spending({ transaction, people }) {
+export default function Spending({
+  transaction,
+  people,
+  setAllSpendingHistory,
+}) {
   function formatTime(timeString) {
     // HHMMSS 형식의 문자열을 입력받아 HH:MM:SS 형식으로 변환합니다.
     return timeString.replace(/^(\d{2})(\d{2})(\d{2})$/, "$1:$2:$3");

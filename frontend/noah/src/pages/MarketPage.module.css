@@ -51,3 +51,21 @@
   border-radius: 1.33vw;
   margin-top: 3.33vw;
 }
+
+/* DropdownStyle.module.css */
+.dropdownStyle {
+  width: 33.33vw;
+  height: 10.33vw;
+  border: 0.277vw solid #e1e1e1;
+  backdrop-filter: blur(0.277vw);
+  border-radius: 1.385vw;
+  font-family: "Pretendard", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 5.92vw;
+  line-height: 150%;
+  color: black;
+  text-align: center;
+  cursor: pointer;
+  margin-left: 40vw;
+}
