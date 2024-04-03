@@ -114,7 +114,7 @@ export default function GoogleMapSearch() {
 
   const onLoad = (map) => {
     mapRef.current = map;
-    getCurrentLocation();
+    // getCurrentLocation();
   };
 
   const changeInfoToggle = () => {
@@ -254,14 +254,7 @@ const sizeToMap = `${width}x${height}`;
     }
   }, [search]);
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (mapRef.current) {
-        getCurrentLocation(); // 컴포넌트가 마운트될 때 사용자의 현재 위치를 가져옵니다.
-      }
-    }, 1000);
-    return () => clearTimeout(timeoutId);
-  }, []);
+
 
   useEffect(() => {}, []);
 
@@ -285,31 +278,31 @@ const sizeToMap = `${width}x${height}`;
     });
   };
 
-  const getCurrentLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const currentPosition = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          };
-          setMarkers([currentPosition]);
-          mapRef.current?.panTo(currentPosition);
-          mapRef.current?.setZoom(5);
-        },
-        () => {
-          alert("위치 정보를 가져올 수 없습니다.");
-        }
-      );
-    } else {
-      alert("브라우저가 위치 정보를 지원하지 않습니다.");
-    }
-  };
+  // const getCurrentLocation = () => {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         const currentPosition = {
+  //           lat: position.coords.latitude,
+  //           lng: position.coords.longitude,
+  //         };
+  //         setMarkers([currentPosition]);
+  //         mapRef.current?.panTo(currentPosition);
+  //         mapRef.current?.setZoom(5);
+  //       },
+  //       () => {
+  //         alert("위치 정보를 가져올 수 없습니다.");
+  //       }
+  //     );
+  //   } else {
+  //     alert("브라우저가 위치 정보를 지원하지 않습니다.");
+  //   }
+  // };
 
   useEffect(() => {
     if (mapRef.current) {
       window.google.maps.event.trigger(mapRef.current, "resize");
-      getCurrentLocation();
+      // getCurrentLocation();
     }
   }, [mapRef.current]);
 
