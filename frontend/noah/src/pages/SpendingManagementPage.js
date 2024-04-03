@@ -9,7 +9,10 @@ import Spending from "../components/SpendingManagement/Spending";
 import DoughnutChartSmall from "../components/SpendingManagement/DoughnutChartSmall";
 import SumBox from "../components/SpendingManagement/SumBox";
 import SpendingHeader from "../components/SpendingManagement/SpedingHeader";
-import { getAllTrade } from "../api/trade/Trade";
+import {
+  getAllTrade,
+  getTradeListByMemberAndConsumeType,
+} from "../api/trade/Trade";
 import { useParams } from "react-router-dom";
 import { getGroupAccountMemberAndTotalDue } from "../api/groupaccount/GroupAccount";
 import SumBoxAll from "./../components/SpendingManagement/SumBoxAll";
@@ -24,7 +27,6 @@ export default function SpendingManagemnetPage() {
   const [allSpendingHistory, setAllSpendingHistory] = useState([]);
   const [groupedByDate, setGroupedByDate] = useState([]);
   const [people, setPeople] = useState([]); // 여행에 속한 사람의 이름, id
-  const [isDetailClick, setIsDetailClick] = useState(false);
   const [selectedSpendingHistory, setSelectedSpendingHistory] = useState([]);
   const [peopleHistory, setPeopleHistory] = useState([]);
   const [selectedNames, setSelectedNames] = useState([]);
@@ -45,14 +47,6 @@ export default function SpendingManagemnetPage() {
   const [expensePercent, setExpensePercent] = useState(0);
   const [depositSum, setDepositSum] = useState(0);
   const [expenseSum, setExpenseSum] = useState(0);
-
-  function filterTransactions(selectedNames, selectedConsumeTypes) {
-    return allSpendingHistory.filter(
-      (transaction) =>
-        selectedNames.includes(transaction.name) &&
-        selectedConsumeTypes.includes(transaction.consumeType)
-    );
-  }
 
   function calculateTotalAmountByConsumeType(filteredTransactions) {
     // 초기 상태에서 모든 consumeType을 0으로 설정
@@ -126,16 +120,6 @@ export default function SpendingManagemnetPage() {
 
   /* 초기 렌더링 */
   useEffect(() => {
-    if (isDetailClick) {
-      setSelectedSpendingHistory(
-        filterTransactions(selectedNames, selectedConsumeTypes)
-      );
-      setGroupedByDate(groupTransactionsByDate(selectedSpendingHistory));
-
-      setIsDetailClick(false);
-      return;
-    }
-
     (async () => {
       try {
         const res = await getAllTrade(travelId);
@@ -154,7 +138,8 @@ export default function SpendingManagemnetPage() {
 
         setAllPeopleDeposit(totalPaymentAmount);
         setDepositSum(totalPaymentAmount);
-        setSelectedNames(namesOnly); // 처음엔 모든 이름을 선택
+        setSelectedNames([...namesOnly]); // 처음엔 모든 이름을 선택
+
         const idAndNames = peopleRes.data.map((member) => ({
           id: member.member_id,
           name: member.memberName,
@@ -170,23 +155,33 @@ export default function SpendingManagemnetPage() {
         setTimeout(() => setIsLoading(false), 500);
       }
     })();
-  }, [isFilter]);
+  }, []);
 
   useEffect(() => {
-    setPeopleHistory(
-      filterTransactions(selectedNames, [
-        "공통",
-        "식비",
-        "숙박",
-        "항공/교통",
-        "환전",
-        "쇼핑",
-        "기타",
-      ])
-    );
-    setTotalAmountByConsumeType(
-      calculateTotalAmountByConsumeType(peopleHistory)
-    );
+    let selectedIds = getSelectedIds();
+    if (selectedIds.length === 0) {
+      selectedIds.push(0);
+    }
+    (async () => {
+      const res = await getTradeListByMemberAndConsumeType(
+        travelId,
+        selectedIds,
+        ["공통", "식비", "숙박", "항공/교통", "환전", "쇼핑", "기타"]
+      );
+      let tmp = await calculateTotalAmountByConsumeType(res.data);
+      if (tmp === undefined) {
+        tmp = {
+          공통: 0,
+          기타: 0,
+          쇼핑: 0,
+          숙박: 0,
+          식비: 0,
+          "항공/교통": 0,
+          환전: 0,
+        };
+      }
+      setTotalAmountByConsumeType(tmp);
+    })();
   }, [selectedNames]);
 
   useEffect(() => {
@@ -199,6 +194,24 @@ export default function SpendingManagemnetPage() {
       setExpensePercent(Math.ceil((expenseSum / allPeopleExpense) * 100));
     }
   }, [depositSum, expenseSum]);
+
+  const getSelectedIds = () => {
+    return people
+      .filter((person) => selectedNames.includes(person.name))
+      .map((person) => person.id);
+  };
+
+  const handleDetailClick = async () => {
+    const selectedIds = getSelectedIds();
+    const res = await getTradeListByMemberAndConsumeType(
+      travelId,
+      selectedIds,
+      selectedConsumeTypes
+    );
+
+    setGroupedByDate(groupTransactionsByDate(res.data));
+    setIsFilter(false);
+  };
 
   return (
     <>
@@ -286,8 +299,7 @@ export default function SpendingManagemnetPage() {
                     cursor: "pointer",
                   }}
                   onClick={() => {
-                    setIsDetailClick(true);
-                    setIsFilter(false);
+                    handleDetailClick();
                   }}
                 >
                   내역 상세

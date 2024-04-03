@@ -114,7 +114,7 @@ export default function GoogleMapSearch() {
 
   const onLoad = (map) => {
     mapRef.current = map;
-    getCurrentLocation();
+    // getCurrentLocation();
   };
 
   const changeInfoToggle = () => {
@@ -158,17 +158,16 @@ export default function GoogleMapSearch() {
   // const widthVW = Math.round(window.innerWidth * 1); // 뷰포트의 100%를 사용하고 반올림
   // const heightVH = Math.round(window.innerHeight * 0.5); // 뷰포트의 50%를 사용하고 반올림
   // 너비와 높이를 계산하는 예제 코드
-const widthMap = window.innerWidth * 1.0; // 뷰포트의 80%를 사용하는 예시
-const heightMap = window.innerHeight * 0.5; // 뷰포트의 40%를 사용하는 예시
+  const widthMap = window.innerWidth * 1.0; // 뷰포트의 80%를 사용하는 예시
+  const heightMap = window.innerHeight * 0.5; // 뷰포트의 40%를 사용하는 예시
 
-// 소수점을 처리하여 정수로 만들기
-const width = Math.round(widthMap);
-const height = Math.round(heightMap);
+  // 소수점을 처리하여 정수로 만들기
+  const width = Math.round(widthMap);
+  const height = Math.round(heightMap);
 
-// `size` 파라미터에 적용
-const sizeToMap = `${width}x${height}`;
+  // `size` 파라미터에 적용
+  const sizeToMap = `${width}x${height}`;
 
-  
   const mapType = "roadMap";
   const [mapUrl, setMapUrl] = useState("");
 
@@ -254,15 +253,6 @@ const sizeToMap = `${width}x${height}`;
     }
   }, [search]);
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (mapRef.current) {
-        getCurrentLocation(); // 컴포넌트가 마운트될 때 사용자의 현재 위치를 가져옵니다.
-      }
-    }, 1000);
-    return () => clearTimeout(timeoutId);
-  }, []);
-
   useEffect(() => {}, []);
 
   const handleSelect = (placeId, event) => {
@@ -285,31 +275,31 @@ const sizeToMap = `${width}x${height}`;
     });
   };
 
-  const getCurrentLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const currentPosition = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          };
-          setMarkers([currentPosition]);
-          mapRef.current?.panTo(currentPosition);
-          mapRef.current?.setZoom(5);
-        },
-        () => {
-          alert("위치 정보를 가져올 수 없습니다.");
-        }
-      );
-    } else {
-      alert("브라우저가 위치 정보를 지원하지 않습니다.");
-    }
-  };
+  // const getCurrentLocation = () => {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         const currentPosition = {
+  //           lat: position.coords.latitude,
+  //           lng: position.coords.longitude,
+  //         };
+  //         setMarkers([currentPosition]);
+  //         mapRef.current?.panTo(currentPosition);
+  //         mapRef.current?.setZoom(5);
+  //       },
+  //       () => {
+  //         alert("위치 정보를 가져올 수 없습니다.");
+  //       }
+  //     );
+  //   } else {
+  //     alert("브라우저가 위치 정보를 지원하지 않습니다.");
+  //   }
+  // };
 
   useEffect(() => {
     if (mapRef.current) {
       window.google.maps.event.trigger(mapRef.current, "resize");
-      getCurrentLocation();
+      // getCurrentLocation();
     }
   }, [mapRef.current]);
 
@@ -438,13 +428,8 @@ const sizeToMap = `${width}x${height}`;
                 {outPlace.rating && (
                   <>
                     <Rating
-                      className={styles.rating}
-                      emptySymbol={
-                        <FaStar className={styles.star} color="gray" />
-                      }
-                      fullSymbol={
-                        <FaStar className={styles.star} color="gold" />
-                      }
+                      emptySymbol={<FaStar color="gray" />}
+                      fullSymbol={<FaStar color="gold" />}
                       initialRating={outPlace.rating}
                       readonly
                     />

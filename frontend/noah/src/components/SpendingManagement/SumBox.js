@@ -8,7 +8,7 @@ export default function SumBox({
   setSelectedNames,
   setDepositSum,
 }) {
-  const [isClicked, setIsClicked] = useState(true);
+  const [isClicked, setIsClicked] = useState(false);
 
   useEffect(() => {
     if (selectedNames?.includes(title)) {

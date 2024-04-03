@@ -21,7 +21,7 @@
   font-family: "Pretendard";
   font-weight: 600;
   font-size: 4.45vw;
-  padding: calc(45% - 2.6vw) 0;
+  padding: calc(45% - 2.9vw) 0;
   content: ""; /* 이 부분은 더 이상 필요 없으므로 제거 */
   transform: skew(-0.03deg);
 

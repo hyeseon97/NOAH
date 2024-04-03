@@ -1,4 +1,6 @@
 import axiosAPI from "../axios";
+import qs from "qs";
+
 const commonUrl = "/api/v1/trade";
 
 /* 해당 여행의 모든 거래 내역 조회 */
@@ -38,4 +40,22 @@ export async function changeTrade(object) {
   } catch (error) {
     throw error;
   }
+}
+
+export async function getTradeListByMemberAndConsumeType(
+  travelId,
+  memberIds,
+  consumeTypes
+) {
+  const response = await axiosAPI.get(commonUrl + `/classify/${travelId}`, {
+    params: {
+      memberIds,
+      consumeTypes,
+    },
+    paramsSerializer: (params) => {
+      return qs.stringify(params, { arrayFormat: "repeat" });
+    },
+  });
+
+  return response.data;
 }
