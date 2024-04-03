@@ -207,7 +207,7 @@ export default function PlanningPage() {
   const handleSubmit = async (updatedPlan) => {
     try {
       console.log(updatedPlan);
-      await updatePlan(planId, updatedPlan);
+      await updatePlan( updatedPlan);
       setIsModalOpen(false); // 모달 닫기
 
       loadPlan();

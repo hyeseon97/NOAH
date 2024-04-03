@@ -6,6 +6,7 @@ function EditModal({ plan, onSubmit, onClose }) {
     planId: plan.planId,
     start_date: plan.startDate.split("T")[0],
     end_date: plan.endDate.split("T")[0],
+    travel_start: true,
     country: plan.country,
   });
 
