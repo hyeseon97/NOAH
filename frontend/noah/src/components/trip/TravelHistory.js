@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { uplodaImage } from "../../api/image/Image";
 import { createReview } from "../../api/review/Review";
+import showToast from "../common/Toast";
+import ReviewModal from "../trip/ReviewModal";
+import { useNavigate } from 'react-router-dom';
 
 const container = {
   width: "100vw",
@@ -42,6 +45,7 @@ const labelSmall = {
 const review = {
   ...labelSmall,
   textDecoration: "underline",
+  marginTop: "5px",
   color: "black",
 };
 
@@ -55,32 +59,44 @@ function convertDateFormat(dateStr) {
   return `${year}.${month}.${day}`;
 }
 
-export default function TravelHistory({ travel }) {
+export default function TravelHistory({ travel, fetchTravels }) {
   const [files, setFiles] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleFileChange = (event) => {
     setFiles(event.target.files);
   };
 
+  const handleReviewNav = () => {
+    navigate(`/trip/${travel.travelId}/review/${travel.reviewId}`);
+  };
+
   const upload = async () => {
     const formData = new FormData();
-    formData.append("images", files[0]);
-    const res = await uplodaImage(formData);
-    console.log(res);
 
-    const handleCreateReview = async () => {
+    if (!files) {
+      showToast("사진을 함께 넣어주세요.");
+      return;
+    } else {
+      formData.append("images", files[0]);
+    }
+    try {
+      const res = await uplodaImage(formData);
       const object = {
         travelId: travel.travelId,
         imageIdList: res.imageIds,
       };
-      try {
-        const response = await createReview(object);
-        console.log(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    handleCreateReview();
+      const response = await createReview(object);
+      console.log(response.data);
+      fetchTravels();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleReviewClick = () => {
+    setIsModalOpen(true);
   };
 
   return (
@@ -107,17 +123,31 @@ export default function TravelHistory({ travel }) {
             )}
           </div>
           <div style={flexContainer}>
-            <input type="file" onChange={handleFileChange} multiple></input>
+            {travel.reviewId === null && (
+              <input type="file" onChange={handleFileChange} multiple></input>
+            )}
             <div style={labelSmall}>
               {travel.country && <span>{travel.country}, </span>}
               {travel.people}명
             </div>
-            {travel.planId === null && (
+            {travel.reviewId === null && (
               <div style={review} onClick={upload}>
                 후기 작성
               </div>
             )}
-            {travel.planId !== null && <div style={review}>후기 확인</div>}
+            {travel.reviewId !== null && (
+              <div>
+                <div style={review} onClick={handleReviewNav}>후기 확인</div>
+                <div style={review} onClick={handleReviewClick}>
+                  댓글 입력
+                </div>
+              </div>
+            )}
+            <ReviewModal
+              isOpen={isModalOpen}
+              onRequestClose={() => setIsModalOpen(false)}
+              travel={travel}
+            />
           </div>
         </div>
       </div>

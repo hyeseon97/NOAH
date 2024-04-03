@@ -252,8 +252,8 @@ export default function GoogleMapSearch() {
       if (status === window.google.maps.places.PlacesServiceStatus.OK) {
         const { lat, lng } = place.geometry.location;
         setMarkers([{ lat: lat(), lng: lng() }]);
-        mapRef.current.panTo({ lat: lat(), lng: lng() });
-        mapRef.current.setZoom(5);
+        mapRef.current?.panTo({ lat: lat(), lng: lng() });
+        mapRef.current?.setZoom(5);
         console.log(place);
         setOutPlace(place);
         setReviews(place.reviews);
@@ -272,8 +272,8 @@ export default function GoogleMapSearch() {
             lng: position.coords.longitude,
           };
           setMarkers([currentPosition]);
-          mapRef.current.panTo(currentPosition);
-          mapRef.current.setZoom(5);
+          mapRef.current?.panTo(currentPosition);
+          mapRef.current?.setZoom(5);
         },
         () => {
           alert("위치 정보를 가져올 수 없습니다.");
