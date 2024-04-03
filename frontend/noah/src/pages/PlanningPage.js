@@ -6,7 +6,7 @@ import { ReactComponent as TrashCan } from "./../assets/Icon/TrashCan.svg";
 import { ReactComponent as Plus } from "./../assets/Icon/Plus.svg";
 import { ReactComponent as Edit } from "./../assets/Icon/Edit.svg";
 import { useParams } from "react-router-dom";
-import style from "./PlanningPage.module.css";
+import styles from "./PlanningPage.module.css";
 import EditModal from "../components/trip/EditModal"; // 수정을 위한 모달 컴포넌트
 import {
   getDetailPlanList,
@@ -77,17 +77,17 @@ const DayCalculate = ({
   return (
     <>
       {daysList.length > 0 && (
-        <div className={style.midStyle}>
-          <Next className={style.previousButton} onClick={goToPreviousDay} />
-          <div>
-            <div className={style.bigFont}>
+        <div className={styles.midStyle}>
+          <Next className={styles.previousButton} onClick={goToPreviousDay} />
+          <div className={styles.dayBox}>
+            <div className={styles.labelLarge}>
               DAY {daysList[currentDayIndex].day}
             </div>
-            <div className={style.smallFont}>
+            <div className={styles.labelSmall}>
               {daysList[currentDayIndex].date}
             </div>
           </div>
-          <Next className={style.nextButton} onClick={goToNextDay} />
+          <Next className={styles.nextButton} onClick={goToNextDay} />
         </div>
       )}
     </>
@@ -280,97 +280,103 @@ export default function PlanningPage() {
           navigate(`/trip/${travelId}`);
         }}
       />
-      <div className={style.headStyle}>
-        <div>
-          <div className={style.bigFont}>{plan.country}</div>
-          <div className={style.middleFont}>
-            {new Date(plan.startDate)
-              .toLocaleDateString("ko-KR", {
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-              })
-              .replace(/\.\s?/g, "-")
-              .slice(0, -1)}{" "}
-            ~{" "}
-            {new Date(plan.endDate)
-              .toLocaleDateString("ko-KR", {
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-              })
-              .replace(/\.\s?/g, "-")
-              .slice(0, -1)}
+      <div className={styles.planContainer}>
+        <div className={styles.headStyle}>
+          <div>
+            <div className={styles.labelLarge}>{plan.country}</div>
+            <div className={styles.labelMedium}>
+              {new Date(plan.startDate)
+                .toLocaleDateString("ko-KR", {
+                  year: "numeric",
+                  month: "2-digit",
+                  day: "2-digit",
+                })
+                .replace(/\.\s?/g, "-")
+                .slice(0, -1)}{" "}
+              ~{" "}
+              {new Date(plan.endDate)
+                .toLocaleDateString("ko-KR", {
+                  year: "numeric",
+                  month: "2-digit",
+                  day: "2-digit",
+                })
+                .replace(/\.\s?/g, "-")
+                .slice(0, -1)}
+            </div>
           </div>
-        </div>
-        <Edit
-          className={style.editButton}
-          onClick={() => handleEditClick(plan)}
-        />
-        {isModalOpen && (
-          <EditModal
-            plan={currentPlan}
-            onSubmit={handleSubmit}
-            onClose={() => setIsModalOpen(false)}
+          <Edit
+            className={styles.editButton}
+            onClick={() => handleEditClick(plan)}
           />
-        )}
-      </div>
-      <DayCalculate
-        startDate={plan.startDate}
-        endDate={plan.endDate}
-        onDayChange={handleDayChange}
-      />
-      <div>
-        <div>
-          {filteredPlanes.map((flight) => (
-            <div key={flight.ticket_id} className={style.planeBoxStyle}>
-              <div className={style.planeInfo}>
-                <div className={style.middleFont}>{flight.a_airport}</div>
-
-                <div className={style.smallFont}>
-                  {getTimeFromString(flight.arrival)}
-                </div>
-              </div>
-              <SmallPlane className={style.smallPlaneStyle} />
-              <div className={style.planeInfo}>
-                <div className={style.middleFont}>{flight.d_airport}</div>
-                <div className={style.smallFont}>
-                  {getTimeFromString(flight.departure)}
-                </div>
-              </div>
-              <TrashCan
-                className={style.trashCanButton}
-                onClick={() => handleDeleteTicket(flight.ticket_id)}
-              />
-            </div>
-          ))}
-          {filteredDetailPlans.map((detailPlan) => (
-            <div key={detailPlan.detailPlanId} className={style.boxStyle}>
-              <img
-                src={detailPlan.imageUrl}
-                alt="Detail Plan"
-                className={style.imgStyle}
-              />
-              <div className={style.placeInfoStyle}>
-                <div className={style.smallBoldFont}>{detailPlan.place}</div>
-                <div className={style.smallFont}>{detailPlan.memo}</div>
-                <div className={style.smallFont}>
-                  {detailPlan.time
-                    ? `사용자 평점 ${detailPlan.time}`
-                    : "평점 정보 없음"}
-                </div>
-              </div>
-              <TrashCan
-                className={style.trashCanButton}
-                onClick={() => handleDeleteDetailPlan(detailPlan.detailPlanId)}
-              />
-            </div>
-          ))}
-          {/* 새로운 계획 추가 버튼 등 나머지 UI 요소 */}
+          {isModalOpen && (
+            <EditModal
+              plan={currentPlan}
+              onSubmit={handleSubmit}
+              onClose={() => setIsModalOpen(false)}
+            />
+          )}
         </div>
-        <div className={style.addDetailPlanStyle} onClick={handleAddPlanClick}>
-          <Plus />
-          <div className={style.middleFont}>새로운 계획 추가</div>
+        <DayCalculate
+          startDate={plan.startDate}
+          endDate={plan.endDate}
+          onDayChange={handleDayChange}
+        />
+        <div>
+          <div>
+            {filteredPlanes.map((flight) => (
+              <div key={flight.ticket_id} className={styles.planeBoxStyle}>
+                <div className={styles.planeInfo}>
+                  <div className={styles.labelMedium}>{flight.a_airport}</div>
+                  <div className={styles.labelSmall}>
+                    {getTimeFromString(flight.arrival)}
+                  </div>
+                </div>
+                <SmallPlane className={styles.smallPlaneStyle} />
+                <div className={styles.planeInfo}>
+                  <div className={styles.labelMedium}>{flight.d_airport}</div>
+                  <div className={styles.labelSmall}>
+                    {getTimeFromString(flight.departure)}
+                  </div>
+                </div>
+                <TrashCan
+                  className={styles.trashCanButton}
+                  onClick={() => handleDeleteTicket(flight.ticket_id)}
+                />
+              </div>
+            ))}
+            {filteredDetailPlans.map((detailPlan) => (
+              <div key={detailPlan.detailPlanId} className={styles.boxStyle}>
+                <img
+                  src={detailPlan.imageUrl}
+                  alt="Detail Plan"
+                  className={styles.imgStyle}
+                />
+                <div className={styles.placeInfoStyle}>
+                  <div className={styles.smallBoldFont}>{detailPlan.place}</div>
+                  <div className={styles.smallFont}>{detailPlan.memo}</div>
+                  <div className={styles.smallFont}>
+                    {detailPlan.time
+                      ? `사용자 평점 ${detailPlan.time}`
+                      : "평점 정보 없음"}
+                  </div>
+                </div>
+                <TrashCan
+                  className={styles.trashCanButton}
+                  onClick={() =>
+                    handleDeleteDetailPlan(detailPlan.detailPlanId)
+                  }
+                />
+              </div>
+            ))}
+            {/* 새로운 계획 추가 버튼 등 나머지 UI 요소 */}
+          </div>
+          <div
+            className={styles.addDetailPlanStyle}
+            onClick={handleAddPlanClick}
+          >
+            <Plus />
+            <div className={styles.middleFont}>새로운 계획 추가</div>
+          </div>
         </div>
       </div>
     </>
