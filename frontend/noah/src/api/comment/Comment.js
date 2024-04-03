@@ -22,9 +22,10 @@ export async function getCommentList(reviewId) {
 }
 
 /* 코멘트 수정 */
-export async function updateComment(commentId) {
+export async function updateComment(reviewId, content) {
+  const object = { reviewId: reviewId, content: content };
   try {
-    const res = await axiosAPI.put(commonUrl + `/${commentId}`);
+    const res = await axiosAPI.put(commonUrl, object);
     return res.data;
   } catch (error) {
     throw error;

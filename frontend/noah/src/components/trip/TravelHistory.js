@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { uplodaImage } from "../../api/image/Image";
 import { createReview } from "../../api/review/Review";
+import showToast from "../common/Toast";
+import ReviewModal from '../trip/ReviewModal';
 
 const container = {
   width: "100vw",
@@ -57,6 +59,7 @@ function convertDateFormat(dateStr) {
 
 export default function TravelHistory({ travel }) {
   const [files, setFiles] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleFileChange = (event) => {
     setFiles(event.target.files);
@@ -64,9 +67,14 @@ export default function TravelHistory({ travel }) {
 
   const upload = async () => {
     const formData = new FormData();
-    formData.append("images", files[0]);
+
+    if (!files) {
+      showToast("사진을 넣어라 인간새끼야");
+      return;
+    } else {
+      formData.append("images", files[0]);
+    }
     const res = await uplodaImage(formData);
-    console.log(res);
 
     const handleCreateReview = async () => {
       const object = {
@@ -81,6 +89,10 @@ export default function TravelHistory({ travel }) {
       }
     };
     handleCreateReview();
+  };
+
+  const handleReviewClick = () => {
+    setIsModalOpen(true);
   };
 
   return (
@@ -107,17 +119,31 @@ export default function TravelHistory({ travel }) {
             )}
           </div>
           <div style={flexContainer}>
-            <input type="file" onChange={handleFileChange} multiple></input>
+            {travel.reviewId === null && (
+              <input type="file" onChange={handleFileChange} multiple></input>
+            )}
             <div style={labelSmall}>
               {travel.country && <span>{travel.country}, </span>}
               {travel.people}명
             </div>
-            {travel.planId === null && (
+            {travel.reviewId === null && (
               <div style={review} onClick={upload}>
                 후기 작성
               </div>
             )}
-            {travel.planId !== null && <div style={review}>후기 확인</div>}
+            {travel.reviewId !== null && (
+              <div style={review} >
+                후기 확인
+              </div>
+            )}
+            <div style={review}  onClick={handleReviewClick}>
+              댓글 입력
+            </div>
+            <ReviewModal
+              isOpen={isModalOpen}
+              onRequestClose={() => setIsModalOpen(false)}
+              travel={travel}
+            />
           </div>
         </div>
       </div>
