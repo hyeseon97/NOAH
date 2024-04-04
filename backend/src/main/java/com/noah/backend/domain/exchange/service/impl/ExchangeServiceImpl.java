@@ -20,6 +20,8 @@ import com.noah.backend.domain.member.entity.Member;
 import com.noah.backend.domain.member.repository.MemberRepository;
 import com.noah.backend.domain.memberTravel.Repository.MemberTravelRepository;
 import com.noah.backend.domain.memberTravel.entity.MemberTravel;
+import com.noah.backend.domain.trade.entity.Trade;
+import com.noah.backend.domain.trade.repository.TradeRepository;
 import com.noah.backend.domain.travel.entity.Travel;
 import com.noah.backend.domain.travel.repository.TravelRepository;
 import com.noah.backend.global.exception.account.AccountNotFoundException;
@@ -31,6 +33,8 @@ import com.noah.backend.global.exception.member.MemberNotFoundException;
 import com.noah.backend.global.exception.membertravel.MemberTravelAccessException;
 import com.noah.backend.global.exception.travel.TravelNotFoundException;
 import jakarta.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Currency;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,12 +57,15 @@ public class ExchangeServiceImpl implements ExchangeService {
     private final MemberRepository memberRepository;
     private final MemberTravelRepository memberTravelRepository;
     private final ForeignCurrencyService foreignCurrencyService;
+    private final TradeRepository tradeRepository;
 
     @Override
     public Long createExchange(String email, ExchangeReqDto exchangeReqDto) throws IOException {
         Travel travel = travelRepository.findById(exchangeReqDto.getTravelId()).orElseThrow(TravelNotFoundException::new);
-        GroupAccount groupAccount = groupAccountRepository.findById(travel.getGroupAccount().getId()).orElseThrow(GroupAccountNotFoundException::new);
-        Account account = accountRepository.findById(groupAccount.getAccount().getId()).orElseThrow(AccountNotFoundException::new);
+        GroupAccount groupAccount = groupAccountRepository.findById(travel.getGroupAccount().getId())
+                                                          .orElseThrow(GroupAccountNotFoundException::new);
+        Account account = accountRepository.findById(groupAccount.getAccount().getId())
+                                           .orElseThrow(AccountNotFoundException::new);
         Member member = memberRepository.findById(account.getMember().getId()).orElseThrow(MemberNotFoundException::new);
 
         /* 접근권한 */
@@ -66,26 +73,24 @@ public class ExchangeServiceImpl implements ExchangeService {
             MemberTravelAccessException::new);
         /* ------ */
 
-
         Map<String, String> bankCodeMap = Map.of(
-                "한국은행", "001",
-                "산업은행", "002",
-                "기업은행", "003",
-                "국민은행", "004"
+            "한국은행", "001",
+            "산업은행", "002",
+            "기업은행", "003",
+            "국민은행", "004"
         );
         String bankCode = bankCodeMap.get(account.getBankName());
         int amount = exchangeReqDto.getAmount();
         String currencyName = exchangeReqDto.getCurrency();
 
-
         // 모임통장 계좌 출금
         BankAccountWithdrawReqDto bankAccountWithdrawReqDto = BankAccountWithdrawReqDto.builder()
-                .userKey(member.getUserKey())
-                .bankCode(bankCode)
-                .accountNo(account.getAccountNumber())
-                .transactionBalance(amount)
-                .transactionSummary(currencyName + " 환전")
-                .build();
+                                                                                       .userKey(member.getUserKey())
+                                                                                       .bankCode(bankCode)
+                                                                                       .accountNo(account.getAccountNumber())
+                                                                                       .transactionBalance(amount)
+                                                                                       .transactionSummary(currencyName + " 환전")
+                                                                                       .build();
         bankService.bankAccountWithdraw(bankAccountWithdrawReqDto);
 
         Long exchangeId = exchangeRepository.getExchangeIdByTravelId(travel.getId());
@@ -95,16 +100,46 @@ public class ExchangeServiceImpl implements ExchangeService {
             // 환전 생성
 
             Exchange exchange = Exchange.builder()
-                    .currency(exchangeReqDto.getCurrency())
-                    .exchangeAmount(exchangeReqDto.getExchangeAmount())
-                    .groupAccount(groupAccount)
-                    .build();
+                                        .currency(exchangeReqDto.getCurrency())
+                                        .exchangeAmount(exchangeReqDto.getExchangeAmount())
+                                        .groupAccount(groupAccount)
+                                        .build();
             exchangeRepository.save(exchange);
+
+            // ====================================================
+            // 거래내역 바로 생성
+
+            LocalDateTime now = LocalDateTime.now();
+
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmmss");
+
+            String createdDate = now.format(dateTimeFormatter);
+            String createdTime = now.format(timeFormatter);
+
+            Account aaa = accountRepository.findAccountBytravelId(exchangeReqDto.getTravelId())
+                                           .orElseThrow(AccountNotFoundException::new);
+            Trade trade = Trade.builder()
+                               .type(1)
+                               .name(member.getName())
+                               .member(member)
+                               .date(createdDate)
+                               .time(createdTime)
+                               .cost(exchangeReqDto.getAmount())
+                               .amount(aaa.getAmount() - exchangeReqDto.getAmount())
+                               .consumeType("환전")
+                               .account(aaa)
+                               .build();
+            tradeRepository.save(trade);
+
+            // ====================================================
+
             return exchange.getId();
 
             // 기존 환전 내역이 있다면
         } else {
             Exchange exchange = exchangeRepository.findById(exchangeId).orElseThrow(ExchangeNotFoundException::new);
+            System.out.println(exchange.getCurrency() + " " + exchangeReqDto.getCurrency());
             if (!exchange.getCurrency().equals(exchangeReqDto.getCurrency())) {
                 throw new ExchangeFailedException();
             }
@@ -112,6 +147,34 @@ public class ExchangeServiceImpl implements ExchangeService {
             Double currentAmount = exchangeReqDto.getExchangeAmount();
             Double total = previousAmount + currentAmount;
             exchange.setExchangeAmount(total);
+
+            // ====================================================
+            // 거래내역 바로 생성
+
+            LocalDateTime now = LocalDateTime.now();
+
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmmss");
+
+            String createdDate = now.format(dateTimeFormatter);
+            String createdTime = now.format(timeFormatter);
+
+            Account aaa = accountRepository.findAccountBytravelId(exchangeReqDto.getTravelId())
+                                           .orElseThrow(AccountNotFoundException::new);
+            Trade trade = Trade.builder()
+                               .type(1)
+                               .name(member.getName())
+                               .member(member)
+                               .date(createdDate)
+                               .time(createdTime)
+                               .cost(exchangeReqDto.getAmount())
+                               .amount(aaa.getAmount() - exchangeReqDto.getAmount())
+                               .consumeType("환전")
+                               .account(aaa)
+                               .build();
+            tradeRepository.save(trade);
+
+            // ====================================================
 
             return exchange.getId();
         }
@@ -134,9 +197,9 @@ public class ExchangeServiceImpl implements ExchangeService {
             Exchange exchange = exchangeRepository.findById(exchangeId).orElseThrow(ExchangeNotFoundException::new);
 
             ExchangeInfoDto exchangeInfoDto = ExchangeInfoDto.builder()
-                    .currency(exchange.getCurrency())
-                    .exchangeAmount(exchange.getExchangeAmount())
-                    .build();
+                                                             .currency(exchange.getCurrency())
+                                                             .exchangeAmount(exchange.getExchangeAmount())
+                                                             .build();
 
             return exchangeInfoDto;
         }
@@ -161,23 +224,25 @@ public class ExchangeServiceImpl implements ExchangeService {
 
         /* 접근권한 */
         Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
-        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(), exchangeRatePutDto.getTravelId()).orElseThrow(
-            MemberTravelAccessException::new);
+        MemberTravel memberTravel = memberTravelRepository.findByTravelIdAndMemberId(member.getId(),
+                                                                                     exchangeRatePutDto.getTravelId())
+                                                          .orElseThrow(
+                                                              MemberTravelAccessException::new);
         /* ------ */
 
         Exchange exchange = exchangeRepository.getExchangeByTravelId(exchangeRatePutDto.getTravelId()).orElse(null);
 
-        if(exchange == null){
+        if (exchange == null) {
             exchange = Exchange.builder()
-                .currency(null)
-                .exchangeAmount(0.0)
-                .targetExchangeCurrency(exchangeRatePutDto.getTargetExchangeCurrency())
-                .targetExchangeRate(exchangeRatePutDto.getTargetExchangeRate())
-                .build();
+                               .currency(null)
+                               .exchangeAmount(0.0)
+                               .targetExchangeCurrency(exchangeRatePutDto.getTargetExchangeCurrency())
+                               .targetExchangeRate(exchangeRatePutDto.getTargetExchangeRate())
+                               .build();
             Exchange savedExchange = exchangeRepository.save(exchange);
             return savedExchange.getId();
 
-        } else{
+        } else {
             exchange.setTargetExchangeCurrency(exchangeRatePutDto.getTargetExchangeCurrency());
             exchange.setTargetExchangeRate(exchangeRatePutDto.getTargetExchangeRate());
             return exchange.getId();
