@@ -231,12 +231,8 @@ public class SuggestServiceImpl implements SuggestService {
 		if(reviewIdList==null){
 			throw new SuggestNotExists();
 		}else{
-<<<<<<< HEAD
-			long reviewId = ThreadLocalRandom.current().nextInt(191, 370);
-=======
 			int randomCount = ThreadLocalRandom.current().nextInt(1, reviewIdList.size());
 			Long reviewId = reviewIdList.get(randomCount);
->>>>>>> develop-BE
 				Review review = reviewRepository.findById(reviewId).orElseThrow(ReviewNotFound::new);
 				List<SuggestImageGetDto> imageIdList = imageRepository.findImageOfReview(reviewId).orElse(null);
 				SuggestListResDto suggestListResDto = SuggestListResDto.builder()
