@@ -91,12 +91,12 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
     //랜덤한 리뷰 아이디를 제공
     @Override
-    public Optional<Integer> getRandomSuggestId() {
-        Optional<Integer> reviewCount =
-            Optional.ofNullable(query.select(review.count().intValue())
+    public Optional<List<Long>> getRandomSuggestId() {
+        Optional<List<Long>> reviewIdList =
+            Optional.ofNullable(query.select(review.id)
                                      .from(review)
-                                     .fetchOne());
-        return reviewCount;
+                                     .fetch());
+        return reviewIdList;
     }
 
     //인당 환산값보다 낮은 리뷰 한개를 제공
