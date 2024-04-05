@@ -13,6 +13,7 @@ import com.noah.backend.domain.suggest.dto.responseDto.SuggestListResDto;
 import com.noah.backend.domain.suggest.service.SuggestService;
 import com.noah.backend.global.exception.member.MemberNotFoundException;
 import com.noah.backend.global.exception.review.ReviewNotFound;
+import com.noah.backend.global.exception.suggest.ReviewIdNotExists;
 import com.noah.backend.global.exception.suggest.SuggestNotExists;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -46,16 +47,16 @@ public class SuggestServiceImpl implements SuggestService {
 		System.out.println("targetAmount : " + targetAmount);
 
 		if(targetAmount == null){//목표금액이 null이면 랜덤으로 여행 후기 보여주기
-			int reviewCount = reviewRepository.getRandomSuggestId().orElse(0);
-			return makeRandomSuggestList(reviewCount);
+			List<Long> reviewIdList = reviewRepository.getRandomSuggestId().orElseThrow(ReviewIdNotExists::new);;
+			return makeRandomSuggestList(reviewIdList);
 		} else{//목표금액이 존재하면 targetAmount/total로 인당 가격을 환산하여 여행후기 추천
 			int priceOfPerson = targetAmount/total;
 			List<SuggestListResDto> reviewlist = reviewRepository.getSuggestReviewList(priceOfPerson).orElse(null);
 
 			if(reviewlist == null || reviewlist.size()==0){
 				System.out.println("왜왜왜");
-				int reviewCount = reviewRepository.getRandomSuggestId().orElse(0);
-				return makeRandomSuggestList(reviewCount);
+				List<Long> reviewIdList = reviewRepository.getRandomSuggestId().orElseThrow(ReviewIdNotExists::new);
+				return makeRandomSuggestList(reviewIdList);
 			}
 
 			List<SuggestListResDto> returnlist = new ArrayList<>();
@@ -109,8 +110,8 @@ public class SuggestServiceImpl implements SuggestService {
 	public List<MainSuggestGetDto> nonLoginGetSuggestMain() {
 
 		List<MainSuggestGetDto> result = new ArrayList<>();
-			int reviewCount = reviewRepository.getRandomSuggestId().orElse(0);
-			SuggestListResDto suggest = makeRandomSuggestOne(reviewCount);
+			List<Long> reviewIdList = reviewRepository.getRandomSuggestId().orElseThrow(ReviewIdNotExists::new);
+			SuggestListResDto suggest = makeRandomSuggestOne(reviewIdList);
 
 			MainSuggestGetDto mainSuggestGetDto = MainSuggestGetDto.builder()
 					.travelId(null)
@@ -128,15 +129,16 @@ public class SuggestServiceImpl implements SuggestService {
 
 	//------------------------------------------------------------------------------------------------------
 	//랜덤 제안리스트를 만드는 메소드
-	public List<SuggestListResDto> makeRandomSuggestList(int reviewCount){
-		if(reviewCount==0){
+	public List<SuggestListResDto> makeRandomSuggestList(List<Long> reviewIdList){
+		if(reviewIdList==null){
 			throw new SuggestNotExists();
 		}else{
 			List<SuggestListResDto> list = new ArrayList<>();
 			HashSet<Long> hm = new HashSet<>();
 			while(hm.size()<=29){
-				long num = ThreadLocalRandom.current().nextInt(1, reviewCount);
-				hm.add(num);
+				int randomCount = ThreadLocalRandom.current().nextInt(1, reviewIdList.size());
+				Long reviewId = reviewIdList.get(randomCount);
+				hm.add(reviewId);
 			}
 			for(long reviewId:hm){
 				Review review = reviewRepository.findById(reviewId).orElseThrow(ReviewNotFound::new);
@@ -194,8 +196,8 @@ public class SuggestServiceImpl implements SuggestService {
 
 		if(targetAmount == null){//목표금액이 null이면 랜덤으로 여행 후기 보여주기
 			System.out.println("목표금액이 널이야?");
-			int reviewCount = reviewRepository.getRandomSuggestId().orElse(0);
-			return makeRandomSuggestOne(reviewCount);
+			List<Long> reviewIdList = reviewRepository.getRandomSuggestId().orElseThrow(ReviewIdNotExists::new);
+			return makeRandomSuggestOne(reviewIdList);
 		} else{//목표금액이 존재하면 targetAmount/total로 인당 가격을 환산하여 여행후기 추천
 			int priceOfPerson = targetAmount/total;
 			System.out.println(targetAmount + " " + total + " " + priceOfPerson);
@@ -203,8 +205,8 @@ public class SuggestServiceImpl implements SuggestService {
 
 			if(review == null){
 				System.out.println("리뷰가 널이야????");
-				int reviewCount = reviewRepository.getRandomSuggestId().orElse(0);
-				return makeRandomSuggestOne(reviewCount);
+				List<Long> reviewIdList = reviewRepository.getRandomSuggestId().orElseThrow(ReviewIdNotExists::new);
+				return makeRandomSuggestOne(reviewIdList);
 			}
 
 
@@ -224,11 +226,12 @@ public class SuggestServiceImpl implements SuggestService {
 	}
 
 	//추천할 랜덤 여행 썸네일을 만드는 메소드
-	public SuggestListResDto makeRandomSuggestOne(int reviewCount){
-		if(reviewCount==0){
+	public SuggestListResDto makeRandomSuggestOne(List<Long> reviewIdList){
+		if(reviewIdList==null){
 			throw new SuggestNotExists();
 		}else{
-			long reviewId = ThreadLocalRandom.current().nextInt(1, reviewCount);
+			int randomCount = ThreadLocalRandom.current().nextInt(1, reviewIdList.size());
+			Long reviewId = reviewIdList.get(randomCount);
 				Review review = reviewRepository.findById(reviewId).orElseThrow(ReviewNotFound::new);
 				List<SuggestImageGetDto> imageIdList = imageRepository.findImageOfReview(reviewId).orElse(null);
 				SuggestListResDto suggestListResDto = SuggestListResDto.builder()
