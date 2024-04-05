@@ -81,8 +81,8 @@ export default function PlaneSearchPage() {
     departureAirport,
     arrivalAirport
   ) => {
-    const departureDate = new Date(departureTime).toISOString();
-    const arrivalDate = new Date(arrivalTime).toISOString();
+    const departureDate = departureTime;
+    const arrivalDate = arrivalTime;
 
     console.log(
       departureDate,
@@ -92,7 +92,7 @@ export default function PlaneSearchPage() {
     );
 
     const object = {
-      departure: date,
+      departure: departureDate,
       arrival: arrivalDate,
       d_airport: departureAirport,
       a_airport: arrivalAirport,
@@ -102,7 +102,7 @@ export default function PlaneSearchPage() {
   };
 
   function extractTime(dateTime) {
-    return dateTime.split(" ")[1];
+    return dateTime.split("T")[1].substring(0,5);
   }
 
   return (

@@ -98,7 +98,7 @@ const DayCalculate = ({
 const getTimeFromString = (dateTimeString) => {
   const date = new Date(dateTimeString);
   // 옵션을 설정하여 시간과 분만 표시하도록 합니다.
-  const timeOptions = { hour: "2-digit", minute: "2-digit" };
+  const timeOptions = { hour: "2-digit", minute: "2-digit",timeZone: "UTC" };
   return date.toLocaleTimeString("ko-KR", timeOptions);
 };
 
@@ -358,7 +358,7 @@ export default function PlanningPage() {
                         {flight.a_airport}
                       </div>
                       <div className={styles.labelSmall}>
-                        {getTimeFromString(flight.arrival)}
+                        {getTimeFromString(flight.departure)}
                       </div>
                     </div>
                     <SmallPlane className={styles.smallPlaneStyle} />
@@ -367,7 +367,7 @@ export default function PlanningPage() {
                         {flight.d_airport}
                       </div>
                       <div className={styles.labelSmall}>
-                        {getTimeFromString(flight.departure)}
+                        {getTimeFromString(flight.arrival)}
                       </div>
                     </div>
                   </div>
