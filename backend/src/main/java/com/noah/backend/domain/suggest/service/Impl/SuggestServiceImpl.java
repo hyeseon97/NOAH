@@ -86,8 +86,20 @@ public class SuggestServiceImpl implements SuggestService {
 		List<Long> travelIdList = memberTravelRepository.findByMemberId(member.getId()).orElse(null);
 
 		List<MainSuggestGetDto> result = new ArrayList<>();
-		for(Long travelId : travelIdList){
+		if (travelIdList == null || travelIdList.isEmpty()) {
+			SuggestListResDto suggest = makeRandomSuggestOne(new ArrayList<Long>());
+			MainSuggestGetDto mainSuggestGetDto = MainSuggestGetDto.builder()
+				.reviewId(suggest.getId())
+				.country(suggest.getCountry())
+				.expense(suggest.getExpense())
+				.imageId(suggest.getImageList().get(0).getImageId())
+				.imageUrl(suggest.getImageList().get(0).getImageUrl())
+				.build();
+			result.add(mainSuggestGetDto);
+			return result;
+		}
 
+		for(Long travelId : travelIdList){
 			System.out.println("travelId: " + travelId);
 			SuggestListResDto suggest = getSuggestOne(travelId);
 
@@ -231,19 +243,22 @@ public class SuggestServiceImpl implements SuggestService {
 		if(reviewIdList==null){
 			throw new SuggestNotExists();
 		}else{
-			int randomCount = ThreadLocalRandom.current().nextInt(1, reviewIdList.size());
-			Long reviewId = reviewIdList.get(randomCount);
-				Review review = reviewRepository.findById(reviewId).orElseThrow(ReviewNotFound::new);
-				List<SuggestImageGetDto> imageIdList = imageRepository.findImageOfReview(reviewId).orElse(null);
-				SuggestListResDto suggestListResDto = SuggestListResDto.builder()
-						.id(review.getId())
-						.expense(review.getExpense())
-						.country(review.getCountry())
-						.people(review.getPeople())
-						.startDate(review.getStartDate())
-						.endDate(review.getEndDate())
-						.imageList(imageIdList)
-						.build();
+//			int randomCount = ThreadLocalRandom.current().nextInt(1, reviewIdList.size());
+//			Long reviewId = reviewIdList.get(randomCount);
+
+			long reviewId = ThreadLocalRandom.current().nextLong(191, 371);
+			System.out.println(reviewId);
+			Review review = reviewRepository.findById(reviewId).orElseThrow(ReviewNotFound::new);
+			List<SuggestImageGetDto> imageIdList = imageRepository.findImageOfReview(reviewId).orElse(null);
+			SuggestListResDto suggestListResDto = SuggestListResDto.builder()
+					.id(review.getId())
+					.expense(review.getExpense())
+					.country(review.getCountry())
+					.people(review.getPeople())
+					.startDate(review.getStartDate())
+					.endDate(review.getEndDate())
+					.imageList(imageIdList)
+					.build();
 			return suggestListResDto;
 		}
 	}
