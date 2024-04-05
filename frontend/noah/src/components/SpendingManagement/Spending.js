@@ -37,6 +37,7 @@ export default function Spending({
       memberId: memberId,
       consumeType: consumeType,
     });
+    setTimeout(() => res.data, 1000);
   }, [person, consumeType]);
 
   return (

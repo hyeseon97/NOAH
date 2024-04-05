@@ -24,7 +24,6 @@ function DropdownConsumeType({ selected, setSelected }) {
   return (
     <div style={{ position: "relative" }}>
       <select value={selected} onChange={handleChange} style={dropdownStyle}>
-        <option value="공통">공통</option>
         <option value="식비">식비</option>
         <option value="숙박">숙박</option>
         <option value="항공/교통">항공/교통</option>

@@ -27,11 +27,9 @@ export default function SpendingManagemnetPage() {
   const [allSpendingHistory, setAllSpendingHistory] = useState([]);
   const [groupedByDate, setGroupedByDate] = useState([]);
   const [people, setPeople] = useState([]); // 여행에 속한 사람의 이름, id
-  const [selectedSpendingHistory, setSelectedSpendingHistory] = useState([]);
   const [peopleHistory, setPeopleHistory] = useState([]);
   const [selectedNames, setSelectedNames] = useState([]);
   const [selectedConsumeTypes, setSelectedConsumeTypes] = useState([
-    "공통",
     "식비",
     "숙박",
     "항공/교통",
@@ -51,7 +49,6 @@ export default function SpendingManagemnetPage() {
   function calculateTotalAmountByConsumeType(filteredTransactions) {
     // 초기 상태에서 모든 consumeType을 0으로 설정
     const initialAcc = {
-      공통: 0,
       식비: 0,
       숙박: 0,
       "항공/교통": 0,
@@ -123,6 +120,7 @@ export default function SpendingManagemnetPage() {
     (async () => {
       try {
         const res = await getAllTrade(travelId);
+        console.log(res.data);
         const peopleRes = await getGroupAccountMemberAndTotalDue(travelId);
         const namesOnly = peopleRes.data.map((member) => member.memberName);
         const totalPaymentAmount = peopleRes.data.reduce(
@@ -138,7 +136,7 @@ export default function SpendingManagemnetPage() {
 
         setAllPeopleDeposit(totalPaymentAmount);
         setDepositSum(totalPaymentAmount);
-        setSelectedNames([...namesOnly]); // 처음엔 모든 이름을 선택
+        setSelectedNames(["공통", ...namesOnly]); // 처음엔 모든 이름을 선택
 
         const idAndNames = peopleRes.data.map((member) => ({
           id: member.member_id,
@@ -147,8 +145,7 @@ export default function SpendingManagemnetPage() {
         }));
         setPeople(idAndNames);
         setAllSpendingHistory(res.data);
-        setSelectedSpendingHistory(res.data);
-        setPeopleHistory(res.data);
+        setPeopleHistory(res.data); // 사람의 기록
         setGroupedByDate(groupTransactionsByDate(res.data)); // 처음 소비내역 보여주기 위함
       } catch (e) {
       } finally {
@@ -166,7 +163,7 @@ export default function SpendingManagemnetPage() {
       const res = await getTradeListByMemberAndConsumeType(
         travelId,
         selectedIds,
-        ["공통", "식비", "숙박", "항공/교통", "환전", "쇼핑", "기타"]
+        ["식비", "숙박", "항공/교통", "환전", "쇼핑", "기타"]
       );
       let tmp = await calculateTotalAmountByConsumeType(res.data);
       if (tmp === undefined) {
@@ -347,6 +344,14 @@ export default function SpendingManagemnetPage() {
                   sum={people.reduce((acc, curr) => acc + curr.amount, 0)}
                 />
                 <div className={styles.line}></div>
+
+                <SumBox
+                  title="공통"
+                  sum={0}
+                  setDepositSum={setDepositSum}
+                  selectedNames={selectedNames}
+                  setSelectedNames={setSelectedNames}
+                />
                 {people.map((person) => (
                   <SumBox
                     key={person.id}
@@ -355,7 +360,6 @@ export default function SpendingManagemnetPage() {
                     setDepositSum={setDepositSum}
                     selectedNames={selectedNames}
                     setSelectedNames={setSelectedNames}
-                    type="name"
                   />
                 ))}
               </>
