@@ -294,9 +294,9 @@ export default function Notification({ object, onDelete }) {
     <>
       <div
         style={notificationContainer}
-        //onMouseDown={handleMouseDown}
-        //onMouseMove={handleMouseMove}
-        //onMouseUp={handleMouseUp}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}

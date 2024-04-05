@@ -153,7 +153,6 @@ export default function HomePage() {
             res = await getRecommendReviewInfo();
           }
         }
-        res = await getRecommendReviewInfo();
         if (res.status === "SUCCESS") {
           setRecommendReviews(res.data);
           setRecommendReviewInfo(res.data[0]);
