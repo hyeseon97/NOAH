@@ -15,7 +15,7 @@ public interface ReviewRepositoryCustom {
     Optional<ReviewGetDto> getReviewSelect(Long ReviewId);
 
     //랜덤한 리뷰 아이디를 제공
-    Optional<Integer> getRandomSuggestId();
+    Optional<List<Long>> getRandomSuggestId();
 
     //인당 환산값보다 낮은 리뷰 한개를 제공
     Optional<SuggestListResDto> getSuggestReviewOne(int priceOfPerson);

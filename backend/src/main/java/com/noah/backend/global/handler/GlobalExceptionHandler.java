@@ -23,6 +23,7 @@ import com.noah.backend.global.exception.notification.NotificationNotFoundExcept
 import com.noah.backend.global.exception.notification.NotificationSendFailedException;
 import com.noah.backend.global.exception.plan.PlanAccessException;
 import com.noah.backend.global.exception.suggest.LowerThanPriceNotExists;
+import com.noah.backend.global.exception.suggest.ReviewIdNotExists;
 import com.noah.backend.global.exception.suggest.SuggestNotExists;
 import com.noah.backend.global.exception.trade.TradeAccessException;
 import com.noah.backend.global.exception.trade.TradeNotFoundException;
@@ -220,6 +221,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(LowerThanPriceNotExists.class)
     protected ResponseEntity<?> handle(LowerThanPriceNotExists e){
         log.error("LowerThanPriceNotExists = {}", e.getErrorCode().getMessage());
+        return response.error(e.getErrorCode());
+    }
+
+    @ExceptionHandler(ReviewIdNotExists.class)
+    protected ResponseEntity<?> handle(ReviewIdNotExists e){
+        log.error("ReviewIdNotExists = {}", e.getErrorCode().getMessage());
         return response.error(e.getErrorCode());
     }
 
