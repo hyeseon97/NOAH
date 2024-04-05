@@ -260,6 +260,7 @@ public class GroupAccountServiceImpl implements GroupAccountService {
         String createdDate = now.format(dateTimeFormatter);
         String createdTime = now.format(timeFormatter);
 
+        Account aaa = accountRepository.findAccountBytravelId(depositReqDto.getTravelId()).orElseThrow(AccountNotFoundException::new);
         Trade trade = Trade.builder()
             .type(1)
             .name(member.getName())
@@ -267,8 +268,9 @@ public class GroupAccountServiceImpl implements GroupAccountService {
             .date(createdDate)
             .time(createdTime)
             .cost(depositReqDto.getAmount())
-            .amount(account.getAmount()+depositReqDto.getAmount())
-            .account(account)
+            .amount(aaa.getAmount()+depositReqDto.getAmount())
+            .consumeType("입금")
+            .account(aaa)
             .build();
         tradeRepository.save(trade);
 

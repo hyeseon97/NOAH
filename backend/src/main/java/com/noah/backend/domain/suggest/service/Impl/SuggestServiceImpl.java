@@ -87,6 +87,7 @@ public class SuggestServiceImpl implements SuggestService {
 		List<MainSuggestGetDto> result = new ArrayList<>();
 		for(Long travelId : travelIdList){
 
+			System.out.println("travelId: " + travelId);
 			SuggestListResDto suggest = getSuggestOne(travelId);
 
 			MainSuggestGetDto mainSuggestGetDto = MainSuggestGetDto.builder()
@@ -204,6 +205,7 @@ public class SuggestServiceImpl implements SuggestService {
 			if(review == null){
 				System.out.println("리뷰가 널이야????");
 				int reviewCount = reviewRepository.getRandomSuggestId().orElse(0);
+				System.out.println("reviewCount: " + reviewCount);
 				return makeRandomSuggestOne(reviewCount);
 			}
 
@@ -228,7 +230,7 @@ public class SuggestServiceImpl implements SuggestService {
 		if(reviewCount==0){
 			throw new SuggestNotExists();
 		}else{
-			long reviewId = ThreadLocalRandom.current().nextInt(1, reviewCount);
+			long reviewId = ThreadLocalRandom.current().nextInt(191, 370);
 				Review review = reviewRepository.findById(reviewId).orElseThrow(ReviewNotFound::new);
 				List<SuggestImageGetDto> imageIdList = imageRepository.findImageOfReview(reviewId).orElse(null);
 				SuggestListResDto suggestListResDto = SuggestListResDto.builder()
