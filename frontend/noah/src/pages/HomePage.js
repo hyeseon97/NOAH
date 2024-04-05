@@ -146,12 +146,8 @@ export default function HomePage() {
         if (localStorage.getItem("accessToken") === null) {
           res = await getRecommendReviewInfoNonLogin();
         } else {
-          setTimeout(() => {}, 1000);
-          if (trips.length === 0) {
-            res = await getRecommendReviewInfoNonLogin();
-          } else {
-            res = await getRecommendReviewInfo();
-          }
+          res = await getRecommendReviewInfo();
+          console.log(res);
         }
         if (res.status === "SUCCESS") {
           setRecommendReviews(res.data);
