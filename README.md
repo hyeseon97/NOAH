@@ -63,6 +63,800 @@
 
 ### 2024.02.19 ~ 2024.04.04(6주)
 
+## ✅ 프로젝트 구조
+
+### Back-End
+<details>
+<summary>Back-End</summary>
+
+```plaintext
+백엔드 프로젝트 구조
+├── BackendApplication.java
+├── domain
+│   ├── account
+│   │   ├── controller
+│   │   │   └── AccountController.java
+│   │   ├── dto
+│   │   │   ├── requestDto
+│   │   │   │   ├── AccountPostDto.java
+│   │   │   │   ├── AccountUpdateDto.java
+│   │   │   │   └── AutoTransferPostDto.java
+│   │   │   └── responseDto
+│   │   │       ├── AccountIncludeIsAutoTransfer.java
+│   │   │       └── AccountInfoDto.java
+│   │   ├── entity
+│   │   │   └── Account.java
+│   │   ├── repository
+│   │   │   ├── AccountRepository.java
+│   │   │   └── custom
+│   │   │       ├── AccountRepositoryCustom.java
+│   │   │       └── AccountRepositoryImpl.java
+│   │   └── service
+│   │       ├── AccountService.java
+│   │       └── impl
+│   │           └── AccountServiceImpl.java
+│   ├── admin
+│   │   ├── controller
+│   │   │   └── AdminController.java
+│   │   ├── dto
+│   │   │   ├── requestDto
+│   │   │   │   └── AdminKeyRequestDto.java
+│   │   │   └── responseDto
+│   │   │       └── AdminKeyResponseDto.java
+│   │   └── service
+│   │       ├── AdminService.java
+│   │       └── impl
+│   │           └── AdminServiceImpl.java
+│   ├── apis
+│   │   ├── controller
+│   │   │   └── ApisController.java
+│   │   ├── dto
+│   │   │   ├── AirlineCodeDto.java
+│   │   │   ├── AirlineDto.java
+│   │   │   ├── AirlineRouteDto.java
+│   │   │   ├── AirportDto.java
+│   │   │   ├── AirportNearestDto.java
+│   │   │   ├── AirportRouteDto.java
+│   │   │   ├── CurrencyDto.java
+│   │   │   ├── FlightOffersDto.java
+│   │   │   ├── FlightPriceDto.java
+│   │   │   └── ResponseFlightOffersDto.java
+│   │   ├── entity
+│   │   │   ├── Airline.java
+│   │   │   ├── Airport.java
+│   │   │   └── Currency.java
+│   │   ├── mock
+│   │   │   ├── airline-code.json
+│   │   │   ├── airline-routes.json
+│   │   │   ├── airport-nearest-relevant.json
+│   │   │   ├── airport-routes.json
+│   │   │   ├── flight-offers-single.json
+│   │   │   ├── flight-offers.json
+│   │   │   ├── flight-price-analysis.json
+│   │   │   ├── hotel-detail-id.json
+│   │   │   ├── hotel-detail.json
+│   │   │   ├── hotel-list-city.json
+│   │   │   ├── hotel-list-geocode.json
+│   │   │   └── tmp.json
+│   │   ├── repository
+│   │   │   ├── AirlineRepository.java
+│   │   │   ├── AirportRepository.java
+│   │   │   ├── CurrencyRepository.java
+│   │   │   └── custom
+│   │   │       ├── AirportRepositoryCustom.java
+│   │   │       └── AirportRepositoryImpl.java
+│   │   └── service
+│   │       ├── FlightService.java
+│   │       ├── ForeignCurrencyService.java
+│   │       ├── HotelService.java
+│   │       └── TravelInsuranceService.java
+│   ├── bank
+│   │   ├── controller
+│   │   │   └── BankController.java
+│   │   ├── dto
+│   │   │   ├── requestDto
+│   │   │   │   ├── AccountPostDto.java
+│   │   │   │   ├── AccountUpdateDto.java
+│   │   │   │   ├── BankAccountBalanceCheckReqDto.java
+│   │   │   │   ├── BankAccountCreateReqDto.java
+│   │   │   │   ├── BankAccountDepositReqDto.java
+│   │   │   │   ├── BankAccountListReqDto.java
+│   │   │   │   ├── BankAccountTransferReqDto.java
+│   │   │   │   ├── BankAccountWithdrawReqDto.java
+│   │   │   │   ├── BankHolderCheckReqDto.java
+│   │   │   │   ├── MemberCheckReqDto.java
+│   │   │   │   ├── MemberCreateReqDto.java
+│   │   │   │   ├── QrWithdrawReqDto.java
+│   │   │   │   ├── RequestHeaderDto.java
+│   │   │   │   └── TransactionHistoryReqDto.java
+│   │   │   └── responseDto
+│   │   │       ├── AccountInfoDto.java
+│   │   │       ├── BankAccountBalanceCheckResDto.java
+│   │   │       ├── BankAccountCreateResDto.java
+│   │   │       ├── BankAccountListResDto.java
+│   │   │       ├── BankHolderCheckResDto.java
+│   │   │       ├── MemberCheckResDto.java
+│   │   │       ├── MemberCreateResDto.java
+│   │   │       ├── ProductDto.java
+│   │   │       └── TransactionHistoryResDto.java
+│   │   └── service
+│   │       ├── BankService.java
+│   │       └── Impl
+│   │           └── BankServiceImpl.java
+│   ├── base
+│   │   └── BaseEntity.java
+│   ├── comment
+│   │   ├── controller
+│   │   │   └── CommentController.java
+│   │   ├── dto
+│   │   │   ├── requestDto
+│   │   │   │   ├── CommentPostDto.java
+│   │   │   │   └── CommentUpdateDto.java
+│   │   │   └── responseDto
+│   │   │       ├── CommentGetDto.java
+│   │   │       └── CommentListGetDto.java
+│   │   ├── entity
+│   │   │   └── Comment.java
+│   │   ├── repository
+│   │   │   ├── CommentRepository.java
+│   │   │   └── custom
+│   │   │       ├── CommentRepositoryCustom.java
+│   │   │       └── CommentRepositoryImpl.java
+│   │   └── service
+│   │       ├── CommentService.java
+│   │       └── impl
+│   │           └── CommentServiceImpl.java
+│   ├── csv
+│   │   ├── controller
+│   │   │   └── CsvController.java
+│   │   └── service
+│   │       ├── CsvService.java
+│   │       └── impl
+│   │           └── CsvServiceImpl.java
+│   ├── datailPlan
+│   │   ├── controller
+│   │   │   └── DetailPlanController.java
+│   │   ├── dto
+│   │   │   ├── requestDto
+│   │   │   │   └── DetailPlanPostDto.java
+│   │   │   └── responseDto
+│   │   │       ├── DetailPlanDto.java
+│   │   │       └── DetailPlanListDto.java
+│   │   ├── entity
+│   │   │   └── DetailPlan.java
+│   │   ├── repository
+│   │   │   ├── DetailPlanRepository.java
+│   │   │   └── custom
+│   │   │       ├── DetailPlanRepositoryCustom.java
+│   │   │       └── DetailPlanRepositoryImpl.java
+│   │   └── service
+│   │       ├── DetailPlanService.java
+│   │       └── impl
+│   │           └── DetailPlanServiceImpl.java
+│   ├── exchange
+│   │   ├── controller
+│   │   │   └── ExchangeController.java
+│   │   ├── dto
+│   │   │   ├── requestDto
+│   │   │   │   ├── ExchangeRatePutDto.java
+│   │   │   │   └── ExchangeReqDto.java
+│   │   │   └── responseDto
+│   │   │       ├── ExchangeInfoDto.java
+│   │   │       ├── ExchangeRateGetDto.java
+│   │   │       └── TargetExchangeRate.java
+│   │   ├── entity
+│   │   │   └── Exchange.java
+│   │   ├── repository
+│   │   │   ├── ExchangeRepository.java
+│   │   │   └── custom
+│   │   │       ├── ExchangeRepositoryCustom.java
+│   │   │       └── ExchangeRepositoryImpl.java
+│   │   └── service
+│   │       ├── ExchangeService.java
+│   │       └── impl
+│   │           └── ExchangeServiceImpl.java
+│   ├── groupaccount
+│   │   ├── controller
+│   │   │   └── GroupAccountController.java
+│   │   ├── dto
+│   │   │   ├── requestDto
+│   │   │   │   ├── DepositReqDto.java
+│   │   │   │   ├── GroupAccountPostDto.java
+│   │   │   │   ├── GroupAccountRequestDto.java
+│   │   │   │   └── GroupAccountUpdateDto.java
+│   │   │   └── responseDto
+│   │   │       └── GroupAccountInfoDto.java
+│   │   ├── entity
+│   │   │   └── GroupAccount.java
+│   │   ├── repository
+│   │   │   ├── GroupAccountRepository.java
+│   │   │   └── custom
+│   │   │       ├── GroupAccountRepositoryCustom.java
+│   │   │       └── GroupAccountRepositoryImpl.java
+│   │   └── service
+│   │       ├── GroupAccountService.java
+│   │       └── impl
+│   │           └── GroupAccountServiceImpl.java
+│   ├── image
+│   │   ├── controller
+│   │   │   └── ImageController.java
+│   │   ├── dto
+│   │   │   ├── requestDto
+│   │   │   │   ├── ImageGetDto.java
+│   │   │   │   └── ImageListGetDto.java
+│   │   │   └── responseDto
+│   │   │       ├── ImagePostDto.java
+│   │   │       └── ImageUpdateDto.java
+│   │   ├── entity
+│   │   │   └── Image.java
+│   │   ├── repository
+│   │   │   ├── ImageRepository.java
+│   │   │   └── custom
+│   │   │       ├── ImageRepositoryCustom.java
+│   │   │       └── ImageRepositoryImpl.java
+│   │   └── service
+│   │       ├── ImageService.java
+│   │       └── impl
+│   │           └── ImageServiceImpl.java
+│   ├── member
+│   │   ├── controller
+│   │   │   └── MemberController.java
+│   │   ├── dto
+│   │   │   ├── email
+│   │   │   │   ├── EmailRequestDto.java
+│   │   │   │   └── EmailVerificationRequestDto.java
+│   │   │   ├── login
+│   │   │   │   ├── LoginRequestDto.java
+│   │   │   │   └── LoginResponseDto.java
+│   │   │   ├── requestDto
+│   │   │   │   ├── MemberUpdateDto.java
+│   │   │   │   ├── NicknameRequestDto.java
+│   │   │   │   ├── SignupRequestDto.java
+│   │   │   │   └── UserKeyRequestDto.java
+│   │   │   └── responseDto
+│   │   │       ├── MemberInfoDto.java
+│   │   │       └── MemberSearchDto.java
+│   │   ├── entity
+│   │   │   └── Member.java
+│   │   ├── repository
+│   │   │   ├── MemberRepository.java
+│   │   │   └── custom
+│   │   │       ├── MemberRepositoryCustom.java
+│   │   │       └── MemberRepositoryImpl.java
+│   │   └── service
+│   │       ├── mail
+│   │       │   ├── MailService.java
+│   │       │   └── MailServiceImpl.java
+│   │       └── member
+│   │           ├── MemberService.java
+│   │           └── impl
+│   │               └── MemberServiceImpl.java
+│   ├── memberTravel
+│   │   ├── Repository
+│   │   │   ├── MemberTravelRepository.java
+│   │   │   └── custom
+│   │   │       ├── MemberTravelRepositoryCustom.java
+│   │   │       └── MemberTravelRepositoryImpl.java
+│   │   ├── Service
+│   │   │   ├── MemberTravelService.java
+│   │   │   └── impl
+│   │   │       └── MemberTravelServiceImpl.java
+│   │   ├── dto
+│   │   │   ├── Request
+│   │   │   │   ├── MemberTravelInviteDto.java
+│   │   │   │   ├── MemberTravelPostDto.java
+│   │   │   │   └── MemberTravelUpdateDto.java
+│   │   │   └── Response
+│   │   │       ├── GetTravelListResDto.java
+│   │   │       ├── MemberTravelGetDto.java
+│   │   │       ├── MemberTravelListGetDto.java
+│   │   │       └── MemberTravelListGetFromTravelDto.java
+│   │   └── entity
+│   │       └── MemberTravel.java
+│   ├── notification
+│   │   ├── controller
+│   │   │   └── NotificationController.java
+│   │   ├── dto
+│   │   │   ├── requestDto
+│   │   │   │   └── SaveTokenDto.java
+│   │   │   └── responseDto
+│   │   │       └── NotificationGetDto.java
+│   │   ├── entity
+│   │   │   └── Notification.java
+│   │   ├── repository
+│   │   │   ├── NotificationRepository.java
+│   │   │   └── custom
+│   │   │       ├── NotificationRepositoryCustom.java
+│   │   │       └── NotificationRepositoryImpl.java
+│   │   └── service
+│   │       ├── NotificationService.java
+│   │       └── impl
+│   │           └── NotificationServiceImpl.java
+│   ├── plan
+│   │   ├── controller
+│   │   │   └── PlanController.java
+│   │   ├── dto
+│   │   │   ├── requestDto
+│   │   │   │   ├── PlanPostDto.java
+│   │   │   │   └── PlanUpdateDto.java
+│   │   │   └── responseDto
+│   │   │       ├── PlanGetDto.java
+│   │   │       ├── PlanListGetFromTravelDto.java
+│   │   │       └── SimplePlan.java
+│   │   ├── entity
+│   │   │   └── Plan.java
+│   │   ├── repository
+│   │   │   ├── PlanRepository.java
+│   │   │   └── custom
+│   │   │       ├── PlanRepositoryCustom.java
+│   │   │       └── PlanRepositoryImpl.java
+│   │   └── service
+│   │       ├── PlanService.java
+│   │       └── impl
+│   │           └── PlanServiceImpl.java
+│   ├── qrcode
+│   │   └── controller
+│   │       └── QRCodeController.java
+│   ├── review
+│   │   ├── controller
+│   │   │   └── ReviewController.java
+│   │   ├── dto
+│   │   │   ├── requestDto
+│   │   │   │   ├── ReviewPostDto.java
+│   │   │   │   └── ReviewUpdateDto.java
+│   │   │   └── responseDto
+│   │   │       ├── ReviewGetDto.java
+│   │   │       └── ReviewListGetDto.java
+│   │   ├── entity
+│   │   │   └── Review.java
+│   │   ├── repository
+│   │   │   ├── ReviewRepository.java
+│   │   │   └── custom
+│   │   │       ├── ReviewRepositoryCustom.java
+│   │   │       └── ReviewRepositoryImpl.java
+│   │   └── service
+│   │       ├── ReviewService.java
+│   │       └── impl
+│   │           └── ReviewServiceImpl.java
+│   ├── suggest
+│   │   ├── controller
+│   │   │   └── SuggestController.java
+│   │   ├── dto
+│   │   │   ├── requestDto
+│   │   │   │   ├── SuggestImageGetDto.java
+│   │   │   │   └── SuggestListReqDto.java
+│   │   │   └── responseDto
+│   │   │       ├── MainSuggestGetDto.java
+│   │   │       └── SuggestListResDto.java
+│   │   ├── entity
+│   │   │   └── Suggest.java
+│   │   ├── repository
+│   │   │   ├── SuggestRepository.java
+│   │   │   └── custom
+│   │   │       ├── SuggestRepositoryCustom.java
+│   │   │       └── SuggestRepositoryImpl.java
+│   │   └── service
+│   │       ├── Impl
+│   │       │   └── SuggestServiceImpl.java
+│   │       └── SuggestService.java
+│   ├── ticket
+│   │   ├── controller
+│   │   │   └── TicketController.java
+│   │   ├── dto
+│   │   │   ├── requestDto
+│   │   │   │   ├── TicketPostDto.java
+│   │   │   │   └── TicketUpdateDto.java
+│   │   │   └── responseDto
+│   │   │       ├── TicketGetDto.java
+│   │   │       └── TicketListGetFromTravelDto.java
+│   │   ├── entity
+│   │   │   └── Ticket.java
+│   │   ├── repository
+│   │   │   ├── TicketRepository.java
+│   │   │   └── custom
+│   │   │       ├── TicketRepositoryCustom.java
+│   │   │       └── TicketRepositoryImpl.java
+│   │   └── service
+│   │       ├── TicketService.java
+│   │       └── impl
+│   │           └── TicketServiceImpl.java
+│   ├── trade
+│   │   ├── controller
+│   │   │   └── TradeController.java
+│   │   ├── dto
+│   │   │   ├── requestDto
+│   │   │   │   ├── TradeGetReqDto.java
+│   │   │   │   ├── TradePostReqDto.java
+│   │   │   │   └── TradeUpdateClassifyReqDto.java
+│   │   │   └── responseDto
+│   │   │       ├── TradeDateAndTime.java
+│   │   │       └── TradeGetResDto.java
+│   │   ├── entity
+│   │   │   └── Trade.java
+│   │   ├── repository
+│   │   │   ├── TradeRepository.java
+│   │   │   └── custom
+│   │   │       ├── TradeRepositoryCustom.java
+│   │   │       └── impl
+│   │   │           └── TradeRepositoryImpl.java
+│   │   └── service
+│   │       ├── TradeService.java
+│   │       └── impl
+│   │           └── TradeServiceImpl.java
+│   └── travel
+│       ├── controller
+│       │   └── TravelController.java
+│       ├── dto
+│       │   ├── requestDto
+│       │   │   ├── TravelGetListDto.java
+│       │   │   ├── TravelPostDto.java
+│       │   │   └── TravelUpdateDto.java
+│       │   └── responseDto
+│       │       ├── MyTravelGetDto.java
+│       │       ├── TravelGetDto.java
+│       │       └── TravelGetDtoJun.java
+│       ├── entity
+│       │   └── Travel.java
+│       ├── repository
+│       │   ├── TravelRepository.java
+│       │   └── custom
+│       │       ├── TravelRepositoryCustom.java
+│       │       └── TravelRepositoryImpl.java
+│       └── service
+│           ├── TravelService.java
+│           └── impl
+│               └── TravelServiceImpl.java
+└── global
+    ├── annotation
+    │   ├── AccessToken.java
+    │   └── Nickname.java
+    ├── config
+    │   ├── FCMConfig.java
+    │   ├── MailConfig.java
+    │   ├── QuerydslConfig.java
+    │   ├── RedisConfig.java
+    │   ├── SecurityConfig.java
+    │   ├── SwaggerConfig.java
+    │   └── WebConfig.java
+    ├── entrypoint
+    │   └── JwtAuthenticationEntryPoint.java
+    ├── exception
+    │   ├── account
+    │   │   └── AccountNotFoundException.java
+    │   ├── bank
+    │   │   ├── A1001Exception.java
+    │   │   ├── A1003Exception.java
+    │   │   ├── A1011Exception.java
+    │   │   ├── A1014Exception.java
+    │   │   ├── A1016Exception.java
+    │   │   ├── A1017Exception.java
+    │   │   ├── A1018Exception.java
+    │   │   ├── BankAccountCreateFailed.java
+    │   │   ├── H1008Exception.java
+    │   │   └── H1009Exception.java
+    │   ├── comment
+    │   │   ├── CommentDeleteFailed.java
+    │   │   ├── CommentNotFound.java
+    │   │   ├── CommentPermissionDenied.java
+    │   │   └── CommentUpdateFailed.java
+    │   ├── csv
+    │   │   └── CsvCreateFailedException.java
+    │   ├── detailplan
+    │   │   ├── DetailPlanBadRequest.java
+    │   │   ├── DetailPlanDeleteFailed.java
+    │   │   ├── DetailPlanNotFound.java
+    │   │   ├── DetailPlanPermissionDenied.java
+    │   │   └── DetailUpdateFailed.java
+    │   ├── exchange
+    │   │   ├── ExchangeCurrencyNotAcceptableException.java
+    │   │   ├── ExchangeFailedException.java
+    │   │   └── ExchangeNotFoundException.java
+    │   ├── flight
+    │   │   ├── AirportNotFoundException.java
+    │   │   ├── DepartureDateException.java
+    │   │   └── RequiredFilledException.java
+    │   ├── groupaccount
+    │   │   ├── GroupAccountAccessDeniedException.java
+    │   │   └── GroupAccountNotFoundException.java
+    │   ├── image
+    │   │   ├── ImageNotFoundException.java
+    │   │   ├── ImageProcessingFailed.java
+    │   │   └── ImageUploadFailed.java
+    │   ├── member
+    │   │   ├── AccessTokenNotFoundException.java
+    │   │   ├── DuplicateEmailException.java
+    │   │   ├── EmailNotFoundException.java
+    │   │   ├── FailedMessageTransmissionException.java
+    │   │   ├── InvalidAuthCodeException.java
+    │   │   ├── InvalidLoginAttemptException.java
+    │   │   ├── MemberNotFoundException.java
+    │   │   ├── PasswordMismatchException.java
+    │   │   ├── RefreshTokenNotFoundException.java
+    │   │   └── UnauthorizedAccessException.java
+    │   ├── membertravel
+    │   │   ├── MemberTravelAccessException.java
+    │   │   ├── MemberTravelAlreadyExistException.java
+    │   │   ├── MemberTravelAlreadyInvitedException.java
+    │   │   └── MemberTravelNotFoundException.java
+    │   ├── notification
+    │   │   ├── FirebaseTokenNotExistException.java
+    │   │   ├── NotificationAccessException.java
+    │   │   ├── NotificationNotFoundException.java
+    │   │   └── NotificationSendFailedException.java
+    │   ├── plan
+    │   │   ├── PlanAccessException.java
+    │   │   ├── PlanBadRequest.java
+    │   │   ├── PlanDeleteFailed.java
+    │   │   ├── PlanNotFound.java
+    │   │   ├── PlanPermissionDenied.java
+    │   │   └── PlanUpdateFailed.java
+    │   ├── review
+    │   │   ├── ReviewDeleteFailed.java
+    │   │   ├── ReviewNotFound.java
+    │   │   ├── ReviewPermissionDenied.java
+    │   │   └── ReviewUpdateFailed.java
+    │   ├── suggest
+    │   │   ├── LowerThanPriceNotExists.java
+    │   │   ├── ReviewIdNotExists.java
+    │   │   └── SuggestNotExists.java
+    │   ├── ticket
+    │   │   ├── TicketBadRequest.java
+    │   │   ├── TicketDeleteFailed.java
+    │   │   ├── TicketNotFound.java
+    │   │   ├── TicketPermissionDenied.java
+    │   │   └── TicketUpdateFailed.java
+    │   ├── trade
+    │   │   ├── TradeAccessException.java
+    │   │   └── TradeNotFoundException.java
+    │   ├── travel
+    │   │   ├── TravelBadRequest.java
+    │   │   ├── TravelDeleteFailed.java
+    │   │   ├── TravelMemberNotFoundException.java
+    │   │   ├── TravelNotFoundException.java
+    │   │   ├── TravelPerMissionDenied.java
+    │   │   └── TravelUpdateFailed.java
+    │   └── travelmember
+    │       ├── MemberTravelDeleteFailed.java
+    │       ├── MemberTravelNotFound.java
+    │       ├── MemberTravelPermissionDenied.java
+    │       └── MemberTravelUpdateFailed.java
+    ├── filter
+    │   ├── EmailVerificationFilter.java
+    │   ├── JwtAuthenticationFilter.java
+    │   ├── TokenExceptionFilter.java
+    │   └── TokenRefreshRequestFilter.java
+    ├── format
+    │   ├── code
+    │   │   ├── ApiResponse.java
+    │   │   ├── FilterResponse.java
+    │   │   └── HttpClientRequest.java
+    │   └── response
+    │       ├── ErrorCode.java
+    │       └── ResponseCode.java
+    ├── handler
+    │   └── GlobalExceptionHandler.java
+    ├── interceptor
+    │   └── NicknameValidInterceptor.java
+    ├── jwt
+    │   ├── RefreshToken.java
+    │   ├── TokenInfo.java
+    │   ├── provider
+    │   │   └── TokenProvider.java
+    │   ├── repository
+    │   │   └── RefreshTokenRepository.java
+    │   └── service
+    │       └── TokenService.java
+    ├── resolver
+    │   └── AccessTokenArgumentResolver.java
+    └── util
+        ├── CookieUtil.java
+        ├── FilterUtil.java
+        ├── RedisUtil.java
+        └── cookie
+            ├── DevCookieUtil.java
+            └── ProdCookieUtil.java
+```
+
+</details>
+
+
+### Front-End
+<details>
+<summary>Front-End</summary>
+
+```plaintext
+프론트 프로젝트 구조
+├── App.css
+├── App.js
+├── Main.js
+├── api
+│   ├── account
+│   │   └── Account.js
+│   ├── axios.js
+│   ├── comment
+│   │   └── Comment.js
+│   ├── detailplan
+│   │   └── DetailPlan.js
+│   ├── exchange
+│   │   └── Exchange.js
+│   ├── flight
+│   │   └── flight.js
+│   ├── groupaccount
+│   │   └── GroupAccount.js
+│   ├── image
+│   │   └── Image.js
+│   ├── member
+│   │   └── Member.js
+│   ├── notification
+│   │   └── Notification.js
+│   ├── payment
+│   │   └── Payment.js
+│   ├── plan
+│   │   └── Plan.js
+│   ├── review
+│   │   └── Review.js
+│   ├── suggest
+│   │   └── Suggest.js
+│   ├── ticket
+│   │   └── Ticket.js
+│   ├── trade
+│   │   └── Trade.js
+│   └── travel
+│       └── Travel.js
+├── assets
+│   ├── Icon
+│   │   ├── Account.svg
+│   │   ├── Airplane.svg
+│   │   ├── Arrow.svg
+│   │   ├── Auto.svg
+│   │   ├── Bank.svg
+│   │   ├── BluePeople.svg
+│   │   ├── Calender.svg
+│   │   ├── Cancel.svg
+│   │   ├── CancelGrey.svg
+│   │   ├── Change.svg
+│   │   ├── Comment.svg
+│   │   ├── Edit.svg
+│   │   ├── Exchange.svg
+│   │   ├── Filter.svg
+│   │   ├── GreyPeople.svg
+│   │   ├── History.svg
+│   │   ├── Logout.svg
+│   │   ├── Mark.svg
+│   │   ├── My.svg
+│   │   ├── Next.svg
+│   │   ├── Noah.svg
+│   │   ├── Notification.svg
+│   │   ├── Person.svg
+│   │   ├── Pig.svg
+│   │   ├── Plan.svg
+│   │   ├── Plus.svg
+│   │   ├── QR.svg
+│   │   ├── Search.svg
+│   │   ├── Ship.svg
+│   │   ├── SmallBill.svg
+│   │   ├── SmallCalendar.svg
+│   │   ├── SmallPeople.svg
+│   │   ├── SmallPlane.svg
+│   │   ├── Store.svg
+│   │   ├── TransferArrow.svg
+│   │   ├── TrashCan.svg
+│   │   ├── TravelPlace.svg
+│   │   ├── User.svg
+│   │   ├── WhiteArrow.svg
+│   │   ├── check.svg
+│   │   └── test.svg
+│   └── Image
+│       ├── RecommandPlace1.svg
+│       ├── RecommandPlace2.svg
+│       ├── sample1.jpg
+│       └── sample2.png
+├── components
+│   ├── SpendingManagement
+│   │   ├── DoughnutChartSmall.js
+│   │   ├── DoughnutChartSmall.module.css
+│   │   ├── SpedingHeader.js
+│   │   ├── Spending.js
+│   │   ├── Spending.module.css
+│   │   ├── SpendingHeader.module.css
+│   │   ├── SumBox.js
+│   │   ├── SumBoxAll.js
+│   │   ├── SumBoxType.js
+│   │   └── SumBoxTypeAll.js
+│   ├── common
+│   │   ├── Button.js
+│   │   ├── DoughnutChart.js
+│   │   ├── DoughnutChart.module.css
+│   │   ├── Dropdown.js
+│   │   ├── DropdownConsumeType.js
+│   │   ├── DropdownMember.js
+│   │   ├── DropdownSmall.js
+│   │   ├── ExchangeButton.js
+│   │   ├── Header.js
+│   │   ├── Input.js
+│   │   ├── InputSmall.js
+│   │   ├── InviteButton.js
+│   │   ├── InviteModal.js
+│   │   ├── Logo.js
+│   │   ├── MyAccount.js
+│   │   ├── RoundButton.js
+│   │   ├── ScrollToTop.js
+│   │   ├── Star.js
+│   │   ├── Star.module.css
+│   │   ├── Stick.js
+│   │   └── Toast.js
+│   ├── exchange
+│   │   └── Exchange.js
+│   ├── notification
+│   │   └── Notification.js
+│   └── trip
+│       ├── DayCalculate.js
+│       ├── EditModal.js
+│       ├── EditModal.module.css
+│       ├── ReviewModal.js
+│       ├── ReviewModel.module.css
+│       ├── TravelHistory.js
+│       └── Trip.js
+├── firebase-config.js
+├── index.css
+├── index.js
+├── pages
+│   ├── AutomaticWithdrawalSettingPage.js
+│   ├── AutomaticWithdrawalSettingPage.module.css
+│   ├── ErrorPage.js
+│   ├── ExchangePage.js
+│   ├── ExchangePage.module.css
+│   ├── GoalPage.js
+│   ├── GoalPage.module.css
+│   ├── GoogleMapSearch.js
+│   ├── GoogleMapSearch.module.css
+│   ├── HomePage.js
+│   ├── HomePage.module.css
+│   ├── LoginPage.js
+│   ├── LoginPage.module.css
+│   ├── MarketPage.js
+│   ├── MarketPage.module.css
+│   ├── MyAccountPage.js
+│   ├── MyPage.js
+│   ├── MyPage.module.css
+│   ├── NotificationPage.js
+│   ├── NotificationPage.module.css
+│   ├── ParticipantManagementPage.js
+│   ├── ParticipantManagementPage.module.css
+│   ├── PaymentPage.js
+│   ├── PlaneSearchPage.js
+│   ├── PlaneSearchPage.module.css
+│   ├── PlanningCreatePage.js
+│   ├── PlanningCreatePage.module.css
+│   ├── PlanningPage.js
+│   ├── PlanningPage.module.css
+│   ├── PlanningTestPage.js
+│   ├── ReviewCreatePage.js
+│   ├── ReviewDetailPage.js
+│   ├── ReviewDetailPage.module.css
+│   ├── ReviewPage.js
+│   ├── ReviewPage.module.css
+│   ├── SignUpPage.js
+│   ├── SpendingManagementPage.js
+│   ├── SpendingManagementPage.module.css
+│   ├── TestGoogleMap.js
+│   ├── TransferPage.js
+│   ├── TransferPage.module.css
+│   ├── TravelHistoryPage.js
+│   ├── TravelHistoryPage.module.css
+│   ├── TripCreatePage.js
+│   ├── TripCreatePage.module.css
+│   ├── TripPage.js
+│   ├── TripPage.module.css
+│   ├── WelcomePage.module.css
+│   └── WelcomgPage.js
+└── store
+    └── useUserStore.js
+
+```
+
+</details>
+
 
 ## ✅ 시연 시나리오
 
