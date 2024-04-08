@@ -26,6 +26,7 @@
 
 ## ✅ 프로젝트 소개
 ![Video Label](http://img.youtube.com/vi/WqAyszZMvKM/0.jpg)
+
 https://youtu.be/WqAyszZMvKM
 
 **🚩 서비스 한줄 소개**
@@ -1061,6 +1062,7 @@ TYPE3. 환율 알림 - 설정해놓은 환율에 도달했을 때 실시간 알�
 
 ## ✅ 동작영상
 ![Video Label](http://img.youtube.com/vi/IfXGtIyaLLo/0.jpg)
+
 https://youtu.be/IfXGtIyaLLo
 
 ## ✅ 프로젝트 후기
