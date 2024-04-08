@@ -25,7 +25,7 @@
  - `BackEnd`(JWT 로그인 및 회원 API 설계,백엔드 플로우 관리, FCM Push 알림)
 
 ## ✅ 프로젝트 소개
-[![Video Label](http://img.youtube.com/vi/WqAyszZMvKM/0.jpg)]
+![Video Label](http://img.youtube.com/vi/WqAyszZMvKM/0.jpg)
 
 **🚩 서비스 한줄 소개**
 
