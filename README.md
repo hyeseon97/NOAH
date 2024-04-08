@@ -26,6 +26,7 @@
 
 ## ✅ 프로젝트 소개
 ![Video Label](http://img.youtube.com/vi/WqAyszZMvKM/0.jpg)
+https://youtu.be/WqAyszZMvKM
 
 **🚩 서비스 한줄 소개**
 
@@ -1059,7 +1060,8 @@ TYPE3. 환율 알림 - 설정해놓은 환율에 도달했을 때 실시간 알�
 ![자동이체설정페이지](etc/자동이체설정페이지.png){: width="324" height="576"}
 
 ## ✅ 동작영상
-[![Video Label](http://img.youtube.com/vi/IfXGtIyaLLo/0.jpg)]
+![Video Label](http://img.youtube.com/vi/IfXGtIyaLLo/0.jpg)
+https://youtu.be/IfXGtIyaLLo
 
 ## ✅ 프로젝트 후기
 
